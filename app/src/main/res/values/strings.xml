@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TheGame</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="PointsToAllocate">0</string>
+
+    <string name="MaxHealthLevel">0</string>
+    <string name="MaxAmmunitionLevel">0</string>
+    <string name="MaxSpeedLevel">0</string>
+
+    <string name="Shockwave">False</string>
+    <string name="Timestop">False</string>
+    <string name="Shield">False</string>
+    <string name="OrbitalStrike">False</string>
+    <string name="FreezeAura">Fasle</string>
+    <string name="Polymorph">False</string>
+    <string name="ShipWrecker">False</string>
+
+</resources>

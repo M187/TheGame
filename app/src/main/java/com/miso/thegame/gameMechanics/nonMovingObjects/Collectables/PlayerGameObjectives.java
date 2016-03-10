@@ -1,0 +1,36 @@
+package com.miso.thegame.gameMechanics.nonMovingObjects.Collectables;
+
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Point;
+
+import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.Animation;
+import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.movingObjects.Player;
+
+/**
+ * Created by Miso on 15.11.2015.
+ */
+public class PlayerGameObjectives extends Collectable{
+
+    private Animation animation = new Animation();
+
+    public PlayerGameObjectives(Resources res, Point position){//, GameObjectivePosition gameObjectivePosition){
+        super(position);
+        animation.initializeSprites(BitmapFactory.decodeResource(res, R.drawable.gameobjective_spritee), 35, 40, 7, 100);
+        this.setImage(animation.getImage());
+    }
+
+    public void onInteraction(Player player, MapManager mapManager){
+        player.objectivesCollected += 1;
+        mapManager.getCollectableList().remove(this);
+    }
+
+    public void draw(Canvas canvas){
+        animation.update();
+        canvas.drawBitmap(this.animation.getImage(), this.getDisplayXCoord(), this.getDisplayYCoord(), null);
+    }
+
+}

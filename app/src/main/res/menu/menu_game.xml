@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".Game">
+
+    <item android:id="@+id/action_resume" android:title="Resume"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="110" app:showAsAction="never" />
+    <item android:id="@+id/action_back_to_menu" android:title="Back to menu"
+        android:orderInCategory="110" app:showAsAction="never" />
+    <item android:id="@+id/action_quit" android:title="Quit"
+        android:orderInCategory="110" app:showAsAction="never" />
+</menu>
