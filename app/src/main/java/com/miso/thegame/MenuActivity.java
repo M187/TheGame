@@ -34,8 +34,16 @@ public class MenuActivity extends Activity {
 
     }
 
-    public void newGameClick(View view) {
+    public void newGameClickGround(View view) {
         this.gameIntent = new Intent(this, Game.class);
+        this.gameIntent.putExtra("Level", "Ground");
+        this.isGameOn = true;
+        startActivity(this.gameIntent);
+    }
+
+    public void newGameClickSpace(View view) {
+        this.gameIntent = new Intent(this, Game.class);
+        this.gameIntent.putExtra("Level", "Space");
         this.isGameOn = true;
         startActivity(this.gameIntent);
     }

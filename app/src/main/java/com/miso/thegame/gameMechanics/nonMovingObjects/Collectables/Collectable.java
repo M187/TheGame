@@ -15,9 +15,8 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 public abstract class Collectable extends StaticObject {
 
     public Collectable(Point position){
+        super(position);
         this.collisionObjectType = CollisionObjectType.Collectible;
-        this.x = position.x;
-        this.y = position.y;
     }
 
     public abstract void onInteraction(Player player, MapManager mapManager);

@@ -18,8 +18,16 @@ public class Game extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
+
         GameMapEnum mapToCreate = GameMapEnum.Level2;
+        switch (getIntent().getExtras().getString("Level")) {
+            case "Ground":
+                mapToCreate = GameMapEnum.Level2;
+                break;
+            case "Space":
+                mapToCreate = GameMapEnum.SpaceLevel2;
+                break;
+        }
 
         loadPlayerData();
 

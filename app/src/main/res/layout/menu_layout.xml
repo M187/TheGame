@@ -34,13 +34,22 @@
             android:text="Resume GAME" />
 
         <Button
-            android:id="@+id/button_new_game"
+            android:id="@+id/button_new_game_ground"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:clickable="true"
-            android:onClick="newGameClick"
-            android:text="New GAME" />
+            android:onClick="newGameClickGround"
+            android:text="New GAME ground" />
+
+        <Button
+            android:id="@+id/button_new_game_space"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:onClick="newGameClickSpace"
+            android:text="New GAME space" />
 
         <Button
             android:id="@+id/button_player_options"
