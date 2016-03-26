@@ -90,7 +90,7 @@ public abstract class GameObject {
      * @return middle X coordinate of an game object - squareImage for a rotation before drawing.
      */
     public int getMiddleDisplayXCoord() {
-        return displayXCoord + (this.image.getWidth()/2);
+        return displayXCoord + (this.getImage().getWidth()/2);
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class GameObject {
      * @param displayMiddleXCoord middle position of an layoutImage. It is adjusted so that it corresponds with top left position based on a layoutImage width.
      */
     public void setDisplayXCoord(int displayMiddleXCoord) {
-        this.displayXCoord = displayMiddleXCoord - (this.image.getWidth()/2);
+        this.displayXCoord = displayMiddleXCoord - (this.getImage().getWidth()/2);
     }
 
     public int getDisplayYCoord() {
@@ -108,11 +108,11 @@ public abstract class GameObject {
      * @return middle Y coordinate of an game object - squareImage for a drawing.
      */
     public int getMiddleDisplayYCoord() {
-        return displayYCoord + (this.image.getHeight()/2);
+        return displayYCoord + (this.getImage().getHeight()/2);
     }
 
     public void setDisplayYCoord(int displayMiddleYCoord) {
-        this.displayYCoord = displayMiddleYCoord - (this.image.getHeight()/2);
+        this.displayYCoord = displayMiddleYCoord - (this.getImage().getHeight()/2);
     }
     //</editor-fold>
 }

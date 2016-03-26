@@ -14,8 +14,7 @@ import com.miso.thegame.R;
 public class DemoObstacle1 extends DemoObstacle {
 
     public DemoObstacle1 (Resources res, Point coordPoint){
-        super(coordPoint);
-        this.setImage(BitmapFactory.decodeResource(res, R.drawable.obstacletree1xx100x100));
+        super(coordPoint, BitmapFactory.decodeResource(res, R.drawable.obstacletree1xx100x100));
         initializeRange();
         relativeTilePositions = new Point[]{
                 new Point(0,0)

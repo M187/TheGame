@@ -18,9 +18,12 @@ public class PlayerGameObjectives extends Collectable{
     private Animation animation = new Animation();
 
     public PlayerGameObjectives(Resources res, Point position){//, GameObjectivePosition gameObjectivePosition){
-        super(position);
+        this.x = position.x;
+        this.y = position.y;
         animation.initializeSprites(BitmapFactory.decodeResource(res, R.drawable.gameobjective_spritee), 35, 40, 7, 100);
         this.setImage(animation.getImage());
+        initializeGridCoords();
+        initializeVertices();
     }
 
     public void onInteraction(Player player, MapManager mapManager){

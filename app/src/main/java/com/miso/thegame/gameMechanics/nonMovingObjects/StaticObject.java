@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.nonMovingObjects;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -15,10 +16,12 @@ public abstract class StaticObject extends GameObject {
 
     protected int range;
 
-    public StaticObject(Point coordPoint){
+    public StaticObject(){}
 
+    public StaticObject(Point coordPoint, Bitmap image){
         this.x = coordPoint.x;
         this.y = coordPoint.y;
+        this.setImage(image);
         initializeGridCoords();
         initializeVertices();
     }
@@ -43,12 +46,12 @@ public abstract class StaticObject extends GameObject {
         return gridCoords;
     }
 
-    private void initializeGridCoords(){
+    protected void initializeGridCoords(){
         this.gridCoords = super.getGridCoordinates();
         ///this.gridCoords = new Point( x / GamePanel.mapTileWidth, y / GamePanel.mapTileHeight);
     }
 
-    private void initializeVertices(){
+    protected void initializeVertices(){
         this.objectVertices.clear();
         this.objectVertices.add(new Point(getX(), getY()));
         this.objectVertices.add(new Point(getX(), getY() + getImage().getHeight()));

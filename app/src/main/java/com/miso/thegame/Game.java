@@ -25,7 +25,7 @@ public class Game extends Activity {
                 mapToCreate = GameMapEnum.Level2;
                 break;
             case "Space":
-                mapToCreate = GameMapEnum.SpaceLevel2;
+                mapToCreate = GameMapEnum.SpaceLevel1;
                 break;
         }
 

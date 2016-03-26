@@ -17,10 +17,8 @@ public class BaseCamp extends Collectable {
     private int rangeOfInflueance;
 
     public BaseCamp(Resources res, Point position){
-        super(position);
+        super(position, BitmapFactory.decodeResource(res, R.drawable.basecamp));
         this.rangeOfInflueance = 200;
-
-        this.setImage(BitmapFactory.decodeResource(res, R.drawable.basecamp));
     }
 
     public boolean intersectsWithMe(GameObject gameObject){

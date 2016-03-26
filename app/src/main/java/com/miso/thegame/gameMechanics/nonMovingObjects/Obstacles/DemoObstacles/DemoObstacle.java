@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.DemoObstacles;
 
+import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
@@ -10,8 +11,8 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
  */
 public abstract class DemoObstacle extends Obstacle {
 
-    public DemoObstacle(Point coordPoint){
-        super(coordPoint);
+    public DemoObstacle(Point coordPoint, Bitmap image){
+        super(coordPoint, image);
     }
 
     public void initializeRange(){

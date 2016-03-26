@@ -14,17 +14,19 @@ import com.miso.thegame.gameMechanics.map.MapManager;
 public class DefaultObstacle extends Obstacle {
 
     public DefaultObstacle(Resources res){
-        super(new Point(0,0));
         this.x = randomGenerator.nextInt(MapManager.getWorldWidth());
         this.y = randomGenerator.nextInt(MapManager.getWorldHeight());
         this.setImage(BitmapFactory.decodeResource(res, R.drawable.spell2));
+        initializeGridCoords();
+        initializeVertices();
     }
 
     public DefaultObstacle(Resources res, int scaleFactor){
-        super(new Point(0,0));
         this.x = randomGenerator.nextInt(MapManager.getWorldWidth());
         this.y = randomGenerator.nextInt(MapManager.getWorldHeight());
         Bitmap tempBitmap = BitmapFactory.decodeResource(res, R.drawable.spell2);
         this.setImage(Bitmap.createScaledBitmap(tempBitmap, tempBitmap.getWidth() * scaleFactor, tempBitmap.getHeight() * scaleFactor, true));
+        initializeGridCoords();
+        initializeVertices();
     }
 }

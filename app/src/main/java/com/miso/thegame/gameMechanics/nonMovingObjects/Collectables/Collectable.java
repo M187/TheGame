@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.nonMovingObjects.Collectables;
 
+import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import com.miso.thegame.GameObject;
@@ -14,8 +15,10 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
  */
 public abstract class Collectable extends StaticObject {
 
-    public Collectable(Point position){
-        super(position);
+    public Collectable(){}
+
+    public Collectable(Point position, Bitmap image){
+        super(position, image);
         this.collisionObjectType = CollisionObjectType.Collectible;
     }
 

@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles;
 
+import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
@@ -11,8 +12,10 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
  */
 public abstract class Obstacle extends StaticObject {
 
-    public Obstacle(Point coordPoint){
-        super(coordPoint);
+    public Obstacle(){}
+
+    public Obstacle(Point coordPoint, Bitmap image){
+        super(coordPoint, image);
         this.collisionObjectType = CollisionObjectType.Obstacle;
     }
 

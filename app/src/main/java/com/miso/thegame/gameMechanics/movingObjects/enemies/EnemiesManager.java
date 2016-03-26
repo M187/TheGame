@@ -48,7 +48,7 @@ public class EnemiesManager {
     private void initializeEnemies(ArrayList<SingleEnemyInitialData> enemyDatas, Resources res) {
         //todo - place factory here...
         for (SingleEnemyInitialData enemyInitialData : enemyDatas) {
-            EnemyFactory.makeEnemyShip(enemyInitialData, this.res);
+            enemyList.add(EnemyFactory.makeEnemyShip(enemyInitialData, this.res));
         }
     }
 
