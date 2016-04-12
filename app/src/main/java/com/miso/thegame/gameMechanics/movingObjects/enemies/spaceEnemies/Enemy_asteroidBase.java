@@ -71,7 +71,6 @@ public class Enemy_asteroidBase extends EnemySpace {
     @Override
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        //todo substitute .getWidth()/2 call
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 73, getY() - 50)));
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 25, getY() - 75)));
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 40, getY() - 25)));

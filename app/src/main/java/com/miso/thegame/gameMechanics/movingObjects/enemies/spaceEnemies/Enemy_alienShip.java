@@ -4,11 +4,9 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
-import com.miso.thegame.GameObject;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.EnemyGround;
 
 /**
  * Created by Miso on 11.10.2015.
@@ -16,7 +14,6 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.EnemyG
 public class Enemy_alienShip extends EnemySpace{
 
     public Enemy_alienShip(Resources res, Point startingPosition) {
-        //TODO Decide on which side of a map should an enemy be added based on a probability - handled by EnemyGenerator.
         super(startingPosition);
         setSpeed(8);
         setDx(getX());

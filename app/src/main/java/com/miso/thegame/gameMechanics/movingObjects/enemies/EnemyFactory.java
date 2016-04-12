@@ -8,6 +8,9 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_a
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_asteroidBase;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_carrier;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by michal.hornak on 02.03.2016.
  */
@@ -21,7 +24,13 @@ public class EnemyFactory {
         return instance;
     }
 
-    public static Enemy makeEnemyShip(SingleEnemyInitialData enemyInitialData, Resources res){
+    public void initializeEnemies(List<Enemy> enemyList, ArrayList<SingleEnemyInitialData> enemyDatas, Resources res){
+        for (SingleEnemyInitialData enemyInitialData : enemyDatas) {
+            enemyList.add(this.makeEnemyShip(enemyInitialData, res));
+        }
+    }
+
+    public Enemy makeEnemyShip(SingleEnemyInitialData enemyInitialData, Resources res){
 
         switch (enemyInitialData.enemyType){
             case carrier:

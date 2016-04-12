@@ -15,18 +15,17 @@ import com.miso.thegame.gameMechanics.MainThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
-import com.miso.thegame.gameMechanics.display.DrawManager;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandler;
+import com.miso.thegame.gameMechanics.display.Background;
+import com.miso.thegame.gameMechanics.display.Borders;
+import com.miso.thegame.gameMechanics.display.DrawManager;
 import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.display.Background;
-import com.miso.thegame.gameMechanics.display.Borders;
-import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -94,6 +93,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder surface) {
         //mapManager also initialize Pathfinder class
         MapManager.getInstance().initializeMapManager(this.mapToCreate, getResources());
+
         player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), MapManager.getInstance());
         spellManager = new SpellManager(getResources(), player);
 
@@ -138,7 +138,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             spellManager.update();
             enemiesManager.update();
             staticAnimationManager.update();
-            //collisionHandler.performCollisionCheck();
+            collisionHandler.performCollisionCheck();
         } else {
             enemiesManager.update();
             spellManager.update();
@@ -149,14 +149,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void draw(Canvas canvas) {
-        //final float scaleFactorX = getWidth()/(WIDTH*1.f);
-        //final float scaleFactorY = getHeight()/(HEIGHT*1.f);
-
         if (canvas != null) {
             final int savedState = canvas.save();
-            //canvas.scale(scaleFactorX, scaleFactorY);
-
-            //This if encapsulate player status. If he dies - print GameOver message.
             if (player.playing) {
                 bg.draw(canvas, anchor);
                 MapManager.getInstance().draw(canvas);

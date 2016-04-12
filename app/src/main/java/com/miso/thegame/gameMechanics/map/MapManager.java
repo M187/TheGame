@@ -10,13 +10,13 @@ import com.miso.thegame.gameMechanics.map.mapDefinitions.BlankMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.Level1;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.Level2;
-import com.miso.thegame.gameMechanics.map.mapDefinitions.Space.SpaceLevel1;
-import com.miso.thegame.gameMechanics.map.mapDefinitions.Space.SpaceLevel2;
+import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel1;
+import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel2;
+import com.miso.thegame.gameMechanics.map.pathfinding.MapGrid;
+import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
-import com.miso.thegame.gameMechanics.map.pathfinding.MapGrid;
-import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 
 import java.util.ArrayList;
 
@@ -79,6 +79,9 @@ public class MapManager {
             case Level2:
                 gameMap = new Level2(res);
                 break;
+            default:
+                gameMap = new BlankMap(res);
+                break;
         }
 
         this.currentMap = gameMap;
@@ -120,6 +123,4 @@ public class MapManager {
     public ArrayList<Collectable> getCollectableList() {
         return collectableList;
     }
-
-
 }

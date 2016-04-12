@@ -1,22 +1,17 @@
 package com.miso.thegame.gameMechanics.movingObjects.enemies;
 
+import android.content.res.Resources;
+import android.graphics.Canvas;
+
+import com.miso.thegame.GamePanel;
+import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
+import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Point;
-
-import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.GamePanel;
-import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.Enemy_nest;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_alienShip;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_asteroidBase;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_carrier;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 /**
  * Created by Miso on 11.10.2015.
@@ -42,14 +37,7 @@ public class EnemiesManager {
         this.res = res;
         Pathfinder.FindPath.updateMapGridDistanceCost(player);
 
-        initializeEnemies(enemyInitialDatas, res);
-    }
-
-    private void initializeEnemies(ArrayList<SingleEnemyInitialData> enemyDatas, Resources res) {
-        //todo - place factory here...
-        for (SingleEnemyInitialData enemyInitialData : enemyDatas) {
-            enemyList.add(EnemyFactory.makeEnemyShip(enemyInitialData, this.res));
-        }
+        EnemyFactory.getInstance().initializeEnemies(enemyList, enemyInitialDatas, res);
     }
 
     public void update() {

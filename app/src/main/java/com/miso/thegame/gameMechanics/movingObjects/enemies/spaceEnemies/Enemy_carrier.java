@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Enemy_carrier extends EnemySpace {
 
     private int shootingCd = 0;
+    private int imageHalfWidth, imageHalfHeight;
 
     public Enemy_carrier(Resources res, Point startingPosition, ArrayList<Waypoint> scriptedPath) {
         super(startingPosition);
@@ -28,13 +29,18 @@ public class Enemy_carrier extends EnemySpace {
         setDy(getY());
         setImage(BitmapFactory.decodeResource(res, R.drawable.enemycarrier));
         this.scriptedPath = scriptedPath;
+
+        this.imageHalfHeight = getImage().getHeight()/2;
+        this.imageHalfWidth = getImage().getWidth()/2;
     }
 
 
     public void update(Player player, EnemiesManager enemiesManager) {
         this.setPositionBeforeMoving();
+
         this.distanceFromPlayer = (Math.sqrt(Math.pow(player.getX() - this.getX(), 2) + Math.pow(player.getY() - this.getY(), 2)));
         this.shootingCd -= 1;
+
         Waypoint currentWaypoint = this.scriptedPath.get(this.currentWaypointIndex);
         if (this.distanceFromPlayer < 700) {
             this.playerInRange = true;
@@ -89,11 +95,10 @@ public class Enemy_carrier extends EnemySpace {
     @Override
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        //todo substitute .getWidth()/2 call
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() - getImage().getHeight() / 2)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - getImage().getWidth() / 2, getY() + 117)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() + getImage().getHeight() / 2)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + getImage().getWidth() / 2, getY() + 117)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() - this.imageHalfHeight)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - this.imageHalfWidth, getY() + 117)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() + this.imageHalfHeight)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + this.imageHalfWidth, getY() + 117)));
         return this.objectVertices;
     }
 

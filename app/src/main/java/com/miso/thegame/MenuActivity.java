@@ -1,16 +1,12 @@
 package com.miso.thegame;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 /**
  * Created by Miso on 10.1.2016.
@@ -31,7 +27,6 @@ public class MenuActivity extends Activity {
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(false);
         //mMediaPlayer.start();
-
     }
 
     public void newGameClickGround(View view) {

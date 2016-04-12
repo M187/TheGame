@@ -106,7 +106,6 @@ public abstract class ButtonPlaceholder {
     public void drawCooldown(Canvas canvas){
         paint.setColor(Color.MAGENTA);
         paint.setTextAlign(Paint.Align.CENTER);
-        //long scaling = (this.cooldownTimeLeftInSeconds() + 1)*6 + 30;
         int scaling = 60;
         paint.setTextSize(scaling);
         String number = Long.toString(this.cooldownTimeLeftInSeconds() + 1);

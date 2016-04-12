@@ -1,14 +1,14 @@
-package com.miso.thegame.gameMechanics.map.mapDefinitions.Space;
+package com.miso.thegame.gameMechanics.map.mapDefinitions;
 
 import android.content.res.Resources;
 import android.graphics.Point;
 
-import static com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData.EnemyType;
-import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
 import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
 
 import java.util.ArrayList;
+
+import static com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData.EnemyType;
 
 /**
  * Created by Miso on 26.1.2016.
