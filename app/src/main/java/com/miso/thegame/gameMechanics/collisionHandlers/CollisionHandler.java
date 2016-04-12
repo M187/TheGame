@@ -6,9 +6,8 @@ import android.graphics.Rect;
 
 import com.miso.thegame.GameObject;
 import com.miso.thegame.gameMechanics.Quadtree;
-import com.miso.thegame.gameMechanics.display.StaticAnimations.Explosion;
-import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimation;
 import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
@@ -18,11 +17,10 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_a
 import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.Spell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
-import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyOffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells.PlayerOffensiveSpell;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,14 +106,6 @@ public class CollisionHandler {
                     possibleCollisionOfPlayerWithCollectable(player, (Collectable) gameObject);
                     break;
             }
-
-//            if (gameObject instanceof EnemyOffensiveSpell) {
-//                possibleCollisionOfPlayerWithEnemyOffensiveSpell((EnemyOffensiveSpell) gameObject);
-//            } else if (gameObject instanceof Enemy) {
-//                possibleCollisionOfPlayerWithEnemy((Enemy) gameObject);
-//            } else if (gameObject instanceof Collectable) {
-//                possibleCollisionOfPlayerWithCollectable(player, (Collectable) gameObject);
-//            }
         }
     }
 

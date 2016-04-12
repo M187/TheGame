@@ -5,9 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 
 import java.util.ArrayList;
 
@@ -57,12 +55,10 @@ public class EnemyFireball extends EnemyOffensiveSpell {
 
             double speedFactor = this.getSpeed() / Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
-            //TODO: initialize only once for 1 movement - improve speed
             //get x,y coordinates using delta ratio
             frameDeltaX = (int) (this.deltaX * speedFactor);
             frameDeltaY = (int) (this.deltaY * speedFactor);
 
-            //todo add for zero delta.
             calculateHeading();
             setMovement = false;
         }

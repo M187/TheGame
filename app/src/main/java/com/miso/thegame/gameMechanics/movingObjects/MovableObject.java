@@ -167,7 +167,6 @@ public abstract class MovableObject extends GameObject {
     @Override
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        //todo substitute .getWidth()/2 call // initialize this array only once for static objects...
         int halfWidth = getImage().getWidth() / 2;
         int halfHeight = getImage().getHeight() / 2;
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - halfWidth, getY() - halfHeight)));

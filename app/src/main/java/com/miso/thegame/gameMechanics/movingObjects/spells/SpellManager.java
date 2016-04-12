@@ -4,9 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
+import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
@@ -57,7 +57,6 @@ public class SpellManager {
             } else {
                 playerOffensiveSpell.moveObject();
             }
-
         }
 
         EnemyOffensiveSpell enemyOffensiveSpell;
@@ -71,9 +70,6 @@ public class SpellManager {
             }
         }
 
-
-        //todo place loop for enemy spell
-
         DeffensiveSpell deffensiveSpell;
         Iterator<DeffensiveSpell> deffensiveSpellIterator = this.deffensiveSpellList.iterator();
         while (deffensiveSpellIterator.hasNext()) {
@@ -83,7 +79,6 @@ public class SpellManager {
             } else {
                 deffensiveSpell.update();
             }
-
         }
 
 

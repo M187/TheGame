@@ -3,7 +3,6 @@ package com.miso.thegame.gameMechanics.nonMovingObjects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 
 import com.miso.thegame.GameObject;
 
@@ -11,6 +10,9 @@ import java.util.ArrayList;
 
 /**
  * Created by Miso on 15.11.2015.
+ *
+ * abstract object to hold common functionality for NON MOVING OBJECTS!
+ * Objects extending this class can not move under any circumstances!
  */
 public abstract class StaticObject extends GameObject {
 
@@ -40,7 +42,8 @@ public abstract class StaticObject extends GameObject {
     @Override
     /**
      * Return grid coordinates as a Point.
-     * //TODO use this for GameObject??
+     *
+     * Overriding super functionality with static data, since Static objects CAN NOT MOVE!
      */
     public Point getGridCoordinates(){
         return gridCoords;
@@ -48,7 +51,6 @@ public abstract class StaticObject extends GameObject {
 
     protected void initializeGridCoords(){
         this.gridCoords = super.getGridCoordinates();
-        ///this.gridCoords = new Point( x / GamePanel.mapTileWidth, y / GamePanel.mapTileHeight);
     }
 
     protected void initializeVertices(){
