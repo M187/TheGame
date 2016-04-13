@@ -58,10 +58,13 @@ public class CollisionHandler {
      * 3. Spell with Obstacles
      */
     public void performCollisionCheck() {
+
+        //long temp = System.nanoTime();
+
         this.refreshMovingObjects();
         this.initializeQuadtree();
 
-        // create enum to decide collision check instead of getClass/instanceof
+        //System.out.println(" -- Pre-collision check preparations duration: " + (System.nanoTime() - temp));
 
         List<GameObject> returnObjects = new ArrayList();
         for (MovableObject movingObject : movingObjects) {

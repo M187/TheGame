@@ -138,11 +138,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             spellManager.update();
             enemiesManager.update();
             staticAnimationManager.update();
-            collisionHandler.performCollisionCheck();
+            //collisionHandler.performCollisionCheck();
         } else {
             enemiesManager.update();
             spellManager.update();
-            collisionHandler.performCollisionCheck();
+            //collisionHandler.performCollisionCheck();
         }
 
     }

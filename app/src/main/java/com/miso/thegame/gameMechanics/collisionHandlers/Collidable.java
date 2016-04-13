@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.interfaces;
+package com.miso.thegame.gameMechanics.collisionHandlers;
 
 import android.graphics.Point;
 
@@ -11,5 +11,4 @@ public interface Collidable {
 
     ArrayList<Point> getObjectCollisionVertices();
 
-    public Point rotateVertexAroundCurrentPosition(double degreesToRotate, Point positionOfCentreForRotation ,Point vertexToBeRotated);
 }

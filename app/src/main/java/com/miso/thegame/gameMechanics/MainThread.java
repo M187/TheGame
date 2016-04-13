@@ -44,9 +44,28 @@ public class MainThread extends Thread {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder)
                 {
+                    long startTime2, finishTime, updateFinished, drawFinished;
+
+                    System.out.println("  --  --  --  --  --  -- START --  --  --  --  --  --  ");
+                    startTime2 = System.nanoTime();
+                    System.out.println("Before update: " + startTime2);
+
                     this.gamePanel.update();
+
+                    updateFinished = System.nanoTime();
+                    System.out.println("Update duration: " +  (updateFinished - startTime2));
+
                     this.gamePanel.draw(canvas);
+
+                    drawFinished = System.nanoTime();
+                    System.out.println("Draw duration: " + (drawFinished - updateFinished));
+
                     this.gamePanel.postDrawTasks();
+
+                    finishTime = System.nanoTime();
+                    System.out.println("PostDraw duration: " + (finishTime - drawFinished));
+                    System.out.println("Cycle ends: " + (finishTime - startTime2));
+                    System.out.println("  --  --  --  --  --  --  --  --  --  --  --  --  ");
                 }
             }catch(Exception e){
                 //System.out.println(e);
