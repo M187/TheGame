@@ -19,7 +19,7 @@ import java.util.List;
 public class Quadtree {
 
     private int MAX_OBJECTS = 10;
-    private int MAX_LEVELS = 50;
+    private int MAX_LEVELS = 4;
 
     private int level;
     private ArrayList<GameObject> objects;
@@ -59,10 +59,10 @@ public class Quadtree {
         int x = bounds.left;
         int y = bounds.top;
 
-        nodes[0] = new Quadtree(level + 1, new Rect(x + subWidth, y, subWidth, subHeight));
-        nodes[1] = new Quadtree(level + 1, new Rect(x, y, subWidth, subHeight));
-        nodes[2] = new Quadtree(level + 1, new Rect(x, y + subHeight, subWidth, subHeight));
-        nodes[3] = new Quadtree(level + 1, new Rect(x + subWidth, y + subHeight, subWidth, subHeight));
+        nodes[0] = new Quadtree(level + 1, new Rect(x, y, x + subWidth, y + subHeight));
+        nodes[1] = new Quadtree(level + 1, new Rect(x, y + subHeight, x + subWidth, y + (subHeight * 2)));
+        nodes[2] = new Quadtree(level + 1, new Rect(x + subWidth, y, x + subWidth * 2, y + subHeight));
+        nodes[3] = new Quadtree(level + 1, new Rect(x + subWidth, y + subHeight, x + subWidth * 2, y + subHeight * 2));
     }
 
     /**
@@ -71,34 +71,76 @@ public class Quadtree {
      * of the parent node
      */
     private int getIndex(GameObject gO) {
+        switch (gO.getCollisionObjectType()){
+            case Obstacle:
+                return getObstacleIndex(gO);
+            default:
+                return getMovableObjectIndex(gO);
+        }
+    }
+
+    private int getObstacleIndex(GameObject gO){
         int index = -1;
-        double verticalMidpoint = bounds.left + (MapManager.getWorldWidth() / 2);
-        double horizontalMidpoint = bounds.top + (MapManager.getWorldHeight() / 2);
+        double verticalMidpoint = bounds.left + (MapManager.getWorldWidth() / (2 * (1 + this.level)));
+        double horizontalMidpoint = bounds.top + (MapManager.getWorldHeight() / (2 * (1 + this.level)));
 
         // Object can completely fit within the top quadrants
-        boolean topQuadrant = (gO.x < horizontalMidpoint && gO.x + gO.getImage().getWidth() < horizontalMidpoint);
+        boolean leftQuadrant = (gO.x + gO.getImage().getWidth() <= horizontalMidpoint);
         // Object can completely fit within the bottom quadrants
-        boolean bottomQuadrant = (gO.x > horizontalMidpoint);
+        boolean rightQuadrant = (gO.x >= horizontalMidpoint);
 
         // Object can completely fit within the left quadrants
-        if (gO.y < verticalMidpoint && gO.y + gO.getImage().getHeight() < verticalMidpoint) {
-            if (topQuadrant) {
-                index = 1;
-            } else if (bottomQuadrant) {
+        if (gO.y + gO.getImage().getHeight() <= verticalMidpoint) {
+            if (leftQuadrant) {
+                index = 0;
+            } else if (rightQuadrant) {
                 index = 2;
             }
         }
         // Object can completely fit within the right quadrants
-        else if (gO.x > verticalMidpoint) {
-            if (topQuadrant) {
-                index = 0;
-            } else if (bottomQuadrant) {
+        else if (gO.y >= verticalMidpoint) {
+            if (leftQuadrant) {
+                index = 1;
+            } else if (rightQuadrant) {
                 index = 3;
             }
         }
 
         return index;
     }
+
+    private int getMovableObjectIndex(GameObject gO){
+        int index = -1;
+        double verticalMidpoint = bounds.left + (MapManager.getWorldWidth() / 2 * this.level);
+        double horizontalMidpoint = bounds.top + (MapManager.getWorldHeight() / 2 * this.level);
+
+        // Object can completely fit within the top quadrants
+        boolean leftQuadrant = (gO.x + gO.getImage().getWidth() / 2 <= horizontalMidpoint);
+        // Object can completely fit within the bottom quadrants
+        boolean rightQuadrant = (gO.x - gO.getImage().getWidth() / 2 >= horizontalMidpoint);
+
+        // Object can completely fit within the left quadrants
+        if (gO.y + gO.getImage().getHeight() / 2 <= verticalMidpoint) {
+            if (leftQuadrant) {
+                index = 0;
+            } else if (rightQuadrant) {
+                index = 2;
+            }
+        }
+        // Object can completely fit within the right quadrants
+        else if (gO.y - gO.getImage().getHeight() / 2 >= verticalMidpoint) {
+            if (leftQuadrant) {
+                index = 1;
+            } else if (rightQuadrant) {
+                index = 3;
+            }
+        }
+
+        return index;
+    }
+
+    private enum verticalPosition{left, m, right}
+    private enum horizontalPosition{top, m, bottom}
 
     /**
      * Insert the object into the quadtree. If the node
