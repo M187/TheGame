@@ -44,7 +44,7 @@ public class CollisionHandler {
         this.enemiesManager = enemiesManager;
         this.spellManager = spellManager;
         this.mapManager = mapManager;
-        this.quadtree = new Quadtree(5, new Rect(0, 0, MapManager.getWorldWidth(), MapManager.getWorldHeight()));
+        this.quadtree = new Quadtree(1, new Rect(0, 0, MapManager.getWorldWidth(), MapManager.getWorldHeight()));
         this.resources = res;
     }
 
@@ -59,12 +59,12 @@ public class CollisionHandler {
      */
     public void performCollisionCheck() {
 
-        //long temp = System.nanoTime();
+        long temp = System.nanoTime();
 
         this.refreshMovingObjects();
         this.initializeQuadtree();
 
-        //System.out.println(" -- Pre-collision check preparations duration: " + (System.nanoTime() - temp));
+        System.out.println(" -- Pre-collision check preparations duration: " + (System.nanoTime() - temp));
 
         List<GameObject> returnObjects = new ArrayList();
         for (MovableObject movingObject : movingObjects) {

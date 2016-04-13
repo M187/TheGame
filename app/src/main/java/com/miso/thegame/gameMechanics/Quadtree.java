@@ -19,7 +19,7 @@ import java.util.List;
 public class Quadtree {
 
     private int MAX_OBJECTS = 10;
-    private int MAX_LEVELS = 5;
+    private int MAX_LEVELS = 50;
 
     private int level;
     private ArrayList<GameObject> objects;
@@ -54,8 +54,8 @@ public class Quadtree {
      * Splits the node into 4 subnodes
      */
     private void split() {
-        int subWidth = (int) (MapManager.getWorldWidth() / 2);
-        int subHeight = (int) (MapManager.getWorldHeight() / 2);
+        int subWidth = (int) (MapManager.getWorldWidth() / (2 * level));
+        int subHeight = (int) (MapManager.getWorldHeight() / (2 * level));
         int x = bounds.left;
         int y = bounds.top;
 
