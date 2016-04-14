@@ -83,6 +83,7 @@ public class Quadtree {
     private PositionIndexer getIndex(GameObject gameObject) {
         switch (gameObject.getCollisionObjectType()) {
             case Obstacle:
+            case Collectible:
                 return getNonMovableObjectIndex(gameObject);
             default:
                 return getMovableObjectIndex(gameObject);
@@ -161,8 +162,8 @@ public class Quadtree {
 
             if (objects.size() > MAX_OBJECTS && level < MAX_LEVELS) {
                 this.split();
-                PositionIndexer positionIndexer = getIndex(gameObject);
                 while (0 < objects.size()) {
+                    PositionIndexer positionIndexer = getIndex(objects.get(0));
                     addToRelevantChildNodes(objects.get(0), positionIndexer);
                     objects.remove(0);
                 }
