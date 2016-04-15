@@ -46,8 +46,11 @@ public class CollisionHandler {
         this.enemiesManager = enemiesManager;
         this.spellManager = spellManager;
         this.mapManager = mapManager;
+        //TODO: initialize for obstacles only once. Then create copy and use it with current Objects present on map. This assumes that obstacles CAN NOT be removed during gameplay on map.
+        //TODO: implement DEEP cloning of binary tree :(
         this.quadtree = new Quadtree(1, new Rect(0, 0, MapManager.getWorldWidth(), MapManager.getWorldHeight()));
         this.resources = res;
+        initializeMovingObjects();
     }
 
     /**
@@ -63,10 +66,9 @@ public class CollisionHandler {
 
         long temp = System.nanoTime();
 
-        this.refreshMovingObjects();
         this.initializeQuadtree();
 
-        System.out.println(" -- Pre-collision check preparations duration: " + (System.nanoTime() - temp));
+        System.out.println(" -- Refreshing quad -tree duration: " + (System.nanoTime() - temp));
 
         Set<GameObject> returnObjects = new HashSet<>();
         for (MovableObject movingObject : movingObjects) {
@@ -268,15 +270,13 @@ public class CollisionHandler {
             quadtree.insert(collectable);
         }
     }
-
-    public void refreshMovingObjects() {
-        movingObjects.clear();
-        movingObjects.add(player);
-        movingObjects.addAll(spellManager.getPlayerOffensiveSpellList());
-        movingObjects.addAll(spellManager.getEnemyOffensiveSpellList());
-        movingObjects.addAll(enemiesManager.getEnemyList());
-    }
     //</editor-fold>
 
-
+    public void initializeMovingObjects() {
+        this.movingObjects.clear();
+        this.movingObjects.add(this.player);
+        this.movingObjects.addAll(this.spellManager.getPlayerOffensiveSpellList());
+        this.movingObjects.addAll(this.spellManager.getEnemyOffensiveSpellList());
+        this.movingObjects.addAll(this.enemiesManager.getEnemyList());
+    }
 }
