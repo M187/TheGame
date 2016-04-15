@@ -23,7 +23,9 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Miso on 7.12.2015.
@@ -66,7 +68,7 @@ public class CollisionHandler {
 
         System.out.println(" -- Pre-collision check preparations duration: " + (System.nanoTime() - temp));
 
-        List<GameObject> returnObjects = new ArrayList();
+        Set<GameObject> returnObjects = new HashSet<>();
         for (MovableObject movingObject : movingObjects) {
             returnObjects.clear();
             quadtree.retrieve(returnObjects, movingObject);
@@ -95,7 +97,7 @@ public class CollisionHandler {
      *
      * @param returnObjects List of objects to check against.
      */
-    public void handleCollisions(Player player, List<GameObject> returnObjects) {
+    public void handleCollisions(Player player, Set<GameObject> returnObjects) {
         for (GameObject gameObject : returnObjects) {
 
             switch (gameObject.getCollisionObjectType()){
@@ -142,7 +144,7 @@ public class CollisionHandler {
      *
      * @param returnObjects List of objects to check against.
      */
-    public void handleColision(Enemy enemy, List<GameObject> returnObjects) {
+    public void handleColision(Enemy enemy, Set<GameObject> returnObjects) {
         returnObjects.remove(enemy);
         for (GameObject gameObject : returnObjects) {
 
@@ -224,7 +226,7 @@ public class CollisionHandler {
     }
     //</editor-fold>
 
-    public void handleColision(OffensiveSpell offensiveSpell, List<GameObject> returnObjects) {
+    public void handleColision(OffensiveSpell offensiveSpell, Set<GameObject> returnObjects) {
         for (GameObject gameObject : returnObjects) {
             switch (gameObject.getCollisionObjectType()){
                 case Obstacle:

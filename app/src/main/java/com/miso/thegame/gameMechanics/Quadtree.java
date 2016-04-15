@@ -7,6 +7,7 @@ import com.miso.thegame.gameMechanics.map.MapManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by michal.hornak on 04.12.2015.
@@ -92,28 +93,28 @@ public class Quadtree {
 
     private PositionIndexer getNonMovableObjectIndex(GameObject gameObject) {
 
-        double verticalMidpoint = bounds.left + (MapManager.getWorldWidth() / (Math.pow(2, level)));
-        double horizontalMidpoint = bounds.top + (MapManager.getWorldHeight() / (Math.pow(2, level)));
+        double midpointXaxis = bounds.left + (MapManager.getWorldWidth() / (Math.pow(2, level)));
+        double midpointYaxis = bounds.top + (MapManager.getWorldHeight() / (Math.pow(2, level)));
 
         PositionIndexer position = new PositionIndexer();
-        position.addToLeftSector = ((gameObject.x + gameObject.getImage().getWidth() <= horizontalMidpoint) ? true : false);
-        position.addToRightSector = ((gameObject.x >= horizontalMidpoint) ? true : false);
-        position.addToTopSector = ((gameObject.y + gameObject.getImage().getHeight() <= verticalMidpoint) ? true : false);
-        position.addToBottomSector = ((gameObject.y >= verticalMidpoint) ? true : false);
+        position.addToLeftSector = ((gameObject.x <= midpointXaxis) ? true : false);
+        position.addToRightSector = ((gameObject.x + gameObject.getImage().getWidth() >= midpointXaxis) ? true : false);
+        position.addToTopSector = ((gameObject.y <= midpointYaxis) ? true : false);
+        position.addToBottomSector = ((gameObject.y + gameObject.getImage().getHeight() >= midpointYaxis) ? true : false);
 
         return position;
     }
 
     private PositionIndexer getMovableObjectIndex(GameObject gameObject) {
 
-        double verticalMidpoint = bounds.left + (MapManager.getWorldWidth() / (Math.pow(2, level)));
-        double horizontalMidpoint = bounds.top + (MapManager.getWorldHeight() / (Math.pow(2, level)));
+        double midpointXaxis = bounds.left + (MapManager.getWorldWidth() / (Math.pow(2, level)));
+        double midpointYaxis = bounds.top + (MapManager.getWorldHeight() / (Math.pow(2, level)));
 
         PositionIndexer position = new PositionIndexer();
-        position.addToLeftSector = ((gameObject.x + gameObject.getImage().getWidth() / 2 <= horizontalMidpoint) ? true : false);
-        position.addToRightSector = ((gameObject.x - gameObject.getImage().getWidth() / 2 >= horizontalMidpoint) ? true : false);
-        position.addToTopSector = ((gameObject.y + gameObject.getImage().getHeight() / 2 <= verticalMidpoint) ? true : false);
-        position.addToBottomSector = ((gameObject.y - gameObject.getImage().getHeight() / 2 >= verticalMidpoint) ? true : false);
+        position.addToLeftSector = ((gameObject.x - gameObject.getImage().getWidth() / 2 <= midpointXaxis) ? true : false);
+        position.addToRightSector = ((gameObject.x + gameObject.getImage().getWidth() / 2 >= midpointXaxis) ? true : false);
+        position.addToTopSector = ((gameObject.y - gameObject.getImage().getHeight() / 2 <= midpointYaxis) ? true : false);
+        position.addToBottomSector = ((gameObject.y + gameObject.getImage().getHeight() / 2 >= midpointYaxis) ? true : false);
 
         return position;
     }
@@ -174,7 +175,7 @@ public class Quadtree {
     /**
      * Return all objects that could collide with the given object
      */
-    public List retrieve(List returnObjects, GameObject gameObject) {
+    public Set retrieve(Set returnObjects, GameObject gameObject) {
         PositionIndexer positionIndexer = getIndex(gameObject);
         if (this.nodes[0] != null) {
             if (positionIndexer.addToTopSector) {
