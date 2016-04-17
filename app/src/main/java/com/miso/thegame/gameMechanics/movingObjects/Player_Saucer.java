@@ -58,9 +58,8 @@ public final class Player_Saucer extends Player {
         return vertices;
     }
 
-    public void drawObject(Canvas canvas){
-        //Draw object
+    public void drawObject(Canvas canvas, int x, int y){
         animation.update();
-        canvas.drawBitmap(this.animation.getImage(), this.getDisplayXCoord(), this.getDisplayYCoord(), null);
+        canvas.drawBitmap(this.animation.getImage(), x, y, null);
     }
 }

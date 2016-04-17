@@ -293,14 +293,14 @@ public class Player extends MovableObject {
         return vertices;
     }
 
-    public void drawObject(Canvas canvas){
+    public void drawObject(Canvas canvas, int x, int y){
 
         //Draw engine fire
         if (this.isMoving){
-            this.playerEngineMotors.drawObject(this, canvas);
+            this.playerEngineMotors.drawObject(this, canvas, x, y);
         }
         //Draw object
-        canvas.drawBitmap(this.getImage(), this.getDisplayXCoord(), this.getDisplayYCoord(), null);
+        canvas.drawBitmap(this.getImage(), x, y, null);
     }
 
     /**
@@ -314,17 +314,17 @@ public class Player extends MovableObject {
             this.image = BitmapFactory.decodeResource(res, R.drawable.playerenginefire);
         }
 
-        public void drawObject(Player player, Canvas canvas){
+        public void drawObject(Player player, Canvas canvas, int x, int y){
             if (player.turningClockwise) {
-                canvas.drawBitmap(this.image, player.getDisplayXCoord() + 8, player.getDisplayYCoord() + 85, null);
+                canvas.drawBitmap(this.image, x + 8, y + 85, null);
                 player.turningClockwise = false;
             }
             else if (player.isTurningCounterclockwise) {
-                canvas.drawBitmap(this.image, player.getDisplayXCoord() + 32, player.getDisplayYCoord() + 85, null);
+                canvas.drawBitmap(this.image, x + 32, y + 85, null);
                 player.isTurningCounterclockwise = false;
             } else {
-                canvas.drawBitmap(this.image, player.getDisplayXCoord() + 8, player.getDisplayYCoord() + 85, null);
-                canvas.drawBitmap(this.image, player.getDisplayXCoord() + 32, player.getDisplayYCoord() + 85, null);
+                canvas.drawBitmap(this.image, x + 8, y + 85, null);
+                canvas.drawBitmap(this.image, x + 32, y + 85, null);
             }
         }
     }

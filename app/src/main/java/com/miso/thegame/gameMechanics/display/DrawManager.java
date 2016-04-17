@@ -29,12 +29,12 @@ public class DrawManager {
         if (isVisible(gameObject)){
             gameObject.setDisplayXCoord(gameObject.getX() - anchor.getX());
             gameObject.setDisplayYCoord(gameObject.getY() - anchor.getY());
-            this.draw(gameObject, canvas);
+            this.drawWithRotation(gameObject, canvas);
         }
     }
 
     /**
-     * Function to draw static object.
+     * Function to drawWithRotation static object.
      * There is one BIG DIFFERENCE netween moving and static object
      *      Static object coords are its top-left, while it is middle coords for moving object
      * @param staticObject
@@ -44,7 +44,7 @@ public class DrawManager {
         if (isVisible(staticObject)){
             staticObject.setDisplayXCoord(staticObject.getX() - anchor.getX());
             staticObject.setDisplayYCoord(staticObject.getY() - anchor.getY());
-            staticObject.draw(canvas);
+            staticObject.draw(canvas, staticObject.getX() - anchor.getX(), staticObject.getY() - anchor.getY());
         }
     }
 
@@ -52,7 +52,7 @@ public class DrawManager {
         if (isVisible(staticAnimation)) {
             staticAnimation.setDisplayXCoord(staticAnimation.getX() - anchor.getX());
             staticAnimation.setDisplayYCoord(staticAnimation.getY() - anchor.getY());
-            canvas.drawBitmap(staticAnimation.getImage(), staticAnimation.getDisplayXCoord(), staticAnimation.getDisplayYCoord(), null);
+            canvas.drawBitmap(staticAnimation.getImage(), staticAnimation.getX() - anchor.getX(), staticAnimation.getY() - anchor.getY(), null);
         }
     }
     
@@ -98,22 +98,25 @@ public class DrawManager {
      * Draw an object on a display. Also rotate it due to heading.
      * There is one BIG DIFFERENCE netween moving and static object
      *      Static object coords are its top-left, while it is middle coords for moving object
-     * @param gO player/enemy/spell
+     * @param gameObject player/enemy/spell
      * @param canvas - self explanatory.
      */
-    public void draw(MovableObject gO, Canvas canvas){
-        float degreesToRotate = (float)gO.getHeading();
-        canvas.rotate(degreesToRotate, gO.getMiddleDisplayXCoord(), gO.getMiddleDisplayYCoord());
-        gO.drawObject(canvas);
-        canvas.rotate( - degreesToRotate, gO.getMiddleDisplayXCoord(), gO.getMiddleDisplayYCoord());
+    public void drawWithRotation(MovableObject gameObject, Canvas canvas){
+        float degreesToRotate = (float)gameObject.getHeading();
+        canvas.rotate(degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 
-//  Uncomment to draw hit vertices
+        gameObject.drawObject(canvas, gameObject.getX() - anchor.getX() - gameObject.getImage().getWidth() / 2, gameObject.getY() - anchor.getY() - gameObject.getImage().getHeight() / 2);
+        //canvas.drawBitmap(gameObject.getImage(), gameObject.getX() - anchor.getX() - gameObject.getImage().getWidth() / 2, gameObject.getY() - anchor.getY() - gameObject.getImage().getHeight() / 2,null);
+
+        canvas.rotate( - degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
+
+//  Uncomment to drawWithRotation hit vertices
 //        Paint p = new Paint();
 //        p.setColor(Color.RED);
 //        p.setStrokeWidth(5);
 //
-//        if (gO instanceof Enemy_carrier){
-//            ArrayList<Point> toDraw = gO.getObjectCollisionVertices();
+//        if (gameObject instanceof Enemy_carrier){
+//            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
 //
 //            for (int i = 0;i < toDraw.size() - 1;i++){
 //                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
@@ -121,8 +124,8 @@ public class DrawManager {
 //            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
 //        }
 //
-//        if (gO instanceof Fireball){
-//            ArrayList<Point> toDraw = gO.getObjectCollisionVertices();
+//        if (gameObject instanceof Fireball){
+//            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
 //
 //            for (int i = 0;i < toDraw.size() - 1;i++){
 //                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);

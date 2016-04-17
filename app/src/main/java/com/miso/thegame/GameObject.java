@@ -104,6 +104,7 @@ public abstract class GameObject {
     public int getDisplayYCoord() {
         return displayYCoord;
     }
+
     /**
      * @return middle Y coordinate of an game object - squareImage for a drawing.
      */

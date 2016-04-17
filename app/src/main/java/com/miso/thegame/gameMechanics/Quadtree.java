@@ -74,6 +74,7 @@ public class Quadtree {
         nodes[3] = new Quadtree(level + 1, new Rect(x + subWidth, y + subHeight, x + subWidth * 2, y + subHeight * 2));
     }
 
+    //<editor-fold desc="Indexing functionality for assignment to child nodes/trees.">
     /**
      * Determine to which child node an object belongs to.
      *
@@ -118,6 +119,7 @@ public class Quadtree {
 
         return position;
     }
+    //</editor-fold>
 
     /**
      * Add gameObject to relevant child node.

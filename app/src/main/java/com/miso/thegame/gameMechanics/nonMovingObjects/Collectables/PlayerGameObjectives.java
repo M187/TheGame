@@ -20,6 +20,7 @@ public class PlayerGameObjectives extends Collectable{
     public PlayerGameObjectives(Resources res, Point position){//, GameObjectivePosition gameObjectivePosition){
         this.x = position.x;
         this.y = position.y;
+        //todo: make this generic
         animation.initializeSprites(BitmapFactory.decodeResource(res, R.drawable.gameobjective_spritee), 35, 40, 7, 100);
         this.setImage(animation.getImage());
         initializeGridCoords();
@@ -31,9 +32,10 @@ public class PlayerGameObjectives extends Collectable{
         mapManager.getCollectableList().remove(this);
     }
 
-    public void draw(Canvas canvas){
+    //Todo - add animations to parent method?
+    public void draw(Canvas canvas, int x, int y){
         animation.update();
-        canvas.drawBitmap(this.animation.getImage(), this.getDisplayXCoord(), this.getDisplayYCoord(), null);
+        canvas.drawBitmap(this.animation.getImage(), x, y, null);
     }
 
 }

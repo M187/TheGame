@@ -176,8 +176,8 @@ public abstract class MovableObject extends GameObject {
         return this.objectVertices;
     }
 
-    public void drawObject(Canvas canvas){
-        canvas.drawBitmap(this.getImage(),this.getDisplayXCoord(),this.getDisplayYCoord(),null);
+    public void drawObject(Canvas canvas, int x, int y){
+        canvas.drawBitmap(this.getImage(),x,y,null);
     }
 
 }
