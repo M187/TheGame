@@ -19,7 +19,7 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.Spell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyOffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells.PlayerOffensiveSpell;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class CollisionHandler {
     /**
      * Main function to do collision checks.
      * <p/>
-     * - Types of objects to detect collision: Player, Enemy, Spell, Obstacle, Collectable
+     * - Types of objects to detect collision: Player, Enemy, Spell, Obstacle, Collectible
      * Hierarchy of collision checks:
      * 1. Player with all
      * 2. Enemy with all but player
@@ -93,9 +93,9 @@ public class CollisionHandler {
     //<editor-fold desc="player colision">
 
     /**
-     * Handles colision of player with other objects.
+     * Handles collision of player with other objects.
      * 4 types of colidable objects:
-     * Spel, Enemy, Collectable, Obstacle
+     * Spel, Enemy, Collectible, Obstacle
      *
      * @param returnObjects List of objects to check against.
      */
@@ -110,7 +110,7 @@ public class CollisionHandler {
                     possibleCollisionOfPlayerWithEnemy((Enemy) gameObject);
                     break;
                 case Collectible:
-                    possibleCollisionOfPlayerWithCollectable(player, (Collectable) gameObject);
+                    possibleCollisionOfPlayerWithCollectable(player, (Collectible) gameObject);
                     break;
             }
         }
@@ -129,9 +129,9 @@ public class CollisionHandler {
         }
     }
 
-    public void possibleCollisionOfPlayerWithCollectable(Player player, Collectable collectable) {
-        if (collectable.intersectsWithMe(player, this.satCollisionCalculator)) {
-            collectable.onInteraction(player, mapManager);
+    public void possibleCollisionOfPlayerWithCollectable(Player player, Collectible collectible) {
+        if (collectible.intersectsWithMe(player, this.satCollisionCalculator)) {
+            collectible.onInteraction(player, mapManager);
         }
     }
 
@@ -140,7 +140,7 @@ public class CollisionHandler {
     //<editor-fold desc="enemy colision">
 
     /**
-     * Handles colision of enemy with other objects.
+     * Handles collision of enemy with other objects.
      * 3 types of colidable objects:
      * Enemy, Spel, Obstacle
      *
@@ -268,8 +268,8 @@ public class CollisionHandler {
         for (Obstacle obstacle : mapManager.getObstaclesList()) {
             quadtree.insert(obstacle);
         }
-        for (Collectable collectable : mapManager.getCollectableList()) {
-            quadtree.insert(collectable);
+        for (Collectible collectible : mapManager.getCollectibleList()) {
+            quadtree.insert(collectible);
         }
     }
     //</editor-fold>
