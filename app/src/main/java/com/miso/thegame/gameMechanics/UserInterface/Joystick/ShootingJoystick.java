@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 /**
  * Created by michal.hornak on 23.11.2015.
@@ -46,7 +45,7 @@ public class ShootingJoystick extends Joystick {
     public void drawTargetingLine(Canvas canvas) {
         paint.setColor(Color.RED);
         paint.setTextSize(2);
-        canvas.drawLine((float) player.getMiddleDisplayXCoord(), (float) player.getMiddleDisplayYCoord(), (float) player.getMiddleDisplayXCoord() - ((middleX - eventX) * 4), (float) player.getMiddleDisplayYCoord() - ((middleY - eventY) * 4), paint);
+        canvas.drawLine((float) player.getMiddleXDisplayCoord(), (float) player.getMiddleYDisplayCoord(), (float) player.getMiddleXDisplayCoord() - ((middleX - eventX) * 4), (float) player.getMiddleYDisplayCoord() - ((middleY - eventY) * 4), paint);
     }
 
     protected void uninitJoystick(){

@@ -76,44 +76,4 @@ public abstract class GameObject {
     public void setImage(Bitmap image) {
         this.image = image;
     }
-
-    //<editor-fold desc="Getting/setting draw coordinates in relation with display">
-    /**
-     * Return left position of an layoutImage for drawing layoutImage (square).
-     * @return left position of an point to draw layoutImage.
-     */
-    public int getDisplayXCoord() {
-        return displayXCoord;
-    }
-
-    /**
-     * @return middle X coordinate of an game object - squareImage for a rotation before drawing.
-     */
-    public int getMiddleDisplayXCoord() {
-        return displayXCoord + (this.getImage().getWidth()/2);
-    }
-
-    /**
-     * Set display coordinates - ! not a global coord grid, just display grid
-     * @param displayMiddleXCoord middle position of an layoutImage. It is adjusted so that it corresponds with top left position based on a layoutImage width.
-     */
-    public void setDisplayXCoord(int displayMiddleXCoord) {
-        this.displayXCoord = displayMiddleXCoord - (this.getImage().getWidth()/2);
-    }
-
-    public int getDisplayYCoord() {
-        return displayYCoord;
-    }
-
-    /**
-     * @return middle Y coordinate of an game object - squareImage for a drawing.
-     */
-    public int getMiddleDisplayYCoord() {
-        return displayYCoord + (this.getImage().getHeight()/2);
-    }
-
-    public void setDisplayYCoord(int displayMiddleYCoord) {
-        this.displayYCoord = displayMiddleYCoord - (this.getImage().getHeight()/2);
-    }
-    //</editor-fold>
 }

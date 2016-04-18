@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.Anchor;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
@@ -40,8 +41,11 @@ public class Player extends MovableObject {
     public int primaryAmunition = this.primaryAmunitionMaxValue;
 
     protected int lastHeading = 0;
+    private int middleXDisplayCoord;
+    private int middleYDisplayCoord;
 
-    public Player(){}
+    public Player() {
+    }
 
     //TODO: static variables for coordinates. ? Init to a static variable in GamePanel?
     public Player(Resources res, Point startingPosition, MapManager mapManager) {
@@ -91,10 +95,10 @@ public class Player extends MovableObject {
     public void turnCheck() {
         int turnThreshold = 20;
         int deltaDegrees = Math.abs(Math.abs(this.lastHeading) - Math.abs(this.heading));
-        if ( deltaDegrees >  turnThreshold && (Math.abs(Math.abs(this.lastHeading) - Math.abs(this.heading) + 360) > turnThreshold) && (Math.abs(Math.abs(this.lastHeading) - Math.abs(this.heading) - 360) > turnThreshold)){
+        if (deltaDegrees > turnThreshold && (Math.abs(Math.abs(this.lastHeading) - Math.abs(this.heading) + 360) > turnThreshold) && (Math.abs(Math.abs(this.lastHeading) - Math.abs(this.heading) - 360) > turnThreshold)) {
             int newDegrees;
-            if ( this.lastHeading > this.heading ) {
-                if (deltaDegrees > 180 ) {
+            if (this.lastHeading > this.heading) {
+                if (deltaDegrees > 180) {
                     newDegrees = this.lastHeading + turnThreshold;
                     if (newDegrees > 0) {
                         newDegrees -= 360;
@@ -110,14 +114,18 @@ public class Player extends MovableObject {
                     this.isTurningCounterclockwise = true;
                 }
             } else {
-                if (deltaDegrees < 180){
+                if (deltaDegrees < 180) {
                     newDegrees = this.lastHeading + turnThreshold;
-                    if (newDegrees > 0 ){ newDegrees -= 360;}
+                    if (newDegrees > 0) {
+                        newDegrees -= 360;
+                    }
                     this.heading = (newDegrees);
                     this.turningClockwise = true;
                 } else {
                     newDegrees = this.lastHeading - turnThreshold;
-                    if (newDegrees < -360 ){ newDegrees += 360;}
+                    if (newDegrees < -360) {
+                        newDegrees += 360;
+                    }
                     this.heading = (newDegrees);
                     this.isTurningCounterclockwise = true;
                 }
@@ -138,8 +146,13 @@ public class Player extends MovableObject {
         }
     }
 
-    public void checkGameProgress(){
+    public void checkGameProgress() {
 
+    }
+
+    public void updateMiddleDrawCoords(Anchor anchor) {
+        this.middleXDisplayCoord = this.getX() - anchor.getX();
+        this.middleYDisplayCoord = this.getY() - anchor.getY();
     }
 
     /**
@@ -285,22 +298,30 @@ public class Player extends MovableObject {
 
     protected ArrayList<Point> getNonRotatedVertices() {
         ArrayList<Point> vertices = new ArrayList();
-        vertices.add(new Point(this.x,this.y - 50));
-        vertices.add(new Point(this.x-25,this.y + 37));
-        vertices.add(new Point(this.x,this.y+50));
-        vertices.add(new Point(this.x+25,this.y+37));
+        vertices.add(new Point(this.x, this.y - 50));
+        vertices.add(new Point(this.x - 25, this.y + 37));
+        vertices.add(new Point(this.x, this.y + 50));
+        vertices.add(new Point(this.x + 25, this.y + 37));
 
         return vertices;
     }
 
-    public void drawObject(Canvas canvas, int x, int y){
+    public void drawObject(Canvas canvas, int x, int y) {
 
         //Draw engine fire
-        if (this.isMoving){
+        if (this.isMoving) {
             this.playerEngineMotors.drawObject(this, canvas, x, y);
         }
         //Draw object
         canvas.drawBitmap(this.getImage(), x, y, null);
+    }
+
+    public int getMiddleXDisplayCoord() {
+        return middleXDisplayCoord;
+    }
+
+    public int getMiddleYDisplayCoord() {
+        return middleYDisplayCoord;
     }
 
     /**
@@ -310,16 +331,15 @@ public class Player extends MovableObject {
 
         public Bitmap image;
 
-        public PlayerEngineMotors(Resources res){
+        public PlayerEngineMotors(Resources res) {
             this.image = BitmapFactory.decodeResource(res, R.drawable.playerenginefire);
         }
 
-        public void drawObject(Player player, Canvas canvas, int x, int y){
+        public void drawObject(Player player, Canvas canvas, int x, int y) {
             if (player.turningClockwise) {
                 canvas.drawBitmap(this.image, x + 8, y + 85, null);
                 player.turningClockwise = false;
-            }
-            else if (player.isTurningCounterclockwise) {
+            } else if (player.isTurningCounterclockwise) {
                 canvas.drawBitmap(this.image, x + 32, y + 85, null);
                 player.isTurningCounterclockwise = false;
             } else {

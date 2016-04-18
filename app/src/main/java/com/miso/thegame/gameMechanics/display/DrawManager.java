@@ -2,9 +2,9 @@ package com.miso.thegame.gameMechanics.display;
 
 import android.graphics.Canvas;
 
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.GameObject;
 import com.miso.thegame.GamePanel;
+import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimation;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
@@ -27,8 +27,6 @@ public class DrawManager {
      */
     public void drawOnDisplay(MovableObject gameObject, Canvas canvas){
         if (isVisible(gameObject)){
-            gameObject.setDisplayXCoord(gameObject.getX() - anchor.getX());
-            gameObject.setDisplayYCoord(gameObject.getY() - anchor.getY());
             this.drawWithRotation(gameObject, canvas);
         }
     }
@@ -42,16 +40,12 @@ public class DrawManager {
      */
     public void drawOnDisplay(StaticObject staticObject, Canvas canvas){
         if (isVisible(staticObject)){
-            staticObject.setDisplayXCoord(staticObject.getX() - anchor.getX());
-            staticObject.setDisplayYCoord(staticObject.getY() - anchor.getY());
             staticObject.draw(canvas, staticObject.getX() - anchor.getX(), staticObject.getY() - anchor.getY());
         }
     }
 
     public void drawOnDisplay(StaticAnimation staticAnimation, Canvas canvas){
         if (isVisible(staticAnimation)) {
-            staticAnimation.setDisplayXCoord(staticAnimation.getX() - anchor.getX());
-            staticAnimation.setDisplayYCoord(staticAnimation.getY() - anchor.getY());
             canvas.drawBitmap(staticAnimation.getImage(), staticAnimation.getX() - anchor.getX(), staticAnimation.getY() - anchor.getY(), null);
         }
     }
@@ -72,7 +66,7 @@ public class DrawManager {
                 return true;
             }
         } catch (NullPointerException e){
-            System.out.print("Can't make decision if object visible.");
+            System.out.print("Can't make decision if an object is visible.");
             return false;
         }
     }
@@ -106,7 +100,6 @@ public class DrawManager {
         canvas.rotate(degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 
         gameObject.drawObject(canvas, gameObject.getX() - anchor.getX() - gameObject.getImage().getWidth() / 2, gameObject.getY() - anchor.getY() - gameObject.getImage().getHeight() / 2);
-        //canvas.drawBitmap(gameObject.getImage(), gameObject.getX() - anchor.getX() - gameObject.getImage().getWidth() / 2, gameObject.getY() - anchor.getY() - gameObject.getImage().getHeight() / 2,null);
 
         canvas.rotate( - degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 

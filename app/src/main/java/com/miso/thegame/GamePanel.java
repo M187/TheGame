@@ -133,8 +133,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void update() {
         if (player.playing) {
             inputHandler.processFrameInput();
-            player.update();
-            anchor.update();
+            {
+                player.update();
+                anchor.update();
+                player.updateMiddleDrawCoords(anchor);
+            }
             spellManager.update();
             enemiesManager.update();
             staticAnimationManager.update();
