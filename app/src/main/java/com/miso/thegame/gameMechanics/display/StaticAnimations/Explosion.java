@@ -29,6 +29,4 @@ public class Explosion extends StaticAnimation {
         this.setFrames(image);
         this.setDelay(500);
     }
-
-
 }

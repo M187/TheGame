@@ -24,7 +24,6 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,6 +65,7 @@ public class CollisionHandler {
 
         long temp = System.nanoTime();
 
+        this.refreshMovingObjects();
         this.initializeQuadtree();
 
         System.out.println(" -- Refreshing quad -tree duration: " + (System.nanoTime() - temp));
@@ -75,7 +75,7 @@ public class CollisionHandler {
             returnObjects.clear();
             quadtree.retrieve(returnObjects, movingObject);
 
-            switch (movingObject.getCollisionObjectType()){
+            switch (movingObject.getCollisionObjectType()) {
                 case Player:
                     this.handleCollisions((Player) movingObject, returnObjects);
                     break;
@@ -102,7 +102,7 @@ public class CollisionHandler {
     public void handleCollisions(Player player, Set<GameObject> returnObjects) {
         for (GameObject gameObject : returnObjects) {
 
-            switch (gameObject.getCollisionObjectType()){
+            switch (gameObject.getCollisionObjectType()) {
                 case SpellEnemy:
                     possibleCollisionOfPlayerWithEnemyOffensiveSpell((EnemyOffensiveSpell) gameObject);
                     break;
@@ -116,8 +116,8 @@ public class CollisionHandler {
         }
     }
 
-    public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(EnemyOffensiveSpell enemyOffensiveSpell){
-        if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), enemyOffensiveSpell.getObjectCollisionVertices())){
+    public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(EnemyOffensiveSpell enemyOffensiveSpell) {
+        if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), enemyOffensiveSpell.getObjectCollisionVertices())) {
             player.removeHealth(1);
             spellManager.getEnemyOffensiveSpellList().remove(enemyOffensiveSpell);
         }
@@ -150,12 +150,14 @@ public class CollisionHandler {
         returnObjects.remove(enemy);
         for (GameObject gameObject : returnObjects) {
 
-            switch (gameObject.getCollisionObjectType()){
+            switch (gameObject.getCollisionObjectType()) {
                 case SpellPlayer:
                     possibleCollisionOfEnemyWithSpell(enemy, (PlayerOffensiveSpell) gameObject);
                     break;
                 case Enemy:
-                    if (gameObject instanceof Enemy_alienShip | enemy instanceof Enemy_alienShip | enemy instanceof Enemy_basic | gameObject instanceof Enemy_basic){return;}
+                    if (gameObject instanceof Enemy_alienShip | enemy instanceof Enemy_alienShip | enemy instanceof Enemy_basic | gameObject instanceof Enemy_basic) {
+                        return;
+                    }
                     possibleCollisionOfEnemyWithEnemy(enemy, (Enemy) gameObject);
                     break;
             }
@@ -230,9 +232,9 @@ public class CollisionHandler {
 
     public void handleColision(OffensiveSpell offensiveSpell, Set<GameObject> returnObjects) {
         for (GameObject gameObject : returnObjects) {
-            switch (gameObject.getCollisionObjectType()){
+            switch (gameObject.getCollisionObjectType()) {
                 case Obstacle:
-                    possibleCollisionOfSpellWithObstacle(offensiveSpell, (Obstacle)gameObject);
+                    possibleCollisionOfSpellWithObstacle(offensiveSpell, (Obstacle) gameObject);
                     break;
             }
         }
@@ -271,6 +273,14 @@ public class CollisionHandler {
         }
     }
     //</editor-fold>
+
+    public void refreshMovingObjects() {
+        movingObjects.clear();
+        movingObjects.add(player);
+        movingObjects.addAll(spellManager.getPlayerOffensiveSpellList());
+        movingObjects.addAll(spellManager.getEnemyOffensiveSpellList());
+        movingObjects.addAll(enemiesManager.getEnemyList());
+    }
 
     public void initializeMovingObjects() {
         this.movingObjects.clear();

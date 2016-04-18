@@ -28,17 +28,6 @@ public abstract class StaticObject extends GameObject {
         initializeVertices();
     }
 
-    /**
-     * Set display coordinates - ! not a global coord grid, just display grid
-     * @param displayMiddleXCoord middle position of an layoutImage. It is adjusted so that it corresponds with top left position based on a layoutImage width.
-     */
-    public void setDisplayXCoord(int displayMiddleXCoord) {
-        this.displayXCoord = displayMiddleXCoord;
-    }
-    public void setDisplayYCoord(int displayMiddleYCoord) {
-        this.displayYCoord = displayMiddleYCoord;
-    }
-
     @Override
     /**
      * Return grid coordinates as a Point.

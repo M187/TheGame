@@ -51,7 +51,7 @@ public abstract class Enemy extends MovableObject {
     }
 
     public boolean hitBySpell(){
-        return true;
+        return false;
     }
 
     protected int turnThreshold = 5;

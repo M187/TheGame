@@ -30,12 +30,12 @@ public class MapTile {
     public List<Point> notDiagonalNeighbours = new ArrayList<>();
     private List<MapTile> neighbourTiles = new ArrayList<>();
 
-    public MapTile(int xTileCoord, int yTileCoord, int maxXTileCount, int maxYTieCount){
+    public MapTile(int xTileCoord, int yTileCoord, int maxXTileCount, int maxYTileCount){
         this.xTileCoord = xTileCoord;
         this.yTileCoord = yTileCoord;
 
-        initializeNeighbourPositionListBasedOnX(maxXTileCount, maxYTieCount);
-        initializeNotDiagonalNeighbours(maxXTileCount, maxYTieCount);
+        initializeNeighbourPositionListBasedOnX(maxXTileCount, maxYTileCount);
+        initializeNotDiagonalNeighbours(maxXTileCount, maxYTileCount);
     }
 
     /**
