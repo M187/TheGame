@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.miso.thegame.GamePanel;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 /**
@@ -43,18 +43,17 @@ public abstract class ButtonPlaceholder {
     /**
      * Big switch to decide what to do with input action.
      * @param spellManager
-     * @param player
      */
-    public void onClickEvent(SpellManager spellManager,Player player){
+    public void onClickEvent(SpellManager spellManager){
 
         switch (this.buttonAction){
             case Shockwave:
                 this.setLastUse();
-                spellManager.addShockwave(player, 2);
+                spellManager.spellCreator.addPlayerShockwave(ConstantHolder.shockwaveReachFactor);
                 return;
             case Timestop:
                 this.setLastUse();
-                spellManager.addTimestopSpell(player);
+                spellManager.spellCreator.addTimestopSpell();
                 return;
             case Freeze:
                 this.setLastUse();

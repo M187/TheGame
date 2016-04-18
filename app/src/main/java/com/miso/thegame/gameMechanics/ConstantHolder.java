@@ -22,6 +22,7 @@ public class ConstantHolder {
     public static final int freezeCooldown = 35000;
 
     public static final int shockwaveCooldown = 8000;
+    public static final int shockwaveReachFactor = 2;
     //</editor-fold>
 
     public static void loadSettingData(int playerHealthLevel, int playerAmmoLevel, int playerSpeedLevel){

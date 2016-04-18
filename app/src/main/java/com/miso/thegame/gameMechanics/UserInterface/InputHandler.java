@@ -6,8 +6,8 @@ import android.view.MotionEvent;
 
 import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
-import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
+import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
 
 /**
@@ -69,7 +69,7 @@ public class InputHandler {
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
             for (ButtonPlaceholder buttonPlaceholder : gP.toolbar.getButtonPlaceholders()) {
                 if (buttonPlaceholder.clickedOnButton(eventX, eventY)) {
-                    buttonPlaceholder.onClickEvent(gP.spellManager, gP.player);
+                    buttonPlaceholder.onClickEvent(gP.spellManager);
                 }
             }
         }
@@ -109,7 +109,7 @@ public class InputHandler {
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
                     for (ButtonPlaceholder buttonPlaceholder : gP.toolbar.getButtonPlaceholders()) {
                         if (buttonPlaceholder.clickedOnButton(eventX, eventY)) {
-                            buttonPlaceholder.onClickEvent(gP.spellManager, gP.player);
+                            buttonPlaceholder.onClickEvent(gP.spellManager);
                         }
                     }
                 }

@@ -8,6 +8,7 @@ import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
+import com.miso.thegame.gameMechanics.movingObjects.spells.SpellCreator;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,7 @@ public class Enemy_carrier extends EnemySpace {
         Waypoint currentWaypoint = this.scriptedPath.get(this.currentWaypointIndex);
         if (this.distanceFromPlayer < 700) {
             this.playerInRange = true;
-            this.performAction(player, enemiesManager);
+            this.performAction(enemiesManager.spellManager.spellCreator);
         }
         this.playerInRange = false;
         if (this.x == currentWaypoint.x && this.y == currentWaypoint.y) {
@@ -61,13 +62,13 @@ public class Enemy_carrier extends EnemySpace {
         turnCheck();
     }
 
-    public void performAction(Player player, EnemiesManager enemiesManager) {
+    public void performAction(SpellCreator spellCreator) {
         if (this.shootingCd < 0) {
-            enemiesManager.spellManager.addEnemyProjectile(this.x, this.y, player.x, player.y);
+            spellCreator.fireEnemyFireballTowardsPlayer(this.getX(), this.getY());
             Point a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y + 120));
-            enemiesManager.spellManager.addEnemyProjectile(a.x, a.y, player.x, player.y);
+            spellCreator.fireEnemyFireballTowardsPlayer(a.x, a.y);
             a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 120));
-            enemiesManager.spellManager.addEnemyProjectile(a.x, a.y, player.x, player.y);
+            spellCreator.fireEnemyFireballTowardsPlayer(a.x, a.y);
             this.shootingCd = 90;
         }
     }
