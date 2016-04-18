@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.PlayerGameObjectives;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.StarCollectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.DemoObstacles.DemoObstacle1;
 
 /**
@@ -174,10 +174,10 @@ public class Level1 extends GameMap {
         //Collectibles
         addStaticElement(new BaseCamp(res, new Point(700,700)));
 
-        addStaticElement(new PlayerGameObjectives(res, new Point(1500, 300)));
-        addStaticElement(new PlayerGameObjectives(res, new Point(400, 1500)));
-        addStaticElement(new PlayerGameObjectives(res, new Point(300, 200)));
-        addStaticElement(new PlayerGameObjectives(res, new Point(1700, 800)));
+        addStaticElement(new StarCollectible(res, new Point(1500, 300)));
+        addStaticElement(new StarCollectible(res, new Point(400, 1500)));
+        addStaticElement(new StarCollectible(res, new Point(300, 200)));
+        addStaticElement(new StarCollectible(res, new Point(1700, 800)));
     }
 }
 

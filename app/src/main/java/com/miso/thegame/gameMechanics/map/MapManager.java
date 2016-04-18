@@ -15,7 +15,7 @@ import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel2;
 import com.miso.thegame.gameMechanics.map.pathfinding.MapGrid;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class MapManager {
     private static final int mapTileHeight = 100;
 
     private ArrayList<Obstacle> obstaclesList = new ArrayList<>();
-    private ArrayList<Collectable> collectableList = new ArrayList<>();
+    private ArrayList<Collectible> collectibleList = new ArrayList<>();
     protected Resources res;
     public MapGrid mapGrid;
     private GameMap currentMap;
@@ -111,8 +111,8 @@ public class MapManager {
         for (Obstacle obstacle : getObstaclesList()) {
             GamePanel.drawManager.drawOnDisplay(obstacle, canvas);
         }
-        for (Collectable collectable : getCollectableList()) {
-            GamePanel.drawManager.drawOnDisplay(collectable, canvas);
+        for (Collectible collectible : getCollectibleList()) {
+            GamePanel.drawManager.drawOnDisplay(collectible, canvas);
         }
     }
 
@@ -120,7 +120,7 @@ public class MapManager {
         return obstaclesList;
     }
 
-    public ArrayList<Collectable> getCollectableList() {
-        return collectableList;
+    public ArrayList<Collectible> getCollectibleList() {
+        return collectibleList;
     }
 }

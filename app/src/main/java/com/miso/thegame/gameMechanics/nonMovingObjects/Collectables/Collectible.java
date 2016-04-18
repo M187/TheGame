@@ -13,11 +13,11 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 /**
  * Created by Miso on 15.11.2015.
  */
-public abstract class Collectable extends StaticObject {
+public abstract class Collectible extends StaticObject {
 
-    public Collectable(){}
+    public Collectible(){}
 
-    public Collectable(Point position, Bitmap image){
+    public Collectible(Point position, Bitmap image){
         super(position, image);
         this.collisionObjectType = CollisionObjectType.Collectible;
     }
@@ -25,10 +25,7 @@ public abstract class Collectable extends StaticObject {
     public abstract void onInteraction(Player player, MapManager mapManager);
 
     public boolean intersectsWithMe(GameObject gameObject, SATCollisionCalculator satCollisionCalculator){
-
         return satCollisionCalculator.performSeparateAxisCollisionCheck(this.getObjectCollisionVertices(), gameObject.getObjectCollisionVertices());
-
-        //return (Rect.intersects(gameObject.getRectangle(), this.getRectangle()));
     }
 
 }

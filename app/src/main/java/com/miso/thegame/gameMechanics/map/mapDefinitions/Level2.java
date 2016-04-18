@@ -3,9 +3,10 @@ package com.miso.thegame.gameMechanics.map.mapDefinitions;
 import android.content.res.Resources;
 import android.graphics.Point;
 
-import static com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData.EnemyType;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.PlayerGameObjectives;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.StarCollectible;
+
+import static com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData.EnemyType;
 
 /**
  * Created by Miso on 20.1.2016.
@@ -261,10 +262,11 @@ public class Level2 extends GameMap {
         //Collectibles
         addStaticElement(new BaseCamp(res, new Point(2000, 2000)));
 
-        addStaticElement(new PlayerGameObjectives(res, new Point(200, 200)));// top left
-        addStaticElement(new PlayerGameObjectives(res, new Point(2900, 900)));// top right
-        addStaticElement(new PlayerGameObjectives(res, new Point(100, 3800)));// bottom left
-        addStaticElement(new PlayerGameObjectives(res, new Point(3600, 3600)));// bottom right
+        addStaticElement(new StarCollectible(res, new Point(200, 200)));// top left
+        addStaticElement(new StarCollectible(res, new Point(2900, 900)));// top right
+        addStaticElement(new StarCollectible(res, new Point(100, 3800)));// bottom left
+        addStaticElement(new StarCollectible(res, new Point(3600, 3600)));// bottom right
+        addStaticElement(new StarCollectible(res, new Point(2200, 2000)));// middle - test purposes
 
         //Enemies data
         this.addEnemyData(200, 200, EnemyType.nest);

@@ -4,12 +4,12 @@ import android.content.res.Resources;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectable;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.DemoObstacles.DemoObstacle1;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
-import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +72,8 @@ public abstract class GameMap {
         for (StaticObject staticObject : this.getListOfStaticElements()) {
             if (staticObject instanceof Obstacle) {
                 mapManager.getObstaclesList().add((Obstacle) staticObject);
-            } else if (staticObject instanceof Collectable){
-                mapManager.getCollectableList().add((Collectable) staticObject);
+            } else if (staticObject instanceof Collectible){
+                mapManager.getCollectibleList().add((Collectible) staticObject);
             }
         }
     }
