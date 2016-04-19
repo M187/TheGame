@@ -5,10 +5,7 @@ import android.graphics.Point;
 import com.miso.thegame.GameObject;
 import com.miso.thegame.gameMechanics.map.pathfinding.MapTile;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
-import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 
 import java.util.ArrayList;

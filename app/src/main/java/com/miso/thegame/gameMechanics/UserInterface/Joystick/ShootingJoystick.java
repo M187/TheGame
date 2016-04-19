@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by michal.hornak on 23.11.2015.

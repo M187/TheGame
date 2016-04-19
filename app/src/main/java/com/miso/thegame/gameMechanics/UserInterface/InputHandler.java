@@ -8,7 +8,7 @@ import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 3.11.2015.

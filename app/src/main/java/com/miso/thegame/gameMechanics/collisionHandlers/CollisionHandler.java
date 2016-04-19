@@ -6,14 +6,14 @@ import android.graphics.Rect;
 
 import com.miso.thegame.GameObject;
 import com.miso.thegame.gameMechanics.Quadtree;
-import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.Enemy_basic;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_alienShip;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.Spell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
@@ -25,6 +25,7 @@ import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by Miso on 7.12.2015.
@@ -36,9 +37,12 @@ public class CollisionHandler {
     private SpellManager spellManager;
     private MapManager mapManager;
     private Quadtree quadtree;
-    private ArrayList<MovableObject> movingObjects = new ArrayList<>();
     private SATCollisionCalculator satCollisionCalculator = new SATCollisionCalculator();
     private Resources resources;
+
+    private ArrayList<MovableObject> movingObjects = new ArrayList<>();
+    // nice guide - http://www.ibm.com/developerworks/library/j-jtp0730/
+    private SynchronousQueue<GameObject> movingObjectQueue = new SynchronousQueue<>();
 
     public CollisionHandler(Player player, EnemiesManager enemiesManager, SpellManager spellManager, MapManager mapManager, Resources res) {
         this.player = player;

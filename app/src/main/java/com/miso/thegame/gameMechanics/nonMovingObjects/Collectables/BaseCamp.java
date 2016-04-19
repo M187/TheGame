@@ -6,7 +6,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 21.12.2015.

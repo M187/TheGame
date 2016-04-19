@@ -7,7 +7,7 @@ import com.miso.thegame.GameObject;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 
 /**

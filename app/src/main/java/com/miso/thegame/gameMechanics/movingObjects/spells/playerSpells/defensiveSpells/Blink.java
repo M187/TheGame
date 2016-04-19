@@ -3,10 +3,10 @@ package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensi
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 28.11.2015.

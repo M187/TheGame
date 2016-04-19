@@ -16,14 +16,14 @@ import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandler;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
-import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
-import com.miso.thegame.gameMechanics.movingObjects.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 import java.util.Random;

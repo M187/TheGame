@@ -1,7 +1,7 @@
 package com.miso.thegame.gameMechanics;
 
 import com.miso.thegame.GamePanel;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 1.11.2015.

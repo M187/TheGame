@@ -3,10 +3,11 @@ package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensi
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 17.11.2015.

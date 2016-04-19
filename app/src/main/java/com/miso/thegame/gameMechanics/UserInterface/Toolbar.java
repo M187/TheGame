@@ -8,12 +8,12 @@ import android.graphics.Canvas;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonAction;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
+import com.miso.thegame.gameMechanics.UserInterface.Buttons.FirstButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.SecondButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons._PrimaryShootingButtonPlaceholder;
-import com.miso.thegame.gameMechanics.UserInterface.Buttons.FirstButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 import java.util.ArrayList;
 

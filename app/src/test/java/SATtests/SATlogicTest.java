@@ -2,7 +2,7 @@ package SATtests;
 
 import Utils.Initialize;
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.Enemy_basic;
 
 import junit.framework.TestCase;

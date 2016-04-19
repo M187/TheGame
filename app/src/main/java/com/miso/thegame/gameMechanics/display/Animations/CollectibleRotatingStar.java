@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.display.StaticAnimations;
+package com.miso.thegame.gameMechanics.display.Animations;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

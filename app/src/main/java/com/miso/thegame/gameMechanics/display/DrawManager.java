@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import com.miso.thegame.GameObject;
 import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.Anchor;
-import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimation;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 

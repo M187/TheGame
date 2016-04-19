@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.movingObjects;
+package com.miso.thegame.gameMechanics.movingObjects.player;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
+import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 
 import java.util.ArrayList;
 
@@ -73,7 +74,7 @@ public class Player extends MovableObject {
             System.out.println("Game over comrade!");
             this.playing = false;
         }
-        if (movementNotDisabled()) {
+        if (isMovementNotDisabled()) {
             setPositionBeforeMoving();
             this.moveObject();
             //Was tile changed during movement?
@@ -148,11 +149,6 @@ public class Player extends MovableObject {
 
     public void checkGameProgress() {
 
-    }
-
-    public void updateMiddleDrawCoords(Anchor anchor) {
-        this.middleXDisplayCoord = this.getX() - anchor.getX();
-        this.middleYDisplayCoord = this.getY() - anchor.getY();
     }
 
     /**
@@ -252,7 +248,7 @@ public class Player extends MovableObject {
         }
     }
 
-    public boolean movementNotDisabled() {
+    public boolean isMovementNotDisabled() {
         return (!movementDisabled);
     }
 
@@ -314,6 +310,11 @@ public class Player extends MovableObject {
         }
         //Draw object
         canvas.drawBitmap(this.getImage(), x, y, null);
+    }
+
+    public void updateMiddleDrawCoords(Anchor anchor) {
+        this.middleXDisplayCoord = this.getX() - anchor.getX();
+        this.middleYDisplayCoord = this.getY() - anchor.getY();
     }
 
     public int getMiddleXDisplayCoord() {

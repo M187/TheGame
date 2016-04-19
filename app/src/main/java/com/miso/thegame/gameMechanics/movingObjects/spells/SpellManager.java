@@ -6,9 +6,9 @@ import android.graphics.Point;
 
 import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyOffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensiveSpells.DeffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells.PlayerOffensiveSpell;

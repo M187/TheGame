@@ -1,17 +1,14 @@
-package com.miso.thegame.gameMechanics.movingObjects;
+package com.miso.thegame.gameMechanics.movingObjects.player;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.R;
-import com.miso.thegame.gameMechanics.Animation;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.display.Animations.FlyingSaucer;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 
 import java.util.ArrayList;
 
@@ -20,11 +17,12 @@ import java.util.ArrayList;
  */
 public final class Player_Saucer extends Player {
 
-    private Animation animation = new Animation();
+    private StaticAnimation animation = new StaticAnimation();
 
     //TODO: static variables for coordinates. ? Init to a static variable in GamePanel?
     public Player_Saucer(Resources res,Point startingPosition, MapManager mapManager) {
-        animation.initializeSprites(BitmapFactory.decodeResource(res, R.drawable.player_saucer), 70, 70, 8, 25);
+        this.animation = new FlyingSaucer(startingPosition, res);
+        //animation.initializeSprites(BitmapFactory.decodeResource(res, R.drawable.player_saucer), 70, 70, 8, 25);
         setX(startingPosition.x);
         setY(startingPosition.y);
         this.collisionObjectType = CollisionObjectType.Player;

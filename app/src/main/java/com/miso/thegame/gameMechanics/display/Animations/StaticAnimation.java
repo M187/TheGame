@@ -1,14 +1,12 @@
-package com.miso.thegame.gameMechanics.display.StaticAnimations;
+package com.miso.thegame.gameMechanics.display.Animations;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.GameObject;
-import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Miso on 29.4.2015.

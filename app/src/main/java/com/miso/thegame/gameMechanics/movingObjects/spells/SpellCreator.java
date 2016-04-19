@@ -3,7 +3,7 @@ package com.miso.thegame.gameMechanics.movingObjects.spells;
 import android.content.res.Resources;
 
 import com.miso.thegame.gameMechanics.Anchor;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyFireball;
 import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyOffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensiveSpells.Blink;

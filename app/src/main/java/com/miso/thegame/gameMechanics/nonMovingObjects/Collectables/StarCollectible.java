@@ -4,10 +4,10 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.display.StaticAnimations.CollectibleRotatingStar;
-import com.miso.thegame.gameMechanics.display.StaticAnimations.StaticAnimation;
+import com.miso.thegame.gameMechanics.display.Animations.CollectibleRotatingStar;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 15.11.2015.

@@ -5,7 +5,7 @@ import android.graphics.Point;
 import com.miso.thegame.GameObject;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 26.1.2016.
