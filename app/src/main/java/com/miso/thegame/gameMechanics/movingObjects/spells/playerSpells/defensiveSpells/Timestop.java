@@ -1,7 +1,7 @@
 package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensiveSpells;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameMechanics.movingObjects.Player;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
  * Created by Miso on 23.12.2015.
