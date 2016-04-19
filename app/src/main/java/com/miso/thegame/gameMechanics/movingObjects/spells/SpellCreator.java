@@ -66,7 +66,7 @@ public class SpellCreator {
         player.primaryAmunition -= 1;
     }
 
-    public void fireEnemyFireballTowardsPlayer(int x, int y) {
-        offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.Enemy, resources));
+    public void fireProjectileTowardsPlayer(int x, int y) {
+        offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.SpellEnemy, resources));
     }
 }

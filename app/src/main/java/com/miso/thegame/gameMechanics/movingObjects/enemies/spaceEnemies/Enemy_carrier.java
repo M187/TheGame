@@ -64,11 +64,11 @@ public class Enemy_carrier extends EnemySpace {
 
     public void performAction(SpellCreator spellCreator) {
         if (this.shootingCd < 0) {
-            spellCreator.fireEnemyFireballTowardsPlayer(this.getX(), this.getY());
+            spellCreator.fireProjectileTowardsPlayer(this.getX(), this.getY());
             Point a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y + 120));
-            spellCreator.fireEnemyFireballTowardsPlayer(a.x, a.y);
+            spellCreator.fireProjectileTowardsPlayer(a.x, a.y);
             a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 120));
-            spellCreator.fireEnemyFireballTowardsPlayer(a.x, a.y);
+            spellCreator.fireProjectileTowardsPlayer(a.x, a.y);
             this.shootingCd = 90;
         }
     }
