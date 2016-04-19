@@ -139,7 +139,7 @@ public class CollisionHandler {
 
     //</editor-fold>
 
-    //<editor-fold desc="enemy colision">
+    //<editor-fold desc="enemy collision">
 
     /**
      * Handles collision of enemy with other objects.
@@ -204,7 +204,6 @@ public class CollisionHandler {
      * @param enemy       - enemy (one that is closer to the player) to extract destination coordinates to move other enemy to.
      * @param enemyToMove - enemy which we want to change coordinates.
      */
-
     public void moveDueToIntersect(Enemy enemy, Enemy enemyToMove) {
         int deltaX = Math.abs(enemy.getX() - enemyToMove.getX());
         int deltaY = Math.abs(enemy.getY() - enemyToMove.getY());

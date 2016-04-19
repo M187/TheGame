@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -22,6 +23,7 @@ public class Shockwave extends OffensiveSpell {
 
     public Shockwave(Player player, int reachFactor, Resources res){
         super();
+        this.collisionObjectType = CollisionObjectType.SpellPlayer;
         this.reachFactor = reachFactor;
         this.player = player;
         removeOnCollision = false;
