@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensiveSpells;
+package com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells;
 
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;

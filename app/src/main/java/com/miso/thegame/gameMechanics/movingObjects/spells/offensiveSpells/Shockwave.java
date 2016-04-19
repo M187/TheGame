@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells;
+package com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -8,11 +8,12 @@ import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 
 /**
  * Created by Miso on 17.11.2015.
  */
-public class Shockwave extends PlayerOffensiveSpell {
+public class Shockwave extends OffensiveSpell {
 
     private double frameSinceCreation = 1;
     private Bitmap unscaledBitmap;

@@ -117,7 +117,7 @@ public class DrawManager {
 //            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
 //        }
 //
-//        if (gameObject instanceof Fireball){
+//        if (gameObject instanceof Projectile){
 //            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
 //
 //            for (int i = 0;i < toDraw.size() - 1;i++){

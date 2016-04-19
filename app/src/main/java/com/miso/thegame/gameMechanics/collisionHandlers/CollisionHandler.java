@@ -17,8 +17,6 @@ import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.Spell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
-import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyOffensiveSpell;
-import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells.PlayerOffensiveSpell;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 
@@ -108,7 +106,7 @@ public class CollisionHandler {
 
             switch (gameObject.getCollisionObjectType()) {
                 case SpellEnemy:
-                    possibleCollisionOfPlayerWithEnemyOffensiveSpell((EnemyOffensiveSpell) gameObject);
+                    possibleCollisionOfPlayerWithEnemyOffensiveSpell((OffensiveSpell) gameObject);
                     break;
                 case Enemy:
                     possibleCollisionOfPlayerWithEnemy((Enemy) gameObject);
@@ -120,10 +118,10 @@ public class CollisionHandler {
         }
     }
 
-    public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(EnemyOffensiveSpell enemyOffensiveSpell) {
+    public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(OffensiveSpell enemyOffensiveSpell) {
         if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), enemyOffensiveSpell.getObjectCollisionVertices())) {
             player.removeHealth(1);
-            spellManager.getEnemyOffensiveSpellList().remove(enemyOffensiveSpell);
+            spellManager.getOffensiveSpellList().remove(enemyOffensiveSpell);
         }
     }
 
@@ -156,7 +154,7 @@ public class CollisionHandler {
 
             switch (gameObject.getCollisionObjectType()) {
                 case SpellPlayer:
-                    possibleCollisionOfEnemyWithSpell(enemy, (PlayerOffensiveSpell) gameObject);
+                    possibleCollisionOfEnemyWithSpell(enemy, (OffensiveSpell) gameObject);
                     break;
                 case Enemy:
                     if (gameObject instanceof Enemy_alienShip | enemy instanceof Enemy_alienShip | enemy instanceof Enemy_basic | gameObject instanceof Enemy_basic) {
@@ -172,11 +170,11 @@ public class CollisionHandler {
      * Checks for enemy if it was hit by a spell.
      * If so, remove enemy from a enemyList, also checks if remove spell from spell list.
      */
-    public void possibleCollisionOfEnemyWithSpell(Enemy enemy, PlayerOffensiveSpell offensiveSpell) {
+    public void possibleCollisionOfEnemyWithSpell(Enemy enemy, OffensiveSpell offensiveSpell) {
         try {
             if (offensiveSpell.collideWithMovingObject(enemy, satCollisionCalculator)) {
                 if (offensiveSpell.isRemovedOnCollision()) {
-                    spellManager.getPlayerOffensiveSpellList().remove(offensiveSpell);
+                    spellManager.getOffensiveSpellList().remove(offensiveSpell);
                     StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()), this.resources);
                 }
                 if (enemy.hitBySpell()) {
@@ -184,7 +182,7 @@ public class CollisionHandler {
                 }
             }
         } catch (NullPointerException e) {
-            //System.out.println("Fireball probably already removed??");
+            //System.out.println("Projectile probably already removed??");
         }
     }
 
@@ -247,7 +245,7 @@ public class CollisionHandler {
     public void possibleCollisionOfSpellWithObstacle(OffensiveSpell offensiveSpell, Obstacle obstacle) {
         try {
             if (offensiveSpell.isRemovedOnCollision() && satCollisionCalculator.performSeparateAxisCollisionCheck(obstacle.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
-                spellManager.getPlayerOffensiveSpellList().remove(offensiveSpell);
+                spellManager.getOffensiveSpellList().remove(offensiveSpell);
                 StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()), this.resources);
             }
         } catch (Exception e) {
@@ -260,10 +258,7 @@ public class CollisionHandler {
         quadtree.clear();
 
         quadtree.insert(this.player);
-        for (Spell spell : spellManager.getPlayerOffensiveSpellList()) {
-            quadtree.insert(spell);
-        }
-        for (Spell spell : spellManager.getEnemyOffensiveSpellList()) {
+        for (Spell spell : spellManager.getOffensiveSpellList()) {
             quadtree.insert(spell);
         }
         for (Enemy enemy : enemiesManager.getEnemyList()) {
@@ -281,16 +276,14 @@ public class CollisionHandler {
     public void refreshMovingObjects() {
         movingObjects.clear();
         movingObjects.add(player);
-        movingObjects.addAll(spellManager.getPlayerOffensiveSpellList());
-        movingObjects.addAll(spellManager.getEnemyOffensiveSpellList());
+        movingObjects.addAll(spellManager.getOffensiveSpellList());
         movingObjects.addAll(enemiesManager.getEnemyList());
     }
 
     public void initializeMovingObjects() {
         this.movingObjects.clear();
         this.movingObjects.add(this.player);
-        this.movingObjects.addAll(this.spellManager.getPlayerOffensiveSpellList());
-        this.movingObjects.addAll(this.spellManager.getEnemyOffensiveSpellList());
+        this.movingObjects.addAll(this.spellManager.getOffensiveSpellList());
         this.movingObjects.addAll(this.enemiesManager.getEnemyList());
     }
 }

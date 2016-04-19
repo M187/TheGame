@@ -9,9 +9,7 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameMechanics.movingObjects.spells.enemySpells.offensiveSpells.EnemyOffensiveSpell;
-import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensiveSpells.DeffensiveSpell;
-import com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells.PlayerOffensiveSpell;
+import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,9 +20,9 @@ import java.util.List;
  */
 public class SpellManager {
 
-    private List<PlayerOffensiveSpell> playerOffensiveSpellList = new ArrayList<>();
-    private List<EnemyOffensiveSpell> enemyOffensiveSpellList = new ArrayList<>();
+    //TODO: unify these 2 arrays
     protected Resources resources;
+    private List<OffensiveSpell> offensiveSpellList = new ArrayList<>();
     private List<DeffensiveSpell> deffensiveSpellList = new ArrayList<>();
     private long lastUse = 0;
     private int cooldown = ConstantHolder.firebalCooldown;
@@ -37,30 +35,19 @@ public class SpellManager {
 
     public SpellManager(Resources resources, Player player) {
         this.resources = resources;
-        this.spellCreator = new SpellCreator(player, resources, playerOffensiveSpellList, enemyOffensiveSpellList, deffensiveSpellList);
+        this.spellCreator = new SpellCreator(player, resources, offensiveSpellList, deffensiveSpellList);
     }
 
     public void update() {
 
-        PlayerOffensiveSpell playerOffensiveSpell;
-        Iterator<PlayerOffensiveSpell> playerOffensiveSpellIterator = this.playerOffensiveSpellList.iterator();
-        while (playerOffensiveSpellIterator.hasNext()) {
-            playerOffensiveSpell = playerOffensiveSpellIterator.next();
-            if (playerOffensiveSpell.removeSpell()) {
-                playerOffensiveSpellIterator.remove();
+        OffensiveSpell offensiveSpell;
+        Iterator<OffensiveSpell> offensiveSpellIterator = this.offensiveSpellList.iterator();
+        while (offensiveSpellIterator.hasNext()) {
+            offensiveSpell = offensiveSpellIterator.next();
+            if (offensiveSpell.removeSpell()) {
+                offensiveSpellIterator.remove();
             } else {
-                playerOffensiveSpell.moveObject();
-            }
-        }
-
-        EnemyOffensiveSpell enemyOffensiveSpell;
-        Iterator<EnemyOffensiveSpell> enemyOffensiveSpellIterator = this.enemyOffensiveSpellList.iterator();
-        while (enemyOffensiveSpellIterator.hasNext()) {
-            enemyOffensiveSpell = enemyOffensiveSpellIterator.next();
-            if (enemyOffensiveSpell.removeSpell()) {
-                enemyOffensiveSpellIterator.remove();
-            } else {
-                enemyOffensiveSpell.moveObject();
+                offensiveSpell.moveObject();
             }
         }
 
@@ -76,18 +63,14 @@ public class SpellManager {
         }
 
         if (primaryShootingActive && (System.currentTimeMillis() - lastUse) > cooldown) {
-            this.spellCreator.addPlayerFireball(primaryShootingVector.x, primaryShootingVector.y);
+            this.spellCreator.addPlayerProjectile(primaryShootingVector.x, primaryShootingVector.y);
             lastUse = System.currentTimeMillis();
         }
     }
 
     public void draw(Canvas canvas) {
 
-        for (Spell offensiveSpell : getPlayerOffensiveSpellList()) {
-            GamePanel.drawManager.drawOnDisplay(offensiveSpell, canvas);
-        }
-
-        for (Spell offensiveSpell : getEnemyOffensiveSpellList()) {
+        for (Spell offensiveSpell : getOffensiveSpellList()){
             GamePanel.drawManager.drawOnDisplay(offensiveSpell, canvas);
         }
 
@@ -96,12 +79,8 @@ public class SpellManager {
         }
     }
 
-    public List<PlayerOffensiveSpell> getPlayerOffensiveSpellList() {
-        return playerOffensiveSpellList;
-    }
-
-    public List<EnemyOffensiveSpell> getEnemyOffensiveSpellList() {
-        return enemyOffensiveSpellList;
+    public List<OffensiveSpell> getOffensiveSpellList(){
+        return this.offensiveSpellList;
     }
 
     /**

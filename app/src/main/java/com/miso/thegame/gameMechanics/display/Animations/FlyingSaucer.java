@@ -13,7 +13,7 @@ import com.miso.thegame.R;
 public class FlyingSaucer extends StaticAnimation{
 
     public FlyingSaucer(Point position , Resources res){
-        Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.gameobjective_spritee);
+        Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.player_saucer);
         int height = 70;
         int width = 70;
         int numFrames = 8;

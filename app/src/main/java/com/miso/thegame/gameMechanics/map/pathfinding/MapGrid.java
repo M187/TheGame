@@ -83,7 +83,7 @@ public class MapGrid {
             this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x][obstacle.getGridCoordinates().y + relativeMapTilePosition.y - 1].getNeighbourTiles().remove(this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x + 1][obstacle.getGridCoordinates().y + relativeMapTilePosition.y]);
             this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x][obstacle.getGridCoordinates().y + relativeMapTilePosition.y - 1].getNeighbourTiles().remove(this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x - 1][obstacle.getGridCoordinates().y + relativeMapTilePosition.y]);
         }
-        //TODO add handler branch for baundry events.
+        //TODO add handler branch for boundary events.
     }
 }
 

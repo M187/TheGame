@@ -1,18 +1,20 @@
-package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.offensiveSpells;
+package com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells;
 
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 
 import java.util.ArrayList;
 
 /**
  * Created by Miso on 12.10.2015.
  */
-public class Fireball extends PlayerOffensiveSpell {
+public class Projectile extends OffensiveSpell {
 
     private Point hitVertex;
     private Resources res;
@@ -26,8 +28,10 @@ public class Fireball extends PlayerOffensiveSpell {
      * @param Dy movement vector on relevant axis.
      * @param res resource to obtain picture from.
      */
-    public Fireball(int x, int y, int Dx, int Dy, Resources res){
+    public Projectile(int x, int y, int Dx, int Dy, CollisionObjectType collisionObjectType, Resources res){
         super();
+        //todo: add check for only possible collision types.
+        this.collisionObjectType = collisionObjectType;
         removeOnCollision = true;
         this.res = res;
         setX(x);
@@ -37,7 +41,7 @@ public class Fireball extends PlayerOffensiveSpell {
         setSpeed(30);
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
-    
+
     public boolean removeSpell(){
         if ( this.getX() - this.getImage().getWidth() > MapManager.getWorldWidth() ||
                 this.getX() + this.getImage().getWidth() < 0 ||

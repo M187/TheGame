@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.movingObjects.spells.playerSpells.defensiveSpells;
+package com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells;
 
 import com.miso.thegame.gameMechanics.movingObjects.spells.Spell;
 
