@@ -27,7 +27,7 @@ public class Server implements Runnable{
     }
 
     public void run(){
-        listen();
+        this.listen();
     }
 
     /**
