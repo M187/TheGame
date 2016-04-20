@@ -3,8 +3,8 @@ package com.miso.thegame.gameMechanics.display;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.GamePanel;
+import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 
 /**
  * Created by Miso on 26.4.2015.

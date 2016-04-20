@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics;
+package com.miso.thegame.gameMechanics.movingObjects;
 
 import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;

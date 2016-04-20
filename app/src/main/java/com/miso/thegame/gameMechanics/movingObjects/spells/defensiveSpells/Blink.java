@@ -4,8 +4,8 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**

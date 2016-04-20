@@ -2,8 +2,8 @@ package com.miso.thegame.gameMechanics.movingObjects.spells;
 
 import android.content.res.Resources;
 
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Blink;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;

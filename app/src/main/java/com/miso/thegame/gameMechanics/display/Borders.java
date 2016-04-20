@@ -5,9 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 
 /**
  * Created by Miso on 17.11.2015.

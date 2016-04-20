@@ -7,11 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameMechanics.Anchor;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
+import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 
 import java.util.ArrayList;

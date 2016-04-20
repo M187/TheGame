@@ -5,7 +5,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.miso.thegame.GameObject;
-import com.miso.thegame.gameMechanics.Quadtree;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;

@@ -2,7 +2,7 @@ package com.miso.thegame;
 
 import android.test.ActivityUnitTestCase;
 
-import com.miso.thegame.gameMechanics.Quadtree;
+import com.miso.thegame.gameMechanics.collisionHandlers.Quadtree;
 
 /**
  * Created by michal.hornak on 04.12.2015.
