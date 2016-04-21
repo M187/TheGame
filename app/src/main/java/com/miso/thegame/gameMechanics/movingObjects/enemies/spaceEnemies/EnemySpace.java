@@ -2,7 +2,7 @@ package com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies;
 
 import android.graphics.Point;
 
-import com.miso.thegame.GameObject;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.map.pathfinding.MapTile;
 import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;

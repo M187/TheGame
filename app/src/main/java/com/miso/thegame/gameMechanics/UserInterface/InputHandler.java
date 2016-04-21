@@ -4,24 +4,24 @@ import android.app.Activity;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameViews.GameView;
 
 /**
  * Created by Miso on 3.11.2015.
  */
 public class InputHandler {
 
-    GamePanel gP;
+    GameView gP;
     MovementJoystick movementJoystick;
     ShootingJoystick shootingJoystick;
     Player player;
     int playerSpeed;
 
-    public InputHandler(GamePanel gamePanel) {
+    public InputHandler(GameView gamePanel) {
         this.gP = gamePanel;
         this.player = gP.player;
         this.playerSpeed = gP.player.getSpeed();

@@ -71,7 +71,7 @@ public class Player extends MovableObject {
         this.lastHeading = this.heading;
 
         if (this.currentHealth <= 0) {
-            System.out.println("Game over comrade!");
+            System.out.println("GameActivity over comrade!");
             this.playing = false;
         }
         if (isMovementNotDisabled()) {

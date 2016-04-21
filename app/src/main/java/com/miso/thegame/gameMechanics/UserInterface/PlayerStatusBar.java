@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameViews.GameView;
 
 /**
  * Created by Miso on 21.12.2015.
@@ -19,8 +19,8 @@ public class PlayerStatusBar {
     public PlayerStatusBar(Player player){
         this.player = player;
         //todo - this needs to be generic ↓↓
-        this.xDrawCoord = GamePanel.WIDTH / 2 - 350;
-        this.yDrawCoord = GamePanel.HEIGHT - 140;
+        this.xDrawCoord = GameView.WIDTH / 2 - 350;
+        this.yDrawCoord = GameView.HEIGHT - 140;
     }
 
     public void draw(Canvas canvas){

@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.GameData.GameMapEnum;
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.BlankMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.Level1;
@@ -17,6 +16,7 @@ import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
+import com.miso.thegame.gameViews.GameView;
 
 import java.util.ArrayList;
 
@@ -109,10 +109,10 @@ public class MapManager {
 
     public void draw(Canvas canvas) {
         for (Obstacle obstacle : getObstaclesList()) {
-            GamePanel.drawManager.drawOnDisplay(obstacle, canvas);
+            GameView.drawManager.drawOnDisplay(obstacle, canvas);
         }
         for (Collectible collectible : getCollectibleList()) {
-            GamePanel.drawManager.drawOnDisplay(collectible, canvas);
+            GameView.drawManager.drawOnDisplay(collectible, canvas);
         }
     }
 

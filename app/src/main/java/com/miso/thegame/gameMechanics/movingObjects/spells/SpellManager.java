@@ -4,12 +4,12 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
+import com.miso.thegame.gameViews.GameView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,11 +71,11 @@ public class SpellManager {
     public void draw(Canvas canvas) {
 
         for (Spell offensiveSpell : getOffensiveSpellList()){
-            GamePanel.drawManager.drawOnDisplay(offensiveSpell, canvas);
+            GameView.drawManager.drawOnDisplay(offensiveSpell, canvas);
         }
 
         for (Spell deffensiveSpell : deffensiveSpellList) {
-            GamePanel.drawManager.drawOnDisplay(deffensiveSpell, canvas);
+            GameView.drawManager.drawOnDisplay(deffensiveSpell, canvas);
         }
     }
 

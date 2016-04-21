@@ -2,7 +2,7 @@ package com.miso.thegame.gameMechanics.collisionHandlers;
 
 import android.graphics.Rect;
 
-import com.miso.thegame.GameObject;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.map.MapManager;
 
 import java.util.ArrayList;

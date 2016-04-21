@@ -5,8 +5,8 @@ import android.graphics.BitmapFactory;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.R;
+import com.miso.thegame.gameViews.GameView;
 
 /**
  * Created by michal.hornak on 23.11.2015.
@@ -14,8 +14,8 @@ import com.miso.thegame.R;
 public class MovementJoystick extends Joystick {
 
     public MovementJoystick(Resources resources) {
-        this.middleX = GamePanel.WIDTH - 170;
-        this.middleY = GamePanel.HEIGHT - 170;
+        this.middleX = GameView.WIDTH - 170;
+        this.middleY = GameView.HEIGHT - 170;
         this.eventX = this.getMiddleX();
         this.eventY = this.getMiddleY();
         this.layoutImage = BitmapFactory.decodeResource(resources, R.drawable.gamepadopaque);

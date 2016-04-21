@@ -1,4 +1,4 @@
-package com.miso.thegame;
+package com.miso.thegame.gameViews;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.gameMechanics.MainThread;
@@ -15,57 +14,30 @@ import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandler;
-import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
-
-import java.util.Random;
 
 /**
  * Created by Miso on 8.10.2015.
  */
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
-
-    public static final int WIDTH = Game.metrics.widthPixels; // X Axis
-    public static final int HEIGHT = Game.metrics.heightPixels; // Y Axis
-    public static final Random randomGenerator = new Random();
-
-    public StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
-
-    private GameMapEnum mapToCreate;
-    private MainThread thread;
-    private Background bg;
-    private Borders borders;
-    public Player player = null;
-    public EnemiesManager enemiesManager;
-    public SpellManager spellManager;
-    public MapManager mapManager;
-    public Toolbar toolbar;
-    public Anchor anchor;
-    public static DrawManager drawManager;
-    private InputHandler inputHandler;
-    private CollisionHandler collisionHandler;
-    private EndgameEvents endgameEvents;
-    public Context context;
-
+public class GamePanelSingleplayer extends GameView implements SurfaceHolder.Callback {
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    public GamePanel(Context context, GameMapEnum mapToCreate) {
+    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate) {
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;
-        thread = new MainThread(getHolder(), this);
+        this.thread = new MainThread(getHolder(), this);
         getHolder().addCallback(this);
     }
 

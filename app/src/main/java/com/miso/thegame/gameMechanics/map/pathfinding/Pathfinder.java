@@ -3,7 +3,7 @@ package com.miso.thegame.gameMechanics.map.pathfinding;
 
 import android.graphics.Point;
 
-import com.miso.thegame.GameObject;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 

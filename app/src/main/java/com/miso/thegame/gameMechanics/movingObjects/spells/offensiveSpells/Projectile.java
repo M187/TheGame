@@ -20,15 +20,16 @@ public class Projectile extends OffensiveSpell {
     private Resources res;
 
     /**
-     *  Creates fireball object.
+     * Creates fireball object.
      *
-     * @param x starting coord of an fireball, usually players one.
-     * @param y starting coord of an fireball, usually players one.
-     * @param Dx movement vector on relevant axis.
-     * @param Dy movement vector on relevant axis.
-     * @param res resource to obtain picture from.
+     * @param x                   starting coord of an fireball, usually players one.
+     * @param y                   starting coord of an fireball, usually players one.
+     * @param Dx                  movement vector on relevant axis.
+     * @param Dy                  movement vector on relevant axis.
+     * @param collisionObjectType collision type of an projectile for collision checks.
+     * @param res                 resource to obtain picture from.
      */
-    public Projectile(int x, int y, int Dx, int Dy, CollisionObjectType collisionObjectType, Resources res){
+    public Projectile(int x, int y, int Dx, int Dy, CollisionObjectType collisionObjectType, Resources res) {
         super();
         //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;
@@ -42,12 +43,18 @@ public class Projectile extends OffensiveSpell {
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
 
-    public boolean removeSpell(){
-        if ( this.getX() - this.getImage().getWidth() > MapManager.getWorldWidth() ||
+    /**
+     * Is it behind bounds of ply field?
+     * todo: add check for traveling distance.
+     *
+     * @return remove spell?
+     */
+    public boolean removeSpell() {
+        if (this.getX() - this.getImage().getWidth() > MapManager.getWorldWidth() ||
                 this.getX() + this.getImage().getWidth() < 0 ||
                 this.getY() - this.getImage().getHeight() > MapManager.getWorldHeight() ||
                 this.getY() + this.getImage().getHeight() < 0
-                ){
+                ) {
             return true;
         } else {
             return false;
@@ -55,7 +62,7 @@ public class Projectile extends OffensiveSpell {
     }
 
     @Override
-    public void moveObject(){
+    public void moveObject() {
 
         if (setMovement) {
             this.deltaX = getDx() - getX();
@@ -75,7 +82,7 @@ public class Projectile extends OffensiveSpell {
     }
 
 
-    public ArrayList<Point> getObjectCollisionVertices(){
+    public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 10)));
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y)));

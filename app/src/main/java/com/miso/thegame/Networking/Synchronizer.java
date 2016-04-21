@@ -1,5 +1,7 @@
 package com.miso.thegame.Networking;
 
+import java.util.ArrayList;
+
 /**
  * Created by michal.hornak on 20.04.2016.
  *
@@ -18,5 +20,5 @@ public class Synchronizer {
      *
      * Big switch to process incoming messages and decide what to do with them.
      */
-    public void synchronizeGameState(){}
+    public void synchronizeGameState(ArrayList<Client> clientConnections){}
 }

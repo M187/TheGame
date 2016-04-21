@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import com.miso.thegame.GameData.OptionStrings;
+
 /**
  * Created by michal.hornak on 14.01.2016.
  */
@@ -105,17 +107,17 @@ public class PlayerOptions extends Activity {
     private void initializeSettings(){
         this.settings = getPreferences(0);
 
-        this.playerMaxHealth = settings.getInt("playerMaxHealth", 0);
-        this.playerMaxAmmo = settings.getInt("playerMaxAmmo", 0);
-        this.playerMaxSpeed = settings.getInt("playerMaxSpeed", 0);
+        this.playerMaxHealth = settings.getInt(OptionStrings.playerMaxHealth, 0);
+        this.playerMaxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
+        this.playerMaxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
     }
 
     private void saveSettings(){
         SharedPreferences settings = getPreferences(0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("playerMaxHealth", playerMaxHealth);
-        editor.putInt("playerMaxAmmo", playerMaxAmmo);
-        editor.putInt("playerMaxSpeed", playerMaxSpeed);
+        editor.putInt(OptionStrings.playerMaxHealth, playerMaxHealth);
+        editor.putInt(OptionStrings.playerMaxAmmo, playerMaxAmmo);
+        editor.putInt(OptionStrings.playerMaxSpeed, playerMaxSpeed);
 
         // Commit the edits!
         editor.commit();

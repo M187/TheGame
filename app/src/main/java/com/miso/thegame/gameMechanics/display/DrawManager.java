@@ -2,12 +2,12 @@ package com.miso.thegame.gameMechanics.display;
 
 import android.graphics.Canvas;
 
-import com.miso.thegame.GameObject;
-import com.miso.thegame.GamePanel;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
+import com.miso.thegame.gameViews.GameView;
 
 /**
  * Created by michal.hornak on 03.11.2015.
@@ -58,9 +58,9 @@ public class DrawManager {
     public boolean isVisible(GameObject gameObject){
         try {
             if (gameObject.getX() + (gameObject.getImage().getWidth() / 2) - this.anchor.getX() < 0 ||
-                    gameObject.getX() - (gameObject.getImage().getWidth() / 2) - this.anchor.getX() - GamePanel.WIDTH > 0 ||
+                    gameObject.getX() - (gameObject.getImage().getWidth() / 2) - this.anchor.getX() - GameView.WIDTH > 0 ||
                     gameObject.getY() + (gameObject.getImage().getHeight() / 2) - this.anchor.getY() < 0 ||
-                    gameObject.getY() - (gameObject.getImage().getHeight() / 2) - this.anchor.getY() - GamePanel.HEIGHT > 0) {
+                    gameObject.getY() - (gameObject.getImage().getHeight() / 2) - this.anchor.getY() - GameView.HEIGHT > 0) {
                 return false;
             } else {
                 return true;
@@ -79,9 +79,9 @@ public class DrawManager {
      */
     public boolean isVisible(StaticObject staticObject){
         if (staticObject.getX() + (staticObject.getImage().getWidth()) - this.anchor.getX() < 0 ||
-                staticObject.getX() - this.anchor.getX() - GamePanel.WIDTH > 0 ||
+                staticObject.getX() - this.anchor.getX() - GameView.WIDTH > 0 ||
                 staticObject.getY() + (staticObject.getImage().getHeight()) - this.anchor.getY() < 0 ||
-                staticObject.getY() - this.anchor.getY() - GamePanel.HEIGHT > 0){
+                staticObject.getY() - this.anchor.getY() - GameView.HEIGHT > 0){
             return false;
         } else {
             return true;

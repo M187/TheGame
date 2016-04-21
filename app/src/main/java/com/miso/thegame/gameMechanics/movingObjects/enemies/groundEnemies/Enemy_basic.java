@@ -4,8 +4,8 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
-import com.miso.thegame.GameObject;
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 

@@ -3,7 +3,7 @@ package com.miso.thegame.gameMechanics.nonMovingObjects.Collectables;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
-import com.miso.thegame.GameObject;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.map.MapManager;

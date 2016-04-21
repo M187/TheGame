@@ -69,4 +69,8 @@ public class SpellCreator {
     public void fireProjectileTowardsPlayer(int x, int y) {
         offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.SpellEnemy, resources));
     }
+
+    public void fireProjectile(int x, int y, int xVector, int yVector, CollisionObjectType collisionObjectType){
+        offensiveSpells.add(new Projectile(x, y, xVector, yVector, collisionObjectType, resources));
+    }
 }

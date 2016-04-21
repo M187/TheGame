@@ -1,7 +1,6 @@
 package com.miso.thegame.Networking;
 
-import com.miso.thegame.Networking.transmitionData.PlayerData;
-import com.miso.thegame.Networking.transmitionData.ProjectileEventData;
+import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -43,30 +42,15 @@ public class Client {
     }
 
     /**
-     * Sends player data string message to defined server.
-     * Should occur every frame to propagate this player position.
-     * @param playerData ...
+     * Sends data string message to defined server.
+     * @param messageData to be sent.
      */
-    public void sendPlayerDataToServer(PlayerData playerData) {
-        sendString(Integer.toString(playerData.getDeltaX()) + ":" + Integer.toString(playerData.getDeltaY()) + ":" + playerData.getAction().toString());
-    }
-
-    /**
-     * Sends projectile data to defined server.
-     * Should occur each time this player shoots / creates projectile object.
-     * @param projectileEventData ...
-     */
-    public void sendProjectileData(ProjectileEventData projectileEventData) {
-
-    }
-
-    public void sendString(String string) {
+    public void sendDataToServer(TransmissionMessage messageData) {
         try {
             DataOutputStream output = new DataOutputStream(this.myClient.getOutputStream());
-            output.writeChars(string);
+            output.writeChars(messageData.getPacket());
         } catch (IOException e) {
             System.out.println(e);
         }
     }
-
 }

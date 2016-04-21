@@ -3,11 +3,11 @@ package com.miso.thegame.gameMechanics.movingObjects.enemies;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 
-import com.miso.thegame.GamePanel;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
+import com.miso.thegame.gameViews.GameView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -59,7 +59,7 @@ public class EnemiesManager {
 
     public void draw(Canvas canvas) {
         for (Enemy enemy : getEnemyList()) {
-            GamePanel.drawManager.drawOnDisplay(enemy, canvas);
+            GameView.drawManager.drawOnDisplay(enemy, canvas);
         }
     }
 

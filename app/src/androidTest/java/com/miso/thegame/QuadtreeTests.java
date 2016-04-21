@@ -3,24 +3,25 @@ package com.miso.thegame;
 import android.test.ActivityUnitTestCase;
 
 import com.miso.thegame.gameMechanics.collisionHandlers.Quadtree;
+import com.miso.thegame.gameViews.GamePanelSingleplayer;
 
 /**
  * Created by michal.hornak on 04.12.2015.
  */
-public class QuadtreeTests extends ActivityUnitTestCase<Game> {
+public class QuadtreeTests extends ActivityUnitTestCase<GameActivity> {
 
-    private Game game;
-    private GamePanel gP;
+    private GameActivity gameActivity;
+    private GamePanelSingleplayer gP;
     private Quadtree quadtree;
 
     public QuadtreeTests() {
-        super(Game.class);
+        super(GameActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        game = getActivity();
-        //gP = new GamePanel(game);
+        gameActivity = getActivity();
+        //gP = new GamePanel(gameActivity);
     }
 }

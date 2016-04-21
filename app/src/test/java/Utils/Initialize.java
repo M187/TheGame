@@ -1,6 +1,6 @@
 package Utils;
 
-import com.miso.thegame.GameObject;
+import com.miso.thegame.gameMechanics.GameObject;
 
 /**
  * Created by michal.hornak on 20.01.2016.
