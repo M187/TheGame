@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
-import com.miso.thegame.gameViews.GameView;
+import com.miso.thegame.gameViews.GameViewAbstract;
 
 /**
  * Created by Miso on 26.4.2015.
@@ -18,7 +18,7 @@ public class Background {
 //    private int yHalfRange;
 
     public Background(Bitmap image, Anchor anchor){
-        this.image = Bitmap.createScaledBitmap(image, GameView.WIDTH, GameView.HEIGHT, false);
+        this.image = Bitmap.createScaledBitmap(image, GameViewAbstract.WIDTH, GameViewAbstract.HEIGHT, false);
         this.x = anchor.getX();
         this.y = anchor.getY();
 //        this.xHalfRange = x + (GamePanel.WIDTH/2);
@@ -43,40 +43,40 @@ public class Background {
             drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord);
             if (anchor.getX() > x) {
                 if (anchor.getY() > y) {
-                    drawCustom(canvas, xDefaultDrawCoord + GameView.WIDTH, yDefaultDrawCoord);
-                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord + GameView.HEIGHT);
-                    drawCustom(canvas, xDefaultDrawCoord + GameView.WIDTH, yDefaultDrawCoord + GameView.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord + GameViewAbstract.WIDTH, yDefaultDrawCoord);
+                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord + GameViewAbstract.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord + GameViewAbstract.WIDTH, yDefaultDrawCoord + GameViewAbstract.HEIGHT);
                 } else {
-                    drawCustom(canvas, xDefaultDrawCoord + GameView.WIDTH, yDefaultDrawCoord);
-                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord - GameView.HEIGHT);
-                    drawCustom(canvas, xDefaultDrawCoord + GameView.WIDTH, yDefaultDrawCoord - GameView.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord + GameViewAbstract.WIDTH, yDefaultDrawCoord);
+                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord - GameViewAbstract.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord + GameViewAbstract.WIDTH, yDefaultDrawCoord - GameViewAbstract.HEIGHT);
                 }
             } else {
                 if (anchor.getY() > y) {
-                    drawCustom(canvas, xDefaultDrawCoord - GameView.WIDTH, yDefaultDrawCoord);
-                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord + GameView.HEIGHT);
-                    drawCustom(canvas, xDefaultDrawCoord - GameView.WIDTH, yDefaultDrawCoord + GameView.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord - GameViewAbstract.WIDTH, yDefaultDrawCoord);
+                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord + GameViewAbstract.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord - GameViewAbstract.WIDTH, yDefaultDrawCoord + GameViewAbstract.HEIGHT);
                 } else {
-                    drawCustom(canvas, xDefaultDrawCoord - GameView.WIDTH, yDefaultDrawCoord);
-                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord - GameView.HEIGHT);
-                    drawCustom(canvas, xDefaultDrawCoord - GameView.WIDTH, yDefaultDrawCoord - GameView.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord - GameViewAbstract.WIDTH, yDefaultDrawCoord);
+                    drawCustom(canvas, xDefaultDrawCoord, yDefaultDrawCoord - GameViewAbstract.HEIGHT);
+                    drawCustom(canvas, xDefaultDrawCoord - GameViewAbstract.WIDTH, yDefaultDrawCoord - GameViewAbstract.HEIGHT);
                 }
             }
         }
     }
 
     public void backgroundOffDisplay(Anchor anchor){
-        if (x > anchor.getX() + GameView.WIDTH){
-            x = x - GameView.WIDTH;
+        if (x > anchor.getX() + GameViewAbstract.WIDTH){
+            x = x - GameViewAbstract.WIDTH;
         }
-        if (y > anchor.getY() + GameView.HEIGHT){
-            y = y - GameView.HEIGHT;
+        if (y > anchor.getY() + GameViewAbstract.HEIGHT){
+            y = y - GameViewAbstract.HEIGHT;
         }
-        if (x < anchor.getX() - GameView.WIDTH){
-            x = x + GameView.WIDTH;
+        if (x < anchor.getX() - GameViewAbstract.WIDTH){
+            x = x + GameViewAbstract.WIDTH;
         }
-        if (y < anchor.getY() - GameView.HEIGHT){
-            y = y + GameView.HEIGHT;
+        if (y < anchor.getY() - GameViewAbstract.HEIGHT){
+            y = y + GameViewAbstract.HEIGHT;
         }
     }
 

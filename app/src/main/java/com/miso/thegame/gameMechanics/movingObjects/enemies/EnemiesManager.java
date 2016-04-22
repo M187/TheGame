@@ -7,7 +7,7 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
-import com.miso.thegame.gameViews.GameView;
+import com.miso.thegame.gameViews.GameViewAbstract;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -59,7 +59,7 @@ public class EnemiesManager {
 
     public void draw(Canvas canvas) {
         for (Enemy enemy : getEnemyList()) {
-            GameView.drawManager.drawOnDisplay(enemy, canvas);
+            GameViewAbstract.drawManager.drawOnDisplay(enemy, canvas);
         }
     }
 

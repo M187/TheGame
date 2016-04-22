@@ -8,20 +8,20 @@ import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameViews.GameView;
+import com.miso.thegame.gameViews.GameViewAbstract;
 
 /**
  * Created by Miso on 3.11.2015.
  */
 public class InputHandler {
 
-    GameView gP;
+    GameViewAbstract gP;
     MovementJoystick movementJoystick;
     ShootingJoystick shootingJoystick;
     Player player;
     int playerSpeed;
 
-    public InputHandler(GameView gamePanel) {
+    public InputHandler(GameViewAbstract gamePanel) {
         this.gP = gamePanel;
         this.player = gP.player;
         this.playerSpeed = gP.player.getSpeed();

@@ -9,7 +9,7 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
-import com.miso.thegame.gameViews.GameView;
+import com.miso.thegame.gameViews.GameViewAbstract;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,11 +71,11 @@ public class SpellManager {
     public void draw(Canvas canvas) {
 
         for (Spell offensiveSpell : getOffensiveSpellList()){
-            GameView.drawManager.drawOnDisplay(offensiveSpell, canvas);
+            GameViewAbstract.drawManager.drawOnDisplay(offensiveSpell, canvas);
         }
 
         for (Spell deffensiveSpell : deffensiveSpellList) {
-            GameView.drawManager.drawOnDisplay(deffensiveSpell, canvas);
+            GameViewAbstract.drawManager.drawOnDisplay(deffensiveSpell, canvas);
         }
     }
 

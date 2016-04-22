@@ -16,7 +16,7 @@ import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
-import com.miso.thegame.gameViews.GameView;
+import com.miso.thegame.gameViews.GameViewAbstract;
 
 import java.util.ArrayList;
 
@@ -109,10 +109,10 @@ public class MapManager {
 
     public void draw(Canvas canvas) {
         for (Obstacle obstacle : getObstaclesList()) {
-            GameView.drawManager.drawOnDisplay(obstacle, canvas);
+            GameViewAbstract.drawManager.drawOnDisplay(obstacle, canvas);
         }
         for (Collectible collectible : getCollectibleList()) {
-            GameView.drawManager.drawOnDisplay(collectible, canvas);
+            GameViewAbstract.drawManager.drawOnDisplay(collectible, canvas);
         }
     }
 

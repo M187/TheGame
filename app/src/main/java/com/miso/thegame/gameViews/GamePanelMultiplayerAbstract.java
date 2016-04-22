@@ -33,7 +33,7 @@ import java.util.concurrent.SynchronousQueue;
  *
  * Copy of GamePanel. Reworked to support multiplayer functionality.
  */
-public class GamePanelMultiplayer extends GameView implements SurfaceHolder.Callback {
+public class GamePanelMultiplayerAbstract extends GameViewAbstract implements SurfaceHolder.Callback {
 
     private List<Client> initializedClientsToOtherGameInstances = new ArrayList<>();
     private SynchronousQueue arrivingMessages = new SynchronousQueue();
@@ -43,7 +43,7 @@ public class GamePanelMultiplayer extends GameView implements SurfaceHolder.Call
         return super.getResources();
     }
 
-    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate) {
+    public GamePanelMultiplayerAbstract(Context context, GameMapEnum mapToCreate) {
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;

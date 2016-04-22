@@ -5,7 +5,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameViews.GameView;
+import com.miso.thegame.gameViews.GameViewAbstract;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +20,7 @@ public abstract class GameObject {
     public int x;
     public int y;
     protected ArrayList<Point> objectVertices = new ArrayList<>();
-    protected Random randomGenerator = GameView.randomGenerator;
+    protected Random randomGenerator = GameViewAbstract.randomGenerator;
     protected int displayXCoord;
     protected int displayYCoord;
     protected Point gridCoords;
