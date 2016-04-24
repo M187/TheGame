@@ -43,6 +43,14 @@
             android:text="New GAME ground" />
 
         <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Multiplayer Game"
+            android:onClick="newMultiplayerGame"
+            android:id="@+id/button_new_multiplayer_game"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
             android:id="@+id/button_new_game_space"
             android:layout_width="150dp"
             android:layout_height="wrap_content"

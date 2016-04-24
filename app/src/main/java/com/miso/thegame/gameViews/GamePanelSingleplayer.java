@@ -26,14 +26,14 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 /**
  * Created by Miso on 8.10.2015.
  */
-public class GamePanelSingleplayerAbstract extends GameViewAbstract implements SurfaceHolder.Callback {
+public class GamePanelSingleplayer extends GameVieew implements SurfaceHolder.Callback {
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    public GamePanelSingleplayerAbstract(Context context, GameMapEnum mapToCreate) {
+    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate) {
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;

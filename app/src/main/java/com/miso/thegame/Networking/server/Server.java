@@ -1,4 +1,4 @@
-package com.miso.thegame.Networking;
+package com.miso.thegame.Networking.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +16,7 @@ public class Server implements Runnable{
 
     ServerSocket myService;
     SynchronousQueue messageHolder;
+    MessageProcessor messageProcessor = new MessageProcessor();
 
     public Server(int port, SynchronousQueue messageHolder) {
         this.messageHolder = messageHolder;
@@ -41,11 +42,9 @@ public class Server implements Runnable{
                 Socket connectionSocket = this.myService.accept();
                 BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 receivedMessage = inFromClient.readLine();
+                this.messageHolder.add(messageProcessor.processIncomingMessage(receivedMessage));
+
                 System.out.println("Received: " + receivedMessage);
-
-                //todo: do something with message
-                this.messageHolder.add(receivedMessage);
-
             } catch (IOException e){
                 e.printStackTrace();
             }

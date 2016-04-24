@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.Networking.Client;
+import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameMechanics.MainThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
@@ -33,17 +34,19 @@ import java.util.concurrent.SynchronousQueue;
  *
  * Copy of GamePanel. Reworked to support multiplayer functionality.
  */
-public class GamePanelMultiplayerAbstract extends GameViewAbstract implements SurfaceHolder.Callback {
+public class GamePanelMultiplayer extends GameVieew implements SurfaceHolder.Callback {
+
+    public static final int PORT = 12371;
 
     private List<Client> initializedClientsToOtherGameInstances = new ArrayList<>();
-    private SynchronousQueue arrivingMessages = new SynchronousQueue();
+    private SynchronousQueue<TransmissionMessage> arrivingMessages = new SynchronousQueue();
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    public GamePanelMultiplayerAbstract(Context context, GameMapEnum mapToCreate) {
+    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate) {
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;

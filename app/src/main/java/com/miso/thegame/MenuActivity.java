@@ -43,6 +43,11 @@ public class MenuActivity extends Activity {
         startActivity(this.gameIntent);
     }
 
+    public void newMultiplayerGame(View view){
+        this.gameIntent = new Intent(this, MultiplayerLobby.class);
+        startActivity(this.gameIntent);
+    }
+
     public void resumeGameClick(View view){
         try {
             startActivity(this.gameIntent);

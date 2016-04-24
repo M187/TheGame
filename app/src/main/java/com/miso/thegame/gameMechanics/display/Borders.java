@@ -7,7 +7,7 @@ import android.graphics.Paint;
 
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
-import com.miso.thegame.gameViews.GameViewAbstract;
+import com.miso.thegame.gameViews.GameVieew;
 
 /**
  * Created by Miso on 17.11.2015.
@@ -28,16 +28,16 @@ public class Borders{
 
     public void draw(Canvas canvas){
         if (anchor.getX() < 0 ){
-            canvas.drawLine((float)Math.abs(anchor.getX()),0,(float)Math.abs(anchor.getX()), GameViewAbstract.HEIGHT, paint);
+            canvas.drawLine((float)Math.abs(anchor.getX()),0,(float)Math.abs(anchor.getX()), GameVieew.HEIGHT, paint);
         }
-        if (anchor.getX() > MapManager.getWorldWidth() - GameViewAbstract.WIDTH){
-            canvas.drawLine((float) MapManager.getWorldWidth() - anchor.getX(), 0, (float) MapManager.getWorldWidth() - anchor.getX(), GameViewAbstract.HEIGHT, paint);
+        if (anchor.getX() > MapManager.getWorldWidth() - GameVieew.WIDTH){
+            canvas.drawLine((float) MapManager.getWorldWidth() - anchor.getX(), 0, (float) MapManager.getWorldWidth() - anchor.getX(), GameVieew.HEIGHT, paint);
         }
         if (anchor.getY() < 0){
-            canvas.drawLine(0,(float)Math.abs(anchor.getY()), GameViewAbstract.WIDTH,(float)Math.abs(anchor.getY()), paint);
+            canvas.drawLine(0,(float)Math.abs(anchor.getY()), GameVieew.WIDTH,(float)Math.abs(anchor.getY()), paint);
         }
-        if (anchor.getY() > MapManager.getWorldHeight() - GameViewAbstract.HEIGHT){
-            canvas.drawLine(0,(float) MapManager.getWorldHeight() - anchor.getY(), GameViewAbstract.WIDTH, (float) MapManager.getWorldHeight() - anchor.getY(), paint);
+        if (anchor.getY() > MapManager.getWorldHeight() - GameVieew.HEIGHT){
+            canvas.drawLine(0,(float) MapManager.getWorldHeight() - anchor.getY(), GameVieew.WIDTH, (float) MapManager.getWorldHeight() - anchor.getY(), paint);
         }
     }
 }

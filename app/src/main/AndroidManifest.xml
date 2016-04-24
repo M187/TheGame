@@ -28,6 +28,11 @@
             android:label="PlayerOptions"
             android:screenOrientation="landscape">
         </activity>
+        <activity
+            android:name=".MultiplayerLobby"
+            android:label="MultiplayerLobby"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

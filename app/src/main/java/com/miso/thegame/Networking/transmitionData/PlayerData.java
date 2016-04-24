@@ -20,4 +20,8 @@ public class PlayerData extends TransmissionMessage{
     public Actions getAction() {
         return action;
     }
+
+    public String getPacket(){
+        return "Message not defined yet!";
+    }
 }
