@@ -20,9 +20,9 @@ import java.net.Socket;
  */
 public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
 
-    Socket myClient;
-    String hostname;
-    int portNumber;
+    private Socket myClient;
+    private String hostname;
+    private int portNumber;
     DataInputStream dataInputStream;
     String recievedFrameData;
 
@@ -31,6 +31,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
         this.portNumber = portNumber;
     }
 
+    @Override
     public Boolean doInBackground(TransmissionMessage...a){
         try {
             if (this.myClient == null) {
@@ -75,6 +76,6 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
     public void teardown(){
         try {
             this.myClient.close();
-        } catch (IOException e){}
+        } catch (Exception e){}
     }
 }
