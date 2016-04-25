@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.miso.thegame.Networking.Client;
 import com.miso.thegame.Networking.PlayerClientPOJO;
-import com.miso.thegame.Networking.server.GameLobbyMessageProcessorThread;
+import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.Networking.server.GameLobbyServerLogicThread;
 import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
@@ -28,12 +28,12 @@ public class MultiplayerLobby extends Activity {
 
     private SynchronousQueue<TransmissionMessage> transmissionMessages = new SynchronousQueue<>();
     private Server server;
-    private Thread serverThread, lobbyMessageProcessorThread;
+    private Thread serverThread, GameLobbyServerLogicThread, clientThread;
     private List<PlayerClientPOJO> registeredClients = new ArrayList<>();
 
     private Client clientConnectionToServer;
 
-    private GameLobbyMessageProcessorThread lobbyMessageProcessor = new GameLobbyMessageProcessorThread(transmissionMessages, registeredClients);
+    private GameLobbyServerLogicThread lobbyServer = new GameLobbyServerLogicThread(transmissionMessages, registeredClients);
 
     private boolean hosting = false;
     private boolean gameJoined = false;
@@ -43,7 +43,8 @@ public class MultiplayerLobby extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startServerThreads(12371);
+        this.GameLobbyServerLogicThread = new Thread(this.lobbyServer);
+        startServerThread(12371);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.multiplayer_lobby_layout);
@@ -55,8 +56,8 @@ public class MultiplayerLobby extends Activity {
         try {
             this.server.terminate();
             this.serverThread.join();
-            this.lobbyMessageProcessor.terminate();
-            this.lobbyMessageProcessorThread.join();
+            this.lobbyServer.terminate();
+            this.GameLobbyServerLogicThread.join();
         } catch (InterruptedException e) {
         }
         saveConnectedPlayerData();
@@ -67,12 +68,10 @@ public class MultiplayerLobby extends Activity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void startServerThreads(int port) {
+    private void startServerThread(int port) {
         this.server = new Server(port, this.transmissionMessages);
         this.serverThread = new Thread(this.server);
         serverThread.start();
-        this.lobbyMessageProcessorThread = new Thread(this.lobbyMessageProcessor);
-        this.lobbyMessageProcessorThread.start();
     }
 
     public void hostClick(View view){
@@ -82,8 +81,11 @@ public class MultiplayerLobby extends Activity {
             ((Button) findViewById(R.id.button_host)).setText("HOST");
 
             ((Button) findViewById(R.id.button_join)).setEnabled(true);
-            ((Button) findViewById(R.id.button_ready)).setEnabled(true);
-            ((Button) findViewById(R.id.button_abandon)).setEnabled(true);
+
+            try {
+                this.lobbyServer.terminate();
+                this.GameLobbyServerLogicThread.join();
+            } catch (InterruptedException e){}
 
             this.hosting = false;
         } else {
@@ -92,35 +94,64 @@ public class MultiplayerLobby extends Activity {
             ((Button) findViewById(R.id.button_host)).setText("UN-HOST");
 
             ((Button) findViewById(R.id.button_join)).setEnabled(false);
-            ((Button) findViewById(R.id.button_ready)).setEnabled(false);
-            ((Button) findViewById(R.id.button_abandon)).setEnabled(false);
+
+            this.GameLobbyServerLogicThread.start();
 
             this.hosting = true;
         }
     }
 
     public void joinClick(View view) {
-        EditText iP = (EditText) findViewById(R.id.ip);
-        EditText port = (EditText) findViewById(R.id.port);
-        EditText nickName = (EditText) findViewById(R.id.player_nickname);
 
-        TransmissionMessage joinReq = new JoinGameLobbyMessage(nickName.getText().toString());
+        if (!gameJoined) {
+            EditText iP = (EditText) findViewById(R.id.ip);
+            EditText port = (EditText) findViewById(R.id.port);
+            EditText nickName = (EditText) findViewById(R.id.player_nickname);
 
-        this.clientConnectionToServer = new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()));
-        this.clientConnectionToServer.sendDataToServer(joinReq);
+            TransmissionMessage joinReq = new JoinGameLobbyMessage(nickName.getText().toString());
+
+            System.out.println("---- > Trying to connect to " + iP.getText().toString());
+            this.clientConnectionToServer = new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()));
+            this.clientConnectionToServer.execute(joinReq);
+
+            //todo: add check if client really joins game!
+            ((Button) findViewById(R.id.button_join)).setEnabled(false);
+            ((Button) findViewById(R.id.button_ready)).setEnabled(true);
+            ((Button) findViewById(R.id.button_abandon)).setEnabled(true);
+            ((Button) findViewById(R.id.button_host)).setEnabled(false);
+            this.gameJoined = true;
+        }
     }
 
     public void readyClick(View view){
         if (readyForGame){
             ((Button) findViewById(R.id.button_ready)).setText("READY");
             //todo: send ready signal
+            this.readyForGame = false;
         } else {
             ((Button) findViewById(R.id.button_ready)).setText("UN-READY");
             //todo send un-ready signal
+            this.readyForGame = true;
         }
     }
 
-    public void abandonClick(View view){}
+    public void abandonClick(View view){
+        if (gameJoined) {
+            ((Button) findViewById(R.id.button_join)).setEnabled(true);
+            ((Button) findViewById(R.id.button_ready)).setEnabled(false);
+            ((Button) findViewById(R.id.button_abandon)).setEnabled(false);
+            ((Button) findViewById(R.id.button_host)).setEnabled(true);
+            if (readyForGame){
+                ((Button) findViewById(R.id.button_ready)).setText("READY");
+                //todo: send ready signal
+                this.readyForGame = false;
+            }
+
+            this.clientConnectionToServer.teardown();
+            this.clientConnectionToServer = null;
+            this.gameJoined = false;
+        }
+    }
 
     public void saveConnectedPlayerData() {
         SharedPreferences.Editor editor = getPreferences(0).edit();

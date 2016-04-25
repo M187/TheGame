@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
-import com.miso.thegame.Networking.Client;
+import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameMechanics.MainThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;

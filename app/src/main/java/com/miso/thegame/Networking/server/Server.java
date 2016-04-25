@@ -51,7 +51,7 @@ public class Server implements Runnable{
                 receivedMessage = inFromClient.readLine();
                 this.messageHolder.add(messageProcessor.processIncomingMessage(receivedMessage, connectionSocket.getRemoteSocketAddress()));
 
-                System.out.println("Received: " + receivedMessage);
+                System.out.println(" --- > Received: " + receivedMessage);
             } catch (IOException e){
                 e.printStackTrace();
             }

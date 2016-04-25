@@ -94,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="READY"
+                    android:enabled="false"
                     android:onClick="readyClick"/>
 
                 <Button
@@ -102,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="ABANDON"
+                    android:enabled="false"
                     android:onClick="abandonClick"/>
 
             </LinearLayout>
@@ -115,9 +117,9 @@
 
                 <EditText
                     android:id="@+id/ip"
-                    android:layout_width="350px"
+                    android:layout_width="400px"
                     android:layout_height="wrap_content"
-                    android:text="" />
+                    android:text="10.0.2.2" />
 
                 <TextView
                     android:id="@+id/textView6"
@@ -130,7 +132,7 @@
 
                 <EditText
                     android:id="@+id/port"
-                    android:layout_width="200px"
+                    android:layout_width="150px"
                     android:layout_height="wrap_content"
                     android:text="12371" />
             </LinearLayout>

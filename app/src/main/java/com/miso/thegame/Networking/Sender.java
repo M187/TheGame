@@ -1,5 +1,6 @@
 package com.miso.thegame.Networking;
 
+import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
 

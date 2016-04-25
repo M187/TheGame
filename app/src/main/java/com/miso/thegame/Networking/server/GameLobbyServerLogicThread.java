@@ -18,7 +18,7 @@ import java.util.concurrent.SynchronousQueue;
  * Once message has been processed, pop it out.
  */
 
-public class GameLobbyMessageProcessorThread implements Runnable {
+public class GameLobbyServerLogicThread implements Runnable {
 
     private volatile boolean running = true;
     private volatile boolean startGame = false;
@@ -27,7 +27,7 @@ public class GameLobbyMessageProcessorThread implements Runnable {
     private SynchronousQueue<TransmissionMessage> transmissionMessages;
     private List<PlayerClientPOJO> joinedPlayers = new ArrayList<>();
 
-    public GameLobbyMessageProcessorThread(SynchronousQueue<TransmissionMessage> messagesStack, List<PlayerClientPOJO> joinedPlayers) {
+    public GameLobbyServerLogicThread(SynchronousQueue<TransmissionMessage> messagesStack, List<PlayerClientPOJO> joinedPlayers) {
         this.joinedPlayers = joinedPlayers;
         this.transmissionMessages = messagesStack;
     }
