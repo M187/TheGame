@@ -5,31 +5,32 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
 /**
  * Created by Miso on 22.4.2016.
+ * todo: redundant message?
  */
 public class OtherPlayerDataMessage extends TransmissionMessage {
 
-    private String myComputerName;
-    private String myNicnkname;
+    private String computerName;
+    private String nickname;
 
     public OtherPlayerDataMessage(PlayerClientPOJO playerClientData){
-        this.myNicnkname = playerClientData.getId();
-        this.myComputerName = playerClientData.getHostName();
+        this.nickname = playerClientData.getId();
+        this.computerName = playerClientData.getHostName();
     }
 
-    public OtherPlayerDataMessage(String myNicnkname, String hostName){
-        this.myNicnkname = myNicnkname;
-        this.myComputerName = hostName;
+    public OtherPlayerDataMessage(String nickname, String hostName){
+        this.nickname = nickname;
+        this.computerName = hostName;
     }
 
     public String getPacket(){
-        return "02|" + this.myNicnkname + "|" + this.myComputerName;
+        return "02|" + this.nickname + "|" + this.computerName;
     }
 
-    public String getMyComputerName() {
-        return myComputerName;
+    public String getComputerName() {
+        return computerName;
     }
 
-    public String getMyNicnkname() {
-        return myNicnkname;
+    public String getNickname() {
+        return nickname;
     }
 }

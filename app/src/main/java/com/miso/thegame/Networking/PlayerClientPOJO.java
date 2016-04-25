@@ -20,5 +20,12 @@ public class PlayerClientPOJO {
     public String getId() {
         return id;
     }
+
+    public static PlayerClientPOJO getClientDataFromExtrasString(String playerData){
+        return new PlayerClientPOJO(playerData.split("|")[1], playerData.split("|")[0]);
+    }
+    public String getStringForExtras(){
+        return (this.id + "|" + this.hostName);
+    }
 }
 

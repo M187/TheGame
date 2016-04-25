@@ -1,4 +1,6 @@
-package com.miso.thegame.Networking.transmitionData;
+package com.miso.thegame.Networking.transmitionData.ingameMessages;
+
+import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
 /**
  * Created by michal.hornak on 20.04.2016.

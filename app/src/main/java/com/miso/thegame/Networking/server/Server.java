@@ -1,5 +1,7 @@
 package com.miso.thegame.Networking.server;
 
+import com.miso.thegame.Networking.MessageProcessor;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +19,7 @@ public class Server implements Runnable{
     ServerSocket myService;
     SynchronousQueue messageHolder;
     MessageProcessor messageProcessor = new MessageProcessor();
+    private volatile boolean running = true;
 
     public Server(int port, SynchronousQueue messageHolder) {
         this.messageHolder = messageHolder;
@@ -25,6 +28,10 @@ public class Server implements Runnable{
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    public void terminate(){
+        this.running = false;
     }
 
     public void run(){
@@ -37,12 +44,12 @@ public class Server implements Runnable{
     private void listen() {
         String receivedMessage;
 
-        while (true) {
+        while (running) {
             try {
                 Socket connectionSocket = this.myService.accept();
                 BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 receivedMessage = inFromClient.readLine();
-                this.messageHolder.add(messageProcessor.processIncomingMessage(receivedMessage));
+                this.messageHolder.add(messageProcessor.processIncomingMessage(receivedMessage, connectionSocket.getRemoteSocketAddress()));
 
                 System.out.println("Received: " + receivedMessage);
             } catch (IOException e){
