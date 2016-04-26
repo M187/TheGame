@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------
+Execute following to forward port:
+
+// My location of adb.exe. Home PC.
+cd E:\Android\Sdk\platform-tools
+//command itself - tcp:localPcPort tcp:emulatorPort
+adb forward tcp:12371 tcp:12371
+
+-------------------------------------------------------------------------
