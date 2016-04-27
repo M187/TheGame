@@ -1,5 +1,7 @@
 package com.miso.thegame.Networking.server;
 
+import android.os.AsyncTask;
+
 import com.miso.thegame.Networking.MessageProcessor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
@@ -15,7 +17,7 @@ import java.util.List;
  *
  * Server runnable class. Should wait for received messages and save them into Synch. Que.
  */
-public class Server implements Runnable{
+public class Server extends AsyncTask<Void, Void, Void>{
 
     ServerSocket myService;
     private volatile List<TransmissionMessage>  messageHolder;
@@ -38,7 +40,7 @@ public class Server implements Runnable{
     /**
      * Method to listen for incoming messages and connections. Should be used in its own thread.
      */
-    public void run() {
+    public Void doInBackground(Void...params) {
         while (running) {
             String receivedMessage;
             try {
@@ -46,7 +48,9 @@ public class Server implements Runnable{
                 BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 receivedMessage = inFromClient.readLine();
                 inFromClient.close();
-                this.messageHolder.add(messageProcessor.processIncomingMessage(receivedMessage, connectionSocket.getRemoteSocketAddress()));
+                try {
+                    this.messageHolder.add(messageProcessor.processIncomingMessage(receivedMessage, connectionSocket.getRemoteSocketAddress()));
+                } catch (NullPointerException e){}
 
                 System.out.println(" --- > Received: " + receivedMessage);
 
@@ -55,5 +59,6 @@ public class Server implements Runnable{
                 e.printStackTrace();
             }
         }
+        return null;
     }
 }

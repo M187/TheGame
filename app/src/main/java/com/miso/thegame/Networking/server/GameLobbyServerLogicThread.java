@@ -7,7 +7,6 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlaye
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by michal.hornak on 24.04.2016.
@@ -22,12 +21,11 @@ public class GameLobbyServerLogicThread implements Runnable {
 
     private volatile boolean running = true;
     private volatile boolean startGame = false;
-    private volatile boolean serverMode = false;
 
-    private SynchronousQueue<TransmissionMessage> transmissionMessages;
+    private volatile List<TransmissionMessage> transmissionMessages;
     private List<PlayerClientPOJO> joinedPlayers = new ArrayList<>();
 
-    public GameLobbyServerLogicThread(SynchronousQueue<TransmissionMessage> messagesStack, List<PlayerClientPOJO> joinedPlayers) {
+    public GameLobbyServerLogicThread(List<TransmissionMessage> messagesStack, List<PlayerClientPOJO> joinedPlayers) {
         this.joinedPlayers = joinedPlayers;
         this.transmissionMessages = messagesStack;
     }
@@ -35,54 +33,36 @@ public class GameLobbyServerLogicThread implements Runnable {
     //<editor-fold desc="Thread teardown methods - start game, abandon lobby etc.">
     public void terminate() {
         this.running = false;
-        if (this.serverMode = true) {
-            //todo: inform clients that lobby was dismantled by server(me).
-        }
     }
+
     public void sendStartGameSignal(){
         this.startGame = true;
         this.running = false;
     }
-    public void serverModeEnabled(){
-        this.serverMode = true;
-    }
-    public void serverModeDisabled(){
-        this.serverMode = false;
-    }
+
     //</editor-fold>
 
     public void run() {
         while (this.running) {
             checkIncomingMessages();
         }
-        if (this.startGame && this.serverMode){
-            //todo: As a server you should send all registered clients "start game" message, and start actual game yourself.
-        } else if (this.startGame && !this.serverMode){
-            //todo: As a client, you should just start game as instructed by server.
-        }
     }
 
     private void checkIncomingMessages() {
         try {
-            processIncomingMessages(transmissionMessages.take());
-        } catch (InterruptedException e){}
+            processIncomingMessages(transmissionMessages.get(0));
+            transmissionMessages.remove(0);
+        } catch (IndexOutOfBoundsException e){}
     }
 
     private void processIncomingMessages(JoinGameLobbyMessage joinGameLobbyMessage) {
-        if (serverMode = true) {
-            this.joinedPlayers.add(new PlayerClientPOJO(joinGameLobbyMessage.getComputerName(), joinGameLobbyMessage.getNickname()));
-            //todo: inform other clients that new player joined game lobby
-        } else {
-            System.out.println("-> Instance received join request but not in server mode.");
-        }
+        this.joinedPlayers.add(new PlayerClientPOJO(joinGameLobbyMessage.getComputerName(), joinGameLobbyMessage.getNickname()));
+        //todo: inform other clients that new player joined game lobby
+
     }
 
     private void processIncomingMessages(OtherPlayerDataMessage otherPlayerDataMessage) {
-        if (this.serverMode = true){
             System.out.println("-> Instance received other player data message but is running as a server.");
-        } else {
-            this.joinedPlayers.add(new PlayerClientPOJO(otherPlayerDataMessage.getComputerName(), otherPlayerDataMessage.getNickname()));
-        }
     }
 
     private void processIncomingMessages(TransmissionMessage transmissionMessage) {

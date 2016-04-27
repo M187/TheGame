@@ -13,20 +13,18 @@ public class JoinGameLobbyMessage extends TransmissionMessage {
     private String nickname;
 
     public JoinGameLobbyMessage(String nickname){
-        this.transactionType = "01";
+        this.transmissionType = "01";
         this.nickname = nickname;
     }
 
     public JoinGameLobbyMessage(String nickname, String hostName){
-        this.transactionType = "01";
+        this.transmissionType = "01";
         this.computerName = hostName;
         this.nickname = nickname;
     }
 
-
-
     public String getPacket(){
-        return this.transactionType + "|" + this.getNickname();
+        return this.transmissionType + "|" + this.getNickname();
     }
 
     public String getNickname() {

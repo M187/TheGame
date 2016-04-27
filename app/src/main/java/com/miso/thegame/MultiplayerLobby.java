@@ -2,6 +2,8 @@ package com.miso.thegame;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,21 +21,20 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLo
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by Miso on 24.4.2016.
  */
 public class MultiplayerLobby extends Activity {
 
-    private SynchronousQueue<TransmissionMessage> transmissionMessages = new SynchronousQueue<>();
+    private volatile List<TransmissionMessage> transmissionMessages = new ArrayList<>();
     private Server server;
-    private Thread serverThread, GameLobbyServerLogicThread, clientThread;
+    private Thread GameLobbyServerLogicThread;
     private List<PlayerClientPOJO> registeredClients = new ArrayList<>();
 
     private Client clientConnectionToServer;
 
-    private GameLobbyServerLogicThread lobbyServer = new GameLobbyServerLogicThread(transmissionMessages, registeredClients);
+    private GameLobbyServerLogicThread lobbyServerLogic = new GameLobbyServerLogicThread(transmissionMessages, registeredClients);
 
     private boolean hosting = false;
     private boolean gameJoined = false;
@@ -43,8 +44,12 @@ public class MultiplayerLobby extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.GameLobbyServerLogicThread = new Thread(this.lobbyServer);
-        startServerThread(12371);
+        this.server = new Server(12371, this.transmissionMessages);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            this.server.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            this.server.execute();
+        }
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.multiplayer_lobby_layout);
@@ -55,12 +60,13 @@ public class MultiplayerLobby extends Activity {
         super.onStop();
         try {
             this.server.terminate();
-            this.serverThread.join();
-            this.lobbyServer.terminate();
-            this.GameLobbyServerLogicThread.join();
+            try {
+                this.lobbyServerLogic.terminate();
+                this.GameLobbyServerLogicThread.join();
+            } catch (NullPointerException e) {
+            }
         } catch (InterruptedException e) {
         }
-        saveConnectedPlayerData();
     }
 
     @Override
@@ -69,34 +75,35 @@ public class MultiplayerLobby extends Activity {
     }
 
     private void startServerThread(int port) {
-        this.server = new Server(port, this.transmissionMessages);
-        this.serverThread = new Thread(this.server);
-        serverThread.start();
+        this.GameLobbyServerLogicThread = new Thread(this.lobbyServerLogic);
+        this.GameLobbyServerLogicThread.start();
     }
 
-    public void hostClick(View view){
-        if (this.hosting){
+    private void stopServerThread() {
+        this.server.terminate();
+        this.lobbyServerLogic.terminate();
+        try {
+            this.GameLobbyServerLogicThread.join();
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public void hostClick(View view) {
+        if (this.hosting) {
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Not hosting any game!");
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             ((Button) findViewById(R.id.button_host)).setText("HOST");
-
             ((Button) findViewById(R.id.button_join)).setEnabled(true);
 
-            try {
-                this.lobbyServer.terminate();
-                this.GameLobbyServerLogicThread.join();
-            } catch (InterruptedException e){}
-
+            stopServerThread();
             this.hosting = false;
         } else {
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Hosting Game!");
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             ((Button) findViewById(R.id.button_host)).setText("UN-HOST");
-
             ((Button) findViewById(R.id.button_join)).setEnabled(false);
 
-            this.GameLobbyServerLogicThread.start();
-
+            startServerThread(12371);
             this.hosting = true;
         }
     }
@@ -112,7 +119,12 @@ public class MultiplayerLobby extends Activity {
 
             System.out.println("---- > Trying to connect to " + iP.getText().toString());
             this.clientConnectionToServer = new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()));
-            this.clientConnectionToServer.execute(joinReq);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, joinReq);
+            } else {
+                this.clientConnectionToServer.execute(joinReq);
+            }
 
             //todo: add check if client really joins game!
             ((Button) findViewById(R.id.button_join)).setEnabled(false);
@@ -123,8 +135,8 @@ public class MultiplayerLobby extends Activity {
         }
     }
 
-    public void readyClick(View view){
-        if (readyForGame){
+    public void readyClick(View view) {
+        if (readyForGame) {
             ((Button) findViewById(R.id.button_ready)).setText("READY");
             //todo: send ready signal
             this.readyForGame = false;
@@ -135,13 +147,13 @@ public class MultiplayerLobby extends Activity {
         }
     }
 
-    public void abandonClick(View view){
+    public void abandonClick(View view) {
         if (gameJoined) {
             ((Button) findViewById(R.id.button_join)).setEnabled(true);
             ((Button) findViewById(R.id.button_ready)).setEnabled(false);
             ((Button) findViewById(R.id.button_abandon)).setEnabled(false);
             ((Button) findViewById(R.id.button_host)).setEnabled(true);
-            if (readyForGame){
+            if (readyForGame) {
                 ((Button) findViewById(R.id.button_ready)).setText("READY");
                 //todo: send ready signal
                 this.readyForGame = false;

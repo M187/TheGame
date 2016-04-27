@@ -12,11 +12,11 @@ package com.miso.thegame.Networking.transmitionData;
  */
 public abstract class TransmissionMessage {
 
-    protected String transactionType = "00";
+    protected String transmissionType = "00";
 
     //do it as an enum
     public String getTransmissionType(){
-        return this.transactionType;
+        return this.transmissionType;
     }
 
     public abstract  String getPacket();

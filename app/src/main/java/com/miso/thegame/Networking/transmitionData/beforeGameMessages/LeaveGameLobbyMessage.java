@@ -11,19 +11,18 @@ public class LeaveGameLobbyMessage extends TransmissionMessage {
     private String nickname;
 
     public LeaveGameLobbyMessage(String nickname) {
-        this.transactionType = "03";
+        this.transmissionType = "03";
         this.nickname = nickname;
     }
 
     public LeaveGameLobbyMessage(String nickname, String hostName) {
-        this.transactionType = "03";
+        this.transmissionType = "03";
         this.computerName = hostName;
         this.nickname = nickname;
     }
 
-
     public String getPacket() {
-        return this.transactionType + "|" + this.getNickname();
+        return this.transmissionType + "|" + this.getNickname();
     }
 
     public String getNickname() {
