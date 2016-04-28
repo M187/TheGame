@@ -13,7 +13,7 @@ import java.net.SocketAddress;
 /**
  * Created by Miso on 22.4.2016.
  */
-public class MessageProcessor {
+public class IncomingMessageParser {
 
     public TransmissionMessage processIncomingMessage(String recievedMessages, SocketAddress clientAddress){
 

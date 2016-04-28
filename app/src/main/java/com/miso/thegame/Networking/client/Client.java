@@ -2,6 +2,7 @@ package com.miso.thegame.Networking.client;
 
 import android.os.AsyncTask;
 
+import com.miso.thegame.Networking.PlayerClientPOJO;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
 import java.io.BufferedReader;
@@ -21,28 +22,34 @@ import java.net.Socket;
 public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
 
     private Socket myClient;
-    private String hostname;
+    private String hostName;
+    private String nickname;
     private int portNumber;
     DataInputStream dataInputStream;
     String recievedFrameData;
 
-    public Client(String hostname, int portNumber) {
-        this.hostname = hostname;
+    public Client(String hostName, int portNumber, String nickname) {
+        this.nickname = nickname;
+        this.hostName = hostName;
         this.portNumber = portNumber;
+    }
+
+    public boolean equals(Client client){
+        return (this.hostName == client.hostName && this.nickname == client.nickname && this.portNumber == client.portNumber);
     }
 
     @Override
     public Boolean doInBackground(TransmissionMessage...a){
         try {
             if (this.myClient == null) {
-                this.myClient = new Socket(this.hostname, this.portNumber);
+                this.myClient = new Socket(this.hostName, this.portNumber);
                 System.out.println(" --- > Connection to server established!");
             }
             sendDataToServer(a[0]);
             return true;
         } catch (IOException e) {
             try {
-                this.myClient = new Socket(this.hostname, this.portNumber);
+                this.myClient = new Socket(this.hostName, this.portNumber);
             } catch (IOException ex){return false;}
             sendDataToServer(a[0]);
             return true;
@@ -77,5 +84,12 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
         try {
             this.myClient.close();
         } catch (Exception e){}
+    }
+
+    public PlayerClientPOJO getPlayerClientPojo(){
+        return new PlayerClientPOJO(this.hostName, this.nickname);
+    }
+    public String getStringForExtras(){
+        return (this.nickname + "|" + this.hostName + ":" + this.portNumber);
     }
 }
