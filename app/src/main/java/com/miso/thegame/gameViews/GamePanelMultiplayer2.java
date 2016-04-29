@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
+import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameMechanics.MainThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
@@ -23,21 +25,32 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+
 /**
  * Created by Miso on 8.10.2015.
+ *
+ * Copy of GamePanel. Reworked to support multiplayer functionality.
  */
-public class GamePanelSingleplayer extends GameVieew implements SurfaceHolder.Callback {
+public class GamePanelMultiplayer2 extends GameView2 implements SurfaceHolder.Callback {
+
+    public static final int PORT = 12371;
+
+    private List<Client> initializedClientsToOtherGameInstances = new ArrayList<>();
+    private SynchronousQueue<TransmissionMessage> arrivingMessages = new SynchronousQueue();
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate) {
+    public GamePanelMultiplayer2(Context context, GameMapEnum mapToCreate) {
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;
-        this.thread = new MainThread(getHolder(), this);
+        thread = new MainThread(getHolder(), this);
         getHolder().addCallback(this);
     }
 

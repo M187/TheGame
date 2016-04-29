@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameViews.GameVieew;
+import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 21.12.2015.
@@ -19,8 +19,8 @@ public class PlayerStatusBar {
     public PlayerStatusBar(Player player){
         this.player = player;
         //todo - this needs to be generic ↓↓
-        this.xDrawCoord = GameVieew.WIDTH / 2 - 350;
-        this.yDrawCoord = GameVieew.HEIGHT - 140;
+        this.xDrawCoord = GameView2.WIDTH / 2 - 350;
+        this.yDrawCoord = GameView2.HEIGHT - 140;
     }
 
     public void draw(Canvas canvas){

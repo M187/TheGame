@@ -3,7 +3,7 @@ package com.miso.thegame.gameMechanics;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import com.miso.thegame.gameViews.GameVieew;
+import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 8.10.2015.
@@ -13,12 +13,12 @@ public class MainThread extends Thread {
     private int FPS = 30;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
-    private GameVieew gamePanel;
+    private GameView2 gamePanel;
     private boolean running;
     public static Canvas canvas;
     private int logIterator = 0;
 
-    public MainThread(SurfaceHolder surfaceHolder, GameVieew gamePanel){
+    public MainThread(SurfaceHolder surfaceHolder, GameView2 gamePanel){
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;

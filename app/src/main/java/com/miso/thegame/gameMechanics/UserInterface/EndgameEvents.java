@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameViews.GameVieew;
+import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by michal.hornak on 30.12.2015.
@@ -19,8 +19,8 @@ public class EndgameEvents {
 
     public EndgameEvents(Resources res){
         this.endgamePopup = BitmapFactory.decodeResource(res, R.drawable.gameover);
-        this.xDrawCoord = (GameVieew.WIDTH / 2) - (endgamePopup.getWidth() / 2);
-        this.yDrawCoord = (GameVieew.HEIGHT / 2) - (endgamePopup.getHeight() / 2);
+        this.xDrawCoord = (GameView2.WIDTH / 2) - (endgamePopup.getWidth() / 2);
+        this.yDrawCoord = (GameView2.HEIGHT / 2) - (endgamePopup.getHeight() / 2);
     }
 
     public void draw(Canvas canvas){

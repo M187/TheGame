@@ -9,8 +9,8 @@ import android.view.WindowManager;
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameViews.GamePanelMultiplayer;
-import com.miso.thegame.gameViews.GamePanelSingleplayer;
+import com.miso.thegame.gameViews.GamePanelMultiplayer2;
+import com.miso.thegame.gameViews.GamePanelSingleplayer2;
 
 
 public class GameActivity extends Activity {
@@ -60,9 +60,9 @@ public class GameActivity extends Activity {
      */
     private void createGameView(GameMapEnum mapToCreate){
         if(getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance)){
-            setContentView(new GamePanelMultiplayer(this, mapToCreate));
+            setContentView(new GamePanelMultiplayer2(this, mapToCreate));
         } else {
-            setContentView(new GamePanelSingleplayer(this, mapToCreate));
+            setContentView(new GamePanelSingleplayer2(this, mapToCreate));
         }
     }
 

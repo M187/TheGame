@@ -9,7 +9,7 @@ import android.graphics.Paint;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
-import com.miso.thegame.gameViews.GameVieew;
+import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 6.11.2015.
@@ -20,7 +20,7 @@ public abstract class ButtonPlaceholder {
     protected long lastUse;
     protected Bitmap image;
     public int xDrawCoord = 50;
-    public int yDrawCoord = GameVieew.HEIGHT;
+    public int yDrawCoord = GameView2.HEIGHT;
     public int iteratorToDrawXAxis;
     public int iteratorToDrawYAxis;
     protected static final Paint paint = new Paint();

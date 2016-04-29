@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.gameViews.GameVieew;
+import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,7 +33,7 @@ public class StaticAnimationManager {
 
     public void draw(Canvas canvas){
         for(StaticAnimation animation : staticAnimationsList){
-            GameVieew.drawManager.drawOnDisplay(animation, canvas);
+            GameView2.drawManager.drawOnDisplay(animation, canvas);
         }
     }
 }

@@ -1,14 +1,18 @@
 package com.miso.thegame.Networking.transmitionData;
 
 /**
- * Created by michal.hornak on 21.04.2016.
- *
- * types of message:
- *      01 join message
- *      02 other player data
- *      03 ready to play
- *      04 start game
- *
+ * Types of messages: <br>
+ *      --- <br>
+ *      01 join message <br>
+ *      02 other player join data <br>
+ *      03 ready to play <br>
+ *      04 start game <br>
+ *      --- <br>
+ *      05 UnReady to play <br>
+ *      06 leave game <br>
+ *      07 other player leave game <br>
+ *      08 disband game <br>
+ *      --- <br>
  */
 public abstract class TransmissionMessage {
 
@@ -19,5 +23,5 @@ public abstract class TransmissionMessage {
         return this.transmissionType;
     }
 
-    public abstract  String getPacket();
+    public abstract String getPacket();
 }

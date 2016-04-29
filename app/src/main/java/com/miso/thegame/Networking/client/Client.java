@@ -27,6 +27,11 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
     private int portNumber;
     DataInputStream dataInputStream;
     String recievedFrameData;
+    public boolean isReadyForGame = false;
+
+    public Client(String nickname){
+        this.nickname = nickname;
+    }
 
     public Client(String hostName, int portNumber, String nickname) {
         this.nickname = nickname;
@@ -34,11 +39,23 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
         this.portNumber = portNumber;
     }
 
-    public boolean equals(Client client){
-        return (this.hostName == client.hostName && this.nickname == client.nickname && this.portNumber == client.portNumber);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Client)) return false;
+
+        Client client = (Client) o;
+
+        return nickname.equals(client.nickname);
     }
 
     @Override
+    public int hashCode() {
+        return hostName.hashCode();
+    }
+
+    @Override
+
     public Boolean doInBackground(TransmissionMessage...a){
         try {
             if (this.myClient == null) {

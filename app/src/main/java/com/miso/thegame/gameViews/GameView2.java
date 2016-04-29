@@ -26,7 +26,7 @@ import java.util.Random;
 /**
  * Created by michal.hornak on 21.04.2016.
  */
-public abstract class GameVieew extends SurfaceView {
+public abstract class GameView2 extends SurfaceView {
 
     public static final int WIDTH = GameActivity.metrics.widthPixels; // X Axis
     public static final int HEIGHT = GameActivity.metrics.heightPixels; // Y Axis
@@ -50,7 +50,7 @@ public abstract class GameVieew extends SurfaceView {
     public SpellManager spellManager;
     public Toolbar toolbar;
 
-    public GameVieew(Context context){
+    public GameView2(Context context){
         super(context);
     }
 

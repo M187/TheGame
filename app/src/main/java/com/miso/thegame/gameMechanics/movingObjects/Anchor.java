@@ -1,7 +1,7 @@
 package com.miso.thegame.gameMechanics.movingObjects;
 
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameViews.GameVieew;
+import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 1.11.2015.
@@ -25,8 +25,8 @@ public class Anchor {
     public Anchor(Player player, int xCoordSideRange, int yCoordSideRange){
 
         this.player = player;
-        this.setX(player.getX() - (GameVieew.WIDTH / 2));
-        this.setY(player.getY() - (GameVieew.HEIGHT / 2));
+        this.setX(player.getX() - (GameView2.WIDTH / 2));
+        this.setY(player.getY() - (GameView2.HEIGHT / 2));
         this.xCoordSideRange = xCoordSideRange;
         this.yCoordSideRange = yCoordSideRange;
     }
@@ -46,8 +46,8 @@ public class Anchor {
            //player.setX(player.getX() + delta);
         }
         //right
-        if (player.getX() > getX() + GameVieew.WIDTH - getxCoordSideRange()){
-            delta =  player.getX() - (getX() + GameVieew.WIDTH - getxCoordSideRange());
+        if (player.getX() > getX() + GameView2.WIDTH - getxCoordSideRange()){
+            delta =  player.getX() - (getX() + GameView2.WIDTH - getxCoordSideRange());
             setX(getX() + delta);
             //player.setX(player.getX() - delta);
         }
@@ -58,8 +58,8 @@ public class Anchor {
             //player.setY(player.getY() + delta);
         }
         //bottom
-        if (player.getY() > getY() + GameVieew.HEIGHT - getyCoordSideRange() - 100){
-            delta = player.getY() - (getY() + GameVieew.HEIGHT - getyCoordSideRange() - 100);
+        if (player.getY() > getY() + GameView2.HEIGHT - getyCoordSideRange() - 100){
+            delta = player.getY() - (getY() + GameView2.HEIGHT - getyCoordSideRange() - 100);
             setY(getY() + delta);
             //player.setY(player.getY() - delta);
         }
