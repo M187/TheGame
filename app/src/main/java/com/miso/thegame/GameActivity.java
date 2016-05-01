@@ -8,15 +8,19 @@ import android.view.WindowManager;
 
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.OptionStrings;
+import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameViews.GamePanelMultiplayer2;
-import com.miso.thegame.gameViews.GamePanelSingleplayer2;
+import com.miso.thegame.gameViews.GamePanelMultiplayer;
+import com.miso.thegame.gameViews.GamePanelSingleplayer;
+
+import java.util.ArrayList;
 
 
 public class GameActivity extends Activity {
 
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
+    public ArrayList<Client> registeredPlayers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,13 @@ public class GameActivity extends Activity {
 
         createGameView(mapToCreate);
 
-        if (gameOver){this.finish();}
+        if (gameOver) {
+            this.finish();
+        }
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         MenuActivity.isGameOn = false;
         super.onDestroy();
     }
@@ -44,7 +50,7 @@ public class GameActivity extends Activity {
      * Loads player data and saves them into constantHolder class.
      * Later on to be used by game to affect gameObjects.
      */
-    private void loadPlayerData(){
+    private void loadPlayerData() {
         SharedPreferences settings = getSharedPreferences("PlayerOptions", 0);
 
         int maxHealth = settings.getInt(OptionStrings.playerMaxHealth, 0);
@@ -54,15 +60,39 @@ public class GameActivity extends Activity {
     }
 
     /**
+     * Loads connected players data and saves them into arrayList.
+     * Needed for multiplayer game.
+     */
+    private void loadConnectedPlayersNetworkData() {
+        boolean hasMoreData = true;
+        int i = 0;
+        SharedPreferences settings = getSharedPreferences("MultiplayerLobby", 0);
+        while (hasMoreData) {
+            String playerNetworkData = settings.getString("Player" + i + "networkData", "0");
+            if (playerNetworkData.contains("free")) {
+                hasMoreData = false;
+            } else {
+                this.registeredPlayers.add(
+                        new Client(
+                                playerNetworkData.split("//|")[1].split(":")[0],
+                                Integer.parseInt(playerNetworkData.split("//|")[1].split(":")[1]),
+                                playerNetworkData.split("//|")[0]
+                        ));
+            }
+        }
+    }
+
+    /**
      * Creates game view.
      *
      * @param mapToCreate for game instance.
      */
-    private void createGameView(GameMapEnum mapToCreate){
-        if(getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance)){
-            setContentView(new GamePanelMultiplayer2(this, mapToCreate));
+    private void createGameView(GameMapEnum mapToCreate) {
+        if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
+            loadConnectedPlayersNetworkData();
+            setContentView(new GamePanelMultiplayer(this, mapToCreate, this.registeredPlayers));
         } else {
-            setContentView(new GamePanelSingleplayer2(this, mapToCreate));
+            setContentView(new GamePanelSingleplayer(this, mapToCreate));
         }
     }
 
@@ -71,14 +101,18 @@ public class GameActivity extends Activity {
      *
      * @return map for GameView to be created.
      */
-    private GameMapEnum getMapToCreate(){
-        switch (getIntent().getExtras().getString("Level")) {
-            case "Ground":
-                return GameMapEnum.Level2;
-            case "Space":
-                return GameMapEnum.SpaceLevel1;
-            default:
-                return GameMapEnum.BlankMap;
+    private GameMapEnum getMapToCreate() {
+        try {
+            switch (getIntent().getExtras().getString("Level")) {
+                case "Ground":
+                    return GameMapEnum.Level2;
+                case "Space":
+                    return GameMapEnum.SpaceLevel1;
+                default:
+                    return GameMapEnum.BlankMap;
+            }
+        } catch (NullPointerException e){
+            return GameMapEnum.BlankMap;
         }
     }
 }

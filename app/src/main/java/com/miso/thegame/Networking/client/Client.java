@@ -27,6 +27,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
     private int portNumber;
     DataInputStream dataInputStream;
     String recievedFrameData;
+    // Server needs this information
     public boolean isReadyForGame = false;
 
     public Client(String nickname){

@@ -7,3 +7,5 @@ cd E:\Android\Sdk\platform-tools
 adb forward tcp:12371 tcp:12371
 
 -------------------------------------------------------------------------
+
+(new Client("127.0.0.1", 45678, "hiBack")).execute(new OtherPlayerDataMessage("aaa", "bbb"));

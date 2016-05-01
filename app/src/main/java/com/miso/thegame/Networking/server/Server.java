@@ -52,10 +52,11 @@ public class Server extends AsyncTask<Void, Void, Void>{
                 Socket connectionSocket = this.myService.accept();
                 BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 receivedMessage = inFromClient.readLine();
+                // don't close socket in game communication?
                 inFromClient.close();
                 try {
-                    //todo - execute here logic with messageLogicExecutor.
-                    this.incomingMessageParser.processIncomingMessage(receivedMessage, connectionSocket.getRemoteSocketAddress());
+                    messageLogicExecutor.processIncomingMessage(
+                            this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, connectionSocket.getInetAddress()));
                 } catch (NullPointerException e){}
 
                 System.out.println(" --- > Received: " + receivedMessage);
@@ -66,10 +67,6 @@ public class Server extends AsyncTask<Void, Void, Void>{
             }
         }
         return null;
-    }
-
-    public MessageLogicExecutor getMessageLogicExecutor() {
-        return messageLogicExecutor;
     }
 
     public void setMessageLogicExecutor(MessageLogicExecutor messageLogicExecutor) {

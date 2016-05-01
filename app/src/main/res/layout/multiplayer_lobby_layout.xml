@@ -14,45 +14,64 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15px">
+            android:layout_margin="15px"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical">
             <EditText
                 android:id="@+id/player_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|top"
+                android:layout_marginBottom="30px"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="nickname" />
-            <Button
-                android:id="@+id/button_host"
+
+            <TextView
+                android:id="@+id/textinfo_hosting_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Not hosting any game!"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/holo_green_dark" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="HOST"
-                android:onClick="hostClick"/>
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/holo_green_dark"
-                android:text="Not hosting any game!"
-                android:id="@+id/textinfo_hosting_game"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/button_host"
-                android:layout_toStartOf="@+id/button_host"
-                android:layout_marginRight="23dp"
-                android:layout_marginEnd="23dp" />
+                <Button
+                    android:id="@+id/button_host"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:onClick="hostClick"
+                    android:text="HOST" />
 
+                <Button
+                    android:id="@+id/button_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:onClick="startGame"
+                    android:enabled="false"
+                    android:text="START" />
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top|left"
-            android:layout_marginLeft="15px">
+            android:layout_marginLeft="15px"
+            android:gravity="top|left">
 
             <TextView
                 android:id="@+id/textView7"
@@ -68,8 +87,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15px"
             android:layout_marginLeft="15px"
+            android:layout_marginRight="15px"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -86,26 +105,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="JOIN"
-                    android:onClick="joinClick"/>
+                    android:onClick="joinClick"
+                    android:text="JOIN" />
 
                 <Button
                     android:id="@+id/button_ready"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="READY"
                     android:enabled="false"
-                    android:onClick="readyClick"/>
+                    android:onClick="readyClick"
+                    android:text="READY" />
 
                 <Button
                     android:id="@+id/button_abandon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="ABANDON"
                     android:enabled="false"
-                    android:onClick="abandonClick"/>
+                    android:onClick="abandonClick"
+                    android:text="ABANDON" />
 
             </LinearLayout>
 
@@ -139,16 +158,16 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="15px"
             android:orientation="vertical">
 
             <ScrollView
                 android:id="@+id/players_connected"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="left"
 
                 android:orientation="vertical">
@@ -168,8 +187,9 @@
 
                 </LinearLayout>
             </ScrollView>
-        </LinearLayout>
 
+
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

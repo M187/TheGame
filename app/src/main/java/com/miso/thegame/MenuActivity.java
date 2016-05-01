@@ -45,6 +45,7 @@ public class MenuActivity extends Activity {
 
     public void newMultiplayerGame(View view){
         this.gameIntent = new Intent(this, MultiplayerLobby.class);
+        this.gameIntent.putExtra("Level", "Default");
         startActivity(this.gameIntent);
     }
 

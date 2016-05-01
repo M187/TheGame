@@ -2,6 +2,7 @@ package com.miso.thegame.Networking.server;
 
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.MessageLogicExecutor;
+import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
@@ -22,8 +23,10 @@ import java.util.ArrayList;
 public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
 
     private volatile ArrayList<Client> joinedPlayers = new ArrayList<>();
+    private Sender sender;
 
-    public GameLobbyHostLogicExecutor(ArrayList<Client> joinedPlayers) {
+    public GameLobbyHostLogicExecutor(ArrayList<Client> joinedPlayers, Sender sender) {
+        this.sender = sender;
         this.joinedPlayers = joinedPlayers;
         this.isServerLogicProcessor = true;
     }
@@ -42,6 +45,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                                 ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
                 // Propagate new client parameters to other players.
                 // Propagate other client data to new player.
+                //// TODO: 1.5.2016 do this via sender?
                 for (Client client : this.joinedPlayers) {
                     client.execute(
                             new OtherPlayerDataMessage(
@@ -70,6 +74,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
             // Player leaving game.
             case "06":
                 // Tell other players about leaving player.
+                //// TODO: 1.5.2016 do this via sender?
                 for (Client client : this.joinedPlayers) {
                     client.execute(transmissionMessage);
                 }

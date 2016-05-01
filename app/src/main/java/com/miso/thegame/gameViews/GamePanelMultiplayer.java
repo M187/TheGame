@@ -24,31 +24,32 @@ import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
+import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by Miso on 8.10.2015.
  *
  * Copy of GamePanel. Reworked to support multiplayer functionality.
  */
-public class GamePanelMultiplayer2 extends GameView2 implements SurfaceHolder.Callback {
+public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
     public static final int PORT = 12371;
 
-    private List<Client> initializedClientsToOtherGameInstances = new ArrayList<>();
-    private SynchronousQueue<TransmissionMessage> arrivingMessages = new SynchronousQueue();
+    private ArrayList<Client> registeredPlayers = new ArrayList<>();
+    private ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
+    private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
 
     @Override
     public Resources getResources() {
         return super.getResources();
     }
 
-    public GamePanelMultiplayer2(Context context, GameMapEnum mapToCreate) {
+    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers) {
         super(context);
-        this.mapToCreate = mapToCreate;
+        this.registeredPlayers = registeredPlayers;
+        this.mapToCreate = GameMapEnum.BlankMap;
         this.context = context;
         thread = new MainThread(getHolder(), this);
         getHolder().addCallback(this);
@@ -116,6 +117,9 @@ public class GamePanelMultiplayer2 extends GameView2 implements SurfaceHolder.Ca
      * Take care, order depends!
      */
     public void update() {
+
+        networkGameStateUpdater.processRecievedMessages();
+
         if (player.playing) {
             inputHandler.processFrameInput();
             {

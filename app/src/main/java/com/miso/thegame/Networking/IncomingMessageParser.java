@@ -7,7 +7,7 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameL
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 
-import java.net.SocketAddress;
+import java.net.InetAddress;
 
 
 /**
@@ -15,15 +15,15 @@ import java.net.SocketAddress;
  */
 public class IncomingMessageParser {
 
-    public TransmissionMessage processIncomingMessage(String recievedMessages, SocketAddress clientAddress){
+    public TransmissionMessage unmarshalIncomingMessage(String recievedMessage, InetAddress clientAddress){
 
-        switch (recievedMessages.split("|")[0]){
+        switch ((recievedMessage.split("\\|"))[0]){
             case "01":
-                return new JoinGameLobbyMessage(recievedMessages.split("|")[1], clientAddress.toString());
+                return new JoinGameLobbyMessage(recievedMessage.split("\\|")[1], clientAddress.toString().substring(1));
             case "02":
-                return new OtherPlayerDataMessage(recievedMessages.split("|")[1], recievedMessages.split("|")[2]);
+                return new OtherPlayerDataMessage(recievedMessage.split("\\|")[1], recievedMessage.split("\\|")[2]);
             case "03":
-                return new LeaveGameLobbyMessage(recievedMessages.split("|")[1], recievedMessages.split("|")[2]);
+                return new LeaveGameLobbyMessage(recievedMessage.split("\\|")[1], recievedMessage.split("\\|")[2]);
             case "04":
                 return new StartGameMessage();
             case "05":

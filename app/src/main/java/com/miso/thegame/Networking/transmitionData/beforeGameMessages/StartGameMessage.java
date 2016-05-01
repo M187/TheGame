@@ -7,7 +7,9 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
  */
 public class StartGameMessage extends TransmissionMessage {
 
-    public String getPacket(){
-        return "04";
+    public StartGameMessage(){
+        this.transmissionType = "04";
     }
+
+    public String getPacket(){ return this.transmissionType; }
 }

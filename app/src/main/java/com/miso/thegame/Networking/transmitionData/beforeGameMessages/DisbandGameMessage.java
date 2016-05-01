@@ -7,7 +7,11 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
  */
 public class DisbandGameMessage extends TransmissionMessage {
 
+    public DisbandGameMessage(){
+        this.transmissionType = "08";
+    }
+
     public String getPacket(){
-        return "05";
+        return this.transmissionType;
     }
 }

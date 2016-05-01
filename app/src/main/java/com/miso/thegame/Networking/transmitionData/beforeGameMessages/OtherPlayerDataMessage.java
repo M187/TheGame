@@ -13,17 +13,19 @@ public class OtherPlayerDataMessage extends TransmissionMessage {
     private String nickname;
 
     public OtherPlayerDataMessage(PlayerClientPOJO playerClientData){
+        this.transmissionType = "02";
         this.nickname = playerClientData.getId();
         this.computerName = playerClientData.getHostName();
     }
 
     public OtherPlayerDataMessage(String nickname, String hostName){
+        this.transmissionType = "02";
         this.nickname = nickname;
         this.computerName = hostName;
     }
 
     public String getPacket(){
-        return "02|" + this.nickname + "|" + this.computerName;
+        return this.transmissionType + "|" + this.nickname + "|" + this.computerName;
     }
 
     public String getComputerName() {
