@@ -1,5 +1,8 @@
 package com.miso.thegame.Networking.server;
 
+import android.content.Intent;
+
+import com.miso.thegame.GameActivity;
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.MessageLogicExecutor;
 import com.miso.thegame.Networking.client.Client;
@@ -42,6 +45,14 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                                 MultiplayerLobby.DEFAULT_COM_PORT,
                                 ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
                 break;
+
+            //Start game signal
+            case "04":
+                Intent i = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                this.multiplayerLobby.saveConnectedPlayerDataAndStuff();
+                this.multiplayerLobby.startActivity(i);
+                this.multiplayerLobby.finish();
 
             // Disbanding game
             case "05":
