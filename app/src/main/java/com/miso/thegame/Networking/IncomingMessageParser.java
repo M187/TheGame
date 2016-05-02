@@ -26,7 +26,7 @@ public class IncomingMessageParser {
                 return new LeaveGameLobbyMessage(recievedMessage.split("\\|")[1], recievedMessage.split("\\|")[2]);
             case "04":
                 return new StartGameMessage();
-            case "05":
+            case "08":
                 return new DisbandGameMessage();
 
         }

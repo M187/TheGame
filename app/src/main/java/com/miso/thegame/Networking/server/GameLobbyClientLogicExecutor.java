@@ -3,6 +3,7 @@ package com.miso.thegame.Networking.server;
 import android.content.Intent;
 
 import com.miso.thegame.GameActivity;
+import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.MessageLogicExecutor;
 import com.miso.thegame.Networking.client.Client;
@@ -35,6 +36,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
     @Override
     public void processIncomingMessage(TransmissionMessage transmissionMessage) {
 
+        System.out.println(transmissionMessage.getPacket());
         switch (transmissionMessage.getTransmissionType()) {
 
             // Other player joining game
@@ -50,13 +52,20 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
             case "04":
                 Intent i = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra(OptionStrings.multiplayerInstance, true);
                 this.multiplayerLobby.saveConnectedPlayerDataAndStuff();
                 this.multiplayerLobby.startActivity(i);
                 this.multiplayerLobby.finish();
+                break;
 
             // Disbanding game
-            case "05":
-                this.multiplayerLobby.abandonClick(this.multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout));
+            case "08":
+                this.multiplayerLobby.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        multiplayerLobby.abandonClick(multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout));
+                    }
+                });
                 break;
 
             // Other player leaving game.
