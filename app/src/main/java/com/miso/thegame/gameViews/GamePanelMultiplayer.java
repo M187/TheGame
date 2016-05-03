@@ -9,9 +9,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
+import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.Networking.server.GamePlayLogicExecutor;
+import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
-import com.miso.thegame.gameMechanics.MainThread;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
+import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
@@ -37,8 +41,11 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public static final int PORT = 12371;
 
-    private ArrayList<Client> registeredPlayers = new ArrayList<>();
-    private ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
+    private Server localServer = new Server(this.PORT);
+
+    private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
+    private static Sender sender;
+    private volatile ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
 
     @Override
@@ -48,10 +55,13 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers) {
         super(context);
+        this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
+        this.localServer.execute();
         this.registeredPlayers = registeredPlayers;
+        this.sender = new Sender(this.registeredPlayers);
         this.mapToCreate = GameMapEnum.BlankMap;
         this.context = context;
-        thread = new MainThread(getHolder(), this);
+        this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
     }
 
@@ -61,6 +71,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        this.localServer.terminate();
         boolean retry = true;
         int counter = 0;
         while (retry & counter < 1000) {
@@ -97,8 +108,10 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         collisionHandler = new CollisionHandler(player, enemiesManager, spellManager, MapManager.getInstance(), getResources());
         endgameEvents = new EndgameEvents(getResources());
 
-        thread.setRunning(true);
-        thread.start();
+        this.sender.sendMessage(new ReadyToPlayMessage("default"));
+        waitForPlayersToReady();
+        this.thread.setRunning(true);
+        this.thread.start();
     }
 
     @Override
@@ -118,7 +131,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
      */
     public void update() {
 
-        networkGameStateUpdater.processRecievedMessages();
+        this.networkGameStateUpdater.processRecievedMessages();
 
         if (player.playing) {
             inputHandler.processFrameInput();
@@ -166,5 +179,15 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public void postDrawTasks(){
         collisionHandler.performCollisionCheck();
+    }
+
+    public void waitForPlayersToReady(){
+        boolean somePlayerNotReady = true;
+        while (somePlayerNotReady){
+            somePlayerNotReady = false;
+            for (Client player : this.registeredPlayers){
+                somePlayerNotReady = ( player.isReadyForGame) ? somePlayerNotReady : true;
+            }
+        }
     }
 }

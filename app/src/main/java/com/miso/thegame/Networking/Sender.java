@@ -27,6 +27,11 @@ public class Sender {
         this.registeredPlayers = registeredPlayers;
     }
 
+    //?send one message after game update?
+    public void afterUpdateMessage(){
+
+    }
+
     public void sendMessage(TransmissionMessage transmissionMessage){
         for (Client player : this.registeredPlayers){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

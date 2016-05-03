@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
-import com.miso.thegame.gameMechanics.MainThread;
+import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
@@ -37,7 +37,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;
-        this.thread = new MainThread(getHolder(), this);
+        this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
     }
 

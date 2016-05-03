@@ -6,7 +6,7 @@ import android.view.SurfaceView;
 
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GameMapEnum;
-import com.miso.thegame.gameMechanics.MainThread;
+import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
@@ -35,7 +35,7 @@ public abstract class GameView2 extends SurfaceView {
 
     public StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
     protected GameMapEnum mapToCreate;
-    protected MainThread thread;
+    protected MainGameThread thread;
     protected Background bg;
     protected Borders borders;
     public MapManager mapManager;

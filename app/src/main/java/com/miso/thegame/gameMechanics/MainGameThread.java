@@ -8,7 +8,7 @@ import com.miso.thegame.gameViews.GameView2;
 /**
  * Created by Miso on 8.10.2015.
  */
-public class MainThread extends Thread {
+public class MainGameThread extends Thread {
 
     private int FPS = 30;
     private double averageFPS;
@@ -18,7 +18,7 @@ public class MainThread extends Thread {
     public static Canvas canvas;
     private int logIterator = 0;
 
-    public MainThread(SurfaceHolder surfaceHolder, GameView2 gamePanel){
+    public MainGameThread(SurfaceHolder surfaceHolder, GameView2 gamePanel){
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
