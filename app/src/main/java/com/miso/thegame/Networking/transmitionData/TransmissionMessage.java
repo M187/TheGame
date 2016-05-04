@@ -33,4 +33,5 @@ public abstract class TransmissionMessage {
     }
 
     public abstract String getPacket();
+
 }

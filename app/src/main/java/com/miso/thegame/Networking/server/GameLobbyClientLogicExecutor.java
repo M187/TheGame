@@ -49,9 +49,11 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             //Start game signal
             case "04":
-                Intent i = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra(OptionStrings.multiplayerInstance, true);
+                Intent i = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
+                        .putExtra(OptionStrings.multiplayerInstance, this.multiplayerLobby.myNickname)
+                        .putExtra(OptionStrings.multiplayerInstance, true)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 this.multiplayerLobby.saveConnectedPlayerDataAndStuff();
                 this.multiplayerLobby.startActivity(i);
                 this.multiplayerLobby.finish();

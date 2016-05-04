@@ -7,11 +7,19 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
  */
 public class PlayerHitMessage extends TransmissionMessage {
 
-    public PlayerHitMessage() {
+    private String nickname;
+
+    public PlayerHitMessage(String nickname) {
         this.transmissionType = "30";
+        this.nickname = nickname;
+    }
+
+    public static PlayerHitMessage unmarshal(String rawTransmissionString) {
+        return new PlayerHitMessage(
+                rawTransmissionString.split("\\|")[1]);
     }
 
     public String getPacket() {
-        return this.transmissionType;
+        return this.transmissionType + "|" + this.nickname;
     }
 }

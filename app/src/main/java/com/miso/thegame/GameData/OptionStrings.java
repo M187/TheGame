@@ -10,4 +10,5 @@ public class OptionStrings {
     public static final String playerMaxSpeed = "playerMaxSpeed";
 
     public static final String multiplayerInstance = "multiplayer";
+    public static final String myNickname = "myNickname";
 }

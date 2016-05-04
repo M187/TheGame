@@ -40,6 +40,7 @@ import java.util.ArrayList;
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
     public static final int PORT = 12371;
+    public static String myNickname;
 
     private Server localServer = new Server(this.PORT);
 
@@ -53,8 +54,9 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         return super.getResources();
     }
 
-    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers) {
+    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers, String myNickname) {
         super(context);
+        this.myNickname = myNickname;
         this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
         this.localServer.execute();
         this.registeredPlayers = registeredPlayers;

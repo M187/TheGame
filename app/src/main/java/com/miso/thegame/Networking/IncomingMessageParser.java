@@ -6,6 +6,10 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLo
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 
 import java.net.InetAddress;
 
@@ -28,7 +32,16 @@ public class IncomingMessageParser {
                 return new StartGameMessage();
             case "08":
                 return new DisbandGameMessage();
-
+            case "10":
+                return PlayerPositionData.unmarshal(recievedMessage);
+            case "20":
+                return PlayerShootProjectile.unmarshal(recievedMessage);
+            case "30":
+                return PlayerHitMessage.unmarshal(recievedMessage);
+            case "40":
+                return PlayerDestroyedMessage.unmarshal(recievedMessage);
+            case "50":
+                return null;
         }
         return null;
     }

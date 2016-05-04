@@ -90,7 +90,12 @@ public class GameActivity extends Activity {
     private void createGameView(GameMapEnum mapToCreate) {
         if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
             loadConnectedPlayersNetworkData();
-            setContentView(new GamePanelMultiplayer(this, mapToCreate, this.registeredPlayers));
+            setContentView(
+                    new GamePanelMultiplayer(
+                            this,
+                            mapToCreate,
+                            this.registeredPlayers,
+                            this.getIntent().getExtras().getString(OptionStrings.myNickname, "--")));
         } else {
             setContentView(new GamePanelSingleplayer(this, mapToCreate));
         }
@@ -111,7 +116,7 @@ public class GameActivity extends Activity {
                 default:
                     return GameMapEnum.BlankMap;
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return GameMapEnum.BlankMap;
         }
     }

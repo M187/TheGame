@@ -41,7 +41,7 @@ public class MultiplayerLobby extends Activity {
     private volatile ArrayList<Client> joinedPlayers = new ArrayList<>();
 
     private Client clientConnectionToServer;
-    private String myNickname = null;
+    public volatile String myNickname = null;
 
     public enum LobbyState{
         Default,
@@ -181,7 +181,8 @@ public class MultiplayerLobby extends Activity {
             sender.sendMessage(new StartGameMessage());
             saveConnectedPlayerDataAndStuff();
             startActivity(new Intent(this, GameActivity.class)
-                    .putExtra(OptionStrings.multiplayerInstance, true));
+                    .putExtra(OptionStrings.multiplayerInstance, true)
+                    .putExtra(OptionStrings.multiplayerInstance, this.myNickname));
         } else {
             (findViewById(R.id.button_start)).setEnabled(false);
         }
