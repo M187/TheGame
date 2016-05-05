@@ -27,7 +27,7 @@ import java.util.concurrent.SynchronousQueue;
 /**
  * Created by Miso on 7.12.2015.
  */
-public class CollisionHandler {
+public class CollisionHandlerSingleplayer {
 
     private Player player;
     private EnemiesManager enemiesManager;
@@ -41,7 +41,7 @@ public class CollisionHandler {
     // nice guide - http://www.ibm.com/developerworks/library/j-jtp0730/
     private SynchronousQueue<GameObject> movingObjectQueue = new SynchronousQueue<>();
 
-    public CollisionHandler(Player player, EnemiesManager enemiesManager, SpellManager spellManager, MapManager mapManager, Resources res) {
+    public CollisionHandlerSingleplayer(Player player, EnemiesManager enemiesManager, SpellManager spellManager, MapManager mapManager, Resources res) {
         this.player = player;
         this.enemiesManager = enemiesManager;
         this.spellManager = spellManager;

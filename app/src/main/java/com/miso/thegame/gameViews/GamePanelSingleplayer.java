@@ -13,7 +13,7 @@ import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandler;
+import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
@@ -67,20 +67,20 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
         MapManager.getInstance().initializeMapManager(this.mapToCreate, getResources());
 
         player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), MapManager.getInstance());
-        spellManager = new SpellManager(getResources(), player);
+        spellManager = new SpellManager(getResources(), getPlayer());
 
-        enemiesManager = new EnemiesManager(player, spellManager, MapManager.getInstance().enemyInitialDatas, getResources());
-        spellManager.enemiesManager = enemiesManager;
+        enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), MapManager.getInstance().enemyInitialDatas, getResources());
+        getSpellManager().enemiesManager = getEnemiesManager();
 
-        toolbar = new Toolbar(getResources(), player);
-        anchor = new Anchor(player, WIDTH / 3, HEIGHT / 3);
+        toolbar = new Toolbar(getResources(), getPlayer());
+        anchor = new Anchor(getPlayer(), WIDTH / 3, HEIGHT / 3);
 
-        bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", context.getPackageName())), anchor);
+        bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", getContext().getPackageName())), anchor);
 
         borders = new Borders(getResources(), anchor);
         drawManager = new DrawManager(anchor);
         inputHandler = new InputHandler(this);
-        collisionHandler = new CollisionHandler(player, enemiesManager, spellManager, MapManager.getInstance(), getResources());
+        collisionHandler = new CollisionHandlerSingleplayer(getPlayer(), getEnemiesManager(), getSpellManager(), MapManager.getInstance(), getResources());
         endgameEvents = new EndgameEvents(getResources());
 
         thread.setRunning(true);
@@ -90,7 +90,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
-        if (player.playing) {
+        if (getPlayer().playing) {
             return inputHandler.processEvent(event);
         } else {
             return inputHandler.processEndgameEvent(event);
@@ -103,20 +103,20 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      * Take care, order depends!
      */
     public void update() {
-        if (player.playing) {
+        if (getPlayer().playing) {
             inputHandler.processFrameInput();
             {
-                player.update();
+                getPlayer().update();
                 anchor.update();
-                player.updateMiddleDrawCoords(anchor);
+                getPlayer().updateMiddleDrawCoords(anchor);
             }
-            spellManager.update();
-            enemiesManager.update();
-            staticAnimationManager.update();
+            getSpellManager().update();
+            getEnemiesManager().update();
+            getStaticAnimationManager().update();
             //collisionHandler.performCollisionCheck();
         } else {
-            enemiesManager.update();
-            spellManager.update();
+            getEnemiesManager().update();
+            getSpellManager().update();
             //collisionHandler.performCollisionCheck();
         }
 
@@ -126,21 +126,21 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     public void draw(Canvas canvas) {
         if (canvas != null) {
             final int savedState = canvas.save();
-            if (player.playing) {
+            if (getPlayer().playing) {
                 bg.draw(canvas, anchor);
                 MapManager.getInstance().draw(canvas);
                 borders.draw(canvas);
-                spellManager.draw(canvas);
-                drawManager.drawOnDisplay(player, canvas);
-                enemiesManager.draw(canvas);
-                staticAnimationManager.draw(canvas);
+                getSpellManager().draw(canvas);
+                drawManager.drawOnDisplay(getPlayer(), canvas);
+                getEnemiesManager().draw(canvas);
+                getStaticAnimationManager().draw(canvas);
                 toolbar.draw(canvas);
             } else {
                 bg.draw(canvas, anchor);
                 MapManager.getInstance().draw(canvas);
                 borders.draw(canvas);
-                spellManager.draw(canvas);
-                enemiesManager.draw(canvas);
+                getSpellManager().draw(canvas);
+                getEnemiesManager().draw(canvas);
                 endgameEvents.draw(canvas);
             }
             canvas.restoreToCount(savedState);

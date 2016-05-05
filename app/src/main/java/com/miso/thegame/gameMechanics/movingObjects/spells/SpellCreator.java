@@ -61,11 +61,6 @@ public class SpellCreator {
         this.deffensiveSpells.add(new Blink(player, anchor, deltaX, deltaY, resources));
     }
 
-    public void addFireball(int x, int y, int dx, int dy, CollisionObjectType collisionObjectType) {
-        this.offensiveSpells.add(new Projectile(x, y, dx, dy, collisionObjectType, resources));
-        player.primaryAmunition -= 1;
-    }
-
     public void fireProjectileTowardsPlayer(int x, int y) {
         offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.SpellEnemy, resources));
     }

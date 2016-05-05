@@ -10,7 +10,7 @@ import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandler;
+import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
@@ -31,9 +31,9 @@ public abstract class GameView2 extends SurfaceView {
     public static final int WIDTH = GameActivity.metrics.widthPixels; // X Axis
     public static final int HEIGHT = GameActivity.metrics.heightPixels; // Y Axis
     public static final Random randomGenerator = new Random();
+    //todo: do draw manager as singleton? / instead a map manager...
     public static DrawManager drawManager;
 
-    public StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
     protected GameMapEnum mapToCreate;
     protected MainGameThread thread;
     protected Background bg;
@@ -41,13 +41,14 @@ public abstract class GameView2 extends SurfaceView {
     public MapManager mapManager;
     public Anchor anchor;
     protected InputHandler inputHandler;
-    protected CollisionHandler collisionHandler;
+    protected CollisionHandlerSingleplayer collisionHandler;
     protected EndgameEvents endgameEvents;
+    protected Context context;
 
-    public Context context;
-    public Player player;
-    public EnemiesManager enemiesManager;
-    public SpellManager spellManager;
+    protected Player player;
+    protected EnemiesManager enemiesManager;
+    protected SpellManager spellManager;
+    protected StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
     public Toolbar toolbar;
 
     public GameView2(Context context){
@@ -59,4 +60,20 @@ public abstract class GameView2 extends SurfaceView {
     public abstract void draw(Canvas canvas);
 
     public abstract void postDrawTasks();
+
+    public StaticAnimationManager getStaticAnimationManager() {
+        return staticAnimationManager;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public EnemiesManager getEnemiesManager() {
+        return enemiesManager;
+    }
+
+    public SpellManager getSpellManager() {
+        return spellManager;
+    }
 }

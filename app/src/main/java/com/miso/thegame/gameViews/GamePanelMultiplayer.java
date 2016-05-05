@@ -19,7 +19,7 @@ import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandler;
+import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
@@ -29,6 +29,7 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
+import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
     private static Sender sender;
     private volatile ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
+    private OtherPlayerManager otherPlayerManager = new OtherPlayerManager();
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
 
     @Override
@@ -94,20 +96,20 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         MapManager.getInstance().initializeMapManager(this.mapToCreate, getResources());
 
         player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), MapManager.getInstance());
-        spellManager = new SpellManager(getResources(), player);
+        spellManager = new SpellManager(getResources(), getPlayer());
 
-        enemiesManager = new EnemiesManager(player, spellManager, MapManager.getInstance().enemyInitialDatas, getResources());
-        spellManager.enemiesManager = enemiesManager;
+        enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), MapManager.getInstance().enemyInitialDatas, getResources());
+        getSpellManager().enemiesManager = getEnemiesManager();
 
-        toolbar = new Toolbar(getResources(), player);
-        anchor = new Anchor(player, WIDTH / 3, HEIGHT / 3);
+        toolbar = new Toolbar(getResources(), getPlayer());
+        anchor = new Anchor(getPlayer(), WIDTH / 3, HEIGHT / 3);
 
-        bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", context.getPackageName())), anchor);
+        bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", getContext().getPackageName())), anchor);
 
         borders = new Borders(getResources(), anchor);
         drawManager = new DrawManager(anchor);
         inputHandler = new InputHandler(this);
-        collisionHandler = new CollisionHandler(player, enemiesManager, spellManager, MapManager.getInstance(), getResources());
+        collisionHandler = new CollisionHandlerSingleplayer(getPlayer(), getEnemiesManager(), getSpellManager(), MapManager.getInstance(), getResources());
         endgameEvents = new EndgameEvents(getResources());
 
         this.sender.sendMessage(new ReadyToPlayMessage("default"));
@@ -119,7 +121,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
-        if (player.playing) {
+        if (getPlayer().playing) {
             return inputHandler.processEvent(event);
         } else {
             return inputHandler.processEndgameEvent(event);
@@ -135,20 +137,20 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
         this.networkGameStateUpdater.processRecievedMessages();
 
-        if (player.playing) {
+        if (getPlayer().playing) {
             inputHandler.processFrameInput();
             {
-                player.update();
+                getPlayer().update();
                 anchor.update();
-                player.updateMiddleDrawCoords(anchor);
+                getPlayer().updateMiddleDrawCoords(anchor);
             }
-            spellManager.update();
-            enemiesManager.update();
-            staticAnimationManager.update();
+            getSpellManager().update();
+            getOtherPlayerManager().update();
+            getStaticAnimationManager().update();
             //collisionHandler.performCollisionCheck();
         } else {
-            enemiesManager.update();
-            spellManager.update();
+            getOtherPlayerManager().update();
+            getSpellManager().update();
             //collisionHandler.performCollisionCheck();
         }
 
@@ -158,21 +160,21 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     public void draw(Canvas canvas) {
         if (canvas != null) {
             final int savedState = canvas.save();
-            if (player.playing) {
+            if (getPlayer().playing) {
                 bg.draw(canvas, anchor);
                 MapManager.getInstance().draw(canvas);
                 borders.draw(canvas);
-                spellManager.draw(canvas);
-                drawManager.drawOnDisplay(player, canvas);
-                enemiesManager.draw(canvas);
-                staticAnimationManager.draw(canvas);
+                getSpellManager().draw(canvas);
+                drawManager.drawOnDisplay(getPlayer(), canvas);
+                getOtherPlayerManager().draw(canvas);
+                getStaticAnimationManager().draw(canvas);
                 toolbar.draw(canvas);
             } else {
                 bg.draw(canvas, anchor);
                 MapManager.getInstance().draw(canvas);
                 borders.draw(canvas);
-                spellManager.draw(canvas);
-                enemiesManager.draw(canvas);
+                getSpellManager().draw(canvas);
+                getOtherPlayerManager().draw(canvas);
                 endgameEvents.draw(canvas);
             }
             canvas.restoreToCount(savedState);
@@ -191,5 +193,9 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 somePlayerNotReady = ( player.isReadyForGame) ? somePlayerNotReady : true;
             }
         }
+    }
+
+    public OtherPlayerManager getOtherPlayerManager() {
+        return otherPlayerManager;
     }
 }

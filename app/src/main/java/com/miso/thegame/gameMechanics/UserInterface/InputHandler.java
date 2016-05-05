@@ -23,11 +23,11 @@ public class InputHandler {
 
     public InputHandler(GameView2 gamePanel) {
         this.gP = gamePanel;
-        this.player = gP.player;
-        this.playerSpeed = gP.player.getSpeed();
+        this.player = gP.getPlayer();
+        this.playerSpeed = gP.getPlayer().getSpeed();
         this.movementJoystick = gamePanel.toolbar.getMovementJoystick();
         this.shootingJoystick = gamePanel.toolbar.getShootingJoystick();
-        this.shootingJoystick.player = gP.player;
+        this.shootingJoystick.player = gP.getPlayer();
     }
 
     public boolean processEvent(MotionEvent event) {
@@ -69,7 +69,7 @@ public class InputHandler {
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
             for (ButtonPlaceholder buttonPlaceholder : gP.toolbar.getButtonPlaceholders()) {
                 if (buttonPlaceholder.clickedOnButton(eventX, eventY)) {
-                    buttonPlaceholder.onClickEvent(gP.spellManager);
+                    buttonPlaceholder.onClickEvent(gP.getSpellManager());
                 }
             }
         }
@@ -109,7 +109,7 @@ public class InputHandler {
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
                     for (ButtonPlaceholder buttonPlaceholder : gP.toolbar.getButtonPlaceholders()) {
                         if (buttonPlaceholder.clickedOnButton(eventX, eventY)) {
-                            buttonPlaceholder.onClickEvent(gP.spellManager);
+                            buttonPlaceholder.onClickEvent(gP.getSpellManager());
                         }
                     }
                 }
@@ -157,8 +157,8 @@ public class InputHandler {
     }
 
     private void updatePrimaryShootingData(){
-        this.gP.spellManager.primaryShootingActive = this.shootingJoystick.primaryShootingActive;
-        this.gP.spellManager.primaryShootingVector = this.shootingJoystick.primaryShootingVector;
+        this.gP.getSpellManager().primaryShootingActive = this.shootingJoystick.primaryShootingActive;
+        this.gP.getSpellManager().primaryShootingVector = this.shootingJoystick.primaryShootingVector;
     }
 
     /**
@@ -166,7 +166,7 @@ public class InputHandler {
      * @param event
      */
     public boolean processEndgameEvent(MotionEvent event){
-        ((Activity)gP.context).finish();
+        ((Activity) gP.getContext()).finish();
         return true;
     }
 }
