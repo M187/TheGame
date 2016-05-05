@@ -19,7 +19,7 @@ import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
+import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
@@ -42,14 +42,15 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public static final int PORT = 12371;
     public static String myNickname;
+    public static Sender sender;
 
     private Server localServer = new Server(this.PORT);
 
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
-    private static Sender sender;
     private volatile ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
-    private OtherPlayerManager otherPlayerManager = new OtherPlayerManager();
+    private OtherPlayerManager otherPlayersManager = new OtherPlayerManager();
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
+    protected CollisionHandlerMultiplayer collisionHandler;
 
     @Override
     public Resources getResources() {
@@ -109,7 +110,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         borders = new Borders(getResources(), anchor);
         drawManager = new DrawManager(anchor);
         inputHandler = new InputHandler(this);
-        collisionHandler = new CollisionHandlerSingleplayer(getPlayer(), getEnemiesManager(), getSpellManager(), MapManager.getInstance(), getResources());
+        collisionHandler = new CollisionHandlerMultiplayer(getPlayer(), getOtherPlayersManager(), getSpellManager(), MapManager.getInstance(), getResources());
         endgameEvents = new EndgameEvents(getResources());
 
         this.sender.sendMessage(new ReadyToPlayMessage("default"));
@@ -145,11 +146,11 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 getPlayer().updateMiddleDrawCoords(anchor);
             }
             getSpellManager().update();
-            getOtherPlayerManager().update();
+            getOtherPlayersManager().update();
             getStaticAnimationManager().update();
             //collisionHandler.performCollisionCheck();
         } else {
-            getOtherPlayerManager().update();
+            getOtherPlayersManager().update();
             getSpellManager().update();
             //collisionHandler.performCollisionCheck();
         }
@@ -166,7 +167,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 drawManager.drawOnDisplay(getPlayer(), canvas);
-                getOtherPlayerManager().draw(canvas);
+                getOtherPlayersManager().draw(canvas);
                 getStaticAnimationManager().draw(canvas);
                 toolbar.draw(canvas);
             } else {
@@ -174,7 +175,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 MapManager.getInstance().draw(canvas);
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
-                getOtherPlayerManager().draw(canvas);
+                getOtherPlayersManager().draw(canvas);
                 endgameEvents.draw(canvas);
             }
             canvas.restoreToCount(savedState);
@@ -195,7 +196,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         }
     }
 
-    public OtherPlayerManager getOtherPlayerManager() {
-        return otherPlayerManager;
+    public OtherPlayerManager getOtherPlayersManager() {
+        return otherPlayersManager;
     }
 }

@@ -28,6 +28,8 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
  */
 public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Callback {
 
+    protected CollisionHandlerSingleplayer collisionHandler;
+
     @Override
     public Resources getResources() {
         return super.getResources();

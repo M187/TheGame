@@ -10,7 +10,6 @@ import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
@@ -41,7 +40,6 @@ public abstract class GameView2 extends SurfaceView {
     public MapManager mapManager;
     public Anchor anchor;
     protected InputHandler inputHandler;
-    protected CollisionHandlerSingleplayer collisionHandler;
     protected EndgameEvents endgameEvents;
     protected Context context;
 

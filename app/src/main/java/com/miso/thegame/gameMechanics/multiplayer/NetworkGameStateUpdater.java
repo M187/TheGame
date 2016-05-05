@@ -37,7 +37,7 @@ public class NetworkGameStateUpdater {
             //Player position
             case "10":
                 //TODO: update relevant player.
-                this.multiplayerViewInstance.getOtherPlayerManager().updatePlayerData((PlayerPositionData) transmissionMessage);
+                this.multiplayerViewInstance.getOtherPlayersManager().updatePlayerData((PlayerPositionData) transmissionMessage);
                 break;
 
             //Shooting
