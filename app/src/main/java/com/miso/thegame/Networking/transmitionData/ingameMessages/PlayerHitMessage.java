@@ -23,7 +23,7 @@ public class PlayerHitMessage extends TransmissionMessage {
     }
 
     public String getPacket() {
-        return this.transmissionType + "|" + this.nickname + "|" + this.projectileId;
+        return this.transmissionType + "|" + this.nickname + "|" + this.projectileId + "/r";
     }
 
     public String getProjectileId() {

@@ -54,7 +54,7 @@ public class PlayerShootProjectile extends TransmissionMessage {
     }
 
     public String getPacket() {
-        return this.transmissionType + "|" + this.getNickname() + "|" + this.projectilelId + "|" + this.fromPosition.x + "|" + this.fromPosition.y + "|" + this.movementDelta.x + "|" + this.movementDelta.y;
+        return this.transmissionType + "|" + this.getNickname() + "|" + this.projectilelId + "|" + this.fromPosition.x + "|" + this.fromPosition.y + "|" + this.movementDelta.x + "|" + this.movementDelta.y + "/r";
     }
 
     public Point getFromPosition() {

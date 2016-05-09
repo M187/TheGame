@@ -24,7 +24,7 @@ public class JoinGameLobbyMessage extends TransmissionMessage {
     }
 
     public String getPacket(){
-        return this.transmissionType + "|" + this.getNickname();
+        return this.transmissionType + "|" + this.getNickname() + "/r";
     }
 
     public String getNickname() {

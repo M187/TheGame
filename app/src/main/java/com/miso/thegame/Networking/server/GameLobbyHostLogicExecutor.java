@@ -46,11 +46,11 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                 // Propagate other client data to new player.
                 //// TODO: 1.5.2016 do this via sender?
                 for (Client client : this.joinedPlayers) {
-                    client.execute(
+                    client.sendMessage(
                             new OtherPlayerDataMessage(
                                     ((JoinGameLobbyMessage) transmissionMessage).getNickname(),
                                     ((JoinGameLobbyMessage) transmissionMessage).getComputerName()));
-                    newPlayer.execute(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
+                    newPlayer.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
                 }
                 // add new player.
                 this.joinedPlayers.add(newPlayer);
@@ -75,7 +75,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                 // Tell other players about leaving player.
                 //// TODO: 1.5.2016 do this via sender?
                 for (Client client : this.joinedPlayers) {
-                    client.execute(transmissionMessage);
+                    client.sendMessage(transmissionMessage);
                 }
                 this.joinedPlayers.remove(
                         new Client(

@@ -76,6 +76,8 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
                 } catch (InterruptedException ex) {
                 }
             } catch (InterruptedException e) {
+            } catch (NullPointerException e){
+                return null;
             }
         }
         return null;
@@ -103,7 +105,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
     private void sendDataToServer(TransmissionMessage messageData) {
         try {
             DataOutputStream output = new DataOutputStream(this.myClient.getOutputStream());
-            output.writeUTF(messageData.getPacket());
+            output.writeChars(messageData.getPacket());
             output.flush();
         } catch (IOException e) {
             System.out.println(e);

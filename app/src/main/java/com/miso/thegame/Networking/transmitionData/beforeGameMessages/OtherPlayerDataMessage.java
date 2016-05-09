@@ -25,7 +25,7 @@ public class OtherPlayerDataMessage extends TransmissionMessage {
     }
 
     public String getPacket(){
-        return this.transmissionType + "|" + this.nickname + "|" + this.computerName;
+        return this.transmissionType + "|" + this.nickname + "|" + this.computerName + "/r";
     }
 
     public String getComputerName() {

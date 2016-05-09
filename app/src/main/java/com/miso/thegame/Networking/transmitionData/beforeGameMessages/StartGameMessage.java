@@ -11,5 +11,5 @@ public class StartGameMessage extends TransmissionMessage {
         this.transmissionType = "04";
     }
 
-    public String getPacket(){ return this.transmissionType; }
+    public String getPacket(){ return this.transmissionType + "/r"; }
 }
