@@ -43,6 +43,21 @@ public class Projectile extends OffensiveSpell {
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
 
+    public Projectile(int x, int y, int Dx, int Dy, CollisionObjectType collisionObjectType, String identificator, Resources res) {
+        super();
+        //todo: add check for only possible collision types.
+        this.collisionObjectType = collisionObjectType;
+        removeOnCollision = true;
+        this.res = res;
+        this.identificator = identificator;
+        setX(x);
+        setY(y);
+        setDx(Dx);
+        setDy(Dy);
+        setSpeed(30);
+        setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
+    }
+
     /**
      * Is it behind bounds of ply field?
      * todo: add check for traveling distance.
@@ -88,5 +103,4 @@ public class Projectile extends OffensiveSpell {
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y)));
         return this.objectVertices;
     }
-
 }

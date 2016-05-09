@@ -7,11 +7,20 @@ import com.miso.thegame.gameMechanics.movingObjects.player.Player;
  */
 public class OtherPlayer extends Player {
 
+    private boolean isReadyForNextFrame = false;
     public void setHeading(int heading){
         this.heading = heading;
     }
 
     public void update(){
 
+    }
+
+    public boolean isReadyForNextFrame() {
+        return isReadyForNextFrame;
+    }
+
+    public void setIsReadyForNextFrame(boolean isReadyForNextFrame) {
+        this.isReadyForNextFrame = isReadyForNextFrame;
     }
 }

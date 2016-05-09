@@ -41,8 +41,6 @@ import java.util.ArrayList;
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
     public static final int PORT = 12371;
-    public static String myNickname;
-    public static Sender sender;
 
     private Server localServer = new Server(this.PORT);
 

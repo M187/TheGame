@@ -17,6 +17,7 @@ import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
+import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public class CollisionHandlerMultiplayer {
     // nice guide - http://www.ibm.com/developerworks/library/j-jtp0730/
     private SynchronousQueue<GameObject> movingObjectQueue = new SynchronousQueue<>();
 
-    public CollisionHandlerMultiplayer (Player player, OtherPlayerManager otherPlayerManager, SpellManager spellManager, MapManager mapManager, Resources res) {
+    public CollisionHandlerMultiplayer(Player player, OtherPlayerManager otherPlayerManager, SpellManager spellManager, MapManager mapManager, Resources res) {
         this.player = player;
         this.otherPlayerManager = otherPlayerManager;
         this.spellManager = spellManager;
@@ -110,11 +111,14 @@ public class CollisionHandlerMultiplayer {
         }
     }
 
-    public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(OffensiveSpell enemyOffensiveSpell) {
-        if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), enemyOffensiveSpell.getObjectCollisionVertices())) {
-            player.removeHealth(1);
-            GamePanelMultiplayer.sender.sendMessage(new PlayerHitMessage(GamePanelMultiplayer.myNickname));
-            spellManager.getOffensiveSpellList().remove(enemyOffensiveSpell);
+    public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(OffensiveSpell offensiveSpell) {
+        if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
+            player.removeHealth(8);
+            if (GameView2.isMultiplayerGame) {
+                GamePanelMultiplayer.sender.sendMessage(new PlayerHitMessage(GamePanelMultiplayer.myNickname, offensiveSpell.getIdentificator()));
+            }
+            spellManager.getOffensiveSpellList().remove(offensiveSpell);
+            StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
         }
     }
 
@@ -140,7 +144,7 @@ public class CollisionHandlerMultiplayer {
         try {
             if (offensiveSpell.isRemovedOnCollision() && satCollisionCalculator.performSeparateAxisCollisionCheck(obstacle.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
                 spellManager.getOffensiveSpellList().remove(offensiveSpell);
-                StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()), this.resources);
+                StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
             }
         } catch (Exception e) {
             System.out.print("aaa");

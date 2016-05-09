@@ -1,7 +1,9 @@
 package com.miso.thegame.gameMechanics.movingObjects.spells;
 
 import android.content.res.Resources;
+import android.graphics.Point;
 
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -10,12 +12,13 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Deffe
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Timestop;
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Projectile;
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Shockwave;
+import com.miso.thegame.gameViews.GameView2;
 
 import java.util.List;
 
 /**
  * Created by michal.hornak on 18.04.2016.
- *
+ * <p/>
  * Class specifically created for purpose to hold functionality to add new spells
  */
 public class SpellCreator {
@@ -25,7 +28,7 @@ public class SpellCreator {
     private List<OffensiveSpell> offensiveSpells;
     private List<DeffensiveSpell> deffensiveSpells;
 
-    SpellCreator(Player player, Resources resources, List<OffensiveSpell> offensiveSpells, List<DeffensiveSpell> deffensiveSpells){
+    SpellCreator(Player player, Resources resources, List<OffensiveSpell> offensiveSpells, List<DeffensiveSpell> deffensiveSpells) {
         this.resources = resources;
         this.player = player;
         this.offensiveSpells = offensiveSpells;
@@ -35,7 +38,7 @@ public class SpellCreator {
     /**
      * Add timestop spell to defensive list.
      */
-    public void addTimestopSpell(){
+    public void addTimestopSpell() {
         this.deffensiveSpells.add(new Timestop(this.player));
     }
 
@@ -43,6 +46,16 @@ public class SpellCreator {
         if (player.primaryAmunition > 0) {
             this.offensiveSpells.add(new Projectile(this.player.getX(), this.player.getY(), this.player.getX() - deltaX, this.player.getY() - deltaY, CollisionObjectType.SpellPlayer, this.resources));
             player.primaryAmunition -= 1;
+
+            //Inform other players about shot
+            if (GameView2.isMultiplayerGame) {
+                GameView2.sender.sendMessage(
+                        new PlayerShootProjectile(
+                                GameView2.myNickname,
+                                new Point(this.player.getX(), this.player.getY()),
+                                new Point(deltaX, deltaY)
+                        ));
+            }
         }
     }
 
@@ -65,7 +78,7 @@ public class SpellCreator {
         offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.SpellEnemy, resources));
     }
 
-    public void fireProjectile(int x, int y, int xVector, int yVector, CollisionObjectType collisionObjectType){
+    public void fireProjectile(int x, int y, int xVector, int yVector, CollisionObjectType collisionObjectType) {
         offensiveSpells.add(new Projectile(x, y, xVector, yVector, collisionObjectType, resources));
     }
 }

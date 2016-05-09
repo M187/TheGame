@@ -1,9 +1,16 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
+import android.graphics.Point;
+
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
 
 import java.util.ArrayList;
@@ -36,7 +43,6 @@ public class NetworkGameStateUpdater {
 
             //Player position
             case "10":
-                //TODO: update relevant player.
                 this.multiplayerViewInstance.getOtherPlayersManager().updatePlayerData((PlayerPositionData) transmissionMessage);
                 break;
 
@@ -46,26 +52,35 @@ public class NetworkGameStateUpdater {
                         .fireProjectile(
                                 ((PlayerShootProjectile) transmissionMessage).getFromPosition().x,
                                 ((PlayerShootProjectile) transmissionMessage).getFromPosition().y,
-                                ((PlayerShootProjectile) transmissionMessage).getDelta().x,
-                                ((PlayerShootProjectile) transmissionMessage).getDelta().y,
+                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().x,
+                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().y,
                                 CollisionObjectType.SpellEnemy
                         );
                 break;
 
             //Hit by spell
             case "30":
-                //TODO: remove relevant projectile and add animation.
+                Iterator<OffensiveSpell> offensiveSpellIterator = this.multiplayerViewInstance.getSpellManager().getOffensiveSpellList().iterator();
+                while (offensiveSpellIterator.hasNext()){
+                    OffensiveSpell temp = offensiveSpellIterator.next();
+                    if (temp.getIdentificator() == ((PlayerHitMessage)transmissionMessage).getProjectileId()){
+                        StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()));
+                        offensiveSpellIterator.remove();
+                        break;
+                    }
+                }
 
                 break;
 
             //Player defeated
             case "40":
-                //TODO: remove relevant player and add animation.
+                this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().remove(((PlayerDestroyedMessage) transmissionMessage).getNickname());
+                //TODO: add animation.
                 break;
 
             //Sync mess
             case "50":
-                //TODO: mark player as ready for next frame.
+                this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().get(((ReadyToPlayMessage) transmissionMessage).getNickname()).setIsReadyForNextFrame(true);
                 break;
         }
     }

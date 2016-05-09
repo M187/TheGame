@@ -174,7 +174,7 @@ public class CollisionHandlerSingleplayer {
             if (offensiveSpell.collideWithMovingObject(enemy, satCollisionCalculator)) {
                 if (offensiveSpell.isRemovedOnCollision()) {
                     spellManager.getOffensiveSpellList().remove(offensiveSpell);
-                    StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()), this.resources);
+                    StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
                 }
                 if (enemy.hitBySpell()) {
                     enemiesManager.getEnemyList().remove(enemy);
@@ -244,7 +244,7 @@ public class CollisionHandlerSingleplayer {
         try {
             if (offensiveSpell.isRemovedOnCollision() && satCollisionCalculator.performSeparateAxisCollisionCheck(obstacle.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
                 spellManager.getOffensiveSpellList().remove(offensiveSpell);
-                StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()), this.resources);
+                StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
             }
         } catch (Exception e) {
             System.out.print("aaa");

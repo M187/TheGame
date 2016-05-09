@@ -6,6 +6,7 @@ import android.view.SurfaceView;
 
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GameMapEnum;
+import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
@@ -33,6 +34,10 @@ public abstract class GameView2 extends SurfaceView {
     //todo: do draw manager as singleton? / instead a map manager...
     public static DrawManager drawManager;
 
+    public static Sender sender = null;
+    public static String myNickname = null;
+    public static boolean isMultiplayerGame = false;
+
     protected GameMapEnum mapToCreate;
     protected MainGameThread thread;
     protected Background bg;
@@ -51,6 +56,7 @@ public abstract class GameView2 extends SurfaceView {
 
     public GameView2(Context context){
         super(context);
+        StaticAnimationManager.resources = this.getResources();
     }
 
     public abstract void update();

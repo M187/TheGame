@@ -14,6 +14,8 @@ import java.util.Iterator;
  */
 public class StaticAnimationManager {
 
+    public static Resources resources;
+
     public static ArrayList<StaticAnimation> staticAnimationsList = new ArrayList<>();
 
     public void update(){
@@ -27,8 +29,8 @@ public class StaticAnimationManager {
         }
     }
 
-    public static void addExplosion(Point position, Resources res){
-        staticAnimationsList.add(new Explosion(position.x, position.y, res));
+    public static void addExplosion(Point position){
+        staticAnimationsList.add(new Explosion(position.x, position.y, resources));
     }
 
     public void draw(Canvas canvas){
