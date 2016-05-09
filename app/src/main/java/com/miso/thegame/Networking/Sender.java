@@ -1,8 +1,5 @@
 package com.miso.thegame.Networking;
 
-import android.os.AsyncTask;
-import android.os.Build;
-
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
@@ -24,21 +21,19 @@ public class Sender {
     private volatile ArrayList<Client> registeredPlayers;
 
     public Sender(ArrayList<Client> registeredPlayers){
+
         this.registeredPlayers = registeredPlayers;
-    }
 
-    //?send one message after game update?
-    public void afterUpdateMessage(){
-
+        if (registeredPlayers.size() > 0) {
+            for (Client client : registeredPlayers) {
+                client.execute();
+            }
+        }
     }
 
     public void sendMessage(TransmissionMessage transmissionMessage){
         for (Client player : this.registeredPlayers){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                player.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, transmissionMessage);
-            } else {
-                player.execute(transmissionMessage);
-            }
+            player.sendMessage(transmissionMessage);
         }
     }
 }

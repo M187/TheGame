@@ -11,6 +11,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by michal.hornak on 20.04.2016.
@@ -19,18 +21,20 @@ import java.net.Socket;
  * Each registered server should have one instance ready to go.
  * When relevant event occurs, propagate it to every Client to send it.
  */
-public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
+public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
 
+    // Server needs this information
+    public boolean isReadyForGame = false;
+    public LinkedBlockingQueue<TransmissionMessage> messagesToBeSent = new LinkedBlockingQueue<>();
+    DataInputStream dataInputStream;
+    String recievedFrameData;
     private Socket myClient;
     private String hostName;
     private String nickname;
     private int portNumber;
-    DataInputStream dataInputStream;
-    String recievedFrameData;
-    // Server needs this information
-    public boolean isReadyForGame = false;
+    private volatile boolean running = true;
 
-    public Client(String nickname){
+    public Client(String nickname) {
         this.nickname = nickname;
     }
 
@@ -56,22 +60,25 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
     }
 
     @Override
-
-    public Boolean doInBackground(TransmissionMessage...a){
-        try {
-            if (this.myClient == null) {
-                this.myClient = new Socket(this.hostName, this.portNumber);
-                System.out.println(" --- > Connection to server established!");
-            }
-            sendDataToServer(a[0]);
-            return true;
-        } catch (IOException e) {
+    public Void doInBackground(TransmissionMessage... a) {
+        while (running) {
             try {
-                this.myClient = new Socket(this.hostName, this.portNumber);
-            } catch (IOException ex){return false;}
-            sendDataToServer(a[0]);
-            return true;
+                if (this.myClient == null) {
+                    this.myClient = new Socket(this.hostName, this.portNumber);
+                    System.out.println(" --- > Connection to server established!");
+                }
+                sendDataToServer(messagesToBeSent.poll(30, TimeUnit.SECONDS));
+            } catch (IOException e) {
+                try {
+                    this.myClient = new Socket(this.hostName, this.portNumber);
+                    sendDataToServer(messagesToBeSent.poll(30, TimeUnit.SECONDS));
+                } catch (IOException ex) {
+                } catch (InterruptedException ex) {
+                }
+            } catch (InterruptedException e) {
+            }
         }
+        return null;
     }
 
     public void getDataFromServer() {
@@ -84,11 +91,16 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
         }
     }
 
+    public void sendMessage(TransmissionMessage transmissionMessage) {
+        this.messagesToBeSent.add(transmissionMessage);
+    }
+
     /**
      * Sends data string message to defined server.
+     *
      * @param messageData to be sent.
      */
-    public void sendDataToServer(TransmissionMessage messageData) {
+    private void sendDataToServer(TransmissionMessage messageData) {
         try {
             DataOutputStream output = new DataOutputStream(this.myClient.getOutputStream());
             output.writeUTF(messageData.getPacket());
@@ -98,16 +110,19 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Boolean>{
         }
     }
 
-    public void teardown(){
+    public void teardown() {
+        this.running = false;
         try {
             this.myClient.close();
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
-    public PlayerClientPOJO getPlayerClientPojo(){
+    public PlayerClientPOJO getPlayerClientPojo() {
         return new PlayerClientPOJO(this.hostName, this.nickname);
     }
-    public String getStringForExtras(){
+
+    public String getStringForExtras() {
         return (this.nickname + "|" + this.hostName + ":" + this.portNumber);
     }
 }

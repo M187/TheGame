@@ -35,20 +35,11 @@ public class MultiplayerLobby extends Activity {
 
     public static final int DEFAULT_COM_PORT = 12371;
     public LobbyState lobbyState = LobbyState.Default;
-
+    public volatile String myNickname = null;
     private Server server;
     private Sender sender;
     private volatile ArrayList<Client> joinedPlayers = new ArrayList<>();
-
     private Client clientConnectionToServer;
-    public volatile String myNickname = null;
-
-    public enum LobbyState{
-        Default,
-        Joined,
-        JoinedAndReadyForGame,
-        Hosting
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +106,7 @@ public class MultiplayerLobby extends Activity {
     public void joinClick(View view) {
 
         if (this.lobbyState == LobbyState.Default) {
+
             EditText iP = (EditText) findViewById(R.id.ip);
             EditText port = (EditText) findViewById(R.id.port);
             EditText nickName = (EditText) findViewById(R.id.player_nickname);
@@ -125,7 +117,6 @@ public class MultiplayerLobby extends Activity {
 
             System.out.println("---- > Trying to connect to " + iP.getText().toString());
             this.clientConnectionToServer = new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname);
-
             sendMessageViaExecutorUsingMyClient(joinReq);
 
             this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.joinedPlayers, this));
@@ -142,27 +133,33 @@ public class MultiplayerLobby extends Activity {
 
     public void readyClick(View view) {
         if (lobbyState == LobbyState.Joined) {
-            ((Button) findViewById(R.id.button_ready)).setText("READY");
-            sendMessageViaExecutorUsingMyClient(new ReadyToPlayMessage(this.myNickname));
-            this.lobbyState = LobbyState.JoinedAndReadyForGame;
-        } else if (lobbyState == LobbyState.JoinedAndReadyForGame){
+
             ((Button) findViewById(R.id.button_ready)).setText("UN-READY");
-            sendMessageViaExecutorUsingMyClient(new UnReadyToPlayMessage(this.myNickname));
+            this.clientConnectionToServer.sendMessage(new ReadyToPlayMessage(this.myNickname));
+            this.lobbyState = LobbyState.JoinedAndReadyForGame;
+
+        } else if (lobbyState == LobbyState.JoinedAndReadyForGame){
+
+            ((Button) findViewById(R.id.button_ready)).setText("READY");
+            this.clientConnectionToServer.sendMessage(new UnReadyToPlayMessage(this.myNickname));
             this.lobbyState = LobbyState.Joined;
         }
     }
 
     public void abandonClick(View view) {
+
         if (this.lobbyState == LobbyState.Joined || this.lobbyState == LobbyState.JoinedAndReadyForGame) {
+
             (findViewById(R.id.button_join)).setEnabled(true);
             (findViewById(R.id.button_ready)).setEnabled(false);
             (findViewById(R.id.button_abandon)).setEnabled(false);
             (findViewById(R.id.button_host)).setEnabled(true);
+
             if (this.lobbyState == LobbyState.JoinedAndReadyForGame) {
                 ((Button) findViewById(R.id.button_ready)).setText("READY");
 
                 LeaveGameLobbyMessage leaveGameLobbyMessage = new LeaveGameLobbyMessage(this.myNickname);
-                sendMessageViaExecutorUsingMyClient(leaveGameLobbyMessage);
+                this.clientConnectionToServer.sendMessage(leaveGameLobbyMessage);
             }
             this.server.setMessageLogicExecutor(null);
             this.clientConnectionToServer.teardown();
@@ -172,7 +169,9 @@ public class MultiplayerLobby extends Activity {
     }
 
     public void startGame(View view){
+
         if (this.lobbyState == LobbyState.Hosting){
+
             for (Client joinedPlayer : this.joinedPlayers){
                 if (!joinedPlayer.isReadyForGame){
                     return;
@@ -189,6 +188,7 @@ public class MultiplayerLobby extends Activity {
     }
 
     public void saveConnectedPlayerDataAndStuff() {
+
         SharedPreferences.Editor editor = getPreferences(0).edit();
         for (int i = 0; i < 8; i++) {
             try {
@@ -210,10 +210,20 @@ public class MultiplayerLobby extends Activity {
     }
 
     private void sendMessageViaExecutorUsingMyClient(TransmissionMessage transmissionMessage){
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, transmissionMessage);
+            this.clientConnectionToServer.sendMessage(transmissionMessage);
         } else {
             this.clientConnectionToServer.execute(transmissionMessage);
+            this.clientConnectionToServer.sendMessage(transmissionMessage);
         }
+    }
+
+    public enum LobbyState{
+        Default,
+        Joined,
+        JoinedAndReadyForGame,
+        Hosting
     }
 }
