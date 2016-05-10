@@ -37,22 +37,20 @@ public abstract class GameView2 extends SurfaceView {
     public static Sender sender = null;
     public static String myNickname = null;
     public static boolean isMultiplayerGame = false;
-
+    public MapManager mapManager;
+    public Anchor anchor;
+    public Toolbar toolbar;
     protected GameMapEnum mapToCreate;
     protected MainGameThread thread;
     protected Background bg;
     protected Borders borders;
-    public MapManager mapManager;
-    public Anchor anchor;
     protected InputHandler inputHandler;
     protected EndgameEvents endgameEvents;
     protected Context context;
-
     protected Player player;
     protected EnemiesManager enemiesManager;
     protected SpellManager spellManager;
     protected StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
-    public Toolbar toolbar;
 
     public GameView2(Context context){
         super(context);

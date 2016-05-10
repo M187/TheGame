@@ -65,7 +65,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
             try {
                 if (this.myClient == null) {
                     this.myClient = new Socket(this.hostName, this.portNumber);
-                    System.out.println(" --- > Connection to server established!");
+                    System.out.println(" - > Connection to server " + this.hostName + " established!");
                 }
                 sendDataToServer(messagesToBeSent.poll(30, TimeUnit.SECONDS));
             } catch (IOException e) {
@@ -107,6 +107,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
             DataOutputStream output = new DataOutputStream(this.myClient.getOutputStream());
             output.writeChars(messageData.getPacket());
             output.flush();
+            System.out.println(" -- > Message sent: " + messageData.getPacket() + " Receiver address: " + this.hostName);
         } catch (IOException e) {
             System.out.println(e);
         }

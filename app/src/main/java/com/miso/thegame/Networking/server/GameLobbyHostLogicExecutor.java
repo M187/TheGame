@@ -42,9 +42,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                                 ((JoinGameLobbyMessage) transmissionMessage).getComputerName(),
                                 MultiplayerLobby.DEFAULT_COM_PORT,
                                 ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
-                // Propagate new client parameters to other players.
-                // Propagate other client data to new player.
-                //// TODO: 1.5.2016 do this via sender?
+
                 for (Client client : this.joinedPlayers) {
                     client.sendMessage(
                             new OtherPlayerDataMessage(

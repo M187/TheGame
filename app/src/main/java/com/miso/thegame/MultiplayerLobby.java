@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.miso.thegame.GameData.OptionStrings;
+import com.miso.thegame.Networking.MultiplayerLobbyStateHandler;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.GameLobbyClientLogicExecutor;
@@ -34,16 +35,19 @@ import java.util.ArrayList;
 public class MultiplayerLobby extends Activity {
 
     public static final int DEFAULT_COM_PORT = 12371;
-    public LobbyState lobbyState = LobbyState.Default;
+    public MultiplayerLobbyStateHandler.LobbyState lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
     public volatile String myNickname = null;
     private Server server;
     private Sender sender;
     private volatile ArrayList<Client> joinedPlayers = new ArrayList<>();
     private Client clientConnectionToServer;
+    private MultiplayerLobbyStateHandler stateHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.stateHandler = new MultiplayerLobbyStateHandler(this);
 
         // Start server only when host/join game?
         this.server = new Server(12371);
@@ -81,7 +85,7 @@ public class MultiplayerLobby extends Activity {
     }
 
     public void hostClick(View view) {
-        if (this.lobbyState == LobbyState.Hosting) {
+        if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Not hosting any game!");
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             ((Button) findViewById(R.id.button_host)).setText("HOST");
@@ -90,7 +94,7 @@ public class MultiplayerLobby extends Activity {
 
             sender.sendMessage(new DisbandGameMessage());
             uninitHostSettings();
-            this.lobbyState = LobbyState.Default;
+            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
         } else {
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Hosting Game!");
             ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
@@ -99,63 +103,53 @@ public class MultiplayerLobby extends Activity {
             (findViewById(R.id.button_start)).setEnabled(true);
 
             initHostSettings();
-            this.lobbyState = LobbyState.Hosting;
+            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
         }
     }
 
     public void joinClick(View view) {
 
-        if (this.lobbyState == LobbyState.Default) {
+        if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Default) {
 
             EditText iP = (EditText) findViewById(R.id.ip);
             EditText port = (EditText) findViewById(R.id.port);
             EditText nickName = (EditText) findViewById(R.id.player_nickname);
-            (findViewById(R.id.player_nickname)).setEnabled(true);
 
             TransmissionMessage joinReq = new JoinGameLobbyMessage(nickName.getText().toString());
             this.myNickname = nickName.getText().toString();
 
-            System.out.println("---- > Trying to connect to " + iP.getText().toString());
-            this.clientConnectionToServer = new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname);
-            sendMessageViaExecutorUsingMyClient(joinReq);
-
+            executeMyClient(new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname));
+            this.clientConnectionToServer.sendMessage(joinReq);
             this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.joinedPlayers, this));
 
             //todo: add check if client really joins game!??
-            (findViewById(R.id.button_join)).setEnabled(false);
-            (findViewById(R.id.button_ready)).setEnabled(true);
-            (findViewById(R.id.button_abandon)).setEnabled(true);
-            (findViewById(R.id.button_host)).setEnabled(false);
-            (findViewById(R.id.player_nickname)).setEnabled(false);
-            this.lobbyState = LobbyState.Joined;
+            this.stateHandler.joinClickUiEvents();
+            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
         }
     }
 
     public void readyClick(View view) {
-        if (lobbyState == LobbyState.Joined) {
+        if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.Joined) {
 
             ((Button) findViewById(R.id.button_ready)).setText("UN-READY");
             this.clientConnectionToServer.sendMessage(new ReadyToPlayMessage(this.myNickname));
-            this.lobbyState = LobbyState.JoinedAndReadyForGame;
+            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame;
 
-        } else if (lobbyState == LobbyState.JoinedAndReadyForGame){
+        } else if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame){
 
             ((Button) findViewById(R.id.button_ready)).setText("READY");
             this.clientConnectionToServer.sendMessage(new UnReadyToPlayMessage(this.myNickname));
-            this.lobbyState = LobbyState.Joined;
+            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
         }
     }
 
     public void abandonClick(View view) {
 
-        if (this.lobbyState == LobbyState.Joined || this.lobbyState == LobbyState.JoinedAndReadyForGame) {
+        if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Joined || this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
 
-            (findViewById(R.id.button_join)).setEnabled(true);
-            (findViewById(R.id.button_ready)).setEnabled(false);
-            (findViewById(R.id.button_abandon)).setEnabled(false);
-            (findViewById(R.id.button_host)).setEnabled(true);
+            this.stateHandler.abdandonClickUiEvents();
 
-            if (this.lobbyState == LobbyState.JoinedAndReadyForGame) {
+            if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
                 ((Button) findViewById(R.id.button_ready)).setText("READY");
 
                 LeaveGameLobbyMessage leaveGameLobbyMessage = new LeaveGameLobbyMessage(this.myNickname);
@@ -164,13 +158,13 @@ public class MultiplayerLobby extends Activity {
             this.server.setMessageLogicExecutor(null);
             this.clientConnectionToServer.teardown();
             this.clientConnectionToServer = null;
-            this.lobbyState = LobbyState.Default;
+            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
         }
     }
 
     public void startGame(View view){
 
-        if (this.lobbyState == LobbyState.Hosting){
+        if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting){
 
             for (Client joinedPlayer : this.joinedPlayers){
                 if (!joinedPlayer.isReadyForGame){
@@ -209,21 +203,13 @@ public class MultiplayerLobby extends Activity {
         return this.joinedPlayers;
     }
 
-    private void sendMessageViaExecutorUsingMyClient(TransmissionMessage transmissionMessage){
-
+    private void executeMyClient(Client client){
+        this.clientConnectionToServer = client;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, transmissionMessage);
-            this.clientConnectionToServer.sendMessage(transmissionMessage);
+            this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
-            this.clientConnectionToServer.execute(transmissionMessage);
-            this.clientConnectionToServer.sendMessage(transmissionMessage);
+            this.clientConnectionToServer.execute();
         }
     }
 
-    public enum LobbyState{
-        Default,
-        Joined,
-        JoinedAndReadyForGame,
-        Hosting
-    }
 }
