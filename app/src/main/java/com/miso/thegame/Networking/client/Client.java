@@ -80,6 +80,9 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
                 return null;
             }
         }
+        try {
+            this.myClient.close();
+        } catch (IOException e) { }
         return null;
     }
 

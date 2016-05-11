@@ -28,6 +28,7 @@ public class Server extends AsyncTask<Void, Void, Void> {
     private volatile MessageLogicExecutor messageLogicExecutor;
     private volatile BlockingQueue<TransmissionMessage> receivedMessages = new LinkedBlockingDeque<>();
     private volatile boolean running = true;
+    private Thread messageLogicExecutorThread;
 
     public Server(int port) {
         try {
@@ -38,6 +39,10 @@ public class Server extends AsyncTask<Void, Void, Void> {
     }
 
     public void terminate() {
+        this.messageLogicExecutorThread.interrupt();
+        try {
+            this.messageLogicExecutorThread.join();
+        } catch (InterruptedException e) {}
         this.running = false;
     }
 
@@ -45,30 +50,53 @@ public class Server extends AsyncTask<Void, Void, Void> {
      * Method to listen for incoming messages and connections. Should be used in its own thread.
      */
     public Void doInBackground(Void... params) {
-
-        new Thread() {
-            public void run() {
-                while (running) {
-                    try {
-                        messageLogicExecutor.processIncomingMessage(receivedMessages.take());
-                    } catch (InterruptedException e) {}
-                }
-            }
-        }.start();
-
-        while (running) {
-            try {
-                Socket connectionSocket = this.myService.accept();
-                System.out.println(" - > Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
-                new Thread(new ClientHandler(connectionSocket, this.receivedMessages)).start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        while (running) try {
+            Socket connectionSocket = this.myService.accept();
+            System.out.println(" - > Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
+            //new Thread(new ClientHandler(connectionSocket, this.receivedMessages)).start();
+            (new ClientHandler(connectionSocket, this.receivedMessages)).start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        try {
+            this.myService.close();
+        } catch (IOException e) {}
         return null;
     }
 
+    /**
+     * Method to set and run Thread for message logic executor.
+     * This object should process incoming transmissions and process them - perform game state changes.
+     *
+     * @param messageLogicExecutor to be used in thread
+     */
     public void setMessageLogicExecutor(MessageLogicExecutor messageLogicExecutor) {
+
         this.messageLogicExecutor = messageLogicExecutor;
+        if (this.messageLogicExecutorThread != null) {
+            try{
+                this.messageLogicExecutorThread.interrupt();
+                this.messageLogicExecutorThread.join();
+            } catch (InterruptedException e) {
+            }
+        }
+
+        this.messageLogicExecutorThread = (new Thread() {
+            private MessageLogicExecutor messageLogicExecutor;
+            public void run() {
+                while (!this.isInterrupted()) {
+                    try {
+                        messageLogicExecutor.processIncomingMessage(receivedMessages.take());
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+            private Thread init(MessageLogicExecutor messageLogicExecutor) {
+                this.messageLogicExecutor = messageLogicExecutor;
+                return this;
+            }
+        }.init(messageLogicExecutor));
+
+        this.messageLogicExecutorThread.start();
     }
 }

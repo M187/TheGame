@@ -39,15 +39,15 @@ public class MultiplayerLobby extends Activity {
     public volatile String myNickname = null;
     private Server server;
     private Sender sender;
-    private volatile ArrayList<Client> joinedPlayers = new ArrayList<>();
+    private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
     private Client clientConnectionToServer;
-    private MultiplayerLobbyStateHandler stateHandler;
+    private MultiplayerLobbyStateHandler uiStateHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.stateHandler = new MultiplayerLobbyStateHandler(this);
+        this.uiStateHandler = new MultiplayerLobbyStateHandler(this);
 
         // Start server only when host/join game?
         this.server = new Server(12371);
@@ -69,19 +69,19 @@ public class MultiplayerLobby extends Activity {
 
     private void initHostSettings() {
         resetAndGetJoinedPlayersList();
-        this.sender = new Sender(this.joinedPlayers);
-        this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.joinedPlayers, sender));
+        this.sender = new Sender(this.registeredPlayers);
+        this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.registeredPlayers, sender));
     }
 
     private void uninitHostSettings() {
         try {
-            for (Client client : joinedPlayers) {
+            for (Client client : registeredPlayers) {
                 client.execute(new DisbandGameMessage());
             }
         } catch (NullPointerException e) {
         }
         this.server.setMessageLogicExecutor(null);
-        this.joinedPlayers = new ArrayList<>();
+        this.registeredPlayers = new ArrayList<>();
     }
 
     public void hostClick(View view) {
@@ -118,12 +118,15 @@ public class MultiplayerLobby extends Activity {
             TransmissionMessage joinReq = new JoinGameLobbyMessage(nickName.getText().toString());
             this.myNickname = nickName.getText().toString();
 
-            executeMyClient(new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname));
+            Client newC = (new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname));
+            executeMyClient(newC);
+            this.registeredPlayers.add(newC);
+
             this.clientConnectionToServer.sendMessage(joinReq);
-            this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.joinedPlayers, this));
+            this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.registeredPlayers, this));
 
             //todo: add check if client really joins game!??
-            this.stateHandler.joinClickUiEvents();
+            this.uiStateHandler.joinClickUiEvents();
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
         }
     }
@@ -147,7 +150,7 @@ public class MultiplayerLobby extends Activity {
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Joined || this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
 
-            this.stateHandler.abdandonClickUiEvents();
+            this.uiStateHandler.abdandonClickUiEvents();
 
             if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
                 ((Button) findViewById(R.id.button_ready)).setText("READY");
@@ -166,7 +169,7 @@ public class MultiplayerLobby extends Activity {
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting){
 
-            for (Client joinedPlayer : this.joinedPlayers){
+            for (Client joinedPlayer : this.registeredPlayers){
                 if (!joinedPlayer.isReadyForGame){
                     return;
                 }
@@ -186,8 +189,8 @@ public class MultiplayerLobby extends Activity {
         SharedPreferences.Editor editor = getPreferences(0).edit();
         for (int i = 0; i < 8; i++) {
             try {
-                if (joinedPlayers.get(i) != null) {
-                    editor.putString("Player" + i + "networkData", joinedPlayers.get(i).getStringForExtras());
+                if (registeredPlayers.get(i) != null) {
+                    editor.putString("Player" + i + "networkData", registeredPlayers.get(i).getStringForExtras());
                 } else {
                     editor.putString("Player" + i + "networkData", "free slot");
                 }
@@ -199,8 +202,8 @@ public class MultiplayerLobby extends Activity {
     }
 
     private ArrayList<Client> resetAndGetJoinedPlayersList(){
-        this.joinedPlayers = new ArrayList<>();
-        return this.joinedPlayers;
+        this.registeredPlayers = new ArrayList<>();
+        return this.registeredPlayers;
     }
 
     private void executeMyClient(Client client){

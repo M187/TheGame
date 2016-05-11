@@ -13,7 +13,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Created by michal.hornak on 10.05.2016.
  */
-public class ClientHandler implements Runnable {
+public class ClientHandler extends Thread{
 
     private Socket clientSocket;
     private InetAddress clientAddress;
@@ -31,11 +31,15 @@ public class ClientHandler implements Runnable {
         String receivedMessage;
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-            while (true) {
-                receivedMessage = inFromClient.readLine();
+            while (!this.isInterrupted()) {
+                receivedMessage = inFromClient.readLine().replace(" ","");
                 this.messageHolder.add(
                         this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, this.clientAddress));
                 System.out.println(" -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
+                if(receivedMessage.startsWith("04")) {
+                    this.clientSocket.close();
+                    break;
+                }
             }
         } catch (IOException e) {
         }
