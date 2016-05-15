@@ -121,7 +121,6 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
             getSpellManager().update();
             //collisionHandler.performCollisionCheck();
         }
-
     }
 
     @Override

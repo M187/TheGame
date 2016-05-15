@@ -8,9 +8,9 @@ import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
 import com.miso.thegame.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,41 +23,39 @@ import java.util.List;
  */
 public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
-    private volatile List<Client> joinedPlayers = new ArrayList<>();
+    private volatile List<Client> registeredPlayers;
     private volatile MultiplayerLobby multiplayerLobby;
 
-    public GameLobbyClientLogicExecutor(List<Client> joinedPlayers, MultiplayerLobby multiplayerLobby) {
-        this.joinedPlayers = joinedPlayers;
+    public GameLobbyClientLogicExecutor(List<Client> registeredPlayers, MultiplayerLobby multiplayerLobby) {
+        this.registeredPlayers = registeredPlayers;
         this.isServerLogicProcessor = false;
         this.multiplayerLobby = multiplayerLobby;
     }
 
     @Override
-    public void processIncomingMessage(TransmissionMessage transmissionMessage) {
+    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException{
 
         System.out.println(transmissionMessage.getPacket());
         switch (transmissionMessage.getTransmissionType()) {
 
             // Other player joining game
             case "02":
-                this.joinedPlayers.add(
+                this.registeredPlayers.add(
                         new Client(
-                                ((JoinGameLobbyMessage) transmissionMessage).getComputerName(),
+                                ((OtherPlayerDataMessage) transmissionMessage).getComputerName(),
                                 MultiplayerLobby.DEFAULT_COM_PORT,
-                                ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
+                                ((OtherPlayerDataMessage) transmissionMessage).getNickname()));
                 break;
 
             //Start game signal
             case "04":
-                Intent i = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
-                        .putExtra(OptionStrings.multiplayerInstance, this.multiplayerLobby.myNickname)
-                        .putExtra(OptionStrings.multiplayerInstance, true)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                 this.multiplayerLobby.saveConnectedPlayerDataAndStuff();
-                this.multiplayerLobby.startActivity(i);
-                this.multiplayerLobby.finish();
-                break;
+                this.multiplayerLobby.startActivity(
+                        new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
+                                .putExtra(OptionStrings.multiplayerInstance, this.multiplayerLobby.myNickname)
+                                .putExtra(OptionStrings.multiplayerInstance, true)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                throw new StartGameException();
 
             // Disbanding game
             case "08":
@@ -71,7 +69,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             // Other player leaving game.
             case "07":
-                this.joinedPlayers.remove(
+                this.registeredPlayers.remove(
                         new Client(((JoinGameLobbyMessage) transmissionMessage).getComputerName(),
                                 MultiplayerLobby.DEFAULT_COM_PORT,
                                 ((JoinGameLobbyMessage) transmissionMessage).getNickname()));

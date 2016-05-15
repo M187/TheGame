@@ -21,12 +21,12 @@ import java.util.ArrayList;
 
 public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
 
-    private volatile ArrayList<Client> joinedPlayers = new ArrayList<>();
+    private volatile ArrayList<Client> registeredPlayers;
     private Sender sender;
 
-    public GameLobbyHostLogicExecutor(ArrayList<Client> joinedPlayers, Sender sender) {
+    public GameLobbyHostLogicExecutor(ArrayList<Client> registeredPlayers, Sender sender) {
         this.sender = sender;
-        this.joinedPlayers = joinedPlayers;
+        this.registeredPlayers = registeredPlayers;
         this.isServerLogicProcessor = true;
     }
 
@@ -43,7 +43,10 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                                 MultiplayerLobby.DEFAULT_COM_PORT,
                                 ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
 
-                for (Client client : this.joinedPlayers) {
+                //send new player
+                newPlayer.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
+
+                for (Client client : this.registeredPlayers) {
                     client.sendMessage(
                             new OtherPlayerDataMessage(
                                     ((JoinGameLobbyMessage) transmissionMessage).getNickname(),
@@ -51,20 +54,20 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                     newPlayer.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
                 }
                 // add new player.
-                this.joinedPlayers.add(newPlayer);
+                this.registeredPlayers.add(newPlayer);
                 break;
 
             // Player ready for game.
             case "03":
-                this.joinedPlayers.get(
-                        this.joinedPlayers.indexOf(new Client(((ReadyToPlayMessage) transmissionMessage).getNickname())))
+                this.registeredPlayers.get(
+                        this.registeredPlayers.indexOf(new Client(((ReadyToPlayMessage) transmissionMessage).getNickname())))
                         .isReadyForGame = true;
                 break;
 
             // Player un-ready for game.
             case "05":
-                this.joinedPlayers.get(
-                        this.joinedPlayers.indexOf(new Client(((ReadyToPlayMessage) transmissionMessage).getNickname())))
+                this.registeredPlayers.get(
+                        this.registeredPlayers.indexOf(new Client(((ReadyToPlayMessage) transmissionMessage).getNickname())))
                         .isReadyForGame = false;
                 break;
 
@@ -72,10 +75,10 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
             case "06":
                 // Tell other players about leaving player.
                 //// TODO: 1.5.2016 do this via sender?
-                for (Client client : this.joinedPlayers) {
+                for (Client client : this.registeredPlayers) {
                     client.sendMessage(transmissionMessage);
                 }
-                this.joinedPlayers.remove(
+                this.registeredPlayers.remove(
                         new Client(
                                 ((LeaveGameLobbyMessage) transmissionMessage).getComputerName(),
                                 MultiplayerLobby.DEFAULT_COM_PORT,

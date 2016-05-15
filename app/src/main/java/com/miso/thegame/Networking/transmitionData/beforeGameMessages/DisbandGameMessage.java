@@ -12,6 +12,6 @@ public class DisbandGameMessage extends TransmissionMessage {
     }
 
     public String getPacket(){
-        return this.transmissionType + "/r";
+        return this.transmissionType;
     }
 }

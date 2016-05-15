@@ -6,6 +6,8 @@ package com.miso.thegame.gameMechanics;
  */
 public class ConstantHolder {
 
+    public static final String TAG = "TheGame";
+
     public static int maximumPlayerHealth = 50;
     public static int primaryAmunitionMaxValue = 120;
     public static int maximumPlayerSpeed = 8;

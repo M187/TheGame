@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.MultiplayerLobbyStateHandler;
@@ -36,7 +35,7 @@ public class MultiplayerLobby extends Activity {
 
     public static final int DEFAULT_COM_PORT = 12371;
     public MultiplayerLobbyStateHandler.LobbyState lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
-    public volatile String myNickname = null;
+    public static volatile String myNickname = null;
     private Server server;
     private Sender sender;
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
@@ -46,17 +45,7 @@ public class MultiplayerLobby extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.uiStateHandler = new MultiplayerLobbyStateHandler(this);
-
-        // Start server only when host/join game?
-        this.server = new Server(12371);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.server.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            this.server.execute();
-        }
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.multiplayer_lobby_layout);
     }
@@ -64,52 +53,57 @@ public class MultiplayerLobby extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        this.server.terminate();
+        this.uninitLocalServerAndData();
     }
 
-    private void initHostSettings() {
-        resetAndGetJoinedPlayersList();
+    private void initHostServer() {
+        this.server = new Server(12371);
+        this.registeredPlayers.clear();
         this.sender = new Sender(this.registeredPlayers);
-        this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.registeredPlayers, sender));
+        this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.registeredPlayers, this.sender));
+        this.executeServerListener();
     }
 
-    private void uninitHostSettings() {
-        try {
-            for (Client client : registeredPlayers) {
-                client.execute(new DisbandGameMessage());
-            }
-        } catch (NullPointerException e) {
-        }
+    public void uninitLocalServerAndData() {
+        this.server.terminate();
         this.server.setMessageLogicExecutor(null);
-        this.registeredPlayers = new ArrayList<>();
+        this.registeredPlayers.clear();
+    }
+
+    private void initClientServer(){
+        this.server = new Server(12371);
+        this.registeredPlayers.clear();
+        this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.registeredPlayers, this));
+        executeServerListener();
     }
 
     public void hostClick(View view) {
+
+        System.out.println("Clicked on Host button.");
+
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
-            ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Not hosting any game!");
-            ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-            ((Button) findViewById(R.id.button_host)).setText("HOST");
-            (findViewById(R.id.button_join)).setEnabled(true);
-            (findViewById(R.id.button_start)).setEnabled(false);
+
+            this.uiStateHandler.unHostClickUiChanges();
 
             sender.sendMessage(new DisbandGameMessage());
-            uninitHostSettings();
+            uninitLocalServerAndData();
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
         } else {
-            ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Hosting Game!");
-            ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-            ((Button) findViewById(R.id.button_host)).setText("UN-HOST");
-            (findViewById(R.id.button_join)).setEnabled(false);
-            (findViewById(R.id.button_start)).setEnabled(true);
+            this.uiStateHandler.hostClickUiChanges();
 
-            initHostSettings();
+            initHostServer();
+
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
         }
     }
 
     public void joinClick(View view) {
 
+        System.out.println("Clicked on Joined button.");
+
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Default) {
+
+            initClientServer();
 
             EditText iP = (EditText) findViewById(R.id.ip);
             EditText port = (EditText) findViewById(R.id.port);
@@ -120,10 +114,8 @@ public class MultiplayerLobby extends Activity {
 
             Client newC = (new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname));
             executeMyClient(newC);
-            this.registeredPlayers.add(newC);
 
             this.clientConnectionToServer.sendMessage(joinReq);
-            this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.registeredPlayers, this));
 
             //todo: add check if client really joins game!??
             this.uiStateHandler.joinClickUiEvents();
@@ -134,13 +126,14 @@ public class MultiplayerLobby extends Activity {
     public void readyClick(View view) {
         if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.Joined) {
 
-            ((Button) findViewById(R.id.button_ready)).setText("UN-READY");
+            this.uiStateHandler.readyClickUiChanges();
+
             this.clientConnectionToServer.sendMessage(new ReadyToPlayMessage(this.myNickname));
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame;
 
         } else if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame){
 
-            ((Button) findViewById(R.id.button_ready)).setText("READY");
+            this.uiStateHandler.unReadyClickChanges();
             this.clientConnectionToServer.sendMessage(new UnReadyToPlayMessage(this.myNickname));
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
         }
@@ -158,8 +151,8 @@ public class MultiplayerLobby extends Activity {
                 LeaveGameLobbyMessage leaveGameLobbyMessage = new LeaveGameLobbyMessage(this.myNickname);
                 this.clientConnectionToServer.sendMessage(leaveGameLobbyMessage);
             }
-            this.server.setMessageLogicExecutor(null);
-            this.clientConnectionToServer.teardown();
+            uninitLocalServerAndData();
+            this.clientConnectionToServer.terminate();
             this.clientConnectionToServer = null;
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
         }
@@ -177,8 +170,9 @@ public class MultiplayerLobby extends Activity {
             sender.sendMessage(new StartGameMessage());
             saveConnectedPlayerDataAndStuff();
             startActivity(new Intent(this, GameActivity.class)
-                    .putExtra(OptionStrings.multiplayerInstance, true)
-                    .putExtra(OptionStrings.multiplayerInstance, this.myNickname));
+                    .putExtra(OptionStrings.multiplayerInstance, this.myNickname)
+                    .putExtra(OptionStrings.multiplayerInstance, true));
+            this.uninitLocalServerAndData();
         } else {
             (findViewById(R.id.button_start)).setEnabled(false);
         }
@@ -190,7 +184,7 @@ public class MultiplayerLobby extends Activity {
         for (int i = 0; i < 8; i++) {
             try {
                 if (registeredPlayers.get(i) != null) {
-                    editor.putString("Player" + i + "networkData", registeredPlayers.get(i).getStringForExtras());
+                    editor.putString("Player" + i + "networkData", this.registeredPlayers.get(i).getStringForExtras());
                 } else {
                     editor.putString("Player" + i + "networkData", "free slot");
                 }
@@ -201,17 +195,21 @@ public class MultiplayerLobby extends Activity {
         editor.commit();
     }
 
-    private ArrayList<Client> resetAndGetJoinedPlayersList(){
-        this.registeredPlayers = new ArrayList<>();
-        return this.registeredPlayers;
-    }
-
     private void executeMyClient(Client client){
         this.clientConnectionToServer = client;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
             this.clientConnectionToServer.execute();
+        }
+    }
+
+    private void executeServerListener(){
+        // Start server only when host/join game?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            this.server.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            this.server.execute();
         }
     }
 
