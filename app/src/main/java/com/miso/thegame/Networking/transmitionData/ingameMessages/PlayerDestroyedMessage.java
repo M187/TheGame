@@ -20,7 +20,7 @@ public class PlayerDestroyedMessage extends TransmissionMessage {
     }
 
     public String getPacket() {
-        return this.transmissionType + "|" + this.getNickname() + "/r";
+        return this.transmissionType + "|" + this.getNickname();
     }
 
     public String getNickname() {

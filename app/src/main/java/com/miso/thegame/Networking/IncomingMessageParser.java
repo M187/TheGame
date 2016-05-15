@@ -5,6 +5,7 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.DisbandGam
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessage;
@@ -27,9 +28,11 @@ public class IncomingMessageParser {
             case "02":
                 return new OtherPlayerDataMessage(recievedMessage.split("\\|")[1], recievedMessage.split("\\|")[2]);
             case "03":
-                return new LeaveGameLobbyMessage(recievedMessage.split("\\|")[1], recievedMessage.split("\\|")[2]);
+                return new ReadyToPlayMessage(recievedMessage.split("\\|")[1]);
             case "04":
                 return new StartGameMessage();
+            case "06":
+                return new LeaveGameLobbyMessage(recievedMessage.split("\\|")[1]);
             case "08":
                 return new DisbandGameMessage();
             case "10":

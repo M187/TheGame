@@ -19,6 +19,7 @@ public class ClientHandler extends Thread{
     private InetAddress clientAddress;
     private volatile BlockingQueue<TransmissionMessage> messageHolder;
     private IncomingMessageParser incomingMessageParser = new IncomingMessageParser();
+    private boolean running = false;
 
     public ClientHandler(Socket socket, BlockingQueue<TransmissionMessage> messageHolder) {
         this.clientSocket = socket;
@@ -29,19 +30,21 @@ public class ClientHandler extends Thread{
     @Override
     public void run() {
         String receivedMessage;
+        this.running = true;
         try {
-            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-            while (!this.isInterrupted()) {
-                receivedMessage = inFromClient.readLine().replace(" ","");
+            BufferedReader inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream(), "UTF-8"));
+            while (this.running) {
+                receivedMessage = inFromClient.readLine();
+                if (receivedMessage.startsWith("04")) {
+                    this.clientSocket.close();
+                    this.running = false;
+                }
                 this.messageHolder.add(
                         this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, this.clientAddress));
                 System.out.println(" -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
-                if(receivedMessage.startsWith("04")) {
-                    this.clientSocket.close();
-                    break;
-                }
             }
-        } catch (IOException e) {
+        } catch (IOException e) { //todo: lost connection with client.
         }
+        catch (NullPointerException es){}
     }
 }

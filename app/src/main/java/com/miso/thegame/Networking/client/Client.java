@@ -1,18 +1,19 @@
 package com.miso.thegame.Networking.client;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.miso.thegame.Networking.PlayerClientPOJO;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by michal.hornak on 20.04.2016.
@@ -61,28 +62,16 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
 
     @Override
     public Void doInBackground(TransmissionMessage... a) {
-        while (running) {
-            try {
-                if (this.myClient == null) {
-                    this.myClient = new Socket(this.hostName, this.portNumber);
-                    System.out.println(" - > Connection to server " + this.hostName + " established!");
-                }
-                sendDataToServer(messagesToBeSent.poll(30, TimeUnit.SECONDS));
-            } catch (IOException e) {
-                try {
-                    this.myClient = new Socket(this.hostName, this.portNumber);
-                    sendDataToServer(messagesToBeSent.poll(30, TimeUnit.SECONDS));
-                } catch (IOException ex) {
-                } catch (InterruptedException ex) {
-                }
-            } catch (InterruptedException e) {
-            } catch (NullPointerException e){
-                return null;
-            }
-        }
         try {
-            this.myClient.close();
-        } catch (IOException e) { }
+            this.myClient = new Socket(this.hostName, this.portNumber);
+            System.out.println(" - > Connection to server " + this.hostName + " established!");
+            while (running) try {
+                sendDataToServer(this.messagesToBeSent.take());
+            } catch (InterruptedException e) { }
+        } catch (IOException e) {
+            Log.d(ConstantHolder.TAG, "Can't initialize client to connect to server!");
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -107,16 +96,16 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
      */
     private void sendDataToServer(TransmissionMessage messageData) {
         try {
-            DataOutputStream output = new DataOutputStream(this.myClient.getOutputStream());
-            output.writeChars(messageData.getPacket());
-            output.flush();
-            System.out.println(" -- > Message sent: " + messageData.getPacket() + " Receiver address: " + this.hostName);
+            PrintWriter outputWriter = new PrintWriter(this.myClient.getOutputStream(), true);
+            outputWriter.println(messageData.getPacket());
+            //outputWriter.flush();
+            Log.d(ConstantHolder.TAG, " -- > Message sent: " + messageData.getPacket() + " Receiver address: " + this.hostName);
         } catch (IOException e) {
             System.out.println(e);
         }
     }
 
-    public void teardown() {
+    public void terminate() {
         this.running = false;
         try {
             this.myClient.close();

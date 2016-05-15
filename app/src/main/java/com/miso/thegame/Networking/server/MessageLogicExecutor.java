@@ -18,5 +18,7 @@ public abstract class MessageLogicExecutor {
         return this.isServerLogicProcessor;
     }
 
-    public abstract void processIncomingMessage(TransmissionMessage transmissionMessage);
+    public abstract void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException;
+
+    public class StartGameException extends Throwable{}
 }

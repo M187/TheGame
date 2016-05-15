@@ -2,9 +2,11 @@ package com.miso.thegame.Networking.server;
 
 import android.os.AsyncTask;
 
+import com.miso.thegame.Networking.transmitionData.TerminateMessage;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
@@ -24,6 +26,8 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public class Server extends AsyncTask<Void, Void, Void> {
 
+    public static InetAddress myAddress = null;
+
     ServerSocket myService;
     private volatile MessageLogicExecutor messageLogicExecutor;
     private volatile BlockingQueue<TransmissionMessage> receivedMessages = new LinkedBlockingDeque<>();
@@ -39,11 +43,11 @@ public class Server extends AsyncTask<Void, Void, Void> {
     }
 
     public void terminate() {
-        this.messageLogicExecutorThread.interrupt();
-        try {
-            this.messageLogicExecutorThread.join();
-        } catch (InterruptedException e) {}
         this.running = false;
+        receivedMessages.add(new TerminateMessage());
+        try {
+            this.myService.close();
+        } catch (IOException e) {}
     }
 
     /**
@@ -52,12 +56,10 @@ public class Server extends AsyncTask<Void, Void, Void> {
     public Void doInBackground(Void... params) {
         while (running) try {
             Socket connectionSocket = this.myService.accept();
+            myAddress = connectionSocket.getLocalAddress();
             System.out.println(" - > Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
-            //new Thread(new ClientHandler(connectionSocket, this.receivedMessages)).start();
             (new ClientHandler(connectionSocket, this.receivedMessages)).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {}
         try {
             this.myService.close();
         } catch (IOException e) {}
@@ -74,20 +76,28 @@ public class Server extends AsyncTask<Void, Void, Void> {
 
         this.messageLogicExecutor = messageLogicExecutor;
         if (this.messageLogicExecutorThread != null) {
-            try{
-                this.messageLogicExecutorThread.interrupt();
+            receivedMessages.add(new TerminateMessage());
+            try {
                 this.messageLogicExecutorThread.join();
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException e) {}
         }
 
         this.messageLogicExecutorThread = (new Thread() {
             private MessageLogicExecutor messageLogicExecutor;
+            private boolean running = true;
             public void run() {
-                while (!this.isInterrupted()) {
+                while (this.running) {
                     try {
-                        messageLogicExecutor.processIncomingMessage(receivedMessages.take());
-                    } catch (InterruptedException e) {
+                        TransmissionMessage temp = receivedMessages.take();
+                        if (temp instanceof TerminateMessage){
+                            this.running = false;
+                        } else {
+                            messageLogicExecutor.processIncomingMessage(temp);
+                        }
+                    } catch (InterruptedException e) {}
+                    catch (MessageLogicExecutor.StartGameException ex){
+                        this.running = false;
+                        break;
                     }
                 }
             }

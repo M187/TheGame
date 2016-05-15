@@ -150,7 +150,6 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
             getSpellManager().update();
             //collisionHandler.performCollisionCheck();
         }
-
     }
 
     @Override

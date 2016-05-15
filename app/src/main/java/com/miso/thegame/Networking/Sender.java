@@ -1,5 +1,7 @@
 package com.miso.thegame.Networking;
 
+import android.os.AsyncTask;
+
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
@@ -33,7 +35,12 @@ public class Sender {
 
     public void sendMessage(TransmissionMessage transmissionMessage){
         for (Client player : this.registeredPlayers){
-            player.sendMessage(transmissionMessage);
+            if (player.getStatus() == AsyncTask.Status.RUNNING) {
+                player.sendMessage(transmissionMessage);
+            } else {
+                player.execute();
+                player.sendMessage(transmissionMessage);
+            }
         }
     }
 }

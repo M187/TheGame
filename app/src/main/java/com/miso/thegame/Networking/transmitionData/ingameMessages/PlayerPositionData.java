@@ -38,7 +38,7 @@ public class PlayerPositionData extends TransmissionMessage {
     }
 
     public String getPacket() {
-        return this.transmissionType + "|" + this.nickname + "|" + this.getPosition().x + "|" + this.getPosition().y + "|" + this.getHeading() + "/r";
+        return this.transmissionType + "|" + this.nickname + "|" + this.getPosition().x + "|" + this.getPosition().y + "|" + this.getHeading();
     }
 
     public Point getPosition() {
