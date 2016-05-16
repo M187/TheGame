@@ -89,14 +89,15 @@ public class Server extends AsyncTask<Void, Void, Void> {
                 while (this.running) {
                     try {
                         TransmissionMessage temp = receivedMessages.take();
-                        if (temp instanceof TerminateMessage){
+                        if (temp instanceof TerminateMessage) {
                             this.running = false;
                         } else {
                             messageLogicExecutor.processIncomingMessage(temp);
                         }
-                    } catch (InterruptedException e) {}
-                    catch (MessageLogicExecutor.StartGameException ex){
-                        this.running = false;
+                    }catch (InterruptedException e){}
+                    catch ( MessageLogicExecutor.StartGameException|
+                            MessageLogicExecutor.DisbandGameException e){
+                        terminate();
                         break;
                     }
                 }

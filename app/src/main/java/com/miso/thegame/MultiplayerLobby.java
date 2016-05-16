@@ -34,8 +34,8 @@ import java.util.ArrayList;
 public class MultiplayerLobby extends Activity {
 
     public static final int DEFAULT_COM_PORT = 12371;
-    public MultiplayerLobbyStateHandler.LobbyState lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
     public static volatile String myNickname = null;
+    public MultiplayerLobbyStateHandler.LobbyState lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
     private Server server;
     private Sender sender;
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
@@ -168,7 +168,7 @@ public class MultiplayerLobby extends Activity {
                 }
             }
             sender.sendMessage(new StartGameMessage());
-            saveConnectedPlayerDataAndStuff();
+            saveConnectedPlayers();
             startActivity(new Intent(this, GameActivity.class)
                     .putExtra(OptionStrings.multiplayerInstance, this.myNickname)
                     .putExtra(OptionStrings.multiplayerInstance, true));
@@ -178,7 +178,7 @@ public class MultiplayerLobby extends Activity {
         }
     }
 
-    public void saveConnectedPlayerDataAndStuff() {
+    public void saveConnectedPlayers() {
 
         SharedPreferences.Editor editor = getPreferences(0).edit();
         for (int i = 0; i < 8; i++) {

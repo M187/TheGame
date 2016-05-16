@@ -30,31 +30,12 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
         this.isServerLogicProcessor = true;
     }
 
-    public void processIncomingMessage(TransmissionMessage transmissionMessage) {
+    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException, DisbandGameException{
 
         switch (transmissionMessage.getTransmissionType()) {
-
             // Player joining game.
             case "01":
-                // Create new client based on incoming data.
-                Client newPlayer = (
-                        new Client(
-                                ((JoinGameLobbyMessage) transmissionMessage).getComputerName(),
-                                MultiplayerLobby.DEFAULT_COM_PORT,
-                                ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
-
-                //send new player
-                newPlayer.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
-
-                for (Client client : this.registeredPlayers) {
-                    client.sendMessage(
-                            new OtherPlayerDataMessage(
-                                    ((JoinGameLobbyMessage) transmissionMessage).getNickname(),
-                                    ((JoinGameLobbyMessage) transmissionMessage).getComputerName()));
-                    newPlayer.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
-                }
-                // add new player.
-                this.registeredPlayers.add(newPlayer);
+                this.joinMessageProcessing((JoinGameLobbyMessage) transmissionMessage);
                 break;
 
             // Player ready for game.
@@ -74,16 +55,51 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
             // Player leaving game.
             case "06":
                 // Tell other players about leaving player.
-                //// TODO: 1.5.2016 do this via sender?
-                for (Client client : this.registeredPlayers) {
-                    client.sendMessage(transmissionMessage);
-                }
-                this.registeredPlayers.remove(
-                        new Client(
-                                ((LeaveGameLobbyMessage) transmissionMessage).getComputerName(),
-                                MultiplayerLobby.DEFAULT_COM_PORT,
-                                ((LeaveGameLobbyMessage) transmissionMessage).getNickname()));
+                this.otherPlayerLeaveMessageProcessing((LeaveGameLobbyMessage) transmissionMessage);
                 break;
         }
+    }
+
+    /**
+     * Process join game message.
+     * Also forwards to registered players.
+     *
+     * @param joinGameLobbyMessage created by a relevant player and forwarded by host.
+     */
+    public void joinMessageProcessing(JoinGameLobbyMessage joinGameLobbyMessage) {
+        // Create new client based on incoming data.
+        Client newPlayer = (
+                new Client(
+                        joinGameLobbyMessage.getComputerName(),
+                        MultiplayerLobby.DEFAULT_COM_PORT,
+                        joinGameLobbyMessage.getNickname()));
+
+        //send new player my (server) information.
+        newPlayer.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
+
+        for (Client client : this.registeredPlayers) {
+            client.sendMessage(
+                    new OtherPlayerDataMessage(
+                            joinGameLobbyMessage.getNickname(),
+                            joinGameLobbyMessage.getComputerName()));
+            newPlayer.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
+        }
+        // add new player.
+        this.registeredPlayers.add(newPlayer);
+    }
+
+    /**
+     * Process leave game message.
+     * Also forwards to registered players.
+     *
+     * @param leaveGameLobbyMessage created by a relevant player and forwarded by host.
+     */
+    public void otherPlayerLeaveMessageProcessing(LeaveGameLobbyMessage leaveGameLobbyMessage){
+        sender.sendMessage(leaveGameLobbyMessage);
+        this.registeredPlayers.remove(
+                new Client(
+                        leaveGameLobbyMessage.getComputerName(),
+                        MultiplayerLobby.DEFAULT_COM_PORT,
+                        leaveGameLobbyMessage.getNickname()));
     }
 }

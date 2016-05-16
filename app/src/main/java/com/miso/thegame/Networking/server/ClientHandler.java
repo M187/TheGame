@@ -35,13 +35,14 @@ public class ClientHandler extends Thread{
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream(), "UTF-8"));
             while (this.running) {
                 receivedMessage = inFromClient.readLine();
-                if (receivedMessage.startsWith("04")) {
+                if (receivedMessage.startsWith("04") | receivedMessage.startsWith("08")) {
                     this.clientSocket.close();
                     this.running = false;
+                } else {
+                    this.messageHolder.add(
+                            this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, this.clientAddress));
+                    System.out.println(" -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
                 }
-                this.messageHolder.add(
-                        this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, this.clientAddress));
-                System.out.println(" -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
             }
         } catch (IOException e) { //todo: lost connection with client.
         }

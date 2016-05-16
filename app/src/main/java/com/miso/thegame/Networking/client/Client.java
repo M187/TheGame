@@ -28,7 +28,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
     public boolean isReadyForGame = false;
     public LinkedBlockingQueue<TransmissionMessage> messagesToBeSent = new LinkedBlockingQueue<>();
     DataInputStream dataInputStream;
-    String recievedFrameData;
+    String receivedFrameData;
     private Socket myClient;
     private String hostName;
     private String nickname;
@@ -78,7 +78,7 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
     public void getDataFromServer() {
         try {
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(this.myClient.getInputStream()));
-            this.recievedFrameData = inFromServer.readLine();
+            this.receivedFrameData = inFromServer.readLine();
         } catch (IOException e) {
             this.dataInputStream = null;
             System.out.println(e);

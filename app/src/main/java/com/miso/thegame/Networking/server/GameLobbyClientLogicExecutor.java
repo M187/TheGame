@@ -33,7 +33,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
     }
 
     @Override
-    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException{
+    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException, DisbandGameException{
 
         System.out.println(transmissionMessage.getPacket());
         switch (transmissionMessage.getTransmissionType()) {
@@ -49,12 +49,14 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             //Start game signal
             case "04":
-                this.multiplayerLobby.saveConnectedPlayerDataAndStuff();
+                this.multiplayerLobby.uninitLocalServerAndData();
+                this.multiplayerLobby.saveConnectedPlayers();
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
                                 .putExtra(OptionStrings.multiplayerInstance, this.multiplayerLobby.myNickname)
                                 .putExtra(OptionStrings.multiplayerInstance, true)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                //// TODO: 16.05.2016 instruct server to stop.
                 throw new StartGameException();
 
             // Disbanding game
@@ -65,7 +67,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                         multiplayerLobby.abandonClick(multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout));
                     }
                 });
-                break;
+                throw new DisbandGameException();
 
             // Other player leaving game.
             case "07":
