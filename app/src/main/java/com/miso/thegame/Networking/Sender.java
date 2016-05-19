@@ -23,14 +23,7 @@ public class Sender {
     private volatile ArrayList<Client> registeredPlayers;
 
     public Sender(ArrayList<Client> registeredPlayers){
-
         this.registeredPlayers = registeredPlayers;
-
-        if (registeredPlayers.size() > 0) {
-            for (Client client : registeredPlayers) {
-                client.execute();
-            }
-        }
     }
 
     public void sendMessage(TransmissionMessage transmissionMessage){

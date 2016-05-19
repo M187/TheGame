@@ -7,10 +7,7 @@ import com.miso.thegame.Networking.PlayerClientPOJO;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -22,18 +19,18 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Each registered server should have one instance ready to go.
  * When relevant event occurs, propagate it to every Client to send it.
  */
-public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
+public class Client extends AsyncTask<Void, Void, Void> {
 
     // Server needs this information
     public boolean isReadyForGame = false;
     public LinkedBlockingQueue<TransmissionMessage> messagesToBeSent = new LinkedBlockingQueue<>();
-    DataInputStream dataInputStream;
-    String receivedFrameData;
     private Socket myClient;
     private String hostName;
     private String nickname;
     private int portNumber;
     private volatile boolean running = true;
+    private volatile boolean isConnectionEstablished = false;
+    private boolean isGameClient = false;
 
     public Client(String nickname) {
         this.nickname = nickname;
@@ -43,6 +40,13 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
         this.nickname = nickname;
         this.hostName = hostName;
         this.portNumber = portNumber;
+    }
+
+    public Client(String hostName, int portNumber, String nickname, boolean isGameClient) {
+        this.nickname = nickname;
+        this.hostName = hostName;
+        this.portNumber = portNumber;
+        this.isGameClient = isGameClient;
     }
 
     @Override
@@ -61,10 +65,9 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
     }
 
     @Override
-    public Void doInBackground(TransmissionMessage... a) {
+    public Void doInBackground(Void... a) {
         try {
-            this.myClient = new Socket(this.hostName, this.portNumber);
-            System.out.println(" - > Connection to server " + this.hostName + " established!");
+            createConnection();
             while (running) try {
                 sendDataToServer(this.messagesToBeSent.take());
             } catch (InterruptedException e) { }
@@ -73,16 +76,6 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void getDataFromServer() {
-        try {
-            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(this.myClient.getInputStream()));
-            this.receivedFrameData = inFromServer.readLine();
-        } catch (IOException e) {
-            this.dataInputStream = null;
-            System.out.println(e);
-        }
     }
 
     public void sendMessage(TransmissionMessage transmissionMessage) {
@@ -119,5 +112,36 @@ public class Client extends AsyncTask<TransmissionMessage, Void, Void> {
 
     public String getStringForExtras() {
         return (this.nickname + "|" + this.hostName + ":" + this.portNumber);
+    }
+
+    /**
+     * Create connection.
+     * If client is for game purpose, try periodically to create it so that other server has time to start.
+     * @throws IOException
+     */
+    public void createConnection() throws IOException{
+        // Timeout for connection
+        boolean repeat = true;
+        long timeoutStart = System.nanoTime();
+
+        while (repeat) {
+            repeat = false;
+            try {
+                this.myClient = new Socket(this.hostName, this.portNumber);
+                System.out.println(" - > Connection to server " + this.hostName + " established!");
+                this.isConnectionEstablished = true;
+            } catch (IOException e){
+                if (!isGameClient){ throw e; }
+            }
+            if (isGameClient && System.nanoTime() - timeoutStart < 30000){
+                repeat = true;
+            } else if (isGameClient){
+                throw new IOException();
+            }
+        }
+    }
+
+    public boolean isConnectionEstablished() {
+        return isConnectionEstablished;
     }
 }

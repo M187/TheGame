@@ -28,6 +28,7 @@ import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
+import com.miso.thegame.gameMechanics.multiplayer.GameSynchronizer;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
 import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
 
@@ -47,13 +48,15 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     private volatile ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
     private OtherPlayerManager otherPlayersManager = new OtherPlayerManager();
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
+    private GameSynchronizer gameSynchronizer;
 
     public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers, String myNickname) {
         super(context);
         this.myNickname = myNickname;
+        this.registeredPlayers = registeredPlayers;
         this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
         this.localServer.execute();
-        this.registeredPlayers = registeredPlayers;
+        this.gameSynchronizer = new GameSynchronizer(registeredPlayers);
         this.sender = new Sender(this.registeredPlayers);
         this.mapToCreate = GameMapEnum.BlankMap;
         this.context = context;
@@ -131,10 +134,10 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
      * Take care, order depends!
      */
     public void update() {
-
         this.networkGameStateUpdater.processRecievedMessages();
 
         if (getPlayer().playing) {
+            gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
             inputHandler.processFrameInput();
             {
                 getPlayer().update();
@@ -145,10 +148,14 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
             getOtherPlayersManager().update();
             getStaticAnimationManager().update();
             //collisionHandler.performCollisionCheck();
+            sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
         } else {
             getOtherPlayersManager().update();
             getSpellManager().update();
             //collisionHandler.performCollisionCheck();
+
+            //todo: uninit network components
+            // Server, clients, sender, messageProcessors
         }
     }
 

@@ -14,7 +14,6 @@ import com.miso.thegame.gameMechanics.movingObjects.player.Player;
  */
 public class Enemy_basic extends EnemyGround implements Comparable<Enemy_basic> {
 
-
     public Enemy_basic(Resources res, Point startingPosition) {
         super(startingPosition);
         setSpeed(5);
@@ -65,5 +64,9 @@ public class Enemy_basic extends EnemyGround implements Comparable<Enemy_basic> 
     public void handleCollisionWithPlayer(Player player, EnemiesManager enemiesManager){
         player.removeHealth(5);
         enemiesManager.getEnemyList().remove(this);
+    }
+
+    public boolean hitBySpell(){
+        return true;
     }
 }

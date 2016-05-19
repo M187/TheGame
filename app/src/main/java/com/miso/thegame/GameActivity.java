@@ -76,7 +76,8 @@ public class GameActivity extends Activity {
                         new Client(
                                 playerNetworkData.split("\\|")[1].split(":")[0],
                                 Integer.parseInt(playerNetworkData.split("\\|")[1].split(":")[1]),
-                                playerNetworkData.split("\\|")[0]
+                                playerNetworkData.split("\\|")[0],
+                                true
                         ));
             }
         }
@@ -91,14 +92,12 @@ public class GameActivity extends Activity {
         if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
             loadConnectedPlayersNetworkData();
 
-
-            try {
-                System.out.print("Good night!");
-                Thread.sleep(450000000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
+//            try {
+//                System.out.print("Good night!");
+//                Thread.sleep(450000000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
             setContentView(
                     new GamePanelMultiplayer(

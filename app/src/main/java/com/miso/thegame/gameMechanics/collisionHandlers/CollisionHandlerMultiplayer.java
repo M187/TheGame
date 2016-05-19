@@ -17,7 +17,6 @@ import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
-import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -114,9 +113,7 @@ public class CollisionHandlerMultiplayer {
     public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(OffensiveSpell offensiveSpell) {
         if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
             player.removeHealth(8);
-            if (GameView2.isMultiplayerGame) {
-                GamePanelMultiplayer.sender.sendMessage(new PlayerHitMessage(GamePanelMultiplayer.myNickname, offensiveSpell.getIdentificator()));
-            }
+            GamePanelMultiplayer.sender.sendMessage(new PlayerHitMessage(GamePanelMultiplayer.myNickname, offensiveSpell.getIdentificator()));
             spellManager.getOffensiveSpellList().remove(offensiveSpell);
             StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
         }

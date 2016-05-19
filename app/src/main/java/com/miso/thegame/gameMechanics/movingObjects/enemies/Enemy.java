@@ -15,6 +15,8 @@ public abstract class Enemy extends MovableObject {
     protected double distanceFromPlayer;
     protected boolean playerInRange;
     protected int hitPoints;
+    protected int turnThreshold = 5;
+    protected int lastHeading = 0;
 
     public Enemy(Point startingPosition){
         super();
@@ -50,12 +52,7 @@ public abstract class Enemy extends MovableObject {
                 Math.abs(this.getGridCoordinates().x - gO.getGridCoordinates().x) == 1 && Math.abs(this.getGridCoordinates().y - gO.getGridCoordinates().y) == 0;
     }
 
-    public boolean hitBySpell(){
-        return false;
-    }
-
-    protected int turnThreshold = 5;
-    protected int lastHeading = 0;
+    public abstract boolean hitBySpell();
     
     /**
      *

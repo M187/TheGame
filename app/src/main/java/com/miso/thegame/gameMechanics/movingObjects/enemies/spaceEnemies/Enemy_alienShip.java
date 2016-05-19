@@ -38,4 +38,8 @@ public class Enemy_alienShip extends EnemySpace{
         player.removeHealth(5);
         enemiesManager.getEnemyList().remove(this);
     }
+
+    public boolean hitBySpell(){
+        return true;
+    }
 }
