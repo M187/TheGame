@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.MultiplayerLobbyStateHandler;
+import com.miso.thegame.Networking.PlayerListUpdater;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.GameLobbyClientLogicExecutor;
@@ -41,10 +42,13 @@ public class MultiplayerLobby extends Activity {
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
     private Client clientConnectionToServer;
     private MultiplayerLobbyStateHandler uiStateHandler;
+    private PlayerListUpdater playerListUpdater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playerListUpdater = new PlayerListUpdater(this, registeredPlayers);
+        playerListUpdater.start();
         this.uiStateHandler = new MultiplayerLobbyStateHandler(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.multiplayer_lobby_layout);
