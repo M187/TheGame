@@ -73,7 +73,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                         joinGameLobbyMessage.getComputerName(),
                         MultiplayerLobby.DEFAULT_COM_PORT,
                         joinGameLobbyMessage.getNickname()));
-
+        newPlayer.execute();
         //send new player my (server) information.
         newPlayer.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
 

@@ -52,13 +52,13 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers, String myNickname) {
         super(context);
+        this.mapToCreate = GameMapEnum.BlankMap;
         this.myNickname = myNickname;
         this.registeredPlayers = registeredPlayers;
         this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
         this.localServer.execute();
         this.gameSynchronizer = new GameSynchronizer(registeredPlayers);
         this.sender = new Sender(this.registeredPlayers);
-        this.mapToCreate = GameMapEnum.BlankMap;
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);

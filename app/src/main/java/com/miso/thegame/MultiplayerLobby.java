@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.MultiplayerLobbyStateHandler;
+import com.miso.thegame.Networking.PlayerListUpdater;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.GameLobbyClientLogicExecutor;
@@ -30,6 +31,16 @@ import java.util.ArrayList;
 
 /**
  * Created by Miso on 24.4.2016.
+ *
+ * Activity managing Multiplayer Lobby layout.
+ *
+ * Spawns several threads:
+ *
+ *  Server,
+ *  Client/s,
+ *  PlayerListUpdater
+ *
+ *
  */
 public class MultiplayerLobby extends Activity {
 
@@ -41,10 +52,12 @@ public class MultiplayerLobby extends Activity {
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
     private Client clientConnectionToServer;
     private MultiplayerLobbyStateHandler uiStateHandler;
+    private PlayerListUpdater playerListUpdater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playerListUpdater = new PlayerListUpdater(this, registeredPlayers);
         this.uiStateHandler = new MultiplayerLobbyStateHandler(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.multiplayer_lobby_layout);
@@ -53,7 +66,23 @@ public class MultiplayerLobby extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        System.out.println(" --> Calling onStop for Multiplayer lobby.");
         this.uninitLocalServerAndData();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        System.out.println(" --> Calling onPause for Multiplayer lobby.");
+        this.playerListUpdater.terminate();
+        this.uninitLocalServerAndData();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        System.out.println(" --> Calling onResume for Multiplayer lobby.");
+        this.playerListUpdater.start();
     }
 
     private void initHostServer() {
@@ -212,5 +241,4 @@ public class MultiplayerLobby extends Activity {
             this.server.execute();
         }
     }
-
 }
