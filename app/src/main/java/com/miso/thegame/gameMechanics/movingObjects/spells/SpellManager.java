@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -20,18 +21,27 @@ import java.util.List;
  */
 public class SpellManager {
 
-    //TODO: unify these 2 arrays
-    protected Resources resources;
-    private List<OffensiveSpell> offensiveSpellList = new ArrayList<>();
-    private List<DeffensiveSpell> deffensiveSpellList = new ArrayList<>();
-    private long lastUse = 0;
-    private int cooldown = ConstantHolder.firebalCooldown;
-
     public EnemiesManager enemiesManager;
-
     public boolean primaryShootingActive = false;
     public Point primaryShootingVector;
     public SpellCreator spellCreator;
+    protected Resources resources;
+    private List<OffensiveSpell> offensiveSpellList = new ArrayList<OffensiveSpell>() {
+
+        @Override
+        public boolean remove(Object o) {
+            if (super.remove(o)) {
+                OffensiveSpell temp = (OffensiveSpell) o;
+                StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()));
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+    private List<DeffensiveSpell> deffensiveSpellList = new ArrayList<>();
+    private long lastUse = 0;
+    private int cooldown = ConstantHolder.firebalCooldown;
 
     public SpellManager(Resources resources, Player player) {
         this.resources = resources;
@@ -40,27 +50,9 @@ public class SpellManager {
 
     public void update() {
 
-        OffensiveSpell offensiveSpell;
-        Iterator<OffensiveSpell> offensiveSpellIterator = this.offensiveSpellList.iterator();
-        while (offensiveSpellIterator.hasNext()) {
-            offensiveSpell = offensiveSpellIterator.next();
-            if (offensiveSpell.removeSpell()) {
-                offensiveSpellIterator.remove();
-            } else {
-                offensiveSpell.moveObject();
-            }
-        }
+        this.updateSpells(this.offensiveSpellList);
 
-        DeffensiveSpell deffensiveSpell;
-        Iterator<DeffensiveSpell> deffensiveSpellIterator = this.deffensiveSpellList.iterator();
-        while (deffensiveSpellIterator.hasNext()) {
-            deffensiveSpell = deffensiveSpellIterator.next();
-            if (deffensiveSpell.removeSpell()) {
-                deffensiveSpellIterator.remove();
-            } else {
-                deffensiveSpell.update();
-            }
-        }
+        this.updateSpells(this.deffensiveSpellList);
 
         if (primaryShootingActive && (System.currentTimeMillis() - lastUse) > cooldown) {
             this.spellCreator.addPlayerProjectile(primaryShootingVector.x, primaryShootingVector.y);
@@ -68,9 +60,22 @@ public class SpellManager {
         }
     }
 
+    private void updateSpells(List<? extends Spell> spellList) {
+        Spell spell;
+        Iterator<? extends Spell> spellIterator = spellList.iterator();
+        while (spellIterator.hasNext()) {
+            spell = spellIterator.next();
+            if (spell.removeSpell()) {
+                spellIterator.remove();
+            } else {
+                spell.moveObject();
+            }
+        }
+    }
+
     public void draw(Canvas canvas) {
 
-        for (Spell offensiveSpell : getOffensiveSpellList()){
+        for (Spell offensiveSpell : getOffensiveSpellList()) {
             GameView2.drawManager.drawOnDisplay(offensiveSpell, canvas);
         }
 
@@ -79,7 +84,7 @@ public class SpellManager {
         }
     }
 
-    public List<OffensiveSpell> getOffensiveSpellList(){
+    public List<OffensiveSpell> getOffensiveSpellList() {
         return this.offensiveSpellList;
     }
 
@@ -87,8 +92,8 @@ public class SpellManager {
      * Perform freeze spell. Take all existing enemies and set speed to 4.
      * (default speed of enemy is 5 at time of creation of this function)
      */
-    public void performFreezeSpell(){
-        for (Enemy enemy : enemiesManager.getEnemyList()){
+    public void performFreezeSpell() {
+        for (Enemy enemy : enemiesManager.getEnemyList()) {
             enemy.setSpeed(4);
         }
     }

@@ -18,6 +18,11 @@ public class StaticAnimationManager {
 
     public static ArrayList<StaticAnimation> staticAnimationsList = new ArrayList<>();
 
+    public static void addExplosion(Point position){
+        //TODO: add here switch to define what animation should be created
+        staticAnimationsList.add(new Explosion(position.x, position.y, resources));
+    }
+
     public void update(){
         Iterator<StaticAnimation> animationIterator = staticAnimationsList.iterator();
         while (animationIterator.hasNext()){
@@ -27,10 +32,6 @@ public class StaticAnimationManager {
                 animationIterator.remove();
             }
         }
-    }
-
-    public static void addExplosion(Point position){
-        staticAnimationsList.add(new Explosion(position.x, position.y, resources));
     }
 
     public void draw(Canvas canvas){

@@ -50,14 +50,17 @@ public class SpellCreator {
 
             //Inform other players about shot
             if (GameView2.isMultiplayerGame) {
-                GameView2.sender.sendMessage(
-                        new PlayerShootProjectile(
-                                newProjectile.getIdentificator(),
-                                new Point(this.player.getX(), this.player.getY()),
-                                new Point(deltaX, deltaY)
-                        ));
+                propageteProjectileInformationToOtherPlayers(
+                        newProjectile.getIdentificator(),
+                        new Point(this.player.getX(), this.player.getY()),
+                        new Point(deltaX, deltaY));
             }
         }
+    }
+
+    private void propageteProjectileInformationToOtherPlayers(String identificator, Point fromPosition, Point movementDelta){
+        GameView2.sender.sendMessage(
+                new PlayerShootProjectile( identificator, fromPosition, movementDelta ));
     }
 
     public void addPlayerShockwave(int reachFactor) {

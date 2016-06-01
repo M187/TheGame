@@ -1,12 +1,10 @@
 package com.miso.thegame.gameMechanics.collisionHandlers;
 
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessage;
 import com.miso.thegame.gameMechanics.GameObject;
-import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -81,13 +79,13 @@ public class CollisionHandlerMultiplayer {
                     break;
                 case SpellPlayer:
                 case SpellEnemy:
-                    this.handleColision((OffensiveSpell) movingObject, returnObjects);
+                    this.handleCollision((OffensiveSpell) movingObject, returnObjects);
                     break;
             }
         }
     }
 
-    //<editor-fold desc="player colision">
+    //<editor-fold desc="player collision">
 
     /**
      * Handles collision of player with other objects.
@@ -104,7 +102,7 @@ public class CollisionHandlerMultiplayer {
                     possibleCollisionOfPlayerWithEnemyOffensiveSpell((OffensiveSpell) gameObject);
                     break;
                 case Collectible:
-                    possibleCollisionOfPlayerWithCollectable(player, (Collectible) gameObject);
+                    possibleCollisionOfPlayerWithCollectible(player, (Collectible) gameObject);
                     break;
             }
         }
@@ -115,11 +113,10 @@ public class CollisionHandlerMultiplayer {
             player.removeHealth(8);
             GamePanelMultiplayer.sender.sendMessage(new PlayerHitMessage(GamePanelMultiplayer.myNickname, offensiveSpell.getIdentificator()));
             spellManager.getOffensiveSpellList().remove(offensiveSpell);
-            StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
         }
     }
 
-    public void possibleCollisionOfPlayerWithCollectable(Player player, Collectible collectible) {
+    public void possibleCollisionOfPlayerWithCollectible(Player player, Collectible collectible) {
         if (collectible.intersectsWithMe(player, this.satCollisionCalculator)) {
             collectible.onInteraction(player, mapManager);
         }
@@ -127,7 +124,7 @@ public class CollisionHandlerMultiplayer {
 
     //</editor-fold>
 
-    public void handleColision(OffensiveSpell offensiveSpell, Set<GameObject> returnObjects) {
+    public void handleCollision(OffensiveSpell offensiveSpell, Set<GameObject> returnObjects) {
         for (GameObject gameObject : returnObjects) {
             switch (gameObject.getCollisionObjectType()) {
                 case Obstacle:
@@ -141,7 +138,6 @@ public class CollisionHandlerMultiplayer {
         try {
             if (offensiveSpell.isRemovedOnCollision() && satCollisionCalculator.performSeparateAxisCollisionCheck(obstacle.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
                 spellManager.getOffensiveSpellList().remove(offensiveSpell);
-                StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
             }
         } catch (Exception e) {
             System.out.print("aaa");

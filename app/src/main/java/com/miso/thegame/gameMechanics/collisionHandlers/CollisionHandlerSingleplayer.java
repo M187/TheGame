@@ -1,11 +1,9 @@
 package com.miso.thegame.gameMechanics.collisionHandlers;
 
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.miso.thegame.gameMechanics.GameObject;
-import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
@@ -81,17 +79,17 @@ public class CollisionHandlerSingleplayer {
                     this.handleCollisions((Player) movingObject, returnObjects);
                     break;
                 case Enemy:
-                    this.handleColision((Enemy) movingObject, returnObjects);
+                    this.handleCollision((Enemy) movingObject, returnObjects);
                     break;
                 case SpellPlayer:
                 case SpellEnemy:
-                    this.handleColision((OffensiveSpell) movingObject, returnObjects);
+                    this.handleCollision((OffensiveSpell) movingObject, returnObjects);
                     break;
             }
         }
     }
 
-    //<editor-fold desc="player colision">
+    //<editor-fold desc="player collision">
 
     /**
      * Handles collision of player with other objects.
@@ -111,7 +109,7 @@ public class CollisionHandlerSingleplayer {
                     possibleCollisionOfPlayerWithEnemy((Enemy) gameObject);
                     break;
                 case Collectible:
-                    possibleCollisionOfPlayerWithCollectable(player, (Collectible) gameObject);
+                    possibleCollisionOfPlayerWithCollectible(player, (Collectible) gameObject);
                     break;
             }
         }
@@ -130,7 +128,7 @@ public class CollisionHandlerSingleplayer {
         }
     }
 
-    public void possibleCollisionOfPlayerWithCollectable(Player player, Collectible collectible) {
+    public void possibleCollisionOfPlayerWithCollectible(Player player, Collectible collectible) {
         if (collectible.intersectsWithMe(player, this.satCollisionCalculator)) {
             collectible.onInteraction(player, mapManager);
         }
@@ -147,7 +145,7 @@ public class CollisionHandlerSingleplayer {
      *
      * @param returnObjects List of objects to check against.
      */
-    public void handleColision(Enemy enemy, Set<GameObject> returnObjects) {
+    public void handleCollision(Enemy enemy, Set<GameObject> returnObjects) {
         returnObjects.remove(enemy);
         for (GameObject gameObject : returnObjects) {
 
@@ -174,14 +172,13 @@ public class CollisionHandlerSingleplayer {
             if (offensiveSpell.collideWithMovingObject(enemy, satCollisionCalculator)) {
                 if (offensiveSpell.isRemovedOnCollision()) {
                     spellManager.getOffensiveSpellList().remove(offensiveSpell);
-                    StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
                 }
                 if (enemy.hitBySpell()) {
                     enemiesManager.getEnemyList().remove(enemy);
                 }
             }
         } catch (NullPointerException e) {
-            //System.out.println("Projectile probably already removed??");
+            System.out.println("Projectile probably already removed??");
         }
     }
 
@@ -230,7 +227,7 @@ public class CollisionHandlerSingleplayer {
     }
     //</editor-fold>
 
-    public void handleColision(OffensiveSpell offensiveSpell, Set<GameObject> returnObjects) {
+    public void handleCollision(OffensiveSpell offensiveSpell, Set<GameObject> returnObjects) {
         for (GameObject gameObject : returnObjects) {
             switch (gameObject.getCollisionObjectType()) {
                 case Obstacle:
@@ -244,7 +241,6 @@ public class CollisionHandlerSingleplayer {
         try {
             if (offensiveSpell.isRemovedOnCollision() && satCollisionCalculator.performSeparateAxisCollisionCheck(obstacle.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
                 spellManager.getOffensiveSpellList().remove(offensiveSpell);
-                StaticAnimationManager.addExplosion(new Point(offensiveSpell.getX(), offensiveSpell.getY()));
             }
         } catch (Exception e) {
             System.out.print("aaa");

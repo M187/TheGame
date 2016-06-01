@@ -36,7 +36,9 @@ public class PlayerListUpdater extends Thread {
                 try {
                     ((TextView) multiplayerLobby.findViewById(R.id.list_of_players)).setText(entry);
                     synchronousWait = false;
-                } catch (NullPointerException e) {}
+                } catch (NullPointerException e) {
+                    synchronousWait = false;
+                }
             }
         };
 

@@ -9,6 +9,7 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -73,6 +74,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
             } catch (InterruptedException e) { }
         } catch (IOException e) {
             Log.d(ConstantHolder.TAG, "Can't initialize client to connect to server!");
+            running = false;
             e.printStackTrace();
         }
         return null;
@@ -127,9 +129,13 @@ public class Client extends AsyncTask<Void, Void, Void> {
         while (repeat) {
             repeat = false;
             try {
-                this.myClient = new Socket(this.hostName, this.portNumber);
+
+                this.myClient = new Socket();
+                this.myClient.connect(new InetSocketAddress(this.hostName, this.portNumber), 3000);
+
                 System.out.println(" - > Connection to server " + this.hostName + " established!");
                 this.isConnectionEstablished = true;
+
             } catch (IOException e){
                 if (!isGameClient){ throw e; }
             }
@@ -143,5 +149,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
 
     public boolean isConnectionEstablished() {
         return isConnectionEstablished;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }

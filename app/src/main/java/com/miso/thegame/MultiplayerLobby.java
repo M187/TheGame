@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.MultiplayerLobbyStateHandler;
@@ -84,7 +85,12 @@ public class MultiplayerLobby extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
+
+        this.uiStateHandler.unHostClickUiChanges();
+        this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
+
         System.out.println(" --> Calling onResume for Multiplayer lobby.");
+        this.playerListUpdater = new PlayerListUpdater(this, registeredPlayers);
         this.playerListUpdater.start();
     }
 
@@ -111,7 +117,7 @@ public class MultiplayerLobby extends Activity {
 
     public void hostClick(View view) {
 
-        System.out.println(" --> Clicked on Host button.");
+        System.out.println(" --> Clicked on Host/Unhost button.");
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
 
@@ -132,26 +138,34 @@ public class MultiplayerLobby extends Activity {
     public void joinClick(View view) {
 
         System.out.println(" --> Clicked on Joined button.");
-
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Default) {
-
             initClientServer();
 
-            EditText iP = (EditText) findViewById(R.id.ip);
-            EditText port = (EditText) findViewById(R.id.port);
-            EditText nickName = (EditText) findViewById(R.id.player_nickname);
+            this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
+            TransmissionMessage joinReq = new JoinGameLobbyMessage(this.myNickname);
 
-            TransmissionMessage joinReq = new JoinGameLobbyMessage(nickName.getText().toString());
-            this.myNickname = nickName.getText().toString();
-
-            Client newC = (new Client(iP.getText().toString(), Integer.parseInt(port.getText().toString()), this.myNickname));
+            Client newC = (new Client(
+                    ((EditText) findViewById(R.id.ip)).getText().toString(),
+                    Integer.parseInt(((EditText) findViewById(R.id.port)).getText().toString()),
+                    this.myNickname));
             executeMyClient(newC);
+            //Wait for connection.
+            while (newC.isRunning() && !(newC.isConnectionEstablished())){
+                //System.out.print(".");
+            }
+            System.out.println();
 
-            this.clientConnectionToServer.sendMessage(joinReq);
+            if (newC.isConnectionEstablished()) {
+                this.clientConnectionToServer.sendMessage(joinReq);
+                this.uiStateHandler.joinClickUiEvents();
+                this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
+            } else {
+                ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join unsuccessful!");
+                ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
 
-            //todo: add check if client really joins game!??
-            this.uiStateHandler.joinClickUiEvents();
-            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
+                uninitLocalServerAndData();
+                this.clientConnectionToServer = null;
+            }
         }
     }
 

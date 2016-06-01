@@ -40,7 +40,7 @@ public abstract class OffensiveSpell extends Spell {
     private void assignIdentificator(){
         this.identificator = GameView2.myNickname + Integer.toString(projectileIterator);
         projectileIterator =+ 1;
-        if (projectileIterator > 1000){
+        if (projectileIterator >= 1000){
             projectileIterator = 0;
         }
     }
