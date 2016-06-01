@@ -25,27 +25,18 @@ import java.util.ArrayList;
  */
 public class MapManager {
 
-    private static MapManager instance = new MapManager();
-
-    private MapManager(){}
-
-    public static MapManager getInstance(){
-        return instance;
-    }
-
-    private static int worldWidth;
-    private static int worldHeight;
     private static final int mapTileWidth = 100;
     private static final int mapTileHeight = 100;
-
+    private static int worldWidth;
+    private static int worldHeight;
+    public MapGrid mapGrid;
+    public ArrayList<SingleEnemyInitialData> enemyInitialDatas;
+    protected Resources res;
     private ArrayList<Obstacle> obstaclesList = new ArrayList<>();
     private ArrayList<Collectible> collectibleList = new ArrayList<>();
-    protected Resources res;
-    public MapGrid mapGrid;
     private GameMap currentMap;
-    public ArrayList<SingleEnemyInitialData> enemyInitialDatas;
 
-    public void initializeMapManager(GameMapEnum levelName, Resources res) {
+    public MapManager(GameMapEnum levelName, Resources res) {
 
         initializeMap(levelName, res);
 
@@ -58,6 +49,22 @@ public class MapManager {
                 mapGrid.addObstacleToMapGrid(relativeTilePosition, obstacle);
             }
         }
+    }
+
+    public static int getWorldWidth() {
+        return worldWidth;
+    }
+
+    public static int getWorldHeight() {
+        return worldHeight;
+    }
+
+    public static int getMapTileWidth() {
+        return mapTileWidth;
+    }
+
+    public static int getMapTileHeight() {
+        return mapTileHeight;
     }
 
     private void initializeMap(GameMapEnum mapName, Resources res) {
@@ -89,22 +96,6 @@ public class MapManager {
         this.worldWidth = this.currentMap.getMapDimensions().x;
         this.worldHeight = this.currentMap.getMapDimensions().y;
         this.enemyInitialDatas = gameMap.enemyDatas;
-    }
-
-    public static int getWorldWidth() {
-        return worldWidth;
-    }
-
-    public static int getWorldHeight() {
-        return worldHeight;
-    }
-
-    public static int getMapTileWidth() {
-        return mapTileWidth;
-    }
-
-    public static int getMapTileHeight() {
-        return mapTileHeight;
     }
 
     public void draw(Canvas canvas) {

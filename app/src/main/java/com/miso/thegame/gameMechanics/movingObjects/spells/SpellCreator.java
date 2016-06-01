@@ -44,14 +44,15 @@ public class SpellCreator {
 
     public void addPlayerProjectile(int deltaX, int deltaY) {
         if (player.primaryAmunition > 0) {
-            this.offensiveSpells.add(new Projectile(this.player.getX(), this.player.getY(), this.player.getX() - deltaX, this.player.getY() - deltaY, CollisionObjectType.SpellPlayer, this.resources));
+            Projectile newProjectile = new Projectile(this.player.getX(), this.player.getY(), this.player.getX() - deltaX, this.player.getY() - deltaY, CollisionObjectType.SpellPlayer, this.resources);
+            this.offensiveSpells.add(newProjectile);
             player.primaryAmunition -= 1;
 
             //Inform other players about shot
             if (GameView2.isMultiplayerGame) {
                 GameView2.sender.sendMessage(
                         new PlayerShootProjectile(
-                                GameView2.myNickname,
+                                newProjectile.getIdentificator(),
                                 new Point(this.player.getX(), this.player.getY()),
                                 new Point(deltaX, deltaY)
                         ));
@@ -78,7 +79,7 @@ public class SpellCreator {
         offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.SpellEnemy, resources));
     }
 
-    public void fireProjectile(int x, int y, int xVector, int yVector, CollisionObjectType collisionObjectType) {
-        offensiveSpells.add(new Projectile(x, y, xVector, yVector, collisionObjectType, resources));
+    public void fireProjectile(int x, int y, int xVector, int yVector, String identificator, CollisionObjectType collisionObjectType) {
+        offensiveSpells.add(new Projectile(x, y, xVector, yVector, collisionObjectType, identificator, resources));
     }
 }

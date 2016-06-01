@@ -69,7 +69,7 @@ public class GameActivity extends Activity {
         SharedPreferences settings = getSharedPreferences("MultiplayerLobby", 0);
         while (hasMoreData) {
             String playerNetworkData = settings.getString("Player" + i + "networkData", "0");
-            if (playerNetworkData.contains("free")) {
+            if (playerNetworkData.contains("free slot")) {
                 hasMoreData = false;
             } else {
                 this.registeredPlayers.add(
@@ -94,7 +94,7 @@ public class GameActivity extends Activity {
 
 //            try {
 //                System.out.print("Good night!");
-//                Thread.sleep(450000000);
+//                Thread.sleep(450000000);3
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }

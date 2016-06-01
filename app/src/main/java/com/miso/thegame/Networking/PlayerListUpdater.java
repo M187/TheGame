@@ -44,6 +44,11 @@ public class PlayerListUpdater extends Thread {
         while (running) {
             this.entry = "";
             for (Client client : registeredPlayers) {
+                if (client.isReadyForGame){
+                    this.entry = entry + "   READY   : ";
+                } else {
+                    this.entry = entry + " NOT READY : ";
+                }
                 entry = entry + client.getStringForExtras() + "\n";
             }
 

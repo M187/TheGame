@@ -2,26 +2,13 @@ package com.miso.thegame.gameViews;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.gameMechanics.MainGameThread;
-import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
-import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
-import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
-import com.miso.thegame.gameMechanics.display.Background;
-import com.miso.thegame.gameMechanics.display.Borders;
-import com.miso.thegame.gameMechanics.display.DrawManager;
-import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Anchor;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 /**
  * Created by Miso on 8.10.2015.
@@ -30,17 +17,17 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
 
     protected CollisionHandlerSingleplayer collisionHandler;
 
-    @Override
-    public Resources getResources() {
-        return super.getResources();
-    }
-
     public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate) {
         super(context);
         this.mapToCreate = mapToCreate;
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
+    }
+
+    @Override
+    public Resources getResources() {
+        return super.getResources();
     }
 
     @Override
@@ -65,25 +52,8 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
 
     @Override
     public void surfaceCreated(SurfaceHolder surface) {
-        //mapManager also initialize Pathfinder class
-        MapManager.getInstance().initializeMapManager(this.mapToCreate, getResources());
-
-        player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), MapManager.getInstance());
-        spellManager = new SpellManager(getResources(), getPlayer());
-
-        enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), MapManager.getInstance().enemyInitialDatas, getResources());
-        getSpellManager().enemiesManager = getEnemiesManager();
-
-        toolbar = new Toolbar(getResources(), getPlayer());
-        anchor = new Anchor(getPlayer(), WIDTH / 3, HEIGHT / 3);
-
-        bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", getContext().getPackageName())), anchor);
-
-        borders = new Borders(getResources(), anchor);
-        drawManager = new DrawManager(anchor);
-        inputHandler = new InputHandler(this);
-        collisionHandler = new CollisionHandlerSingleplayer(getPlayer(), getEnemiesManager(), getSpellManager(), MapManager.getInstance(), getResources());
-        endgameEvents = new EndgameEvents(getResources());
+        super.surfaceCreated(surface);
+        collisionHandler = new CollisionHandlerSingleplayer(getPlayer(), getEnemiesManager(), getSpellManager(), this.mapManager, getResources());
 
         thread.setRunning(true);
         thread.start();
@@ -129,7 +99,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
             final int savedState = canvas.save();
             if (getPlayer().playing) {
                 bg.draw(canvas, anchor);
-                MapManager.getInstance().draw(canvas);
+                this.mapManager.draw(canvas);
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 drawManager.drawOnDisplay(getPlayer(), canvas);
@@ -138,7 +108,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
                 toolbar.draw(canvas);
             } else {
                 bg.draw(canvas, anchor);
-                MapManager.getInstance().draw(canvas);
+                this.mapManager.draw(canvas);
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 getEnemiesManager().draw(canvas);

@@ -2,9 +2,7 @@ package com.miso.thegame.gameViews;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -16,18 +14,7 @@ import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 import com.miso.thegame.gameMechanics.MainGameThread;
-import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
-import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
-import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
-import com.miso.thegame.gameMechanics.display.Background;
-import com.miso.thegame.gameMechanics.display.Borders;
-import com.miso.thegame.gameMechanics.display.DrawManager;
-import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Anchor;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 import com.miso.thegame.gameMechanics.multiplayer.GameSynchronizer;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
 import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
@@ -92,27 +79,10 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     @Override
     public void surfaceCreated(SurfaceHolder surface) {
-        //mapManager also initialize Pathfinder class
-        MapManager.getInstance().initializeMapManager(this.mapToCreate, getResources());
+        super.surfaceCreated(surface);
+        collisionHandler = new CollisionHandlerMultiplayer(getPlayer(), getOtherPlayersManager(), getSpellManager(), this.mapManager, getResources());
 
-        player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), MapManager.getInstance());
-        spellManager = new SpellManager(getResources(), getPlayer());
-
-        enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), MapManager.getInstance().enemyInitialDatas, getResources());
-        getSpellManager().enemiesManager = getEnemiesManager();
-
-        toolbar = new Toolbar(getResources(), getPlayer());
-        anchor = new Anchor(getPlayer(), WIDTH / 3, HEIGHT / 3);
-
-        bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", getContext().getPackageName())), anchor);
-
-        borders = new Borders(getResources(), anchor);
-        drawManager = new DrawManager(anchor);
-        inputHandler = new InputHandler(this);
-        collisionHandler = new CollisionHandlerMultiplayer(getPlayer(), getOtherPlayersManager(), getSpellManager(), MapManager.getInstance(), getResources());
-        endgameEvents = new EndgameEvents(getResources());
-
-        this.sender.sendMessage(new ReadyToPlayMessage("default"));
+        this.sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
         waitForPlayersToReady();
         this.thread.setRunning(true);
         this.thread.start();
@@ -165,7 +135,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
             final int savedState = canvas.save();
             if (getPlayer().playing) {
                 bg.draw(canvas, anchor);
-                MapManager.getInstance().draw(canvas);
+                this.mapManager.draw(canvas);
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 drawManager.drawOnDisplay(getPlayer(), canvas);
@@ -174,7 +144,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 toolbar.draw(canvas);
             } else {
                 bg.draw(canvas, anchor);
-                MapManager.getInstance().draw(canvas);
+                this.mapManager.draw(canvas);
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 getOtherPlayersManager().draw(canvas);

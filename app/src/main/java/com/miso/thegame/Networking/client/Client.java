@@ -22,7 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Client extends AsyncTask<Void, Void, Void> {
 
     // Server needs this information
-    public boolean isReadyForGame = false;
+    public volatile boolean isReadyForGame = false;
     public LinkedBlockingQueue<TransmissionMessage> messagesToBeSent = new LinkedBlockingQueue<>();
     private Socket myClient;
     private String hostName;

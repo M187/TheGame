@@ -72,6 +72,9 @@ public class MultiplayerLobby extends Activity {
 
     @Override
     protected void onPause(){
+        /**
+         * Here should go uninit all threads not required for MultiplayerGame (all threads)
+         */
         super.onPause();
         System.out.println(" --> Calling onPause for Multiplayer lobby.");
         this.playerListUpdater.terminate();
@@ -108,7 +111,7 @@ public class MultiplayerLobby extends Activity {
 
     public void hostClick(View view) {
 
-        System.out.println("Clicked on Host button.");
+        System.out.println(" --> Clicked on Host button.");
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
 
@@ -128,7 +131,7 @@ public class MultiplayerLobby extends Activity {
 
     public void joinClick(View view) {
 
-        System.out.println("Clicked on Joined button.");
+        System.out.println(" --> Clicked on Joined button.");
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Default) {
 

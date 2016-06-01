@@ -54,6 +54,7 @@ public class NetworkGameStateUpdater {
                                 ((PlayerShootProjectile) transmissionMessage).getFromPosition().y,
                                 ((PlayerShootProjectile) transmissionMessage).getMovementDelta().x,
                                 ((PlayerShootProjectile) transmissionMessage).getMovementDelta().y,
+                                ((PlayerShootProjectile) transmissionMessage).getIdentificator(),
                                 CollisionObjectType.SpellEnemy
                         );
                 break;

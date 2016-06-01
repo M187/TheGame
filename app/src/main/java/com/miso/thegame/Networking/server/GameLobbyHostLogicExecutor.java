@@ -75,6 +75,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                         joinGameLobbyMessage.getNickname()));
         newPlayer.execute();
         //send new player my (server) information.
+        //TODO: inform player here if the connection has not been successful (via terminate message? / via disband game message?)
         newPlayer.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
 
         for (Client client : this.registeredPlayers) {
