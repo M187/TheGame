@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.miso.thegame.GameData.GameMapEnum;
@@ -25,6 +26,7 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        Log.d(ConstantHolder.TAG," --> Entered main game Activity.");
         GameMapEnum mapToCreate = getMapToCreate();
         loadPlayerData();
 
@@ -69,6 +71,7 @@ public class GameActivity extends Activity {
         SharedPreferences settings = getSharedPreferences("MultiplayerLobby", 0);
         while (hasMoreData) {
             String playerNetworkData = settings.getString("Player" + i + "networkData", "0");
+            i += 1;
             if (playerNetworkData.contains("free slot")) {
                 hasMoreData = false;
             } else {

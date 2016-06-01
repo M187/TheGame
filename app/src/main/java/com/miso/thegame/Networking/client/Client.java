@@ -133,7 +133,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
                 this.myClient = new Socket();
                 this.myClient.connect(new InetSocketAddress(this.hostName, this.portNumber), 3000);
 
-                System.out.println(" - > Connection to server " + this.hostName + " established!");
+                System.out.println(" -- > Connection to server " + this.hostName + " established!");
                 this.isConnectionEstablished = true;
 
             } catch (IOException e){

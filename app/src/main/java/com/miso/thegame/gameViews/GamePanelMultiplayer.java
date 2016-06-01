@@ -3,6 +3,7 @@ package com.miso.thegame.gameViews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -13,6 +14,7 @@ import com.miso.thegame.Networking.server.GamePlayLogicExecutor;
 import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
 import com.miso.thegame.gameMechanics.multiplayer.GameSynchronizer;
@@ -39,6 +41,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers, String myNickname) {
         super(context);
+        Log.d(ConstantHolder.TAG, "Trying to create game panel for multiplayer.");
         this.mapToCreate = GameMapEnum.BlankMap;
         this.myNickname = myNickname;
         this.registeredPlayers = registeredPlayers;

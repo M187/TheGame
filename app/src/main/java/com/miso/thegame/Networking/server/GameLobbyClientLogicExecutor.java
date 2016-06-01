@@ -49,7 +49,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             //Start game signal
             case "04":
-                this.multiplayerLobby.uninitLocalServerAndData();
+                this.multiplayerLobby.server.terminate();
                 this.multiplayerLobby.saveConnectedPlayers();
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)

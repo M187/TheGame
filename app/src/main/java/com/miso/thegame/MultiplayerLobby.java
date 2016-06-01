@@ -48,7 +48,7 @@ public class MultiplayerLobby extends Activity {
     public static final int DEFAULT_COM_PORT = 12371;
     public static volatile String myNickname = null;
     public MultiplayerLobbyStateHandler.LobbyState lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
-    private Server server;
+    public volatile Server server;
     private Sender sender;
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
     private Client clientConnectionToServer;
@@ -121,12 +121,14 @@ public class MultiplayerLobby extends Activity {
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
 
+            this.myNickname = "";
             this.uiStateHandler.unHostClickUiChanges();
 
             sender.sendMessage(new DisbandGameMessage());
             uninitLocalServerAndData();
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
         } else {
+            this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
             this.uiStateHandler.hostClickUiChanges();
 
             initHostServer();
@@ -159,6 +161,8 @@ public class MultiplayerLobby extends Activity {
                 this.clientConnectionToServer.sendMessage(joinReq);
                 this.uiStateHandler.joinClickUiEvents();
                 this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
+                ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join successful!");
+                ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             } else {
                 ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join unsuccessful!");
                 ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));

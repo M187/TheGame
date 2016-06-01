@@ -57,7 +57,7 @@ public class Server extends AsyncTask<Void, Void, Void> {
         while (running) try {
             Socket connectionSocket = this.myService.accept();
             myAddress = connectionSocket.getLocalAddress();
-            System.out.println(" - > Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
+            System.out.println(" --> Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
             (new ClientHandler(connectionSocket, this.receivedMessages)).start();
         } catch (IOException e) {}
         try {
