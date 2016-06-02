@@ -1,10 +1,13 @@
 package com.miso.thegame.gameMechanics.multiplayer.otherPlayer;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 
+import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.gameViews.GameView2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,6 +16,12 @@ import java.util.HashMap;
 public class OtherPlayerManager {
 
     private HashMap<String,OtherPlayer> otherPlayers = new HashMap<>();
+
+    public OtherPlayerManager(ArrayList<Client> registeredPlayers, Resources resources){
+        for (Client client : registeredPlayers){
+            this.otherPlayers.put(client.getNickname(), new OtherPlayer(resources));
+        }
+    }
 
     public void update(){
         for (OtherPlayer otherPlayer : this.getOtherPlayers().values()) {

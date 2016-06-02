@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menubackground"
-    android:backgroundTint="#8555"
-    android:backgroundTintMode="src_atop"
     android:orientation="vertical"
     android:paddingBottom="40dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingTop="40dp"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:backgroundTint="#8555"
+    android:backgroundTintMode="src_atop">
 
     <LinearLayout
         android:layout_width="match_parent"

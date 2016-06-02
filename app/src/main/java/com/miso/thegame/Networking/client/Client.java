@@ -154,4 +154,8 @@ public class Client extends AsyncTask<Void, Void, Void> {
     public boolean isRunning() {
         return running;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
 }
