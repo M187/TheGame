@@ -1,4 +1,4 @@
-package com.miso.thegame.Networking.server;
+package com.miso.thegame.Networking.server.logicExecutors;
 
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;

@@ -1,8 +1,9 @@
-package com.miso.thegame.Networking.server;
+package com.miso.thegame.Networking.server.logicExecutors;
 
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;

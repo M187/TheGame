@@ -12,8 +12,17 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by michal.hornak on 10.05.2016.
+ *
+ * Thread designed to handle incoming messages from other clients.
+ * Server opens socket and forward it to this thread. Afterwards it start this thread.
+ *
+ * All data arriving from client are handled in this thread.
+ * Each client will spawn one thread during connection phase.
+ *
+ * Arriving data are parsed after receiving and pushed into BlockingQueue.
+ * Messages are then processed further with logic executors which poll for new messages.
  */
-public class ClientHandler extends Thread{
+public class ClientHandlerThread extends Thread{
 
     private Socket clientSocket;
     private InetAddress clientAddress;
@@ -21,7 +30,7 @@ public class ClientHandler extends Thread{
     private IncomingMessageParser incomingMessageParser = new IncomingMessageParser();
     private boolean running = false;
 
-    public ClientHandler(Socket socket, BlockingQueue<TransmissionMessage> messageHolder) {
+    public ClientHandlerThread(Socket socket, BlockingQueue<TransmissionMessage> messageHolder) {
         this.clientSocket = socket;
         this.messageHolder = messageHolder;
         this.clientAddress = socket.getInetAddress();

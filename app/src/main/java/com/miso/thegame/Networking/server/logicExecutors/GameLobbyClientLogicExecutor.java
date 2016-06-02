@@ -1,4 +1,4 @@
-package com.miso.thegame.Networking.server;
+package com.miso.thegame.Networking.server.logicExecutors;
 
 import android.content.Intent;
 
@@ -7,7 +7,7 @@ import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
-import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
 import com.miso.thegame.R;
 
@@ -49,7 +49,6 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             //Start game signal
             case "04":
-                this.multiplayerLobby.server.terminate();
                 this.multiplayerLobby.saveConnectedPlayers();
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
@@ -72,9 +71,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
             // Other player leaving game.
             case "07":
                 this.registeredPlayers.remove(
-                        new Client(((JoinGameLobbyMessage) transmissionMessage).getComputerName(),
-                                MultiplayerLobby.DEFAULT_COM_PORT,
-                                ((JoinGameLobbyMessage) transmissionMessage).getNickname()));
+                        new Client(((LeaveGameLobbyMessage) transmissionMessage).getNickname()));
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.miso.thegame.Networking.server;
 
 import android.os.AsyncTask;
 
+import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TerminateMessage;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
@@ -15,14 +16,19 @@ import java.util.concurrent.LinkedBlockingDeque;
 /**
  * Created by michal.hornak on 20.04.2016.
  * <p/>
- * Server runnable class. Should wait for received messages and process them.
+ * Server runnable class.
  * <p/>
  * Both 'Client' and 'Host' will have server instance running and listening on socket.
  * <p/>
  * Difference will be in message processor they will have assigned.
- * 2 processors are used - client and server.
+ * 2 processors are used for MultiplayerLobby- client and server.
+ * 1 processor is used for MultiplayerGam
+ * e
  * Since every player must support 1:n connections in game itself, i chose this approach. (P2P / non-Authoritative)
  * Though - in game lobby it is Host - Client connection only. Not any Client - Client connection. (Authoritative)
+ * <p/>
+ * Server only listen on socket for incoming connections.
+ * As soon as Socket is opened (and thus connection established), it passes the Socket to new Client handler thread and starts it.
  */
 public class Server extends AsyncTask<Void, Void, Void> {
 
@@ -58,7 +64,7 @@ public class Server extends AsyncTask<Void, Void, Void> {
             Socket connectionSocket = this.myService.accept();
             myAddress = connectionSocket.getLocalAddress();
             System.out.println(" --> Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
-            (new ClientHandler(connectionSocket, this.receivedMessages)).start();
+            (new ClientHandlerThread(connectionSocket, this.receivedMessages)).start();
         } catch (IOException e) {}
         try {
             this.myService.close();
