@@ -124,7 +124,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
     public void createConnection() throws IOException{
         // Timeout for connection
         boolean repeat = true;
-        long timeoutStart = System.nanoTime();
+        long timeoutStart = System.nanoTime() / 1000000;
 
         while (repeat) {
             repeat = false;
@@ -139,9 +139,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
             } catch (IOException e){
                 if (!isGameClient){ throw e; }
             }
-            if (isGameClient && System.nanoTime() - timeoutStart < 30000){
+            if (isGameClient && (System.nanoTime()/1000000) - timeoutStart < 30000 && !this.isConnectionEstablished){
                 repeat = true;
-            } else if (isGameClient){
+            } else if (isGameClient && !this.isConnectionEstablished){
                 throw new IOException();
             }
         }

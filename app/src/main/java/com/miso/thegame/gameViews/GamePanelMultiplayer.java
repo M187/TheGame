@@ -3,6 +3,8 @@ package com.miso.thegame.gameViews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Miso on 8.10.2015.
- *
+ * <p/>
  * Copy of GamePanel. Reworked to support multiplayer functionality.
  */
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
@@ -46,7 +48,13 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         this.myNickname = myNickname;
         this.registeredPlayers = registeredPlayers;
         this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
-        this.localServer.execute();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            this.localServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            this.localServer.execute();
+        }
+
         this.gameSynchronizer = new GameSynchronizer(registeredPlayers);
         this.sender = new Sender(this.registeredPlayers);
         this.context = context;
@@ -107,16 +115,15 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
      * Take care, order depends!
      */
     public void update() {
+
         this.networkGameStateUpdater.processRecievedMessages();
 
         if (getPlayer().playing) {
             gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
             inputHandler.processFrameInput();
-            {
-                getPlayer().update();
-                anchor.update();
-                getPlayer().updateMiddleDrawCoords(anchor);
-            }
+            getPlayer().update();
+            anchor.update();
+            getPlayer().updateMiddleDrawCoords(anchor);
             getSpellManager().update();
             getOtherPlayersManager().update();
             getStaticAnimationManager().update();
@@ -130,6 +137,8 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
             //todo: uninit network components
             // Server, clients, sender, messageProcessors
         }
+
+
     }
 
     @Override
@@ -157,19 +166,20 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         }
     }
 
-    public void postDrawTasks(){
+    public void postDrawTasks() {
         collisionHandler.performCollisionCheck();
     }
 
-    public void waitForPlayersToReady(){
+    public void waitForPlayersToReady() {
         boolean somePlayerNotReady = true;
-        while (somePlayerNotReady){
+        while (somePlayerNotReady) {
             somePlayerNotReady = false;
-            for (Client player : this.registeredPlayers){
-                somePlayerNotReady = ( player.isReadyForGame) ? somePlayerNotReady : true;
+            for (Client player : this.registeredPlayers) {
+                somePlayerNotReady = (player.isReadyForGame) ? somePlayerNotReady : true;
             }
         }
     }
+
 
     public OtherPlayerManager getOtherPlayersManager() {
         return otherPlayersManager;

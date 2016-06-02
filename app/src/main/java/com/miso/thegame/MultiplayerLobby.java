@@ -32,16 +32,14 @@ import java.util.ArrayList;
 
 /**
  * Created by Miso on 24.4.2016.
- *
+ * <p/>
  * Activity managing Multiplayer Lobby layout.
- *
+ * <p/>
  * Spawns several threads:
- *
- *  Server,
- *  Client/s,
- *  PlayerListUpdater
- *
- *
+ * <p/>
+ * Server,
+ * Client/s,
+ * PlayerListUpdater
  */
 public class MultiplayerLobby extends Activity {
 
@@ -72,7 +70,7 @@ public class MultiplayerLobby extends Activity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         /**
          * Here should go uninit all threads not required for MultiplayerGame (all threads)
          */
@@ -83,7 +81,7 @@ public class MultiplayerLobby extends Activity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 
         this.uiStateHandler.unHostClickUiChanges();
@@ -108,7 +106,7 @@ public class MultiplayerLobby extends Activity {
         this.registeredPlayers.clear();
     }
 
-    private void initClientServer(){
+    private void initClientServer() {
         this.server = new Server(12371);
         this.registeredPlayers.clear();
         this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.registeredPlayers, this));
@@ -152,7 +150,7 @@ public class MultiplayerLobby extends Activity {
                     this.myNickname));
             executeMyClient(newC);
             //Wait for connection.
-            while (newC.isRunning() && !(newC.isConnectionEstablished())){
+            while (newC.isRunning() && !(newC.isConnectionEstablished())) {
                 //System.out.print(".");
             }
             System.out.println();
@@ -181,7 +179,7 @@ public class MultiplayerLobby extends Activity {
             this.clientConnectionToServer.sendMessage(new ReadyToPlayMessage(this.myNickname));
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame;
 
-        } else if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame){
+        } else if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
 
             this.uiStateHandler.unReadyClickChanges();
             this.clientConnectionToServer.sendMessage(new UnReadyToPlayMessage(this.myNickname));
@@ -208,19 +206,19 @@ public class MultiplayerLobby extends Activity {
         }
     }
 
-    public void startGame(View view){
+    public void startGame(View view) {
 
-        if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting){
+        if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
 
-            for (Client joinedPlayer : this.registeredPlayers){
-                if (!joinedPlayer.isReadyForGame){
+            for (Client joinedPlayer : this.registeredPlayers) {
+                if (!joinedPlayer.isReadyForGame) {
                     return;
                 }
             }
             sender.sendMessage(new StartGameMessage());
             saveConnectedPlayers();
             startActivity(new Intent(this, GameActivity.class)
-                    .putExtra(OptionStrings.multiplayerInstance, this.myNickname)
+                    .putExtra(OptionStrings.myNickname, this.myNickname)
                     .putExtra(OptionStrings.multiplayerInstance, true));
             this.uninitLocalServerAndData();
         } else {
@@ -231,21 +229,26 @@ public class MultiplayerLobby extends Activity {
     public void saveConnectedPlayers() {
 
         SharedPreferences.Editor editor = getPreferences(0).edit();
+
         for (int i = 0; i < 8; i++) {
             try {
-                if (registeredPlayers.get(i) != null) {
+                // Debug part - inject artificial address.
+                if (i == 0) {
+                    editor.putString("Player" + i + "networkData", "test|10.0.2.2:12371");
+                } else if (registeredPlayers.get(i) != null) {
                     editor.putString("Player" + i + "networkData", this.registeredPlayers.get(i).getStringForExtras());
-                } else {
+                }
+                else {
                     editor.putString("Player" + i + "networkData", "free slot");
                 }
-            } catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 editor.putString("Player" + i + "networkData", "free slot");
             }
         }
         editor.commit();
     }
 
-    private void executeMyClient(Client client){
+    private void executeMyClient(Client client) {
         this.clientConnectionToServer = client;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -254,7 +257,7 @@ public class MultiplayerLobby extends Activity {
         }
     }
 
-    private void executeServerListener(){
+    private void executeServerListener() {
         // Start server only when host/join game?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             this.server.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

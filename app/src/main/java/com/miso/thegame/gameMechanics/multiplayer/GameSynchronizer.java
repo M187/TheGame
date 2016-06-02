@@ -1,5 +1,8 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
+import android.os.AsyncTask;
+import android.os.Build;
+
 import com.miso.thegame.Networking.client.Client;
 
 import java.util.ArrayList;
@@ -17,14 +20,18 @@ public class GameSynchronizer{
     public GameSynchronizer(ArrayList<Client> registeredPlayers){
         this.registeredPlayers = registeredPlayers;
         for (Client client: registeredPlayers){
-            client.execute();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                client.execute();
+            }
         }
         waitForClientsConnection();
     }
 
     public void waitForClientsConnection(){
         boolean needMoreTime = true;
-        System.out.println("Waiting for all client objects connection establishment.");
+        System.out.println(" --> Waiting for all client objects connection establishment.");
         while (needMoreTime){
             needMoreTime = false;
             for (Client client : registeredPlayers){
@@ -44,6 +51,9 @@ public class GameSynchronizer{
                     needMoreTime = true;
                 }
             }
+        }
+        for (Client client : this.registeredPlayers){
+            client.isReadyForGame = false;
         }
     }
 

@@ -31,7 +31,6 @@ public class GameActivity extends Activity {
         loadPlayerData();
 
         super.onCreate(savedInstanceState);
-        //set fullscreen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -94,14 +93,6 @@ public class GameActivity extends Activity {
     private void createGameView(GameMapEnum mapToCreate) {
         if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
             loadConnectedPlayersNetworkData();
-
-//            try {
-//                System.out.print("Good night!");
-//                Thread.sleep(450000000);3
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
             setContentView(
                     new GamePanelMultiplayer(
                             this,

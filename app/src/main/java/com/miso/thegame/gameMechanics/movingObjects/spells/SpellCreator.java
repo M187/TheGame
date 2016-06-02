@@ -83,6 +83,6 @@ public class SpellCreator {
     }
 
     public void fireProjectile(int x, int y, int xVector, int yVector, String identificator, CollisionObjectType collisionObjectType) {
-        offensiveSpells.add(new Projectile(x, y, xVector, yVector, collisionObjectType, identificator, resources));
+        offensiveSpells.add(new Projectile(x, y, x - xVector, y - yVector, collisionObjectType, identificator, resources));
     }
 }

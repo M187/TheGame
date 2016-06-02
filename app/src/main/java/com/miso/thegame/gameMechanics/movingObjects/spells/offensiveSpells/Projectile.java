@@ -24,12 +24,12 @@ public class Projectile extends OffensiveSpell {
      *
      * @param x                   starting coord of an fireball, usually players one.
      * @param y                   starting coord of an fireball, usually players one.
-     * @param Dx                  movement vector on relevant axis.
-     * @param Dy                  movement vector on relevant axis.
+     * @param destinationX                  movement vector on relevant axis.
+     * @param destinationY                  movement vector on relevant axis.
      * @param collisionObjectType collision type of an projectile for collision checks.
      * @param res                 resource to obtain picture from.
      */
-    public Projectile(int x, int y, int Dx, int Dy, CollisionObjectType collisionObjectType, Resources res) {
+    public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, Resources res) {
         super();
         //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;
@@ -37,13 +37,13 @@ public class Projectile extends OffensiveSpell {
         this.res = res;
         setX(x);
         setY(y);
-        setDx(Dx);
-        setDy(Dy);
+        setDx(destinationX);
+        setDy(destinationY);
         setSpeed(30);
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
 
-    public Projectile(int x, int y, int Dx, int Dy, CollisionObjectType collisionObjectType, String identificator, Resources res) {
+    public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
         super();
         //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;
@@ -52,8 +52,8 @@ public class Projectile extends OffensiveSpell {
         this.identificator = identificator;
         setX(x);
         setY(y);
-        setDx(Dx);
-        setDy(Dy);
+        setDx(destinationX);
+        setDy(destinationY);
         setSpeed(30);
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
@@ -95,7 +95,6 @@ public class Projectile extends OffensiveSpell {
         setX(getX() + frameDeltaX);
         setY(getY() + frameDeltaY);
     }
-
 
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();

@@ -53,7 +53,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                 this.multiplayerLobby.saveConnectedPlayers();
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
-                                .putExtra(OptionStrings.multiplayerInstance, this.multiplayerLobby.myNickname)
+                                .putExtra(OptionStrings.myNickname, this.multiplayerLobby.myNickname)
                                 .putExtra(OptionStrings.multiplayerInstance, true)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 //// TODO: 16.05.2016 instruct server to stop.

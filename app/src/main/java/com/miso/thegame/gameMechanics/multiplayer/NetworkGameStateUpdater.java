@@ -1,5 +1,7 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
+import android.graphics.Point;
+
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
@@ -7,6 +9,7 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessa
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
 
@@ -62,7 +65,7 @@ public class NetworkGameStateUpdater {
                 while (offensiveSpellIterator.hasNext()){
                     OffensiveSpell temp = offensiveSpellIterator.next();
                     if (temp.getIdentificator() == ((PlayerHitMessage)transmissionMessage).getProjectileId()){
-                        //StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()));
+                        StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()));
                         offensiveSpellIterator.remove();
                         break;
                     }
