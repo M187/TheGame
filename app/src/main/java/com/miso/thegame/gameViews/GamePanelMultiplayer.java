@@ -16,6 +16,7 @@ import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.server.logicExecutors.GamePlayLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
@@ -37,7 +38,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     private Server localServer = new Server(this.PORT);
     private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
     private volatile ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
-    private OtherPlayerManager otherPlayersManager = new OtherPlayerManager();
+    private OtherPlayerManager otherPlayersManager = null;
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
     private GameSynchronizer gameSynchronizer;
 
@@ -47,6 +48,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         this.mapToCreate = GameMapEnum.BlankMap;
         this.myNickname = myNickname;
         this.registeredPlayers = registeredPlayers;
+        this.otherPlayersManager = new OtherPlayerManager(registeredPlayers, getResources());
         this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -128,7 +130,10 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
             getOtherPlayersManager().update();
             getStaticAnimationManager().update();
             //collisionHandler.performCollisionCheck();
-            sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
+
+            sendFrameData();
+
+            //sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
         } else {
             getOtherPlayersManager().update();
             getSpellManager().update();
@@ -137,8 +142,11 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
             //todo: uninit network components
             // Server, clients, sender, messageProcessors
         }
+    }
 
-
+    private void sendFrameData(){
+        sender.sendMessage(new PlayerPositionData(this.player, GameView2.myNickname));
+        sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
     }
 
     @Override

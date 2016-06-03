@@ -103,9 +103,10 @@ public class MultiplayerLobby extends Activity {
     }
 
     public void uninitLocalServerAndData() {
-
-        this.server.terminate();
-        this.server.setMessageLogicExecutor(null);
+        try {
+            this.server.terminate();
+            this.server.setMessageLogicExecutor(null);
+        } catch (NullPointerException e){ }
         this.registeredPlayers.clear();
     }
 
@@ -245,9 +246,10 @@ public class MultiplayerLobby extends Activity {
         for (int i = 0; i < 8; i++) {
             try {
                 // Debug part - inject artificial address.
-                if (i == 0) {
-                    editor.putString("Player" + i + "networkData", "test|10.0.2.2:12371");
-                } else if (registeredPlayers.get(i) != null) {
+//                if (i == 0) {
+//                    editor.putString("Player" + i + "networkData", "test|10.0.2.2:12371");
+//                } else
+                if (registeredPlayers.get(i) != null) {
                     editor.putString("Player" + i + "networkData", this.registeredPlayers.get(i).getStringForExtras());
                 } else {
                     editor.putString("Player" + i + "networkData", "free slot");

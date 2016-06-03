@@ -13,6 +13,7 @@ import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
 import com.miso.thegame.gameViews.GamePanelSingleplayer;
+import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 
@@ -92,6 +93,7 @@ public class GameActivity extends Activity {
      */
     private void createGameView(GameMapEnum mapToCreate) {
         if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
+            GameView2.isMultiplayerGame = true;
             loadConnectedPlayersNetworkData();
             setContentView(
                     new GamePanelMultiplayer(
