@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameL
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.UnReadyToPlayMessage;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 
 import java.util.ArrayList;
 
@@ -92,8 +94,8 @@ public class MultiplayerLobby extends Activity {
         this.playerListUpdater.start();
     }
 
-    private void initHostServer() {
-        this.server = new Server(12371);
+    private void initHostServer() throws UnableToBindPortException {
+        this.createAndPortToLocalServer();
         this.registeredPlayers.clear();
         this.sender = new Sender(this.registeredPlayers);
         this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.registeredPlayers, this.sender));
@@ -101,13 +103,14 @@ public class MultiplayerLobby extends Activity {
     }
 
     public void uninitLocalServerAndData() {
+
         this.server.terminate();
         this.server.setMessageLogicExecutor(null);
         this.registeredPlayers.clear();
     }
 
-    private void initClientServer() {
-        this.server = new Server(12371);
+    private void initClientServer() throws UnableToBindPortException {
+        this.createAndPortToLocalServer();
         this.registeredPlayers.clear();
         this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.registeredPlayers, this));
         executeServerListener();
@@ -126,12 +129,17 @@ public class MultiplayerLobby extends Activity {
             uninitLocalServerAndData();
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
         } else {
-            this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
-            this.uiStateHandler.hostClickUiChanges();
+            try {
+                initHostServer();
+                this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
 
-            initHostServer();
+                this.uiStateHandler.hostClickUiChanges();
 
-            this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
+                this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
+            } catch (UnableToBindPortException e) {
+                //TODO: Inform player that server was unable to bind port.
+                Log.d(ConstantHolder.TAG, "Port for server is already in use!");
+            }
         }
     }
 
@@ -139,34 +147,38 @@ public class MultiplayerLobby extends Activity {
 
         System.out.println(" --> Clicked on Joined button.");
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Default) {
-            initClientServer();
+            try {
+                initClientServer();
 
-            this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
-            TransmissionMessage joinReq = new JoinGameLobbyMessage(this.myNickname);
+                this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
+                TransmissionMessage joinReq = new JoinGameLobbyMessage(this.myNickname);
 
-            Client newC = (new Client(
-                    ((EditText) findViewById(R.id.ip)).getText().toString(),
-                    Integer.parseInt(((EditText) findViewById(R.id.port)).getText().toString()),
-                    this.myNickname));
-            executeMyClient(newC);
-            //Wait for connection.
-            while (newC.isRunning() && !(newC.isConnectionEstablished())) {
-                //System.out.print(".");
-            }
-            System.out.println();
+                Client newC = (new Client(
+                        ((EditText) findViewById(R.id.ip)).getText().toString(),
+                        Integer.parseInt(((EditText) findViewById(R.id.port)).getText().toString()),
+                        this.myNickname));
+                executeMyClient(newC);
+                //Wait for connection.
+                while (newC.isRunning() && !(newC.isConnectionEstablished())) {
+                    //System.out.print(".");
+                }
+                System.out.println();
 
-            if (newC.isConnectionEstablished()) {
-                this.clientConnectionToServer.sendMessage(joinReq);
-                this.uiStateHandler.joinClickUiEvents();
-                this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
-                ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join successful!");
-                ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-            } else {
-                ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join unsuccessful!");
-                ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                if (newC.isConnectionEstablished()) {
+                    this.clientConnectionToServer.sendMessage(joinReq);
+                    this.uiStateHandler.joinClickUiEvents();
+                    this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
+                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join successful!");
+                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                } else {
+                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join unsuccessful!");
+                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
 
-                uninitLocalServerAndData();
-                this.clientConnectionToServer = null;
+                    uninitLocalServerAndData();
+                    this.clientConnectionToServer = null;
+                }
+            } catch (UnableToBindPortException e) {
+                //TODO: notify player that port requiered to play game is occupied / try to establish connection on different port?
             }
         }
     }
@@ -237,8 +249,7 @@ public class MultiplayerLobby extends Activity {
                     editor.putString("Player" + i + "networkData", "test|10.0.2.2:12371");
                 } else if (registeredPlayers.get(i) != null) {
                     editor.putString("Player" + i + "networkData", this.registeredPlayers.get(i).getStringForExtras());
-                }
-                else {
+                } else {
                     editor.putString("Player" + i + "networkData", "free slot");
                 }
             } catch (IndexOutOfBoundsException e) {
@@ -264,5 +275,22 @@ public class MultiplayerLobby extends Activity {
         } else {
             this.server.execute();
         }
+    }
+
+    private void createAndPortToLocalServer() throws UnableToBindPortException {
+        long timeoutStart = System.nanoTime() / 1000000;
+        this.server = new Server(12371);
+
+        while (!this.server.serverBindsPort && System.nanoTime() / 1000000 - timeoutStart < 30000) {
+        }
+
+        if (!this.server.serverBindsPort) {
+            ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Unable to bind port to server.!");
+            ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            throw new UnableToBindPortException();
+        }
+    }
+
+    private class UnableToBindPortException extends Throwable {
     }
 }

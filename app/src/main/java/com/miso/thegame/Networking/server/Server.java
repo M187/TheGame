@@ -33,7 +33,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class Server extends AsyncTask<Void, Void, Void> {
 
     public static InetAddress myAddress = null;
-
+    public volatile boolean serverBindsPort = false;
     ServerSocket myService;
     private volatile MessageLogicExecutor messageLogicExecutor;
     private volatile BlockingQueue<TransmissionMessage> receivedMessages = new LinkedBlockingDeque<>();
@@ -43,6 +43,7 @@ public class Server extends AsyncTask<Void, Void, Void> {
     public Server(int port) {
         try {
             this.myService = new ServerSocket(port);
+            this.serverBindsPort = true;
         } catch (IOException e) {
             System.out.println(e);
         }
