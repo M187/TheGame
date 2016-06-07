@@ -9,7 +9,8 @@ public enum GameMapEnum {
     Level2("backgroundsand"),
     SpaceLevel1("backgroundspace"),
     SpaceLevel2("backgroundspace"),
-    BlankMap("backgroundgrass");
+    BlankMap("backgroundgrass"),
+    MultiplayerMap1("backgroundspace");
 
     private String background;
 

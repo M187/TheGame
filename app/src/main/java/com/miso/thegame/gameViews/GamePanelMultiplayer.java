@@ -45,7 +45,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers, String myNickname) {
         super(context);
         Log.d(ConstantHolder.TAG, "Trying to create game panel for multiplayer.");
-        this.mapToCreate = GameMapEnum.BlankMap;
+        this.mapToCreate = GameMapEnum.MultiplayerMap1;
         this.myNickname = myNickname;
         this.registeredPlayers = registeredPlayers;
         this.otherPlayersManager = new OtherPlayerManager(registeredPlayers, getResources());

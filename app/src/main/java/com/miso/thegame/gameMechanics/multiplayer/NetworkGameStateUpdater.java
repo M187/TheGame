@@ -65,7 +65,7 @@ public class NetworkGameStateUpdater {
                 while (offensiveSpellIterator.hasNext()){
                     OffensiveSpell temp = offensiveSpellIterator.next();
                     if (temp.getIdentificator().equals(((PlayerHitMessage)transmissionMessage).getProjectileId())){
-                        StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()));
+                        StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()), 1);
                         offensiveSpellIterator.remove();
                         break;
                     }

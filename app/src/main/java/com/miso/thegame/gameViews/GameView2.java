@@ -22,7 +22,7 @@ import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player_Saucer;
+import com.miso.thegame.gameMechanics.movingObjects.player.PlayerTank;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 import java.util.Random;
@@ -72,7 +72,8 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         //mapManager also initialize Pathfinder class
         this.mapManager = new MapManager(this.mapToCreate, getResources());
 
-        player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), this.mapManager);
+        player = new PlayerTank(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), this.mapManager);
+        //player = new Player_Saucer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), this.mapManager);
         spellManager = new SpellManager(getResources(), getPlayer());
 
         enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());
