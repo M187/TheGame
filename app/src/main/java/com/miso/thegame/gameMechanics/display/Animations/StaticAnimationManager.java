@@ -18,9 +18,16 @@ public class StaticAnimationManager {
 
     public static ArrayList<StaticAnimation> staticAnimationsList = new ArrayList<>();
 
-    public static void addExplosion(Point position){
+    public static void addExplosion(Point position, int explosionType){
         //TODO: add here switch to define what animation should be created
-        staticAnimationsList.add(new Explosion(position.x, position.y, resources));
+        switch (explosionType) {
+            case 1:
+                staticAnimationsList.add(new Explosion(position.x, position.y, resources));
+                break;
+            case 2:
+                staticAnimationsList.add(new Explosion2(position.x, position.y, resources));
+                break;
+        }
     }
 
     public void update(){
