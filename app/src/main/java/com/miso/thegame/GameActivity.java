@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.miso.thegame.GameData.GameMapEnum;
+import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
@@ -23,6 +24,7 @@ public class GameActivity extends Activity {
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
+    private GamePlayerTypeEnum playerType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,9 @@ public class GameActivity extends Activity {
         int maxHealth = settings.getInt(OptionStrings.playerMaxHealth, 0);
         int maxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
         int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
+
+        this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, ""));
+
         ConstantHolder.loadSettingData(maxHealth, maxAmmo, maxSpeed);
     }
 
@@ -93,6 +98,8 @@ public class GameActivity extends Activity {
      */
     private void createGameView(GameMapEnum mapToCreate) {
         if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
+
+            //<editor-fold @name="Create multiplayer view.">
             GameView2.isMultiplayerGame = true;
             loadConnectedPlayersNetworkData();
             setContentView(
@@ -100,9 +107,11 @@ public class GameActivity extends Activity {
                             this,
                             mapToCreate,
                             this.registeredPlayers,
-                            this.getIntent().getExtras().getString(OptionStrings.myNickname, "--")));
+                            this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
+                            this.playerType));
+            //</editor-fold>
         } else {
-            setContentView(new GamePanelSingleplayer(this, mapToCreate));
+            setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType));
         }
     }
 

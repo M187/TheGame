@@ -11,4 +11,6 @@ public class OptionStrings {
 
     public static final String multiplayerInstance = "multiplayer";
     public static final String myNickname = "myNickname";
+
+    public static  final String playerType = "playerType";
 }

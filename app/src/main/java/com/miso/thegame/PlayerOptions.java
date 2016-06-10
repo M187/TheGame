@@ -6,9 +6,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
+import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal.hornak on 14.01.2016.
@@ -23,6 +29,8 @@ public class PlayerOptions extends Activity {
     private ProgressBar healthProgBar;
     private ProgressBar ammoProgBar;
     private ProgressBar speedProgBar;
+    private Spinner playerTypeSpinner;
+    private String playerType;
     private SharedPreferences settings;
 
     @Override
@@ -42,6 +50,26 @@ public class PlayerOptions extends Activity {
         speedProgBar = (ProgressBar) findViewById(R.id.max_speed_bar);
         speedProgBar.setMax(5);
         speedProgBar.setProgress(playerMaxSpeed);
+
+        initializePlayerSpinner();
+    }
+
+    private void initializePlayerSpinner() {
+        this.playerTypeSpinner = (Spinner) findViewById(R.id.player_type_spinner);
+
+        List<String> playerTypeList = new ArrayList<>();
+        for (GamePlayerTypeEnum playerTypeString : GamePlayerTypeEnum.values()){
+            playerTypeList.add(playerTypeString.getTypeString());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playerTypeList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.playerTypeSpinner.setAdapter(adapter);
+
+        if (!this.playerType.equals(null) | this.playerType.equals("")) {
+            int spinnerPosition = adapter.getPosition(this.playerType);
+            this.playerTypeSpinner.setSelection(spinnerPosition);
+        }
     }
 
     @Override
@@ -110,6 +138,7 @@ public class PlayerOptions extends Activity {
         this.playerMaxHealth = settings.getInt(OptionStrings.playerMaxHealth, 0);
         this.playerMaxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
         this.playerMaxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
+        this.playerType = settings.getString(OptionStrings.playerType, "");
     }
 
     private void saveSettings(){
@@ -118,6 +147,8 @@ public class PlayerOptions extends Activity {
         editor.putInt(OptionStrings.playerMaxHealth, playerMaxHealth);
         editor.putInt(OptionStrings.playerMaxAmmo, playerMaxAmmo);
         editor.putInt(OptionStrings.playerMaxSpeed, playerMaxSpeed);
+
+        editor.putString(OptionStrings.playerType, String.valueOf(this.playerTypeSpinner.getSelectedItem()));
 
         // Commit the edits!
         editor.commit();

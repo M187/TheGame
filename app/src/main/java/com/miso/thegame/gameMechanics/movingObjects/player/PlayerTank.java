@@ -2,11 +2,9 @@ package com.miso.thegame.gameMechanics.movingObjects.player;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
@@ -28,8 +26,8 @@ public class PlayerTank extends Player {
         dx = (getX());
         dy = (getY());
 
-        setImage(BitmapFactory.decodeResource(res, R.drawable.tankbody2));
-        this.turretImage = (BitmapFactory.decodeResource(res, R.drawable.tankturret2));
+        //setImage(BitmapFactory.decodeResource(res, R.drawable.tankbody2));
+        //this.turretImage = (BitmapFactory.decodeResource(res, R.drawable.tankturret2));
         this.mapManager = mapManager;
         this.setCurrentGridCoordinates(super.getGridCoordinates());
     }

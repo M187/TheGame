@@ -19,28 +19,24 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 29.4.2015.
  */
-public class Player extends MovableObject {
+public abstract class Player extends MovableObject {
 
-    protected int score;
     public boolean playing = true;
-    protected boolean movementDisabled = false;
-    protected MapManager mapManager;
-    protected Point currentGridCoordinates;
     public boolean changingTile = false;
-
-    protected boolean isMoving = false;
     public boolean turningClockwise = false;
     public boolean isTurningCounterclockwise = false;
-    protected PlayerEngineMotors playerEngineMotors;
-
     public int objectivesCollected = 0;
-
     // Toolbar things
     public int maxHealth = ConstantHolder.maximumPlayerHealth;
     public int currentHealth = this.maxHealth;
     public int primaryAmunitionMaxValue = ConstantHolder.primaryAmunitionMaxValue;
     public int primaryAmunition = this.primaryAmunitionMaxValue;
-
+    protected int score;
+    protected boolean movementDisabled = false;
+    protected MapManager mapManager;
+    protected Point currentGridCoordinates;
+    protected boolean isMoving = false;
+    protected PlayerEngineMotors playerEngineMotors;
     protected int lastHeading = 0;
     private int middleXDisplayCoord;
     private int middleYDisplayCoord;

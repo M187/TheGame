@@ -18,4 +18,10 @@
     <string name="Polymorph">False</string>
     <string name="ShipWrecker">False</string>
 
+    <string-array name="players_array">
+        <item>Spaceship</item>
+        <item>Saucer</item>
+        <item>Tank</item>
+    </string-array>
+
 </resources>

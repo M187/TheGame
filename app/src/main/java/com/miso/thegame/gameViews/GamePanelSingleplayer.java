@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
+import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
 
@@ -17,8 +18,8 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
 
     protected CollisionHandlerSingleplayer collisionHandler;
 
-    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate) {
-        super(context);
+    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerrType) {
+        super(context, playerrType);
         this.mapToCreate = mapToCreate;
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);

@@ -1,0 +1,26 @@
+package com.miso.thegame.gameMechanics.movingObjects.player;
+
+import android.content.res.Resources;
+import android.graphics.Point;
+
+import com.miso.thegame.GameData.GamePlayerTypeEnum;
+import com.miso.thegame.gameMechanics.map.MapManager;
+
+/**
+ * Created by michal.hornak on 10.06.2016.
+ */
+public class PlayerFactory {
+
+    public static Player createPlayer(Resources resources, Point startingPosition, MapManager mapManager, GamePlayerTypeEnum playerType){
+        switch (playerType){
+
+            case PlayerSpaceship:
+                return new PlayerSpaceship(resources, startingPosition, mapManager);
+            case PlayerSaucer:
+                return new Player_Saucer(resources, startingPosition, mapManager);
+            case PlayerTank:
+                return new PlayerTank(resources, startingPosition, mapManager);
+        }
+        return new PlayerSpaceship(resources, startingPosition, mapManager);
+    }
+}
