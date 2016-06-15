@@ -3,8 +3,6 @@ package com.miso.thegame.gameViews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -12,8 +10,6 @@ import android.view.SurfaceHolder;
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.Networking.Sender;
-import com.miso.thegame.Networking.client.Client;
-import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.server.logicExecutors.GamePlayLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
@@ -21,7 +17,7 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPosition
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
-import com.miso.thegame.gameMechanics.multiplayer.GameSynchronizer;
+import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
 import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
 
@@ -34,35 +30,30 @@ import java.util.ArrayList;
  */
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
-    public static final int PORT = 12371;
+    public static final int PORT = 12372;
     protected CollisionHandlerMultiplayer collisionHandler;
-    private Server localServer = new Server(this.PORT);
-    private volatile ArrayList<Client> registeredPlayers = new ArrayList<>();
-    private volatile ArrayList<TransmissionMessage> arrivingMessages = new ArrayList<>();
-    private OtherPlayerManager otherPlayersManager = null;
-    private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(arrivingMessages, this);
-    private GameSynchronizer gameSynchronizer;
 
-    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, ArrayList<Client> registeredPlayers, String myNickname, GamePlayerTypeEnum playerrType) {
-        super(context, playerrType);
+    private ConnectionManager connectionManager;
+    private volatile ArrayList<TransmissionMessage> arrivingMessagesList = new ArrayList<>();
+    private OtherPlayerManager otherPlayersManager = null;
+    private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(this);
+
+    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, String myNickname, GamePlayerTypeEnum playerType, ConnectionManager connectionManager) {
+        super(context, playerType);
         Log.d(ConstantHolder.TAG, "Trying to create game panel for multiplayer.");
         this.mapToCreate = GameMapEnum.MultiplayerMap1;
         this.myNickname = myNickname;
-        this.registeredPlayers = registeredPlayers;
-        this.otherPlayersManager = new OtherPlayerManager(registeredPlayers, getResources());
-        this.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessages, this.registeredPlayers));
+        this.connectionManager = connectionManager;
+        this.otherPlayersManager = new OtherPlayerManager(this.connectionManager.registeredPlayers, getResources());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.localServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            this.localServer.execute();
-        }
+        this.connectionManager.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessagesList, this.connectionManager.registeredPlayers));
 
-        this.gameSynchronizer = new GameSynchronizer(registeredPlayers);
-        this.sender = new Sender(this.registeredPlayers);
+        this.sender = new Sender(this.connectionManager.registeredPlayers);
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
+
+        //TODO: add loading screen here - to wait to start / for all players.
     }
 
     @Override
@@ -76,7 +67,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        this.localServer.terminate();
+        this.connectionManager.localServer.terminate();
         boolean retry = true;
         int counter = 0;
         while (retry & counter < 1000) {
@@ -97,7 +88,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         collisionHandler = new CollisionHandlerMultiplayer(getPlayer(), getOtherPlayersManager(), getSpellManager(), this.mapManager, getResources());
 
         this.sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
-        waitForPlayersToReady();
+        this.connectionManager.waitForPlayersToReady();
         this.thread.setRunning(true);
         this.thread.start();
     }
@@ -122,7 +113,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         this.networkGameStateUpdater.processRecievedMessages();
 
         if (getPlayer().playing) {
-            gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
+            this.connectionManager.gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
             inputHandler.processFrameInput();
             getPlayer().update();
             anchor.update();
@@ -179,18 +170,11 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         collisionHandler.performCollisionCheck();
     }
 
-    public void waitForPlayersToReady() {
-        boolean somePlayerNotReady = true;
-        while (somePlayerNotReady) {
-            somePlayerNotReady = false;
-            for (Client player : this.registeredPlayers) {
-                somePlayerNotReady = (player.isReadyForGame) ? somePlayerNotReady : true;
-            }
-        }
-    }
-
-
     public OtherPlayerManager getOtherPlayersManager() {
         return otherPlayersManager;
+    }
+
+    public ArrayList<TransmissionMessage> getArrivingMessagesList() {
+        return arrivingMessagesList;
     }
 }

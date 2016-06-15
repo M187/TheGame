@@ -18,8 +18,8 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
 
     protected CollisionHandlerSingleplayer collisionHandler;
 
-    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerrType) {
-        super(context, playerrType);
+    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerType) {
+        super(context, playerType);
         this.mapToCreate = mapToCreate;
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);

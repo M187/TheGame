@@ -24,8 +24,8 @@ public class NetworkGameStateUpdater {
     private volatile ArrayList<TransmissionMessage> recievedUpdates;
     private GamePanelMultiplayer multiplayerViewInstance;
 
-    public NetworkGameStateUpdater(ArrayList<TransmissionMessage> recievedUpdates, GamePanelMultiplayer multiplayerViewInstance) {
-        this.recievedUpdates = recievedUpdates;
+    public NetworkGameStateUpdater(GamePanelMultiplayer multiplayerViewInstance) {
+        this.recievedUpdates = multiplayerViewInstance.getArrivingMessagesList();
         this.multiplayerViewInstance = multiplayerViewInstance;
     }
 

@@ -12,6 +12,7 @@ import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
 import com.miso.thegame.gameViews.GamePanelSingleplayer;
 import com.miso.thegame.gameViews.GameView2;
@@ -25,11 +26,12 @@ public class GameActivity extends Activity {
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
     private GamePlayerTypeEnum playerType;
+    private ConnectionManager connectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.d(ConstantHolder.TAG," --> Entered main game Activity.");
+        Log.d(ConstantHolder.TAG, " --> Entered main game Activity.");
         GameMapEnum mapToCreate = getMapToCreate();
         loadPlayerData();
 
@@ -83,7 +85,8 @@ public class GameActivity extends Activity {
                 this.registeredPlayers.add(
                         new Client(
                                 playerNetworkData.split("\\|")[1].split(":")[0],
-                                Integer.parseInt(playerNetworkData.split("\\|")[1].split(":")[1]),
+                                //Integer.parseInt(playerNetworkData.split("\\|")[1].split(":")[1]),
+                                ConnectionManager.PORT,
                                 playerNetworkData.split("\\|")[0],
                                 true
                         ));
@@ -102,13 +105,17 @@ public class GameActivity extends Activity {
             //<editor-fold @name="Create multiplayer view.">
             GameView2.isMultiplayerGame = true;
             loadConnectedPlayersNetworkData();
+
+            //TODO: initiate connections here!
+            this.connectionManager = new ConnectionManager(this.registeredPlayers);
+
             setContentView(
                     new GamePanelMultiplayer(
                             this,
                             mapToCreate,
-                            this.registeredPlayers,
                             this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
-                            this.playerType));
+                            this.playerType,
+                            this.connectionManager));
             //</editor-fold>
         } else {
             setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType));

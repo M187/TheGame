@@ -61,7 +61,6 @@ public class MultiplayerLobby extends Activity {
         playerListUpdater = new PlayerListUpdater(this, registeredPlayers);
         this.uiStateHandler = new MultiplayerLobbyStateHandler(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.multiplayer_lobby_layout);
     }
 
     @Override
@@ -86,6 +85,7 @@ public class MultiplayerLobby extends Activity {
     protected void onResume() {
         super.onResume();
 
+        setContentView(R.layout.multiplayer_lobby_layout);
         this.uiStateHandler.unHostClickUiChanges();
         this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
 
@@ -230,6 +230,7 @@ public class MultiplayerLobby extends Activity {
             }
             sender.sendMessage(new StartGameMessage());
             saveConnectedPlayers();
+            setContentView(R.layout.loading_game);
             startActivity(new Intent(this, GameActivity.class)
                     .putExtra(OptionStrings.myNickname, this.myNickname)
                     .putExtra(OptionStrings.multiplayerInstance, true));

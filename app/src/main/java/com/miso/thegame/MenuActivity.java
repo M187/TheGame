@@ -20,7 +20,6 @@ public class MenuActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.menu_layout);
 
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer = MediaPlayer.create(this, R.raw.intro);
@@ -29,7 +28,13 @@ public class MenuActivity extends Activity {
         //mMediaPlayer.start();
     }
 
+    public void onResume(){
+        super.onResume();
+        setContentView(R.layout.menu_layout);
+    }
+
     public void newGameClickGround(View view) {
+        setContentView(R.layout.loading_game);
         this.gameIntent = new Intent(this, GameActivity.class);
         this.gameIntent.putExtra("Level", "Ground");
         this.isGameOn = true;
@@ -37,6 +42,7 @@ public class MenuActivity extends Activity {
     }
 
     public void newGameClickSpace(View view) {
+        setContentView(R.layout.loading_game);
         this.gameIntent = new Intent(this, GameActivity.class);
         this.gameIntent.putExtra("Level", "Space");
         this.isGameOn = true;
