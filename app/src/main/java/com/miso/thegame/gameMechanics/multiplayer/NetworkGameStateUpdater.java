@@ -2,6 +2,7 @@ package com.miso.thegame.gameMechanics.multiplayer;
 
 import android.graphics.Point;
 
+import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
@@ -41,12 +42,12 @@ public class NetworkGameStateUpdater {
     private void processEvent(TransmissionMessage transmissionMessage) {
         switch (transmissionMessage.getTransmissionType()) {
 
-            //Player position
+            //Other player position
             case "10":
                 this.multiplayerViewInstance.getOtherPlayersManager().updatePlayerData((PlayerPositionData) transmissionMessage);
                 break;
 
-            //Shooting
+            //Other player shooting
             case "20":
                 this.multiplayerViewInstance.getSpellManager().spellCreator
                         .fireProjectile(
@@ -59,7 +60,7 @@ public class NetworkGameStateUpdater {
                         );
                 break;
 
-            //Hit by spell
+            //Other player hit by spell
             case "30":
                 Iterator<OffensiveSpell> offensiveSpellIterator = this.multiplayerViewInstance.getSpellManager().getOffensiveSpellList().iterator();
                 while (offensiveSpellIterator.hasNext()){
@@ -73,16 +74,29 @@ public class NetworkGameStateUpdater {
 
                 break;
 
-            //Player defeated
+            //Other player defeated
             case "40":
-                this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().remove(((PlayerDestroyedMessage) transmissionMessage).getNickname());
-                //TODO: add animation.
+                String playerNickname = ((PlayerDestroyedMessage) transmissionMessage).getNickname();
+                this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().remove(playerNickname);
+                removePlayerFromRegisteredPlayersList(playerNickname);
+                StaticAnimationManager.addExplosionPlayerDestroyed(this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().get(playerNickname).getPosition());
                 break;
 
             //Sync mess
             case "50":
                 this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().get(((ReadyToPlayMessage) transmissionMessage).getNickname()).setIsReadyForNextFrame(true);
                 break;
+        }
+    }
+
+    private void removePlayerFromRegisteredPlayersList(String playerNickname){
+        Iterator<Client> iterator = this.multiplayerViewInstance.connectionManager.registeredPlayers.iterator();
+        while (iterator.hasNext()){
+            Client temp = iterator.next();
+            if (temp.getNickname().equals(playerNickname)){
+                iterator.remove();
+                break;
+            }
         }
     }
 }

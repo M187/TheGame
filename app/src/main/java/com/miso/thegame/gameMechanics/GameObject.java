@@ -68,6 +68,10 @@ public abstract class GameObject {
     public int getY() {
         return y;
     }
+
+    public Point getPosition(){
+        return new Point(this.x,this.y);
+    }
     //</editor-fold>
 
     public Bitmap getImage() {

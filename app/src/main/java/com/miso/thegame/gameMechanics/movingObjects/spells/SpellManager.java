@@ -32,7 +32,7 @@ public class SpellManager {
         public boolean remove(Object o) {
             if (super.remove(o)) {
                 OffensiveSpell temp = (OffensiveSpell) o;
-                StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()), 2);
+                StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()), 1);
                 return true;
             } else {
                 return false;

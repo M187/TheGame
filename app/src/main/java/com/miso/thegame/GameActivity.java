@@ -25,6 +25,7 @@ public class GameActivity extends Activity {
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
+    public ArrayList<Client> playersThatEnteredGame = new ArrayList<>();
     public GamePlayerTypeEnum playerType;
     private ConnectionManager connectionManager;
 
@@ -108,6 +109,7 @@ public class GameActivity extends Activity {
             this.setContentView(R.layout.waiting_for_other_players);
             GameView2.isMultiplayerGame = true;
             loadConnectedPlayersNetworkData();
+            this.playersThatEnteredGame = new ArrayList<>(this.registeredPlayers);
             this.connectionManager = new ConnectionManager(this.registeredPlayers);
             this.multiplayerSurfaceView = new GamePanelMultiplayer(
                     this,

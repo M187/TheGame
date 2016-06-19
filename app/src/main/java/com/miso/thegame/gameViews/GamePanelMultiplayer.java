@@ -13,6 +13,7 @@ import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.server.logicExecutors.GamePlayLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
@@ -113,6 +114,8 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
         this.networkGameStateUpdater.processRecievedMessages();
 
+        //TODO: check for victory -> are there any other players playing?
+
         if (getPlayer().playing) {
             this.connectionManager.gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
             inputHandler.processFrameInput();
@@ -138,8 +141,12 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     }
 
     private void sendFrameData(){
-        sender.sendMessage(new PlayerPositionData(this.player, GameView2.myNickname));
-        sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
+        if (getPlayer().playing) {
+            sender.sendMessage(new PlayerPositionData(this.player, GameView2.myNickname));
+            sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
+        } else {
+            sender.sendMessage(new PlayerDestroyedMessage(this.myNickname));
+        }
     }
 
     @Override

@@ -29,6 +29,13 @@ public class StaticAnimationManager {
                 break;
         }
     }
+    
+    public static void addExplosionPlayerDestroyed(Point position){
+        staticAnimationsList.add(new Explosion2(position.x-10, position.y-10, resources));
+        staticAnimationsList.add(new Explosion2(position.x+10, position.y-10, resources));
+        staticAnimationsList.add(new Explosion2(position.x-10, position.y+10, resources));
+        staticAnimationsList.add(new Explosion2(position.x+10, position.y+10, resources));
+    }
 
     public void update(){
         Iterator<StaticAnimation> animationIterator = staticAnimationsList.iterator();

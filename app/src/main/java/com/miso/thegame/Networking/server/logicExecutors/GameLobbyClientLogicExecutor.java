@@ -50,7 +50,15 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
             //Start game signal
             case "04":
                 this.multiplayerLobby.saveConnectedPlayers();
-                this.multiplayerLobby.setContentView(R.layout.loading_game);
+                this.multiplayerLobby.runOnUiThread((new Runnable() {
+                    private MultiplayerLobby multiplayerLobby;
+                    public Runnable init(MultiplayerLobby multiplayerLobby){
+                        this.multiplayerLobby = multiplayerLobby;
+                        return this;
+                    }
+                    @Override
+                    public void run(){multiplayerLobby.setContentView(R.layout.loading_game);}
+                }).init(this.multiplayerLobby));
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
                                 .putExtra(OptionStrings.myNickname, this.multiplayerLobby.myNickname)
