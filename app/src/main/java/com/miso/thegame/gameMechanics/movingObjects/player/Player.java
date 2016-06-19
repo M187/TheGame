@@ -1,7 +1,6 @@
 package com.miso.thegame.gameMechanics.movingObjects.player;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -36,7 +35,6 @@ public abstract class Player extends MovableObject {
     protected MapManager mapManager;
     protected Point currentGridCoordinates;
     protected boolean isMoving = false;
-    protected PlayerEngineMotors playerEngineMotors;
     protected int lastHeading = 0;
     private int middleXDisplayCoord;
     private int middleYDisplayCoord;
@@ -56,9 +54,10 @@ public abstract class Player extends MovableObject {
 
         this.mapManager = mapManager;
         setImage(BitmapFactory.decodeResource(res, R.drawable.player));
-        this.playerEngineMotors = new PlayerEngineMotors(res);
         this.setCurrentGridCoordinates(super.getGridCoordinates());
     }
+
+    public abstract void drawObject(Canvas canvas, int x, int y);
 
     public void update() {
 
@@ -288,25 +287,7 @@ public abstract class Player extends MovableObject {
         return objectRotatedVertices;
     }
 
-    protected ArrayList<Point> getNonRotatedVertices() {
-        ArrayList<Point> vertices = new ArrayList();
-        vertices.add(new Point(this.x, this.y - 50));
-        vertices.add(new Point(this.x - 25, this.y + 37));
-        vertices.add(new Point(this.x, this.y + 50));
-        vertices.add(new Point(this.x + 25, this.y + 37));
-
-        return vertices;
-    }
-
-    public void drawObject(Canvas canvas, int x, int y) {
-
-        //Draw engine fire
-        if (this.isMoving) {
-            this.playerEngineMotors.drawObject(this, canvas, x, y);
-        }
-        //Draw object
-        canvas.drawBitmap(this.getImage(), x, y, null);
-    }
+    protected abstract ArrayList<Point> getNonRotatedVertices();
 
     public void updateMiddleDrawCoords(Anchor anchor) {
         this.middleXDisplayCoord = this.getX() - anchor.getX();
@@ -319,30 +300,5 @@ public abstract class Player extends MovableObject {
 
     public int getMiddleYDisplayCoord() {
         return middleYDisplayCoord;
-    }
-
-    /**
-     * Created by Miso on 25.1.2016.
-     */
-    public static class PlayerEngineMotors {
-
-        public Bitmap image;
-
-        public PlayerEngineMotors(Resources res) {
-            this.image = BitmapFactory.decodeResource(res, R.drawable.playerenginefire);
-        }
-
-        public void drawObject(Player player, Canvas canvas, int x, int y) {
-            if (player.turningClockwise) {
-                canvas.drawBitmap(this.image, x + 8, y + 85, null);
-                player.turningClockwise = false;
-            } else if (player.isTurningCounterclockwise) {
-                canvas.drawBitmap(this.image, x + 32, y + 85, null);
-                player.isTurningCounterclockwise = false;
-            } else {
-                canvas.drawBitmap(this.image, x + 8, y + 85, null);
-                canvas.drawBitmap(this.image, x + 32, y + 85, null);
-            }
-        }
     }
 }

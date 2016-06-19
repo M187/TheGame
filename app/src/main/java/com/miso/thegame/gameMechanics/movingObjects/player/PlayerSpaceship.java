@@ -1,7 +1,9 @@
 package com.miso.thegame.gameMechanics.movingObjects.player;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.R;
@@ -9,10 +11,14 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
 
+import java.util.ArrayList;
+
 /**
  * Created by michal.hornak on 10.06.2016.
  */
 public class PlayerSpaceship extends Player {
+
+    protected PlayerEngineMotors playerEngineMotors;
 
     public PlayerSpaceship(Resources res, Point startingPosition, MapManager mapManager) {
         setX(startingPosition.x);
@@ -28,4 +34,50 @@ public class PlayerSpaceship extends Player {
         this.playerEngineMotors = new PlayerEngineMotors(res);
         this.setCurrentGridCoordinates(super.getGridCoordinates());
     }
+
+    public void drawObject(Canvas canvas, int x, int y) {
+
+        //Draw engine fire
+        if (this.isMoving) {
+            this.playerEngineMotors.drawObject(this, canvas, x, y);
+        }
+        //Draw object
+        canvas.drawBitmap(this.getImage(), x, y, null);
+    }
+
+    /**
+     * Created by Miso on 25.1.2016.
+     */
+    public static class PlayerEngineMotors {
+
+        public Bitmap image;
+
+        public PlayerEngineMotors(Resources res) {
+            this.image = BitmapFactory.decodeResource(res, R.drawable.playerenginefire);
+        }
+
+        public void drawObject(Player player, Canvas canvas, int x, int y) {
+            if (player.turningClockwise) {
+                canvas.drawBitmap(this.image, x + 8, y + 85, null);
+                player.turningClockwise = false;
+            } else if (player.isTurningCounterclockwise) {
+                canvas.drawBitmap(this.image, x + 32, y + 85, null);
+                player.isTurningCounterclockwise = false;
+            } else {
+                canvas.drawBitmap(this.image, x + 8, y + 85, null);
+                canvas.drawBitmap(this.image, x + 32, y + 85, null);
+            }
+        }
+    }
+
+    protected ArrayList<Point> getNonRotatedVertices() {
+        ArrayList<Point> vertices = new ArrayList();
+        vertices.add(new Point(this.x, this.y - 50));
+        vertices.add(new Point(this.x - 25, this.y + 37));
+        vertices.add(new Point(this.x, this.y + 50));
+        vertices.add(new Point(this.x + 25, this.y + 37));
+
+        return vertices;
+    }
+
 }

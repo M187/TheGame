@@ -15,12 +15,12 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 29.4.2015.
  */
-public final class Player_Saucer extends Player {
+public final class PlayerSaucer extends Player {
 
     private StaticAnimation animation = new StaticAnimation();
 
     //TODO: static variables for coordinates. ? Init to a static variable in GamePanel?
-    public Player_Saucer(Resources res,Point startingPosition, MapManager mapManager) {
+    public PlayerSaucer(Resources res, Point startingPosition, MapManager mapManager) {
         this.animation = new FlyingSaucer(startingPosition, res);
         //animation.initializeSprites(BitmapFactory.decodeResource(res, R.drawable.player_saucer), 70, 70, 8, 25);
         setX(startingPosition.x);
@@ -34,16 +34,6 @@ public final class Player_Saucer extends Player {
         this.mapManager = mapManager;
         setImage(animation.getImage());
         this.setCurrentGridCoordinates(super.getGridCoordinates());
-    }
-
-    @Override
-    public ArrayList<Point> getObjectCollisionVertices() {
-        ArrayList<Point> objectRotatedVertices = new ArrayList<>();
-
-        for (Point p : this.getNonRotatedVertices()) {
-            objectRotatedVertices.add(rotateVertexAroundCurrentPosition(p));
-        }
-        return objectRotatedVertices;
     }
 
     protected ArrayList<Point> getNonRotatedVertices() {

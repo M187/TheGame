@@ -9,6 +9,8 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
 
+import java.util.ArrayList;
+
 /**
  * Created by Miso on 5.6.2016.
  */
@@ -36,4 +38,16 @@ public class PlayerTank extends Player {
         canvas.drawBitmap(this.getImage(), x, y, null);
         canvas.drawBitmap(this.turretImage, x + 2, y - 10, null);
     }
+
+    //todo: do these for tank!
+    protected ArrayList<Point> getNonRotatedVertices() {
+        ArrayList<Point> vertices = new ArrayList();
+        vertices.add(new Point(this.x, this.y - 50));
+        vertices.add(new Point(this.x - 25, this.y + 37));
+        vertices.add(new Point(this.x, this.y + 50));
+        vertices.add(new Point(this.x + 25, this.y + 37));
+
+        return vertices;
+    }
+
 }
