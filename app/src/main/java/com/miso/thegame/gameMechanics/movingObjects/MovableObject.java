@@ -12,8 +12,9 @@ import java.util.ArrayList;
  */
 public abstract class MovableObject extends GameObject {
 
-    protected int speed = 0;
     public int heading = 0;
+    public boolean movementDisabled;
+    protected int speed = 0;
     protected int frameDeltaX;
     protected int frameDeltaY;
     protected int dx;
@@ -121,24 +122,24 @@ public abstract class MovableObject extends GameObject {
 
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     public int getSpeed() {
         return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public int getDx() {
         return dx;
     }
 
-    public int getDy() {
-        return dy;
-    }
-
     public void setDx(int dx) {
         this.dx = dx;
+    }
+
+    public int getDy() {
+        return dy;
     }
 
     public void setDy(int dy) {

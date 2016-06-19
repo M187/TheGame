@@ -31,9 +31,8 @@ import java.util.ArrayList;
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
     public static final int PORT = 12372;
+    public ConnectionManager connectionManager;
     protected CollisionHandlerMultiplayer collisionHandler;
-
-    private ConnectionManager connectionManager;
     private volatile ArrayList<TransmissionMessage> arrivingMessagesList = new ArrayList<>();
     private OtherPlayerManager otherPlayersManager = null;
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(this);
@@ -42,18 +41,16 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         super(context, playerType);
         Log.d(ConstantHolder.TAG, "Trying to create game panel for multiplayer.");
         this.mapToCreate = GameMapEnum.MultiplayerMap1;
+
         this.myNickname = myNickname;
         this.connectionManager = connectionManager;
         this.otherPlayersManager = new OtherPlayerManager(this.connectionManager.registeredPlayers, getResources());
-
         this.connectionManager.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessagesList, this.connectionManager.registeredPlayers));
-
         this.sender = new Sender(this.connectionManager.registeredPlayers);
+
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
-
-        //TODO: add loading screen here - to wait to start / for all players.
     }
 
     @Override
@@ -82,11 +79,15 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         }
     }
 
+    public void createConnections(){
+        this.connectionManager.initializeAllConnectionsToOtherPlayersServers();
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder surface) {
         super.surfaceCreated(surface);
-        collisionHandler = new CollisionHandlerMultiplayer(getPlayer(), getOtherPlayersManager(), getSpellManager(), this.mapManager, getResources());
 
+        collisionHandler = new CollisionHandlerMultiplayer(getPlayer(), getOtherPlayersManager(), getSpellManager(), this.mapManager, getResources());
         this.sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
         this.connectionManager.waitForPlayersToReady();
         this.thread.setRunning(true);

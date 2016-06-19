@@ -10,6 +10,7 @@ import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Blink;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Timestop;
+import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.DisablingProjectile;
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Projectile;
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Shockwave;
 import com.miso.thegame.gameViews.GameView2;
@@ -84,5 +85,13 @@ public class SpellCreator {
 
     public void fireProjectile(int x, int y, int xVector, int yVector, String identificator, CollisionObjectType collisionObjectType) {
         offensiveSpells.add(new Projectile(x, y, x - xVector, y - yVector, collisionObjectType, identificator, resources));
+    }
+
+    public void fireDisablingProjectileTowardsPlayer(int x, int y) {
+        offensiveSpells.add(new Projectile(x, y, player.getX(), player.getY(), CollisionObjectType.SpellEnemy, resources));
+    }
+
+    public void fireDisablingProjectile(int x, int y, int xVector, int yVector, String identificator, CollisionObjectType collisionObjectType) {
+        offensiveSpells.add(new DisablingProjectile(x, y, x - xVector, y - yVector, collisionObjectType, identificator, resources));
     }
 }

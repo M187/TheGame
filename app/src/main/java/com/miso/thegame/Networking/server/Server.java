@@ -1,15 +1,19 @@
 package com.miso.thegame.Networking.server;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TerminateMessage;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -40,6 +44,8 @@ public class Server extends AsyncTask<Void, Void, Void> {
     private volatile boolean running = true;
     private Thread messageLogicExecutorThread;
 
+    private List<ClientHandlerThread> listOfClientHandlers = new ArrayList();
+
     public Server(int port) {
         try {
             this.myService = new ServerSocket(port);
@@ -52,6 +58,10 @@ public class Server extends AsyncTask<Void, Void, Void> {
     public void terminate() {
         this.running = false;
         receivedMessages.add(new TerminateMessage());
+
+        for (ClientHandlerThread clientHandlerThread : listOfClientHandlers){
+            clientHandlerThread.terminate();
+        }
         try {
             this.myService.close();
         } catch (IOException e) {}
@@ -61,11 +71,18 @@ public class Server extends AsyncTask<Void, Void, Void> {
      * Method to listen for incoming messages and connections. Should be used in its own thread.
      */
     public Void doInBackground(Void... params) {
+
+        ClientHandlerThread temp;
+
         while (running) try {
             Socket connectionSocket = this.myService.accept();
             myAddress = connectionSocket.getLocalAddress();
-            System.out.println(" --> Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
-            (new ClientHandlerThread(connectionSocket, this.receivedMessages)).start();
+            Log.d(ConstantHolder.TAG, " --> Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");
+
+            temp = new ClientHandlerThread(connectionSocket, this.receivedMessages);
+            this.listOfClientHandlers.add(temp);
+            temp.start();
+
         } catch (IOException e) {}
         try {
             this.myService.close();

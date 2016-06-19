@@ -1,7 +1,10 @@
 package com.miso.thegame.Networking.server;
 
+import android.util.Log;
+
 import com.miso.thegame.Networking.IncomingMessageParser;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,16 +27,25 @@ import java.util.concurrent.BlockingQueue;
  */
 public class ClientHandlerThread extends Thread{
 
-    private Socket clientSocket;
+    private volatile Socket clientSocket;
     private InetAddress clientAddress;
     private volatile BlockingQueue<TransmissionMessage> messageHolder;
     private IncomingMessageParser incomingMessageParser = new IncomingMessageParser();
-    private boolean running = false;
+    private volatile boolean running = false;
 
     public ClientHandlerThread(Socket socket, BlockingQueue<TransmissionMessage> messageHolder) {
         this.clientSocket = socket;
         this.messageHolder = messageHolder;
         this.clientAddress = socket.getInetAddress();
+    }
+
+    public void terminate(){
+        this.running = false;
+        try {
+            this.clientSocket.close();
+        } catch (IOException e){
+            Log.d(ConstantHolder.TAG, "Connection lost with :" + this.clientAddress);
+        }
     }
 
     @Override
@@ -49,18 +61,16 @@ public class ClientHandlerThread extends Thread{
                     this.running = false;
                     this.messageHolder.add(
                             this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, this.clientAddress));
-                    System.out.println(" -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
+                    Log.d(ConstantHolder.TAG, " -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
                 } else {
                     this.messageHolder.add(
                             this.incomingMessageParser.unmarshalIncomingMessage(receivedMessage, this.clientAddress));
-                    System.out.println(" -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
+                    Log.d(ConstantHolder.TAG, " -- > Received: " + receivedMessage + " from client: " + this.clientAddress);
                 }
             }
-        } catch (IOException e) { //todo: lost connection with client.
-            try {
-                this.clientSocket.close();
-            } catch (IOException e1) {}
+        } catch (IOException e) {
             this.running = false;
+            Log.d(ConstantHolder.TAG, "Connection lost with :" + this.clientAddress);
         }
         catch (NullPointerException es){}
     }

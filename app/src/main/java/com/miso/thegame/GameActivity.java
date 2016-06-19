@@ -25,8 +25,10 @@ public class GameActivity extends Activity {
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
-    private GamePlayerTypeEnum playerType;
+    public GamePlayerTypeEnum playerType;
     private ConnectionManager connectionManager;
+
+    private GamePanelMultiplayer multiplayerSurfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,23 +105,60 @@ public class GameActivity extends Activity {
         if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
 
             //<editor-fold @name="Create multiplayer view.">
+            this.setContentView(R.layout.waiting_for_other_players);
             GameView2.isMultiplayerGame = true;
             loadConnectedPlayersNetworkData();
-
-            //TODO: initiate connections here!
             this.connectionManager = new ConnectionManager(this.registeredPlayers);
+            this.multiplayerSurfaceView = new GamePanelMultiplayer(
+                    this,
+                    mapToCreate,
+                    this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
+                    this.playerType,
+                    connectionManager);
 
-            setContentView(
-                    new GamePanelMultiplayer(
-                            this,
-                            mapToCreate,
-                            this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
-                            this.playerType,
-                            this.connectionManager));
-            //</editor-fold>
-        } else {
+            //todo: this can't be run on main thread, since it makes activity unresponsive.
+            (new Runnable() {
+                private GamePanelMultiplayer surfaceView;
+                private Activity activity;
+
+                public Runnable init(GamePanelMultiplayer surfaceView, Activity activity) {
+                    this.activity = activity;
+                    this.surfaceView = surfaceView;
+                    return this;
+                }
+
+                public void run() {
+                    this.surfaceView.createConnections();
+
+                    runOnUiThread((new Runnable() {
+                        private Activity activity;
+                        private GamePanelMultiplayer surfaceView;
+
+                        @Override
+                        public void run() {
+                            this.activity.setContentView(this.surfaceView);
+                        }
+
+                        public Runnable init(Activity activity, GamePanelMultiplayer surfaceView) {
+                            this.activity = activity;
+                            this.surfaceView = surfaceView;
+                            return this;
+                        }
+                    }).init(this.activity, this.surfaceView));
+                }
+            }).init(this.multiplayerSurfaceView, this).run();
+        }
+        //</editor-fold>
+        else {
             setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType));
         }
+    }
+
+    /**
+     *
+     */
+    private void initConnections(){
+
     }
 
     /**

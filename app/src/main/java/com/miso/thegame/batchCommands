@@ -9,20 +9,28 @@ cd C:\Users\michal.hornak\AppData\Local\Android\Sdk\platform-tools
 //command itself - tcp:localPcPort tcp:emulatorPort
 adb forward tcp:12371 tcp:12371
 
+
 -------------------------------------------------------------------------
+Use case - App host game, SocketTest connects as a client:
+1) Start server in anadroid app
+2) Connect to 127.0.0.1:12371 (or other port which you forwarded android emulator port to).
+3) Send 01|myNickname  (join game message)
+- you should register in host Lobby
+4) Send 03|myNickname (ready to play message)
+- you should see that status of a player was switched to READY
+5) Host can now start game via start button
 
-(new Client("127.0.0.1", 45678, "hiBack")).execute(new OtherPlayerDataMessage("aaa", "bbb"));
 
+
+
+-------------------------------------------------------------------------
 -------------------------------------------------------------------------
 
 20|test0|50|50|5|5
 
 http://angrytools.com/android/button/
 
-
-
 do disabling rounds and boost
-
 
 pics about space:
 http://pics-about-space.com/simple-asteroid-sprite?p=4

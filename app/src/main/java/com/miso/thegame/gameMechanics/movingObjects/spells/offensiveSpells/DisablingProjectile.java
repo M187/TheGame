@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 12.10.2015.
  */
-public class Projectile extends OffensiveSpell {
+public class DisablingProjectile extends OffensiveSpell {
 
     private Point hitVertex;
     private Resources res;
@@ -29,7 +29,7 @@ public class Projectile extends OffensiveSpell {
      * @param collisionObjectType collision type of an projectile for collision checks.
      * @param res                 resource to obtain picture from.
      */
-    public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, Resources res) {
+    public DisablingProjectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, Resources res) {
         super();
         //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;
@@ -43,7 +43,7 @@ public class Projectile extends OffensiveSpell {
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
 
-    public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
+    public DisablingProjectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
         super();
         //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;

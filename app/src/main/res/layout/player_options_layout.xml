@@ -12,177 +12,185 @@
     android:paddingTop="40dp"
     android:weightSum="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Health"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/button_decrease_health"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="150px"
-            android:maxWidth="150px"
-            android:nestedScrollingEnabled="false"
-            android:onClick="decHealth"
-            android:text="-" />
-
-        <ProgressBar
-            android:id="@+id/health_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="127dp"
-            android:layout_height="60dp"
-            android:layout_weight="0.36" />
-
-        <Button
-            android:id="@+id/button_increase_health"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="150px"
-            android:maxWidth="150px"
-            android:onClick="incHealth"
-            android:text="+" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Ammo"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/button_decrease_ammo"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="150px"
-            android:maxWidth="150px"
-            android:onClick="decAmmo"
-            android:text="-" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Health"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
-        <ProgressBar
-            android:id="@+id/max_ammo_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="127dp"
-            android:layout_height="60dp"
-            android:layout_weight="0.36" />
+            <Button
+                android:id="@+id/button_decrease_health"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="150px"
+                android:maxWidth="150px"
+                android:nestedScrollingEnabled="false"
+                android:onClick="decHealth"
+                android:text="-" />
 
-        <Button
-            android:id="@+id/button_increase_ammo"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="150px"
-            android:maxWidth="150px"
-            android:onClick="incAmmo"
-            android:text="+" />
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/health_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="127dp"
+                android:layout_height="60dp"
+                android:layout_weight="0.36" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button_increase_health"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="150px"
+                android:maxWidth="150px"
+                android:onClick="incHealth"
+                android:text="+" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Speed"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/button_decrease_speed"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="150px"
-            android:maxWidth="150px"
-            android:onClick="decSpeed"
-            android:text="-" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ammo"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
-        <ProgressBar
-            android:id="@+id/max_speed_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="127dp"
-            android:layout_height="60dp"
-            android:layout_weight="0.36" />
+            <Button
+                android:id="@+id/button_decrease_ammo"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="150px"
+                android:maxWidth="150px"
+                android:onClick="decAmmo"
+                android:text="-" />
 
-        <Button
-            android:id="@+id/button_increase_speed"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="150px"
-            android:maxWidth="150px"
-            android:onClick="incSpeed"
-            android:text="+" />
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/max_ammo_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="127dp"
+                android:layout_height="60dp"
+                android:layout_weight="0.36" />
 
-    <LinearLayout
-        android:id="@+id/ability_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button_increase_ammo"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="150px"
+                android:maxWidth="150px"
+                android:onClick="incAmmo"
+                android:text="+" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/button_defensive_spell"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:text="Defensive spell" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/button_offensive_spell"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:text="Offensive Spell" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Speed"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/player_type"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <Button
+                android:id="@+id/button_decrease_speed"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="150px"
+                android:maxWidth="150px"
+                android:onClick="decSpeed"
+                android:text="-" />
 
-        <Spinner
-            android:id="@+id/player_type_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@drawable/buttonshape"
+            <ProgressBar
+                android:id="@+id/max_speed_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="127dp"
+                android:layout_height="60dp"
+                android:layout_weight="0.36" />
 
-            android:focusable="false"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5"
-            android:textColor="#FFFFFF"/>
+            <Button
+                android:id="@+id/button_increase_speed"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxHeight="150px"
+                android:maxWidth="150px"
+                android:onClick="incSpeed"
+                android:text="+" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ability_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_defensive_spell"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="Defensive spell" />
+
+            <Button
+                android:id="@+id/button_offensive_spell"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:text="Offensive Spell" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/player_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/player_type_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/buttonshape"
+
+                android:focusable="false"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
