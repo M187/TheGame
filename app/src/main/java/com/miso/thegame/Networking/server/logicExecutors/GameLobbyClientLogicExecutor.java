@@ -64,7 +64,6 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                                 .putExtra(OptionStrings.myNickname, this.multiplayerLobby.myNickname)
                                 .putExtra(OptionStrings.multiplayerInstance, true)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                //// TODO: 16.05.2016 instruct server to stop.
                 throw new StartGameException();
 
             // Disbanding game

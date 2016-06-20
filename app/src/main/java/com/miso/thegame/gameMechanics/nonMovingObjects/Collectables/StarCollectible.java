@@ -26,7 +26,6 @@ public class StarCollectible extends Collectible {
         mapManager.getCollectibleList().remove(this);
     }
 
-    //Todo - add animations to parent method?
     public void draw(Canvas canvas, int x, int y){
         animation.update();
         canvas.drawBitmap(this.animation.getImage(), x, y, null);

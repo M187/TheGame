@@ -60,6 +60,19 @@ public class NetworkGameStateUpdater {
                         );
                 break;
 
+            //Other player shooting freezing projectile
+            case "21":
+                this.multiplayerViewInstance.getSpellManager().spellCreator
+                        .fireFreezingProjectile(
+                                ((PlayerShootProjectile) transmissionMessage).getFromPosition().x,
+                                ((PlayerShootProjectile) transmissionMessage).getFromPosition().y,
+                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().x,
+                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().y,
+                                ((PlayerShootProjectile) transmissionMessage).getIdentificator(),
+                                CollisionObjectType.SpellEnemy
+                        );
+                break;
+
             //Other player hit by spell
             case "30":
                 Iterator<OffensiveSpell> offensiveSpellIterator = this.multiplayerViewInstance.getSpellManager().getOffensiveSpellList().iterator();

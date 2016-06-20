@@ -18,20 +18,14 @@ import java.util.List;
  */
 public class EnemiesManager {
 
-    //TODO try to do it as a set / linkedList
-    private List<Enemy> enemyList = new ArrayList<>();
     public List<Enemy> enemiesToBeAddedInThiFrame = new ArrayList<>();
+    public SpellManager spellManager;
     Player player;
     Resources res;
-    public SpellManager spellManager;
+    //TODO try to do it as a set / linkedList
+    private List<Enemy> enemyList = new ArrayList<>();
 
-    public class CustomComparator implements Comparator<Enemy> {
-        public int compare(Enemy e1, Enemy e2) {
-            return (e1).compareTo(e2);
-        }
-    }
-
-    public EnemiesManager(Player player, SpellManager spellManager, ArrayList<SingleEnemyInitialData> enemyInitialDatas, Resources res) {
+    public EnemiesManager(Player player, SpellManager spellManager, List<SingleEnemyInitialData> enemyInitialDatas, Resources res) {
         this.player = player;
         this.spellManager = spellManager;
         this.res = res;
@@ -65,5 +59,11 @@ public class EnemiesManager {
 
     public List<Enemy> getEnemyList() {
         return enemyList;
+    }
+
+    public class CustomComparator implements Comparator<Enemy> {
+        public int compare(Enemy e1, Enemy e2) {
+            return (e1).compareTo(e2);
+        }
     }
 }

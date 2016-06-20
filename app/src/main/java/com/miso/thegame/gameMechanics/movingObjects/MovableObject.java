@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.GameObject;
+import com.miso.thegame.gameMechanics.movingObjects.spells.EffectTimeout;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public abstract class MovableObject extends GameObject {
 
     public int heading = 0;
     public boolean movementDisabled;
+    public EffectTimeout movementDisabledTimeout;
     protected int speed = 0;
     protected int frameDeltaX;
     protected int frameDeltaY;

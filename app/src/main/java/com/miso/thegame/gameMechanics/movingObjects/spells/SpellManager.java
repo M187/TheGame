@@ -7,7 +7,6 @@ import android.graphics.Point;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
 import com.miso.thegame.gameViews.GameView2;
@@ -20,6 +19,8 @@ import java.util.List;
  * Created by Miso on 11.10.2015.
  */
 public class SpellManager {
+
+    public static boolean freezeProjectilesActive;
 
     public EnemiesManager enemiesManager;
     public boolean primaryShootingActive = false;
@@ -49,6 +50,8 @@ public class SpellManager {
     }
 
     public void update() {
+
+        SpellManager.freezeProjectilesActive = false;
 
         this.updateSpells(this.offensiveSpellList);
 
@@ -86,15 +89,5 @@ public class SpellManager {
 
     public List<OffensiveSpell> getOffensiveSpellList() {
         return this.offensiveSpellList;
-    }
-
-    /**
-     * Perform freeze spell. Take all existing enemies and set speed to 4.
-     * (default speed of enemy is 5 at time of creation of this function)
-     */
-    public void performFreezeSpell() {
-        for (Enemy enemy : enemiesManager.getEnemyList()) {
-            enemy.setSpeed(4);
-        }
     }
 }

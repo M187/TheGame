@@ -18,7 +18,6 @@ public class PlayerTank extends Player {
 
     private Bitmap turretImage = null;
 
-    //TODO: static variables for coordinates. ? Init to a static variable in GamePanel?
     public PlayerTank(Resources res,Point startingPosition, MapManager mapManager) {
         setX(startingPosition.x);
         setY(startingPosition.y);

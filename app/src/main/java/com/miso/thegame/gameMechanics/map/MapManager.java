@@ -27,6 +27,9 @@ public class MapManager {
 
     private static final int mapTileWidth = 100;
     private static final int mapTileHeight = 100;
+    private static final int mapTileHalfWidth = mapTileWidth / 2;
+    private static final int mapTileHalfHeight = mapTileHeight / 2;
+
     private static int worldWidth;
     private static int worldHeight;
     public MapGrid mapGrid;
@@ -65,6 +68,14 @@ public class MapManager {
 
     public static int getMapTileHeight() {
         return mapTileHeight;
+    }
+
+    public static int getMapTileHalfWidth() {
+        return mapTileHalfWidth;
+    }
+
+    public static int getMapTileHalfHeight() {
+        return mapTileHalfHeight;
     }
 
     private void initializeMap(GameMapEnum mapName, Resources res) {

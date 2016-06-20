@@ -179,7 +179,7 @@ public class MultiplayerLobby extends Activity {
                     this.clientConnectionToServer = null;
                 }
             } catch (UnableToBindPortException e) {
-                //TODO: notify player that port requiered to play game is occupied / try to establish connection on different port?
+                //TODO: notify player that port required to play game is occupied / try to establish connection on different port?
             }
         }
     }

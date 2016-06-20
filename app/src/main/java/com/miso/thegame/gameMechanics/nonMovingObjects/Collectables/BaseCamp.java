@@ -19,7 +19,7 @@ public class BaseCamp extends Collectible {
 
     public void onInteraction(Player player, MapManager mapManager){
         player.replenishPrimaryAmmo();
-        player.addHealth();
+        player.addHealthToMax();
     }
 
 }

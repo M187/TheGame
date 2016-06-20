@@ -8,7 +8,6 @@ import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_a
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_asteroidBase;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_carrier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ public class EnemyFactory {
         return instance;
     }
 
-    public void initializeEnemies(List<Enemy> enemyList, ArrayList<SingleEnemyInitialData> enemyDatas, Resources res){
+    public void initializeEnemies(List<Enemy> enemyList, List<SingleEnemyInitialData> enemyDatas, Resources res){
         for (SingleEnemyInitialData enemyInitialData : enemyDatas) {
             enemyList.add(this.makeEnemyShip(enemyInitialData, res));
         }

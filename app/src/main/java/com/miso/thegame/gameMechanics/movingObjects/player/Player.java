@@ -8,10 +8,12 @@ import android.graphics.Point;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
+import com.miso.thegame.gameMechanics.movingObjects.spells.EffectTimeout;
 
 import java.util.ArrayList;
 
@@ -31,7 +33,6 @@ public abstract class Player extends MovableObject {
     public int primaryAmunitionMaxValue = ConstantHolder.primaryAmunitionMaxValue;
     public int primaryAmunition = this.primaryAmunitionMaxValue;
     protected int score;
-    protected boolean movementDisabled = false;
     protected MapManager mapManager;
     protected Point currentGridCoordinates;
     protected boolean isMoving = false;
@@ -42,7 +43,6 @@ public abstract class Player extends MovableObject {
     public Player() {
     }
 
-    //TODO: static variables for coordinates. ? Init to a static variable in GamePanel?
     public Player(Resources res, Point startingPosition, MapManager mapManager) {
         setX(startingPosition.x);
         setY(startingPosition.y);
@@ -67,9 +67,9 @@ public abstract class Player extends MovableObject {
 
         if (this.currentHealth <= 0) {
             System.out.println("GameActivity over comrade!");
+            StaticAnimationManager.addExplosionPlayerDestroyed(this.getPosition());
             this.playing = false;
-        }
-        if (isMovementNotDisabled()) {
+        } else if (isMovementNotDisabled()) {
             setPositionBeforeMoving();
             this.moveObject();
             //Was tile changed during movement?
@@ -84,8 +84,9 @@ public abstract class Player extends MovableObject {
                 changingTile = false;
             }
             turnCheck();
+        } else {
+            if (!this.movementDisabledTimeout.isActive()) { setMovementDisabled(false); }
         }
-        setMovementDisabled(false);
     }
 
     public void turnCheck() {
@@ -251,6 +252,11 @@ public abstract class Player extends MovableObject {
         this.movementDisabled = movementDisabled;
     }
 
+    public void setMovementDisabled(EffectTimeout effectTimeout) {
+        this.movementDisabled = true;
+        this.movementDisabledTimeout = effectTimeout;
+    }
+
     public void setCurrentGridCoordinates(Point currentGridCoordinates) {
         this.currentGridCoordinates = currentGridCoordinates;
     }
@@ -269,7 +275,7 @@ public abstract class Player extends MovableObject {
     /**
      * Heal to max health.
      */
-    public void addHealth() {
+    public void addHealthToMax() {
         this.currentHealth = this.maxHealth;
     }
 

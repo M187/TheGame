@@ -32,7 +32,6 @@ public class Projectile extends OffensiveSpell {
      */
     public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, Resources res) {
         super();
-        //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;
         removeOnCollision = true;
         this.res = res;
@@ -46,7 +45,6 @@ public class Projectile extends OffensiveSpell {
 
     public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
         super();
-        //todo: add check for only possible collision types.
         this.collisionObjectType = collisionObjectType;
         removeOnCollision = true;
         this.res = res;

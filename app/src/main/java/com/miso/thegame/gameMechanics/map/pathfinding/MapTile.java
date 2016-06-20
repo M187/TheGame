@@ -25,7 +25,7 @@ public class MapTile {
     public int xTileCoord;
     public int yTileCoord;
     public int totalMovementCost = 0;
-    //ToDo: don't save it to variable, just invoke initialization for neighbour tiles.
+
     public List<Point> neighbourPositions = new ArrayList<>();
     public List<Point> notDiagonalNeighbours = new ArrayList<>();
     private List<MapTile> neighbourTiles = new ArrayList<>();
@@ -178,7 +178,6 @@ public class MapTile {
      *      Also adding half of tile width/height since we need middle coordinates.
      */
     public Point getTileMiddlePosition(){
-        //TODO division by 2 can be substracted by another static variable. Is it worth?
-        return new Point(((xTileCoord * 2 + 1) * MapManager.getMapTileWidth() / 2), (yTileCoord * 2 + 1) * (MapManager.getMapTileHeight() / 2));
+        return new Point(((xTileCoord * 2 + 1) * MapManager.getMapTileHalfWidth()), (yTileCoord * 2 + 1) * (MapManager.getMapTileHalfHeight()));
     }
 }

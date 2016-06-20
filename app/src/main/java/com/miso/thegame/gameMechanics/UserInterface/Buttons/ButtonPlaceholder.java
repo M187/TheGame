@@ -16,16 +16,16 @@ import com.miso.thegame.gameViews.GameView2;
  */
 public abstract class ButtonPlaceholder {
 
-    protected int cooldown;
-    protected long lastUse;
-    protected Bitmap image;
+    protected static final Paint paint = new Paint();
     public int xDrawCoord = 50;
     public int yDrawCoord = GameView2.HEIGHT;
     public int iteratorToDrawXAxis;
     public int iteratorToDrawYAxis;
-    protected static final Paint paint = new Paint();
-    private boolean buttonOverridenByJoystick = false;
+    protected int cooldown;
+    protected long lastUse;
+    protected Bitmap image;
     protected ButtonAction buttonAction = ButtonAction.Shockwave;
+    private boolean buttonOverridenByJoystick = false;
 
     /**
      * Function to initialize button. Should be called from constructor.
@@ -57,7 +57,7 @@ public abstract class ButtonPlaceholder {
                 return;
             case Freeze:
                 this.setLastUse();
-                spellManager.performFreezeSpell();
+                spellManager.spellCreator.performFreezeSpell();
                 return;
         }
     }

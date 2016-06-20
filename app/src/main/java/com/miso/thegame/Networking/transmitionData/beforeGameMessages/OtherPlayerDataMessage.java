@@ -5,7 +5,7 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 
 /**
  * Created by Miso on 22.4.2016.
- * todo: redundant message?
+ *
  */
 public class OtherPlayerDataMessage extends TransmissionMessage {
 

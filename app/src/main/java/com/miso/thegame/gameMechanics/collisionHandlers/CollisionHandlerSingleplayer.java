@@ -117,8 +117,7 @@ public class CollisionHandlerSingleplayer {
 
     public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(OffensiveSpell enemyOffensiveSpell) {
         if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), enemyOffensiveSpell.getObjectCollisionVertices())) {
-            //TODO: more specific and generic
-            player.removeHealth(1);
+            enemyOffensiveSpell.playerHit(player);
             spellManager.getOffensiveSpellList().remove(enemyOffensiveSpell);
         }
     }

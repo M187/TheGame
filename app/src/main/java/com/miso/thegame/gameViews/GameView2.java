@@ -36,7 +36,6 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     public static final int WIDTH = GameActivity.metrics.widthPixels; // X Axis
     public static final int HEIGHT = GameActivity.metrics.heightPixels; // Y Axis
     public static final Random randomGenerator = new Random();
-    //todo: do draw manager as singleton? / instead a map manager...
     public static DrawManager drawManager;
 
     public static Sender sender = null;
