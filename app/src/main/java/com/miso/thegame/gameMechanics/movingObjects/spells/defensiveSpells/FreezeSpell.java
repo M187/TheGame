@@ -1,8 +1,7 @@
-package com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells;
+package com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells;
 
 import com.miso.thegame.gameMechanics.movingObjects.spells.EffectTimeout;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
-import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
 
 /**
  * Created by michal.hornak on 20.06.2016.
