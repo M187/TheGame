@@ -7,6 +7,7 @@ import android.graphics.Point;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
 
 import java.util.ArrayList;
@@ -101,5 +102,10 @@ public class DisablingProjectile extends OffensiveSpell {
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 15)));
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y)));
         return this.objectVertices;
+    }
+
+    public boolean playerHit(Player player){
+        player.removeHealth(1);
+        return true;
     }
 }

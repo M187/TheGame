@@ -56,4 +56,8 @@ public class Shockwave extends OffensiveSpell {
             return false;
         }
     }
+
+    public boolean playerHit(Player player){
+        return false;
+    }
 }

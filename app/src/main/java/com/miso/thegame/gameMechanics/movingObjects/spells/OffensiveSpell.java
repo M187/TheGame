@@ -2,6 +2,7 @@ package com.miso.thegame.gameMechanics.movingObjects.spells;
 
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
+import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameViews.GameView2;
 
 /**
@@ -44,4 +45,6 @@ public abstract class OffensiveSpell extends Spell {
             projectileIterator = 0;
         }
     }
+
+    public abstract boolean playerHit(Player player);
 }
