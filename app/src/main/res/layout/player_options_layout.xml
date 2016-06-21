@@ -153,21 +153,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/button_defensive_spell"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:text="Defensive spell" />
+                <Spinner
+                    android:id="@+id/first_button_type_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape"
 
-            <Button
-                android:id="@+id/button_offensive_spell"
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:text="Offensive Spell" />
+                    android:focusable="false"
+                    android:shadowColor="#A8A8A8"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:textColor="#FFFFFF" />
+
+                <Spinner
+                    android:id="@+id/second_button_type_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonshape"
+
+                    android:focusable="false"
+                    android:shadowColor="#A8A8A8"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:textColor="#FFFFFF" />
+
         </LinearLayout>
 
         <LinearLayout

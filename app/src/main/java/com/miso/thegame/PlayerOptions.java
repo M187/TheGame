@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 
@@ -21,16 +22,20 @@ import java.util.List;
  */
 public class PlayerOptions extends Activity {
 
-    public static String firstButtonFunctionality = null;
-    public static String secondButtonFunctionality = null;
     private int playerMaxHealth = 0;
     private int playerMaxAmmo = 0;
     private int playerMaxSpeed = 0;
     private ProgressBar healthProgBar;
     private ProgressBar ammoProgBar;
     private ProgressBar speedProgBar;
+
+    private Spinner firstButtonTypeSpinner;
+    private String firstButtonType;
+    private Spinner secondButtonTypeSpinner;
+    private String secondButtonType;
     private Spinner playerTypeSpinner;
     private String playerType;
+    
     private SharedPreferences settings;
 
     @Override
@@ -51,9 +56,48 @@ public class PlayerOptions extends Activity {
         speedProgBar.setMax(5);
         speedProgBar.setProgress(playerMaxSpeed);
 
+        initializeFirstButtonSpinner();
+        initializeSecondButtonSpinner();
         initializePlayerSpinner();
     }
 
+    //<editor-fold desc="Spinner stuff">
+    private void initializeFirstButtonSpinner(){
+        this.firstButtonTypeSpinner = (Spinner) findViewById(R.id.first_button_type_spinner);
+
+        List<String> firstButtonTypeList = new ArrayList<>();
+        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()){
+            firstButtonTypeList.add(buttonTypeString.getButtonTypeString());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, firstButtonTypeList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.firstButtonTypeSpinner.setAdapter(adapter);
+
+        if (!this.firstButtonType.equals(null) | this.firstButtonType.equals("")) {
+            int spinnerPosition = adapter.getPosition(this.firstButtonType);
+            this.firstButtonTypeSpinner.setSelection(spinnerPosition);
+        }        
+    }
+
+    private void initializeSecondButtonSpinner(){
+        this.secondButtonTypeSpinner = (Spinner) findViewById(R.id.second_button_type_spinner);
+
+        List<String> secondButtonTypeList = new ArrayList<>();
+        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()){
+            secondButtonTypeList.add(buttonTypeString.getButtonTypeString());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, secondButtonTypeList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.secondButtonTypeSpinner.setAdapter(adapter);
+
+        if (!this.secondButtonType.equals(null) | this.secondButtonType.equals("")) {
+            int spinnerPosition = adapter.getPosition(this.secondButtonType);
+            this.secondButtonTypeSpinner.setSelection(spinnerPosition);
+        }
+    }
+    
     private void initializePlayerSpinner() {
         this.playerTypeSpinner = (Spinner) findViewById(R.id.player_type_spinner);
 
@@ -71,6 +115,7 @@ public class PlayerOptions extends Activity {
             this.playerTypeSpinner.setSelection(spinnerPosition);
         }
     }
+    //</editor-fold>
 
     @Override
     protected void onStop(){
@@ -138,6 +183,8 @@ public class PlayerOptions extends Activity {
         this.playerMaxHealth = settings.getInt(OptionStrings.playerMaxHealth, 0);
         this.playerMaxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
         this.playerMaxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
+        this.firstButtonType = settings.getString(OptionStrings.firstButtonType, "");
+        this.secondButtonType = settings.getString(OptionStrings.secondButtonType, "");
         this.playerType = settings.getString(OptionStrings.playerType, "");
     }
 
@@ -148,6 +195,8 @@ public class PlayerOptions extends Activity {
         editor.putInt(OptionStrings.playerMaxAmmo, playerMaxAmmo);
         editor.putInt(OptionStrings.playerMaxSpeed, playerMaxSpeed);
 
+        editor.putString(OptionStrings.firstButtonType, String.valueOf(this.firstButtonTypeSpinner.getSelectedItem()));
+        editor.putString(OptionStrings.secondButtonType, String.valueOf(this.secondButtonTypeSpinner.getSelectedItem()));
         editor.putString(OptionStrings.playerType, String.valueOf(this.playerTypeSpinner.getSelectedItem()));
 
         // Commit the edits!

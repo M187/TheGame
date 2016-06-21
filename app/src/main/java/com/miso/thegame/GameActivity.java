@@ -2,17 +2,21 @@ package com.miso.thegame;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
+import com.miso.thegame.gameMechanics.multiplayer.WaiterForAllConnections;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
 import com.miso.thegame.gameViews.GamePanelSingleplayer;
 import com.miso.thegame.gameViews.GameView2;
@@ -22,10 +26,13 @@ import java.util.ArrayList;
 
 public class GameActivity extends Activity {
 
+    public static volatile boolean isAllPlayersConnected = false;
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
     public ArrayList<Client> playersThatEnteredGame = new ArrayList<>();
+    public ButtonTypeEnum firstButtonType;
+    public ButtonTypeEnum secondButtonType;
     public GamePlayerTypeEnum playerType;
     private ConnectionManager connectionManager;
 
@@ -66,7 +73,9 @@ public class GameActivity extends Activity {
         int maxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
         int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
 
-        this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, ""));
+        this.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
+        this.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
+        this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
 
         ConstantHolder.loadSettingData(maxHealth, maxAmmo, maxSpeed);
     }
@@ -118,49 +127,16 @@ public class GameActivity extends Activity {
                     this.playerType,
                     connectionManager);
 
-            //todo: this can't be run on main thread, since it makes activity unresponsive.
-            (new Runnable() {
-                private GamePanelMultiplayer surfaceView;
-                private Activity activity;
-
-                public Runnable init(GamePanelMultiplayer surfaceView, Activity activity) {
-                    this.activity = activity;
-                    this.surfaceView = surfaceView;
-                    return this;
-                }
-
-                public void run() {
-                    this.surfaceView.createConnections();
-
-                    runOnUiThread((new Runnable() {
-                        private Activity activity;
-                        private GamePanelMultiplayer surfaceView;
-
-                        @Override
-                        public void run() {
-                            this.activity.setContentView(this.surfaceView);
-                        }
-
-                        public Runnable init(Activity activity, GamePanelMultiplayer surfaceView) {
-                            this.activity = activity;
-                            this.surfaceView = surfaceView;
-                            return this;
-                        }
-                    }).init(this.activity, this.surfaceView));
-                }
-            }).init(this.multiplayerSurfaceView, this).run();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                new WaiterForAllConnections(this.multiplayerSurfaceView, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                new WaiterForAllConnections(this.multiplayerSurfaceView, this).execute();
+            }
         }
         //</editor-fold>
         else {
             setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType));
         }
-    }
-
-    /**
-     *
-     */
-    private void initConnections(){
-
     }
 
     /**

@@ -80,10 +80,6 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         }
     }
 
-    public void createConnections(){
-        this.connectionManager.initializeAllConnectionsToOtherPlayersServers();
-    }
-
     @Override
     public void surfaceCreated(SurfaceHolder surface) {
         super.surfaceCreated(surface);

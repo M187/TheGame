@@ -13,13 +13,16 @@ import java.util.ArrayList;
  * Intention for this class is to synchronize starting of a game as well as to synchronize main game loop.
  *
  */
-public class GameSynchronizer{
+public class GameSynchronizer {
 
     private ArrayList<Client> registeredPlayers;
 
-    public GameSynchronizer(ArrayList<Client> registeredPlayers){
+    public GameSynchronizer(ArrayList<Client> registeredPlayers) {
         this.registeredPlayers = registeredPlayers;
-        for (Client client: registeredPlayers){
+    }
+
+    public void createConnectionsWithRegisteredPlayers() throws ConnectionInitializationTimeOut {
+        for (Client client : registeredPlayers) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
@@ -29,32 +32,40 @@ public class GameSynchronizer{
         waitForClientsConnection();
     }
 
-    public void waitForClientsConnection(){
+    private void waitForClientsConnection() throws ConnectionInitializationTimeOut {
         boolean needMoreTime = true;
+        long startTime = System.currentTimeMillis();
         System.out.println(" --> Waiting for all client objects connection establishment.");
-        while (needMoreTime){
+        while (needMoreTime) {
             needMoreTime = false;
-            for (Client client : registeredPlayers){
-                if (!client.isConnectionEstablished()){
+            for (Client client : registeredPlayers) {
+                if (!client.isConnectionEstablished()) {
                     needMoreTime = true;
+                    if (System.currentTimeMillis() - startTime < 30000) {
+                        for (Client client2 : registeredPlayers) {
+                            client2.terminate();
+                        }
+                        throw new ConnectionInitializationTimeOut();
+                    }
                 }
             }
         }
     }
 
-    public void waitForClientsToSignalizeReadyForNextFrame(){
+    public void waitForClientsToSignalizeReadyForNextFrame() {
         boolean needMoreTime = true;
-        while (needMoreTime){
+        while (needMoreTime) {
             needMoreTime = false;
-            for (Client client : registeredPlayers){
-                if (!client.isReadyForGame){
+            for (Client client : registeredPlayers) {
+                if (!client.isReadyForGame) {
                     needMoreTime = true;
                 }
             }
         }
-        for (Client client : this.registeredPlayers){
+        for (Client client : this.registeredPlayers) {
             client.isReadyForGame = false;
         }
     }
 
+    public class ConnectionInitializationTimeOut extends Throwable{}
 }

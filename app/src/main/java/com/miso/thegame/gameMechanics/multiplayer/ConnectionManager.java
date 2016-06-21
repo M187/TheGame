@@ -1,17 +1,10 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.view.SurfaceHolder;
 
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
-import com.miso.thegame.R;
-import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 
@@ -26,14 +19,10 @@ public class ConnectionManager {
     public GameSynchronizer gameSynchronizer;
 
     public ConnectionManager(ArrayList<Client> registeredPlayers) {
-
         this.registeredPlayers = registeredPlayers;
-
     }
 
-    public void initializeAllConnectionsToOtherPlayersServers() {
-
-        //this.drawLoadingScreen(surfaceHolder, res);
+    public void initializeAllConnectionsToOtherPlayersServers() throws GameSynchronizer.ConnectionInitializationTimeOut{
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -43,28 +32,9 @@ public class ConnectionManager {
         } else {
             this.localServer.execute();
         }
-        this.gameSynchronizer = new GameSynchronizer(this.registeredPlayers);
-    }
 
-    public void drawLoadingScreen(SurfaceHolder holder, Resources res) {
-        Canvas canvas = null;
-        try {
-            canvas = holder.lockCanvas(null);
-            synchronized (holder) {
-                canvas.drawBitmap( Bitmap.createScaledBitmap(
-                        BitmapFactory.decodeResource(res, R.drawable.waitingforotherplayers),
-                        GameView2.WIDTH,
-                        GameView2.HEIGHT,
-                        false)
-                        , 0, 0, null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (canvas != null) {
-                holder.unlockCanvasAndPost(canvas);
-            }
-        }
+        this.gameSynchronizer = new GameSynchronizer(this.registeredPlayers);
+        this.gameSynchronizer.createConnectionsWithRegisteredPlayers();
     }
 
     public void waitForPlayersToReady() {
