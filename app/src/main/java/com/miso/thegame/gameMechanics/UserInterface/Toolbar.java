@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonAction;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.FirstButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.SecondButtonPlaceholder;
@@ -28,17 +27,18 @@ public class Toolbar {
     private ShootingJoystick shootingJoystick;
     private PlayerStatusBar playerStatusBar;
 
-    public Toolbar(Resources res, Player player){
+    public Toolbar(Resources res, Player player, ButtonsTypeData buttonsTypeData){
 
         this.image = BitmapFactory.decodeResource(res, R.drawable.buttonfireball);
 
         ButtonPlaceholder primaryShootingButtonPlaceholder = new _PrimaryShootingButtonPlaceholder(res);
-        ButtonPlaceholder secondButtonPlaceholder = new SecondButtonPlaceholder(res, ButtonAction.Timestop);
-        ButtonPlaceholder firstButtonPlaceholder = new FirstButtonPlaceholder(res, ButtonAction.Shockwave);
+
+        ButtonPlaceholder firstButtonPlaceholder = new FirstButtonPlaceholder(res, buttonsTypeData.firstButtonType);
+        ButtonPlaceholder secondButtonPlaceholder = new SecondButtonPlaceholder(res, buttonsTypeData.secondButtonType);
 
         getButtonPlaceholders().add(primaryShootingButtonPlaceholder);
-        getButtonPlaceholders().add(secondButtonPlaceholder);
         getButtonPlaceholders().add(firstButtonPlaceholder);
+        getButtonPlaceholders().add(secondButtonPlaceholder);
 
         this.movementJoystick = new MovementJoystick(res);
         this.shootingJoystick = new ShootingJoystick(res, primaryShootingButtonPlaceholder);

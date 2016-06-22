@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 import com.miso.thegame.gameViews.GameView2;
@@ -24,18 +25,18 @@ public abstract class ButtonPlaceholder {
     protected int cooldown;
     protected long lastUse;
     protected Bitmap image;
-    protected ButtonAction buttonAction = ButtonAction.Shockwave;
+    protected ButtonTypeEnum buttonType = ButtonTypeEnum.Shockwave;
     private boolean buttonOverridenByJoystick = false;
 
     /**
      * Function to initialize button. Should be called from constructor.
       * @param res - resources.
-     * @param buttonAction default action used for button.
+     * @param buttonType default action used for button.
      */
-    protected void initializeButtonPlaceholder(Resources res, ButtonAction buttonAction){
-        this.cooldown = buttonAction.buttonActionCooldown;
-        this.buttonAction = buttonAction;
-        this.image = BitmapFactory.decodeResource(res, buttonAction.resourceParameterString);
+    protected void initializeButtonPlaceholder(Resources res, ButtonTypeEnum buttonType){
+        this.cooldown = buttonType.buttonActionCooldown;
+        this.buttonType = buttonType;
+        this.image = BitmapFactory.decodeResource(res, buttonType.resourceParameterString);
         setXDrawCoord();
         setYDrawCoord();
     }
@@ -46,16 +47,16 @@ public abstract class ButtonPlaceholder {
      */
     public void onClickEvent(SpellManager spellManager){
 
-        switch (this.buttonAction){
+        switch (this.buttonType){
             case Shockwave:
                 this.setLastUse();
                 spellManager.spellCreator.addPlayerShockwave(ConstantHolder.shockwaveReachFactor);
                 return;
-            case Timestop:
+            case TimeStop:
                 this.setLastUse();
                 spellManager.spellCreator.addTimestopSpell();
                 return;
-            case Freeze:
+            case FreezingProjectiles:
                 this.setLastUse();
                 spellManager.spellCreator.performFreezeSpell();
                 return;

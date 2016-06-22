@@ -15,6 +15,7 @@ import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameMechanics.multiplayer.WaiterForAllConnections;
 import com.miso.thegame.gameViews.GamePanelMultiplayer;
@@ -31,9 +32,8 @@ public class GameActivity extends Activity {
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
     public ArrayList<Client> playersThatEnteredGame = new ArrayList<>();
-    public ButtonTypeEnum firstButtonType;
-    public ButtonTypeEnum secondButtonType;
     public GamePlayerTypeEnum playerType;
+    private ButtonsTypeData buttonsTypeData;
     private ConnectionManager connectionManager;
 
     private GamePanelMultiplayer multiplayerSurfaceView;
@@ -73,8 +73,8 @@ public class GameActivity extends Activity {
         int maxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
         int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
 
-        this.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
-        this.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
+        this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
+        this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
         this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
 
         ConstantHolder.loadSettingData(maxHealth, maxAmmo, maxSpeed);
@@ -125,6 +125,7 @@ public class GameActivity extends Activity {
                     mapToCreate,
                     this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
                     this.playerType,
+                    this.buttonsTypeData,
                     connectionManager);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -135,7 +136,7 @@ public class GameActivity extends Activity {
         }
         //</editor-fold>
         else {
-            setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType));
+            setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType, this.buttonsTypeData));
         }
     }
 

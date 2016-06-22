@@ -17,6 +17,7 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroye
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
+import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
 import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
@@ -38,8 +39,8 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     private OtherPlayerManager otherPlayersManager = null;
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(this);
 
-    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, String myNickname, GamePlayerTypeEnum playerType, ConnectionManager connectionManager) {
-        super(context, playerType);
+    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, String myNickname, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, ConnectionManager connectionManager) {
+        super(context, playerType, buttonsTypeData);
         Log.d(ConstantHolder.TAG, "Trying to create game panel for multiplayer.");
         this.mapToCreate = GameMapEnum.MultiplayerMap1;
 

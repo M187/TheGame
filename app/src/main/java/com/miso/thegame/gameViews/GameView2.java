@@ -12,6 +12,7 @@ import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.gameMechanics.MainGameThread;
+import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
 import com.miso.thegame.gameMechanics.UserInterface.InputHandler;
 import com.miso.thegame.gameMechanics.UserInterface.Toolbar;
@@ -56,11 +57,13 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     protected EnemiesManager enemiesManager;
     protected SpellManager spellManager;
     protected StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
+    protected ButtonsTypeData buttonsTypeData;
 
-    public GameView2(Context context, GamePlayerTypeEnum playerType){
+    public GameView2(Context context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData){
         super(context);
         StaticAnimationManager.resources = this.getResources();
         this.playerType = playerType;
+        this.buttonsTypeData = buttonsTypeData;
     }
 
     public abstract void update();
@@ -80,7 +83,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());
         getSpellManager().enemiesManager = getEnemiesManager();
 
-        toolbar = new Toolbar(getResources(), getPlayer());
+        toolbar = new Toolbar(getResources(), getPlayer(), this.buttonsTypeData);
         anchor = new Anchor(getPlayer(), WIDTH / 3, HEIGHT / 3);
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", getContext().getPackageName())), anchor);
