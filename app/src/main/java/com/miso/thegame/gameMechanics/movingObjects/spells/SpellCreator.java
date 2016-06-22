@@ -6,6 +6,7 @@ import android.graphics.Point;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootFreezingProjectile;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -43,13 +44,13 @@ public class SpellCreator {
      * Add timestop spell to defensive list.
      */
     public void addTimestopSpell() {
-        this.deffensiveSpells.add(new Timestop(this.player));
+        this.deffensiveSpells.add(new Timestop());
     }
 
     public void addPlayerProjectile(int deltaX, int deltaY) {
         if (player.primaryAmunition > 0) {
 
-            if (SpellManager.freezeProjectilesActive) {
+            if (!ConstantHolder.freezeActive) {
                 Projectile newProjectile = new Projectile(this.player.getX(), this.player.getY(), this.player.getX() - deltaX, this.player.getY() - deltaY, CollisionObjectType.SpellPlayer, this.resources);
                 this.offensiveSpells.add(newProjectile);
                 player.primaryAmunition -= 1;

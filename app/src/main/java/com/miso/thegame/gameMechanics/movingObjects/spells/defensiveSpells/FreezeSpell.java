@@ -1,7 +1,7 @@
 package com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells;
 
+import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.movingObjects.spells.EffectTimeout;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 
 /**
  * Created by michal.hornak on 20.06.2016.
@@ -12,14 +12,17 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
  */
 public class FreezeSpell extends DeffensiveSpell {
 
-    public EffectTimeout timeout;
+    public EffectTimeout timeout = new EffectTimeout(ConstantHolder.freezeDuration);
 
     public void update(){
-        SpellManager.freezeProjectilesActive = true;
+        ConstantHolder.freezeActive = true;
     }
 
     public boolean removeSpell(){
-        return timeout.isActive();
+        return !timeout.isActive();
     }
 
+    public void draw(){
+        return;
+    }
 }

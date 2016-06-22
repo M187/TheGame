@@ -12,4 +12,6 @@ public abstract class Spell extends MovableObject {
      * @return
      */
     public abstract boolean removeSpell();
+
+    public abstract void update();
 }

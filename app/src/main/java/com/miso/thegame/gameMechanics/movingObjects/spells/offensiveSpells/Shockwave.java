@@ -42,7 +42,7 @@ public class Shockwave extends OffensiveSpell {
     }
 
     @Override
-    public void moveObject(){
+    public void update(){
         this.setImage(Bitmap.createScaledBitmap(unscaledBitmap, (int) (unscaledBitmap.getWidth() * ((frameSinceCreation)/20) * reachFactor), (int) (unscaledBitmap.getHeight() * ((frameSinceCreation)/20) * reachFactor), true));
         this.frameSinceCreation += 1;
         setX(player.getX());
@@ -60,4 +60,6 @@ public class Shockwave extends OffensiveSpell {
     public boolean playerHit(Player player){
         return false;
     }
+
+    public void explode(){}
 }

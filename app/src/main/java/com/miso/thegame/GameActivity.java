@@ -33,8 +33,9 @@ public class GameActivity extends Activity {
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
     public ArrayList<Client> playersThatEnteredGame = new ArrayList<>();
     public GamePlayerTypeEnum playerType;
-    private ButtonsTypeData buttonsTypeData;
+    private ButtonsTypeData buttonsTypeData = new ButtonsTypeData();
     private ConnectionManager connectionManager;
+    private WaiterForAllConnections waiterForAllConnections;
 
     private GamePanelMultiplayer multiplayerSurfaceView;
 
@@ -59,6 +60,11 @@ public class GameActivity extends Activity {
     @Override
     protected void onDestroy() {
         MenuActivity.isGameOn = false;
+
+        try{
+            this.waiterForAllConnections.cancel(true);
+        } catch (NullPointerException e){}
+
         super.onDestroy();
     }
 
@@ -77,7 +83,7 @@ public class GameActivity extends Activity {
         this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
         this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
 
-        ConstantHolder.loadSettingData(maxHealth, maxAmmo, maxSpeed);
+        ConstantHolder.loadSettingsData(maxHealth, maxAmmo, maxSpeed);
     }
 
     /**
@@ -128,10 +134,11 @@ public class GameActivity extends Activity {
                     this.buttonsTypeData,
                     connectionManager);
 
+            this.waiterForAllConnections = new WaiterForAllConnections(this.multiplayerSurfaceView, this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                new WaiterForAllConnections(this.multiplayerSurfaceView, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                this.waiterForAllConnections.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
-                new WaiterForAllConnections(this.multiplayerSurfaceView, this).execute();
+                this.waiterForAllConnections.execute();
             }
         }
         //</editor-fold>

@@ -7,6 +7,10 @@ import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 28.11.2015.
+ *
+ * Aggregate of spells that directly interact with other gameObjects.
+ * They can collide with other gameObjects.
+ * They can not modify player/environment variables.
  */
 public abstract class OffensiveSpell extends Spell {
 
@@ -46,5 +50,13 @@ public abstract class OffensiveSpell extends Spell {
         }
     }
 
+    public abstract void update();
+
     public abstract boolean playerHit(Player player);
+
+    /**
+     * Function that should be called when offensiveSpell is removed from offensive spell list.
+     * It should make sure that proper animation is add as a "explosion".
+     */
+    public abstract void explode();
 }

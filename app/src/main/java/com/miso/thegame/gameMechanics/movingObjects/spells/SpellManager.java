@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
@@ -33,7 +32,7 @@ public class SpellManager {
         public boolean remove(Object o) {
             if (super.remove(o)) {
                 OffensiveSpell temp = (OffensiveSpell) o;
-                StaticAnimationManager.addExplosion(new Point(temp.getX(), temp.getY()), 1);
+                temp.explode();
                 return true;
             } else {
                 return false;
@@ -51,7 +50,8 @@ public class SpellManager {
 
     public void update() {
 
-        SpellManager.freezeProjectilesActive = false;
+        ConstantHolder.timestopActive = false;
+        ConstantHolder.freezeActive = false;
 
         this.updateSpells(this.offensiveSpellList);
 
@@ -71,7 +71,7 @@ public class SpellManager {
             if (spell.removeSpell()) {
                 spellIterator.remove();
             } else {
-                spell.moveObject();
+                spell.update();
             }
         }
     }

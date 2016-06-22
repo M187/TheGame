@@ -1,33 +1,21 @@
 package com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.movingObjects.spells.EffectTimeout;
 
 /**
  * Created by Miso on 23.12.2015.
  */
 public class Timestop extends DeffensiveSpell{
 
-    private long startTime = System.currentTimeMillis();
-    private int durationTime = ConstantHolder.timestopDuration;
-    private Player player;
-
-    public Timestop(Player player){
-        this.player = player;
-    }
+    public EffectTimeout timeout = new EffectTimeout(ConstantHolder.timestopDuration);
 
     public void update(){
         ConstantHolder.timestopActive = true;
     }
 
     public boolean removeSpell(){
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - startTime > durationTime){
-            ConstantHolder.timestopActive = false;
-            return true;
-        }else{
-            return false;
-        }
+        return !timeout.isActive();
     }
 
     public void draw(){

@@ -6,6 +6,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.EffectTimeout;
@@ -41,21 +42,12 @@ public class FreezingProjectile extends OffensiveSpell {
         setDx(destinationX);
         setDy(destinationY);
         setSpeed(30);
-        setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
+        setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball));
     }
 
     public FreezingProjectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
-        super();
-        this.collisionObjectType = collisionObjectType;
-        removeOnCollision = true;
-        this.res = res;
+        this(x, y, destinationX, destinationY, collisionObjectType, res);
         this.identificator = identificator;
-        setX(x);
-        setY(y);
-        setDx(destinationX);
-        setDy(destinationY);
-        setSpeed(30);
-        setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball));
     }
 
     /**
@@ -77,7 +69,7 @@ public class FreezingProjectile extends OffensiveSpell {
     }
 
     @Override
-    public void moveObject() {
+    public void update() {
 
         if (setMovement) {
             this.deltaX = getDx() - getX();
@@ -107,5 +99,9 @@ public class FreezingProjectile extends OffensiveSpell {
         player.removeHealth(1);
         player.setMovementDisabled(new EffectTimeout(3000));
         return true;
+    }
+
+    public void explode(){
+        StaticAnimationManager.addExplosion(this.getPosition(), 1);
     }
 }
