@@ -2,9 +2,11 @@ package com.miso.thegame.gameMechanics.multiplayer;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
+import com.miso.thegame.gameMechanics.ConstantHolder;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class ConnectionManager {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
         }
+        Log.d(ConstantHolder.TAG,"Starting local server using port: " + ConnectionManager.PORT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             this.localServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {

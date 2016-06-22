@@ -32,7 +32,6 @@ import java.util.ArrayList;
  */
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
-    public static final int PORT = 12372;
     public ConnectionManager connectionManager;
     protected CollisionHandlerMultiplayer collisionHandler;
     private volatile ArrayList<TransmissionMessage> arrivingMessagesList = new ArrayList<>();
@@ -41,7 +40,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
     public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, String myNickname, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, ConnectionManager connectionManager) {
         super(context, playerType, buttonsTypeData);
-        Log.d(ConstantHolder.TAG, "Trying to create game panel for multiplayer.");
+        Log.d(ConstantHolder.TAG, " --> Trying to create game panel for multiplayer.");
         this.mapToCreate = GameMapEnum.MultiplayerMap1;
 
         this.myNickname = myNickname;

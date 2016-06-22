@@ -41,7 +41,7 @@ public class GameSynchronizer {
             for (Client client : registeredPlayers) {
                 if (!client.isConnectionEstablished()) {
                     needMoreTime = true;
-                    if (System.currentTimeMillis() - startTime < 30000) {
+                    if (System.currentTimeMillis() - startTime > 30000) {
                         for (Client client2 : registeredPlayers) {
                             client2.terminate();
                         }
