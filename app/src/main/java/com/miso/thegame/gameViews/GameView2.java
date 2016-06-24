@@ -52,8 +52,11 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     protected InputHandler inputHandler;
     protected EndgameEvents endgameEvents;
     protected Context context;
+
     protected Player player;
     protected GamePlayerTypeEnum playerType;
+    protected Point playerStartingPosition = new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2);
+
     protected EnemiesManager enemiesManager;
     protected SpellManager spellManager;
     protected StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
@@ -77,7 +80,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         //mapManager also initialize Pathfinder class
         this.mapManager = new MapManager(this.mapToCreate, getResources());
 
-        player = PlayerFactory.createPlayer(getResources(), new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2), this.mapManager, this.playerType);
+        player = PlayerFactory.createPlayer(getResources(), this.playerStartingPosition, this.mapManager, this.playerType);
         spellManager = new SpellManager(getResources(), getPlayer());
 
         enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());

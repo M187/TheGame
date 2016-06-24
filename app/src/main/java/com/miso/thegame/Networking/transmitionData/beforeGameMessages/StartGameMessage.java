@@ -7,9 +7,32 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
  */
 public class StartGameMessage extends TransmissionMessage {
 
-    public StartGameMessage(){
+    private int indexNumber;
+
+    public StartGameMessage() {
         this.transmissionType = "04";
     }
 
-    public String getPacket(){ return this.transmissionType; }
+    public StartGameMessage(int indexNumber) {
+        this.transmissionType = "04";
+        this.indexNumber = indexNumber;
+    }
+
+    public static StartGameMessage unmarshal(String rawTransmissionString) {
+        return new StartGameMessage(
+            Integer.parseInt(rawTransmissionString.split("\\|")[1])
+        );
+    }
+
+    public void setIndexForPlayer(int indexForPlayer) {
+        this.indexNumber = indexForPlayer;
+    }
+
+    public String getIndexOfPlayer(){
+        return Integer.toString(this.indexNumber);
+    }
+
+    public String getPacket() {
+        return this.transmissionType + "|" + this.indexNumber;
+    }
 }

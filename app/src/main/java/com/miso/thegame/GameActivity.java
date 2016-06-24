@@ -2,6 +2,7 @@ package com.miso.thegame;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,7 +119,9 @@ public class GameActivity extends Activity {
      * @param mapToCreate for game instance.
      */
     private void createGameView(GameMapEnum mapToCreate) {
-        if (this.getIntent().getExtras().getBoolean(OptionStrings.multiplayerInstance, false)) {
+        if (this.getIntent().getExtras().getString(OptionStrings.multiplayerInstance, "nope") != "nope") {
+
+            int playerIndex = Integer.parseInt(this.getIntent().getExtras().getString(OptionStrings.multiplayerInstance, "nope"));
 
             //<editor-fold @name="Create multiplayer view.">
             this.setContentView(R.layout.waiting_for_other_players);
@@ -131,6 +134,7 @@ public class GameActivity extends Activity {
                     mapToCreate,
                     this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
                     this.playerType,
+                    new Point(500, 400 + 200 * playerIndex),
                     this.buttonsTypeData,
                     connectionManager);
 
@@ -162,7 +166,6 @@ public class GameActivity extends Activity {
         } else {
             this.waiterForAllConnections.execute();
         }
-
     }
 
     /**

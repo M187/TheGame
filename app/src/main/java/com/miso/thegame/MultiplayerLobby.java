@@ -233,7 +233,7 @@ public class MultiplayerLobby extends Activity {
             setContentView(R.layout.loading_game);
             startActivity(new Intent(this, GameActivity.class)
                     .putExtra(OptionStrings.myNickname, this.myNickname)
-                    .putExtra(OptionStrings.multiplayerInstance, true));
+                    .putExtra(OptionStrings.multiplayerInstance, "0"));
             this.uninitLocalServerAndData();
         } else {
             (findViewById(R.id.button_start)).setEnabled(false);

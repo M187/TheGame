@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,22 @@ public class Sender {
                 player.execute();
                 player.sendMessage(transmissionMessage);
             }
+        }
+    }
+
+    public void sendMessage(StartGameMessage startGameMessage){
+
+        int playerIndexNumber = 1;
+
+        for (Client player : this.registeredPlayers){
+            startGameMessage.setIndexForPlayer(playerIndexNumber);
+            if (player.getStatus() == AsyncTask.Status.RUNNING) {
+                player.sendMessage(startGameMessage);
+            } else {
+                player.execute();
+                player.sendMessage(startGameMessage);
+            }
+            playerIndexNumber++;
         }
     }
 }

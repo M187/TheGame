@@ -9,6 +9,7 @@ import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 import com.miso.thegame.R;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
                                 .putExtra(OptionStrings.myNickname, this.multiplayerLobby.myNickname)
-                                .putExtra(OptionStrings.multiplayerInstance, true)
+                                .putExtra(OptionStrings.multiplayerInstance, ((StartGameMessage) transmissionMessage).getIndexOfPlayer())
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 throw new StartGameException();
 

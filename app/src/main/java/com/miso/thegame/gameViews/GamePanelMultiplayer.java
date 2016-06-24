@@ -3,6 +3,7 @@ package com.miso.thegame.gameViews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -38,8 +39,9 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     private OtherPlayerManager otherPlayersManager = null;
     private NetworkGameStateUpdater networkGameStateUpdater = new NetworkGameStateUpdater(this);
 
-    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, String myNickname, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, ConnectionManager connectionManager) {
+    public GamePanelMultiplayer(Context context, GameMapEnum mapToCreate, String myNickname, GamePlayerTypeEnum playerType, Point playerStartingPosition, ButtonsTypeData buttonsTypeData, ConnectionManager connectionManager) {
         super(context, playerType, buttonsTypeData);
+        this.playerStartingPosition = playerStartingPosition;
         Log.d(ConstantHolder.TAG, " --> Trying to create game panel for multiplayer.");
         this.mapToCreate = GameMapEnum.MultiplayerMap1;
 

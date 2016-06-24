@@ -30,7 +30,7 @@ public class IncomingMessageParser {
             case "03":
                 return new ReadyToPlayMessage(recievedMessage.split("\\|")[1]);
             case "04":
-                return new StartGameMessage();
+                return StartGameMessage.unmarshal(recievedMessage);
             case "06":
                 return new LeaveGameLobbyMessage(recievedMessage.split("\\|")[1]);
             case "08":
