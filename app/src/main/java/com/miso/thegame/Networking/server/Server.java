@@ -7,6 +7,7 @@ import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TerminateMessage;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.helpMe.TimerLogger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -75,6 +76,9 @@ public class Server extends AsyncTask<Void, Void, Void> {
         ClientHandlerThread temp;
 
         while (running) try {
+
+            TimerLogger.doPeriodicLog("server");
+
             Socket connectionSocket = this.myService.accept();
             myAddress = connectionSocket.getLocalAddress();
             Log.d(ConstantHolder.TAG, " --> Connection established with: " + connectionSocket.getInetAddress() + " Thread will be crated to handle this connection. (Only incoming messages are accepted)");

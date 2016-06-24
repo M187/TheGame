@@ -6,6 +6,7 @@ import android.util.Log;
 import com.miso.thegame.Networking.PlayerClientPOJO;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.helpMe.TimerLogger;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,6 +71,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
         try {
             createConnection();
             while (running) try {
+
+                TimerLogger.doPeriodicLog("client");
+
                 sendDataToServer(this.messagesToBeSent.take());
             } catch (InterruptedException e) { }
         } catch (IOException e) {
@@ -127,6 +131,9 @@ public class Client extends AsyncTask<Void, Void, Void> {
         long timeoutStart = System.currentTimeMillis();
 
         while (repeat) {
+
+            TimerLogger.doPeriodicLog("client connection establishment");
+
             repeat = false;
             try {
 

@@ -27,8 +27,8 @@ public class WaiterForAllConnections extends AsyncTask<Void, Void, Void> {
 
     public Void doInBackground(Void... params) {
         try {
-            this.gamePanelMultiplayer.connectionManager.initializeAllConnectionsToOtherPlayersServers();
-            GameActivity.isAllPlayersConnected = true;
+            this.gamePanelMultiplayer.connectionManager.initializeAllConnectionsToOtherPlayersServers(this.gameActivity);
+            GameActivity.areAllPlayersConnected = true;
             Log.d(ConstantHolder.TAG, " --> All players have connected.");
             this.gameActivity.runOnUiThread(new Runnable() {
                 @Override

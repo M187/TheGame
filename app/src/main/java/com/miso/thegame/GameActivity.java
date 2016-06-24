@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class GameActivity extends Activity {
 
-    public static volatile boolean isAllPlayersConnected = false;
+    public static volatile boolean areAllPlayersConnected = false;
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
@@ -135,16 +135,34 @@ public class GameActivity extends Activity {
                     connectionManager);
 
             this.waiterForAllConnections = new WaiterForAllConnections(this.multiplayerSurfaceView, this);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                this.waiterForAllConnections.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                this.waiterForAllConnections.execute();
-            }
+            executeServerAndWaiter();
         }
         //</editor-fold>
         else {
             setContentView(new GamePanelSingleplayer(this, mapToCreate, this.playerType, this.buttonsTypeData));
         }
+    }
+
+    /**
+     * Simple wrapper to execute server and async task that waits for all player connections.
+     * Waiting for other players is done in async task so that activity is not  blocked.
+     */
+    private void executeServerAndWaiter(){
+
+        //This executes server.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            this.connectionManager.localServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            this.connectionManager.localServer.execute();
+        }
+
+        //This executes waiter.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            this.waiterForAllConnections.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            this.waiterForAllConnections.execute();
+        }
+
     }
 
     /**

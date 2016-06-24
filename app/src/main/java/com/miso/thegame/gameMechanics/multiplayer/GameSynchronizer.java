@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -21,14 +22,23 @@ public class GameSynchronizer {
         this.registeredPlayers = registeredPlayers;
     }
 
-    public void createConnectionsWithRegisteredPlayers() throws ConnectionInitializationTimeOut {
-        for (Client client : registeredPlayers) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                client.execute();
+    public void createConnectionsWithRegisteredPlayers(Activity activity) throws ConnectionInitializationTimeOut {
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (Client client : registeredPlayers) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    } else {
+                        client.execute();
+                    }
+                }
             }
-        }
+        });
+
+
+
         waitForClientsConnection();
     }
 
