@@ -3,8 +3,6 @@ package com.miso.thegame;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -99,14 +97,15 @@ public class MultiplayerLobby extends Activity {
         this.registeredPlayers.clear();
         this.sender = new Sender(this.registeredPlayers);
         this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.registeredPlayers, this.sender));
-        this.executeServerListener();
+        this.startServerListener();
     }
 
     public void uninitLocalServerAndData() {
         try {
             this.server.terminate();
             this.server.setMessageLogicExecutor(null);
-        } catch (NullPointerException e){ }
+        } catch (NullPointerException e) {
+        }
         this.registeredPlayers.clear();
     }
 
@@ -114,7 +113,7 @@ public class MultiplayerLobby extends Activity {
         this.createAndPortToLocalServer();
         this.registeredPlayers.clear();
         this.server.setMessageLogicExecutor(new GameLobbyClientLogicExecutor(this.registeredPlayers, this));
-        executeServerListener();
+        startServerListener();
     }
 
     public void hostClick(View view) {
@@ -158,7 +157,7 @@ public class MultiplayerLobby extends Activity {
                         ((EditText) findViewById(R.id.ip)).getText().toString(),
                         Integer.parseInt(((EditText) findViewById(R.id.port)).getText().toString()),
                         this.myNickname));
-                executeMyClient(newC);
+                startMyClient(newC);
                 //Wait for connection.
                 while (newC.isRunning() && !(newC.isConnectionEstablished())) {
                     //System.out.print(".");
@@ -166,6 +165,7 @@ public class MultiplayerLobby extends Activity {
                 System.out.println();
 
                 if (newC.isConnectionEstablished()) {
+                    this.clientConnectionToServer = newC;
                     this.clientConnectionToServer.sendMessage(joinReq);
                     this.uiStateHandler.joinClickUiEvents();
                     this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
@@ -262,22 +262,12 @@ public class MultiplayerLobby extends Activity {
         editor.commit();
     }
 
-    private void executeMyClient(Client client) {
-        this.clientConnectionToServer = client;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.clientConnectionToServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            this.clientConnectionToServer.execute();
-        }
+    private void startMyClient(Client client) {
+        client.start();
     }
 
-    private void executeServerListener() {
-        // Start server only when host/join game?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.server.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            this.server.execute();
-        }
+    private void startServerListener() {
+        this.server.start();
     }
 
     private void createAndPortToLocalServer() throws UnableToBindPortException {

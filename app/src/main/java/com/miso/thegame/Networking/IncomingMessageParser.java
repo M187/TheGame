@@ -39,6 +39,8 @@ public class IncomingMessageParser {
                 return PlayerPositionData.unmarshal(recievedMessage);
             case "20":
                 return PlayerShootProjectile.unmarshal(recievedMessage);
+            case "21":
+                return PlayerShootProjectile.unmarshal(recievedMessage);
             case "30":
                 return PlayerHitMessage.unmarshal(recievedMessage);
             case "40":

@@ -8,6 +8,7 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPla
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
+import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootFreezingProjectile;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
@@ -64,11 +65,11 @@ public class NetworkGameStateUpdater {
             case "21":
                 this.multiplayerViewInstance.getSpellManager().spellCreator
                         .fireFreezingProjectile(
-                                ((PlayerShootProjectile) transmissionMessage).getFromPosition().x,
-                                ((PlayerShootProjectile) transmissionMessage).getFromPosition().y,
-                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().x,
-                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().y,
-                                ((PlayerShootProjectile) transmissionMessage).getIdentificator(),
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getFromPosition().x,
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getFromPosition().y,
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getMovementDelta().x,
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getMovementDelta().y,
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getIdentificator(),
                                 CollisionObjectType.SpellEnemy
                         );
                 break;

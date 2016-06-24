@@ -3,8 +3,6 @@ package com.miso.thegame;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -61,11 +59,9 @@ public class GameActivity extends Activity {
     @Override
     protected void onDestroy() {
         MenuActivity.isGameOn = false;
-
-        try{
-            this.waiterForAllConnections.cancel(true);
-        } catch (NullPointerException e){}
-
+        try {
+            this.connectionManager.terminate();
+        } catch (NullPointerException e) {}
         super.onDestroy();
     }
 
@@ -104,8 +100,7 @@ public class GameActivity extends Activity {
                 this.registeredPlayers.add(
                         new Client(
                                 playerNetworkData.split("\\|")[1].split(":")[0],
-                                //Integer.parseInt(playerNetworkData.split("\\|")[1].split(":")[1]),
-                                ConnectionManager.PORT,
+                                connectionManager.PORT,
                                 playerNetworkData.split("\\|")[0],
                                 true
                         ));
@@ -134,7 +129,7 @@ public class GameActivity extends Activity {
                     mapToCreate,
                     this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
                     this.playerType,
-                    new Point(500, 400 + 200 * playerIndex),
+                    new Point(300 + 300 * playerIndex, 500), //TODO: <- do this better / validate somehow (Map dependant?)
                     this.buttonsTypeData,
                     connectionManager);
 
@@ -151,21 +146,9 @@ public class GameActivity extends Activity {
      * Simple wrapper to execute server and async task that waits for all player connections.
      * Waiting for other players is done in async task so that activity is not  blocked.
      */
-    private void executeServerAndWaiter(){
-
-        //This executes server.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.connectionManager.localServer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            this.connectionManager.localServer.execute();
-        }
-
-        //This executes waiter.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            this.waiterForAllConnections.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            this.waiterForAllConnections.execute();
-        }
+    private void executeServerAndWaiter() {
+        this.connectionManager.localServer.start();
+        this.waiterForAllConnections.start();
     }
 
     /**

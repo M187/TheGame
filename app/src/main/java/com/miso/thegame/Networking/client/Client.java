@@ -1,6 +1,5 @@
 package com.miso.thegame.Networking.client;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.miso.thegame.Networking.PlayerClientPOJO;
@@ -21,7 +20,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Each registered server should have one instance ready to go.
  * When relevant event occurs, propagate it to every Client to send it.
  */
-public class Client extends AsyncTask<Void, Void, Void> {
+public class Client extends Thread {
 
     // Server needs this information
     public volatile boolean isReadyForGame = false;
@@ -67,7 +66,7 @@ public class Client extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    public Void doInBackground(Void... a) {
+    public void run() {
         try {
             createConnection();
             while (running) try {
@@ -81,7 +80,6 @@ public class Client extends AsyncTask<Void, Void, Void> {
             running = false;
             e.printStackTrace();
         }
-        return null;
     }
 
     public void sendMessage(TransmissionMessage transmissionMessage) {

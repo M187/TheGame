@@ -1,7 +1,5 @@
 package com.miso.thegame.Networking;
 
-import android.os.AsyncTask;
-
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
@@ -28,12 +26,12 @@ public class Sender {
     }
 
     public void sendMessage(TransmissionMessage transmissionMessage){
-        for (Client player : this.registeredPlayers){
-            if (player.getStatus() == AsyncTask.Status.RUNNING) {
-                player.sendMessage(transmissionMessage);
+        for (Client client : this.registeredPlayers){
+            if (client.isAlive()) {
+                client.sendMessage(transmissionMessage);
             } else {
-                player.execute();
-                player.sendMessage(transmissionMessage);
+                client.start();
+                client.sendMessage(transmissionMessage);
             }
         }
     }
@@ -44,10 +42,10 @@ public class Sender {
 
         for (Client player : this.registeredPlayers){
             startGameMessage.setIndexForPlayer(playerIndexNumber);
-            if (player.getStatus() == AsyncTask.Status.RUNNING) {
+            if (player.isAlive()) {
                 player.sendMessage(startGameMessage);
             } else {
-                player.execute();
+                player.start();
                 player.sendMessage(startGameMessage);
             }
             playerIndexNumber++;

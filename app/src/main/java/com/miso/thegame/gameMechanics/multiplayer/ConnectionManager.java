@@ -1,7 +1,5 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
-import android.app.Activity;
-
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
 
@@ -21,9 +19,9 @@ public class ConnectionManager {
         this.registeredPlayers = registeredPlayers;
     }
 
-    public void initializeAllConnectionsToOtherPlayersServers(Activity activity) throws GameSynchronizer.ConnectionInitializationTimeOut{
+    public void initializeAllConnectionsToOtherPlayersServers() throws GameSynchronizer.ConnectionInitializationTimeOut{
         this.gameSynchronizer = new GameSynchronizer(this.registeredPlayers);
-        this.gameSynchronizer.createConnectionsWithRegisteredPlayers(activity);
+        this.gameSynchronizer.createConnectionsWithRegisteredPlayers();
     }
 
     public void waitForPlayersToReady() {
@@ -33,6 +31,16 @@ public class ConnectionManager {
             for (Client player : this.registeredPlayers) {
                 somePlayerNotReady = (player.isReadyForGame) ? somePlayerNotReady : true;
             }
+        }
+    }
+
+    public void terminate(){
+        this.gameSynchronizer.terminate();
+        this.localServer.terminate();
+        for (Client client : this.registeredPlayers){
+            try {
+                client.terminate();
+            } catch (NullPointerException e){}
         }
     }
 

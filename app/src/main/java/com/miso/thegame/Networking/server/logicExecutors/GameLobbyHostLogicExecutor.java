@@ -69,23 +69,23 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
      */
     public void joinMessageProcessing(JoinGameLobbyMessage joinGameLobbyMessage) {
         // Create new client based on incoming data.
-        Client newPlayer = (
+        Client newClient = (
                 new Client(
                         joinGameLobbyMessage.getComputerName(),
                         MultiplayerLobby.DEFAULT_COM_PORT,
                         joinGameLobbyMessage.getNickname()));
-        newPlayer.execute();
+        newClient.start();
 
-        newPlayer.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
+        newClient.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
 
         for (Client client : this.registeredPlayers) {
             client.sendMessage(
                     new OtherPlayerDataMessage(
                             joinGameLobbyMessage.getNickname(),
                             joinGameLobbyMessage.getComputerName()));
-            newPlayer.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
+            newClient.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
         }
-        this.registeredPlayers.add(newPlayer);
+        this.registeredPlayers.add(newClient);
     }
 
     /**

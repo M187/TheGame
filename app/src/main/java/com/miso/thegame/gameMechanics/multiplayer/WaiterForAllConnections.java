@@ -1,7 +1,6 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.miso.thegame.GameActivity;
@@ -15,7 +14,7 @@ import com.miso.thegame.gameViews.GamePanelMultiplayer;
  * Must be done as async task since otherwise it blocks UiThread.
  * After connections are created, content view is set to multiplayerGameSurfaceView.
  */
-public class WaiterForAllConnections extends AsyncTask<Void, Void, Void> {
+public class WaiterForAllConnections extends Thread {
 
     private Activity gameActivity;
     private GamePanelMultiplayer gamePanelMultiplayer;
@@ -25,9 +24,9 @@ public class WaiterForAllConnections extends AsyncTask<Void, Void, Void> {
         this.gamePanelMultiplayer = gamePanelMultiplayer;
     }
 
-    public Void doInBackground(Void... params) {
+    public void run() {
         try {
-            this.gamePanelMultiplayer.connectionManager.initializeAllConnectionsToOtherPlayersServers(this.gameActivity);
+            this.gamePanelMultiplayer.connectionManager.initializeAllConnectionsToOtherPlayersServers();
             GameActivity.areAllPlayersConnected = true;
             Log.d(ConstantHolder.TAG, " --> All players have connected.");
             this.gameActivity.runOnUiThread(new Runnable() {
@@ -38,11 +37,10 @@ public class WaiterForAllConnections extends AsyncTask<Void, Void, Void> {
             });
         } catch (GameSynchronizer.ConnectionInitializationTimeOut e) {
             //inform player that connections was not established.
-            this.gamePanelMultiplayer.connectionManager.localServer.terminate();
+            //this.gamePanelMultiplayer.connectionManager.localServer.terminate();
             Log.d(ConstantHolder.TAG, " --> All players have NOT connected in provided time.");
             this.gameActivity.finish();
         }
-        return null;
     }
 
 }

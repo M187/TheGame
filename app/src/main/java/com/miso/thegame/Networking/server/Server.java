@@ -1,6 +1,5 @@
 package com.miso.thegame.Networking.server;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
@@ -35,7 +34,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Server only listen on socket for incoming connections.
  * As soon as Socket is opened (and thus connection established), it passes the Socket to new Client handler thread and starts it.
  */
-public class Server extends AsyncTask<Void, Void, Void> {
+public class Server extends Thread {
 
     public static InetAddress myAddress = null;
     public volatile boolean serverBindsPort = false;
@@ -71,7 +70,7 @@ public class Server extends AsyncTask<Void, Void, Void> {
     /**
      * Method to listen for incoming messages and connections. Should be used in its own thread.
      */
-    public Void doInBackground(Void... params) {
+    public void run() {
 
         ClientHandlerThread temp;
 
@@ -91,7 +90,6 @@ public class Server extends AsyncTask<Void, Void, Void> {
         try {
             this.myService.close();
         } catch (IOException e) {}
-        return null;
     }
 
     /**
@@ -124,7 +122,8 @@ public class Server extends AsyncTask<Void, Void, Void> {
                         }
                     }catch (InterruptedException e){}
                     catch ( MessageLogicExecutor.StartGameException|
-                            MessageLogicExecutor.DisbandGameException e){
+                            MessageLogicExecutor.DisbandGameException|
+                            NullPointerException e){
                         terminate();
                         break;
                     }

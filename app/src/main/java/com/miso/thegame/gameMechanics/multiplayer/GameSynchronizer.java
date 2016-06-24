@@ -1,44 +1,27 @@
 package com.miso.thegame.gameMechanics.multiplayer;
 
-import android.app.Activity;
-import android.os.AsyncTask;
-import android.os.Build;
-
 import com.miso.thegame.Networking.client.Client;
 
 import java.util.ArrayList;
 
 /**
  * Created by michal.hornak on 19.05.2016.
- *
+ * <p/>
  * Intention for this class is to synchronize starting of a game as well as to synchronize main game loop.
- *
  */
 public class GameSynchronizer {
 
     private ArrayList<Client> registeredPlayers;
+    private boolean running = true;
 
     public GameSynchronizer(ArrayList<Client> registeredPlayers) {
         this.registeredPlayers = registeredPlayers;
     }
 
-    public void createConnectionsWithRegisteredPlayers(Activity activity) throws ConnectionInitializationTimeOut {
-
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for (Client client : registeredPlayers) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    } else {
-                        client.execute();
-                    }
-                }
-            }
-        });
-
-
-
+    public void createConnectionsWithRegisteredPlayers() throws ConnectionInitializationTimeOut {
+        for (Client client : registeredPlayers) {
+            client.start();
+        }
         waitForClientsConnection();
     }
 
@@ -46,12 +29,12 @@ public class GameSynchronizer {
         boolean needMoreTime = true;
         long startTime = System.currentTimeMillis();
         System.out.println(" --> Waiting for all client objects connection establishment.");
-        while (needMoreTime) {
+        while (needMoreTime && this.running) {
             needMoreTime = false;
             for (Client client : registeredPlayers) {
                 if (!client.isConnectionEstablished()) {
                     needMoreTime = true;
-                    if (System.currentTimeMillis() - startTime > 30000) {
+                    if (System.currentTimeMillis() - startTime > 60000) {
                         for (Client client2 : registeredPlayers) {
                             client2.terminate();
                         }
@@ -64,7 +47,7 @@ public class GameSynchronizer {
 
     public void waitForClientsToSignalizeReadyForNextFrame() {
         boolean needMoreTime = true;
-        while (needMoreTime) {
+        while (needMoreTime && this.running) {
             needMoreTime = false;
             for (Client client : registeredPlayers) {
                 if (!client.isReadyForGame) {
@@ -77,5 +60,10 @@ public class GameSynchronizer {
         }
     }
 
-    public class ConnectionInitializationTimeOut extends Throwable{}
+    public void terminate(){
+        this.running = false;
+    }
+
+    public class ConnectionInitializationTimeOut extends Throwable {
+    }
 }

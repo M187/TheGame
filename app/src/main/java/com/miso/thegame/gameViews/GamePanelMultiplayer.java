@@ -129,6 +129,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
             //sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
         } else {
+
             getOtherPlayersManager().update();
             getSpellManager().update();
             //collisionHandler.performCollisionCheck();
