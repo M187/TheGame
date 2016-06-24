@@ -21,7 +21,7 @@ public class ConnectionManager {
         this.registeredPlayers = registeredPlayers;
     }
 
-    public void initializeAllConnectionsToOtherPlayersServers() throws GameSynchronizer.ConnectionInitializationTimeOut{
+    public void initializeAllConnectionsToOtherPlayersServers(Activity activity) throws GameSynchronizer.ConnectionInitializationTimeOut{
         this.gameSynchronizer = new GameSynchronizer(this.registeredPlayers);
         this.gameSynchronizer.createConnectionsWithRegisteredPlayers(activity);
     }
