@@ -8,10 +8,10 @@ import com.miso.thegame.gameViews.GameView2;
  */
 public class Anchor {
 
-    private int x;
-    private int y;
     protected int xCoordSideRange;
     protected int yCoordSideRange;
+    private int x;
+    private int y;
     private Player player;
 
     /**
@@ -43,25 +43,21 @@ public class Anchor {
         if (player.getX() < getX() + getxCoordSideRange()){
             delta =  getX() + getxCoordSideRange() - player.getX();
             setX(getX() - delta);
-           //player.setX(player.getX() + delta);
         }
         //right
         if (player.getX() > getX() + GameView2.WIDTH - getxCoordSideRange()){
             delta =  player.getX() - (getX() + GameView2.WIDTH - getxCoordSideRange());
             setX(getX() + delta);
-            //player.setX(player.getX() - delta);
         }
         //top
-        if (player.getY() < getY() + getyCoordSideRange()){
-            delta = getY() + getyCoordSideRange() - player.getY();
+        if (player.getY() < getY() + getyCoordSideRange() + 50){
+            delta = getY() + getyCoordSideRange() - player.getY() + 50;
             setY(getY() - delta);
-            //player.setY(player.getY() + delta);
         }
         //bottom
         if (player.getY() > getY() + GameView2.HEIGHT - getyCoordSideRange() - 100){
             delta = player.getY() - (getY() + GameView2.HEIGHT - getyCoordSideRange() - 100);
             setY(getY() + delta);
-            //player.setY(player.getY() - delta);
         }
     }
 
