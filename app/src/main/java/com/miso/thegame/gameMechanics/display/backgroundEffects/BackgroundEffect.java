@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.display.backgroundEffects;
 
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
@@ -15,4 +16,8 @@ public abstract class BackgroundEffect {
     protected Paint myPaint = new Paint();
     protected Point position;
     protected BackgroundEffectTimeout myTimeout;
+
+    public abstract void draw(Canvas canvas);
+
+    public abstract boolean update();
 }

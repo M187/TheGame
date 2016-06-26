@@ -5,27 +5,27 @@ package com.miso.thegame.gameMechanics.display.backgroundEffects;
  */
 public class BackgroundEffectTimeout {
 
-    public long startTime;
     public int effectDuration;
+    private int currentFrameCount = 0;
 
     /**
      * Creates object to hold timeout data.
      * @param effectDuration in milliseconds
      */
     public BackgroundEffectTimeout(int effectDuration){
-        this.startTime = System.currentTimeMillis();
         this.effectDuration = effectDuration;
     }
 
-    /**
-     * Has the effect timed out?
-     * @return true if it has timed out.
-     */
-    public boolean isActive(){
-        if (System.currentTimeMillis() - this.startTime > effectDuration){
+    public boolean update(){
+        this.currentFrameCount++;
+        if (currentFrameCount > effectDuration){
             return false;
         } else {
             return true;
         }
+    }
+
+    public int getCurrentFrameCount() {
+        return currentFrameCount;
     }
 }
