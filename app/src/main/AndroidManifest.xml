@@ -12,19 +12,33 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:launchMode="singleTop"
             android:name=".MenuActivity"
             android:label="aGame"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".debugStuff.graphics.DebugGraphics"
+            android:label="TheGame"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
         <activity
-            android:launchMode="singleTop"
             android:name=".GameActivity"
             android:label="TheGame"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape">
         </activity>
         <activity

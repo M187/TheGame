@@ -18,7 +18,7 @@ public class BackgroundEffectTimeout {
 
     public boolean update(){
         this.currentFrameCount++;
-        if (currentFrameCount > effectDuration){
+        if (currentFrameCount < effectDuration){
             return false;
         } else {
             return true;

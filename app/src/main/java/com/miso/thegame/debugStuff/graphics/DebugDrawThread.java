@@ -1,4 +1,4 @@
-package com.miso.thegame.debugStuff;
+package com.miso.thegame.debugStuff.graphics;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;

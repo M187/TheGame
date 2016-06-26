@@ -33,6 +33,7 @@ public class CircleLightning extends BackgroundEffect{
         this.radiusBegin = radiusBegin;
         this.radiusMax = radiusMax;
         this.alpha = alpha;
+        this.duration = duration;
 
         this.myPaint.setColor(Color.WHITE);
         this.myPaint.setAlpha(this.alpha);
@@ -46,7 +47,7 @@ public class CircleLightning extends BackgroundEffect{
 
     public void draw(Canvas canvas){
 
-        if (this.myTimeout.getCurrentFrameCount() < this.myTimeout.getCurrentFrameCount() / 2){
+        if (this.myTimeout.getCurrentFrameCount() < this.duration / 2){
             this.currentRadius += this.frameRadiusDelta;
         } else {
             this.currentRadius -= this.frameRadiusDelta;

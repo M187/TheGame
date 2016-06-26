@@ -1,4 +1,4 @@
-package com.miso.thegame.debugStuff;
+package com.miso.thegame.debugStuff.graphics;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -24,7 +24,7 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public DebugSurfaceView(Context context) {
         super(context);
 
-        this.debugThingsManager.add(new CircleLightning(new Point(500, 500), 40, 90, 150, 90));
+        this.debugThingsManager.add(new CircleLightning(new Point(500, 300), 40, 90, 75, 25));
 
         this.myThread = new DebugDrawThread(getHolder(), this);
         getHolder().addCallback(this);
@@ -58,7 +58,6 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        this.getContext();
         //todo: switch back to layout.
         return true;
     }
@@ -66,9 +65,10 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
+
         if (this.debugThingsManager.get(0).update()){
             this.debugThingsManager.remove(0);
-            this.debugThingsManager.add(new CircleLightning(new Point(500, 500), 40, 90, 150, 90));
+            this.debugThingsManager.add(new CircleLightning(new Point(500, 300), 40, 90, 75, 25));
         }
 
         this.debugThingsManager.get(0).draw(canvas);
