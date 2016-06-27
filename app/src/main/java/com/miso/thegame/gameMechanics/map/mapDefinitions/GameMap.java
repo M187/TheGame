@@ -7,8 +7,8 @@ import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.DemoObstacles.DemoObstacle1;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public abstract class GameMap {
     }
 
     protected void addStaticObstacle(int xGrid, int yGrid, Resources res){
-        addStaticElement(new DemoObstacle1(res, new Point(xGrid * 100, yGrid * 100)));
+        addStaticElement(new SquareObstacle(res, new Point(xGrid * 100, yGrid * 100)));
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class GameMap {
      */
     protected void addHorizontalLineOfStaticObstacles( int yCoord, int startX, int finishX, Resources res){
         for (int iter = startX; iter <= finishX; iter++){
-            addStaticElement(new DemoObstacle1(res, new Point(iter * 100, yCoord * 100)));
+            addStaticElement(new SquareObstacle(res, new Point(iter * 100, yCoord * 100)));
         }
     }
 

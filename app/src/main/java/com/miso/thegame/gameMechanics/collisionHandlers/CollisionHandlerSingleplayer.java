@@ -67,7 +67,7 @@ public class CollisionHandlerSingleplayer {
         this.refreshMovingObjects();
         this.initializeQuadtree();
 
-        System.out.println(" -- Refreshing quad -tree duration: " + (System.nanoTime() - temp));
+        //System.out.println(" -- Refreshing quad -tree duration: " + (System.nanoTime() - temp));
 
         Set<GameObject> returnObjects = new HashSet<>();
         for (MovableObject movingObject : movingObjects) {

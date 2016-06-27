@@ -6,7 +6,7 @@ package com.miso.thegame.GameData;
 public enum GameMapEnum {
 
     Level1("backgroundgrass"),
-    Level2("backgroundsand"),
+    Level2("background2"),
     SpaceLevel1("backgroundspace"),
     SpaceLevel2("backgroundspace"),
     BlankMap("backgroundgrass"),

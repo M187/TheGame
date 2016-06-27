@@ -28,11 +28,12 @@ public class SquareObstacle extends Obstacle {
         this.myPaint.setColor(Color.RED);
         this.myPaint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.INNER));
 
+        this.initializeVertices();
     }
 
     public void initializeRange(){
-        int xSize = this.getImage().getWidth() / 2;
-        int ySize = this.getImage().getHeight() / 2;
+        int xSize = this.sideSize / 2;
+        int ySize = this.sideSize / 2;
         this.range = (int)(Math.sqrt( xSize * xSize + ySize * ySize ));
     }
 
