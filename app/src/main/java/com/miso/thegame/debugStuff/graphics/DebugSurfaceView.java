@@ -1,12 +1,17 @@
 package com.miso.thegame.debugStuff.graphics;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.display.Animations.Explosion2;
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
+import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.BackgroundEffect;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.CircleLightning;
 
@@ -20,14 +25,28 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     private List<BackgroundEffect> debugThingsManager = new ArrayList<>();
     private DebugDrawThread myThread;
+    private Background background;
+    private StaticAnimation animation;
+
+    private Point position = new Point(800,500);
 
     public DebugSurfaceView(Context context) {
         super(context);
 
-        this.debugThingsManager.add(new CircleLightning(new Point(500, 300), 40, 90, 75, 25));
+        addCircle();
+        addAnimation();
 
+        this.background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundgrass), context);
         this.myThread = new DebugDrawThread(getHolder(), this);
         getHolder().addCallback(this);
+    }
+
+    private void addCircle(){
+        this.debugThingsManager.add(new CircleLightning(this.position, 40, 90, 150, 24));
+    }
+
+    private void addAnimation(){
+        this.animation = new Explosion2(position, getResources());
     }
 
     @Override
@@ -65,13 +84,19 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
+        this.background.drawCustom(canvas, 0,0);
 
+        //this will draw circle
         if (this.debugThingsManager.get(0).update()){
             this.debugThingsManager.remove(0);
-            this.debugThingsManager.add(new CircleLightning(new Point(500, 300), 40, 90, 75, 25));
+            addCircle();
         }
-
         this.debugThingsManager.get(0).draw(canvas);
+
+        if (this.animation.update()){
+            addAnimation();
+        }
+        this.animation.draw(canvas);
     }
 }
 

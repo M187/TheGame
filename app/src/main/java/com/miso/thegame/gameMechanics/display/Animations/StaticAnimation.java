@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class StaticAnimation extends GameObject {
 
     private Bitmap[] frames;
-    private int currentFrame;
-    private long startTime;
-    private long delay;
+    private int currentImageFrame;
+    private long currentFramesFrame;
+    private long delayInFrames;
     private boolean playedOnce;
 
 
@@ -27,23 +27,25 @@ public class StaticAnimation extends GameObject {
     public void setFrames(Bitmap[] frames)
     {
         this.frames = frames;
-        currentFrame = 0;
-        startTime = System.nanoTime();
+        currentImageFrame = 0;
+        currentFramesFrame = 0;
     }
 
-    public void setDelay(long d){delay = d;}
+    public void setDelayInFrames(long d){
+        delayInFrames = d;
+    }
 
     public boolean update()
     {
-        long elapsed = (System.nanoTime() - startTime);
+        this.currentFramesFrame++;
 
-        if(elapsed>delay)
+        if(this.currentFramesFrame >= delayInFrames)
         {
-            currentFrame++;
-            startTime = System.nanoTime();
+            currentImageFrame++;
+            currentFramesFrame = 0;
         }
-        if(currentFrame == frames.length){
-            currentFrame = 0;
+        if(currentImageFrame == frames.length){
+            currentImageFrame = 0;
             return true;
         }
         return false;
@@ -51,10 +53,10 @@ public class StaticAnimation extends GameObject {
 
     public Bitmap getImage()
     {
-        return frames[currentFrame];
+        return frames[currentImageFrame];
     }
 
-    public int getFrame(){return currentFrame;}
+    public int getFrame(){return currentImageFrame;}
     public boolean isPlayedOnce(){return playedOnce;}
 
     public void draw(Canvas canvas){

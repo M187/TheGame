@@ -3,6 +3,7 @@ package com.miso.thegame.gameMechanics.display.Animations;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 
 import com.miso.thegame.R;
 
@@ -11,14 +12,14 @@ import com.miso.thegame.R;
  */
 public class Explosion2 extends StaticAnimation {
 
-    public Explosion2(int x, int y, Resources res){
+    public Explosion2(Point position, Resources res){
         Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.explosion2);
         int height = 96;
         int width = 96;
         int numFrames = 12;
 
-        this.x = x-height/2;
-        this.y = y-width/2;
+        this.x = position.x-height/2;
+        this.y = position.y-width/2;
 
         Bitmap[] image = new Bitmap[numFrames];
 
@@ -27,6 +28,6 @@ public class Explosion2 extends StaticAnimation {
             image[i] = Bitmap.createBitmap(spritesheet, i*width, 0, width, height);
         }
         this.setFrames(image);
-        this.setDelay(600);
+        this.setDelayInFrames(3);
     }
 }

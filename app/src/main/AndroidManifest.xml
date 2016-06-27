@@ -24,6 +24,7 @@
 
         <activity
             android:name=".debugStuff.graphics.DebugGraphics"
+            android:hardwareAccelerated="false"
             android:label="TheGame"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">

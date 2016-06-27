@@ -1,7 +1,11 @@
 package com.miso.thegame.gameMechanics.display;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameViews.GameView2;
@@ -16,6 +20,21 @@ public class Background {
     private int y;
 //    private int xHalfRange;
 //    private int yHalfRange;
+
+    /**
+     * Should be used in debug instance, where anchor is not needed.
+     * @param image
+     */
+    public Background(Bitmap image, Context context){
+
+        // Initialize display metrics.
+        final WindowManager w = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        final Display d = w.getDefaultDisplay();
+        final DisplayMetrics m = new DisplayMetrics();
+        d.getMetrics(m);
+
+        this.image = Bitmap.createScaledBitmap(image, m.widthPixels, m.heightPixels, false);
+    }
 
     public Background(Bitmap image, Anchor anchor){
         this.image = Bitmap.createScaledBitmap(image, GameView2.WIDTH, GameView2.HEIGHT, false);

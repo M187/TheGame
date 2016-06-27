@@ -24,16 +24,16 @@ public class StaticAnimationManager {
                 staticAnimationsList.add(new Explosion(position.x, position.y, resources));
                 break;
             case 2:
-                staticAnimationsList.add(new Explosion2(position.x, position.y, resources));
+                staticAnimationsList.add(new Explosion2(new Point(position.x, position.y), resources));
                 break;
         }
     }
     
     public static void addExplosionPlayerDestroyed(Point position){
-        staticAnimationsList.add(new Explosion2(position.x-10, position.y-10, resources));
-        staticAnimationsList.add(new Explosion2(position.x+10, position.y-10, resources));
-        staticAnimationsList.add(new Explosion2(position.x-10, position.y+10, resources));
-        staticAnimationsList.add(new Explosion2(position.x+10, position.y+10, resources));
+        staticAnimationsList.add(new Explosion2(new Point(position.x-10, position.y-10), resources));
+        staticAnimationsList.add(new Explosion2(new Point(position.x+10, position.y-10), resources));
+        staticAnimationsList.add(new Explosion2(new Point(position.x-10, position.y+10), resources));
+        staticAnimationsList.add(new Explosion2(new Point(position.x+10, position.y+10), resources));
     }
 
     public void update(){

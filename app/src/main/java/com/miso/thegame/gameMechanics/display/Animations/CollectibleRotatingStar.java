@@ -28,6 +28,6 @@ public class CollectibleRotatingStar extends StaticAnimation {
             image[i] = Bitmap.createBitmap(spritesheet, i*width, 0, width, height);
         }
         this.setFrames(image);
-        this.setDelay(100 * 1000000);
+        this.setDelayInFrames(100 * 1000000);
     }
 }

@@ -1,5 +1,6 @@
 package com.miso.thegame.gameMechanics.display.backgroundEffects;
 
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -37,6 +38,7 @@ public class CircleLightning extends BackgroundEffect{
 
         this.myPaint.setColor(Color.WHITE);
         this.myPaint.setAlpha(this.alpha);
+        this.myPaint.setMaskFilter(new BlurMaskFilter(radiusBegin, BlurMaskFilter.Blur.NORMAL));
 
         this.frameRadiusDelta = (this.radiusMax - this.radiusBegin) / (this.duration / 2);
     }
@@ -47,11 +49,13 @@ public class CircleLightning extends BackgroundEffect{
 
     public void draw(Canvas canvas){
 
+        //move this to update??
         if (this.myTimeout.getCurrentFrameCount() < this.duration / 2){
             this.currentRadius += this.frameRadiusDelta;
         } else {
             this.currentRadius -= this.frameRadiusDelta;
         }
+
         canvas.drawCircle(this.position.x, this.position.y, this.currentRadius, this.myPaint);
     }
 }

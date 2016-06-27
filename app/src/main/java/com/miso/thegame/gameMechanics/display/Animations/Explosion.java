@@ -27,6 +27,6 @@ public class Explosion extends StaticAnimation {
             image[i] = Bitmap.createBitmap(spritesheet, i*width, 0, width, height);
         }
         this.setFrames(image);
-        this.setDelay(500);
+        this.setDelayInFrames(2);
     }
 }

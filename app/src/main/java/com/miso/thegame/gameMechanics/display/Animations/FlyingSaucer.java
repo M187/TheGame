@@ -28,6 +28,6 @@ public class FlyingSaucer extends StaticAnimation{
             image[i] = Bitmap.createBitmap(spritesheet, i*width, 0, width, height);
         }
         this.setFrames(image);
-        this.setDelay(25 * 1000000);
+        this.setDelayInFrames(25 * 1000000);
     }
 }
