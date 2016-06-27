@@ -100,6 +100,6 @@ public class Projectile extends OffensiveSpell {
     }
 
     public void explode(){
-        StaticAnimationManager.addExplosion(this.getPosition(), 1);
+        StaticAnimationManager.addExplosion(this.getPosition(), 2);
     }
 }

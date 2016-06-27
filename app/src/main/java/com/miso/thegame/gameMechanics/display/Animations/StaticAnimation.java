@@ -35,6 +35,9 @@ public class StaticAnimation extends GameObject {
         delayInFrames = d;
     }
 
+    /**
+     * @return true if effect should be removed
+     */
     public boolean update()
     {
         this.currentFramesFrame++;

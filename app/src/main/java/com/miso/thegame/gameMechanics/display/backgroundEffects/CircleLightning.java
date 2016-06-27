@@ -38,9 +38,9 @@ public class CircleLightning extends BackgroundEffect{
 
         this.myPaint.setColor(Color.WHITE);
         this.myPaint.setAlpha(this.alpha);
-        this.myPaint.setMaskFilter(new BlurMaskFilter(radiusBegin, BlurMaskFilter.Blur.NORMAL));
+        this.myPaint.setMaskFilter(new BlurMaskFilter(radiusMax, BlurMaskFilter.Blur.NORMAL));
 
-        this.frameRadiusDelta = (this.radiusMax - this.radiusBegin) / (this.duration / 2);
+        this.frameRadiusDelta = (this.radiusMax - this.radiusBegin) / (this.duration / 4);
     }
 
     public boolean update(){
@@ -50,10 +50,12 @@ public class CircleLightning extends BackgroundEffect{
     public void draw(Canvas canvas){
 
         //move this to update??
-        if (this.myTimeout.getCurrentFrameCount() < this.duration / 2){
+        if (this.myTimeout.getCurrentFrameCount() < this.duration / 4) {
             this.currentRadius += this.frameRadiusDelta;
+        } else if (this.myTimeout.getCurrentFrameCount() < (this.duration / 8) *3){
         } else {
-            this.currentRadius -= this.frameRadiusDelta;
+            this.currentRadius -= this.frameRadiusDelta / 2;
+            if (this.currentRadius < 1 ) {this.currentRadius = 1;}
         }
 
         canvas.drawCircle(this.position.x, this.position.y, this.currentRadius, this.myPaint);

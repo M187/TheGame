@@ -28,7 +28,7 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private Background background;
     private StaticAnimation animation;
 
-    private Point position = new Point(800,500);
+    private Point position = new Point(500,300);
 
     public DebugSurfaceView(Context context) {
         super(context);
@@ -91,7 +91,7 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             this.debugThingsManager.remove(0);
             addCircle();
         }
-        this.debugThingsManager.get(0).draw(canvas);
+        //this.debugThingsManager.get(0).draw(canvas);
 
         if (this.animation.update()){
             addAnimation();
