@@ -17,7 +17,7 @@ public abstract class BackgroundEffect {
     protected Point position;
     protected BackgroundEffectTimeout myTimeout;
 
-    public abstract void draw(Canvas canvas);
+    public abstract void draw(Canvas canvas, Point position);
 
     public abstract boolean update();
 }

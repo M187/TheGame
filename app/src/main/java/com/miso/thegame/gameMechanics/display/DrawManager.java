@@ -1,6 +1,7 @@
 package com.miso.thegame.gameMechanics.display;
 
 import android.graphics.Canvas;
+import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
@@ -46,7 +47,9 @@ public class DrawManager {
 
     public void drawOnDisplay(StaticAnimation staticAnimation, Canvas canvas){
         if (isVisible(staticAnimation)) {
-            canvas.drawBitmap(staticAnimation.getImage(), staticAnimation.getX() - anchor.getX(), staticAnimation.getY() - anchor.getY(), null);
+            //canvas.drawBitmap(staticAnimation.getImage(), staticAnimation.getX() - anchor.getX(), staticAnimation.getY() - anchor.getY(), null);
+
+            staticAnimation.draw(canvas, new Point(staticAnimation.getX() - anchor.getX(), staticAnimation.getY() - anchor.getY()));
         }
     }
     

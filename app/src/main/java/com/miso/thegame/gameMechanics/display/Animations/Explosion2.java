@@ -35,7 +35,7 @@ public class Explosion2 extends StaticAnimation {
         this.setFrames(image);
         this.setDelayInFrames(3);
 
-        this.circleLightning = new CircleLightning(position, 20, 40, 150, 24);
+        this.circleLightning = new CircleLightning(new Point(this.x, this.y), 10, 35, 200, 28);
     }
 
     @Override
@@ -47,10 +47,12 @@ public class Explosion2 extends StaticAnimation {
     }
 
     @Override
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas, Point position){
         if (circleLightningActive) {
-            this.circleLightning.draw(canvas);
+            this.circleLightning.draw(canvas, new Point(
+                    position.x + this.getImage().getWidth() / 2,
+                    position.y + this.getImage().getHeight() / 2));
         }
-        super.draw(canvas);
+        super.draw(canvas, position);
     }
 }

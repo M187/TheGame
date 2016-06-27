@@ -62,9 +62,9 @@ public class StaticAnimation extends GameObject {
     public int getFrame(){return currentImageFrame;}
     public boolean isPlayedOnce(){return playedOnce;}
 
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas, Point position){
         try{
-            canvas.drawBitmap(this.getImage(),(float) x,(float) y,null);
+            canvas.drawBitmap(this.getImage(),(float) position.x,(float) position.y,null);
         }catch(Exception e){
             System.out.println("Aaaa");
         }

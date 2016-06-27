@@ -47,7 +47,7 @@ public class CircleLightning extends BackgroundEffect{
         return this.myTimeout.update();
     }
 
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas, Point position){
 
         //move this to update??
         if (this.myTimeout.getCurrentFrameCount() < this.duration / 4) {
@@ -57,7 +57,8 @@ public class CircleLightning extends BackgroundEffect{
             this.currentRadius -= this.frameRadiusDelta / 2;
             if (this.currentRadius < 1 ) {this.currentRadius = 1;}
         }
+        int halfRadius = this.currentRadius / 2;
 
-        canvas.drawCircle(this.position.x, this.position.y, this.currentRadius, this.myPaint);
+        canvas.drawCircle(position.x, position.y, this.currentRadius, this.myPaint);
     }
 }

@@ -14,6 +14,7 @@ import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.BackgroundEffect;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.CircleLightning;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +97,9 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         if (this.animation.update()){
             addAnimation();
         }
-        this.animation.draw(canvas);
+        this.animation.draw(canvas, position);
+
+        new SquareObstacle(getResources(), new Point(400,400)).draw(canvas, 400,200);
     }
 }
 
