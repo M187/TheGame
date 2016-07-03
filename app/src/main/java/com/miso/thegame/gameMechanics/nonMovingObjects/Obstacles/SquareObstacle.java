@@ -48,7 +48,7 @@ public class SquareObstacle extends Obstacle {
                 yPosition + this.sideSize,
                 myPaint);
 
-        this.myPaint.setColor(Color.YELLOW);
+        this.myPaint.setColor(Color.BLACK);
         canvas.drawRect(
                 xPosition + 10,
                 yPosition + 10,

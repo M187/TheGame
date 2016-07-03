@@ -57,11 +57,16 @@ public class GameActivity extends Activity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onPause(){
+        super.onPause();
         MenuActivity.isGameOn = false;
         try {
             this.connectionManager.terminate();
         } catch (NullPointerException e) {}
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
     }
 

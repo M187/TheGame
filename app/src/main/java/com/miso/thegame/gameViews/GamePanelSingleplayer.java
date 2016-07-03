@@ -114,7 +114,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 getEnemiesManager().draw(canvas);
-                endgameEvents.draw(canvas);
+                endgameEvents.draw(canvas, false);
             }
             canvas.restoreToCount(savedState);
         }

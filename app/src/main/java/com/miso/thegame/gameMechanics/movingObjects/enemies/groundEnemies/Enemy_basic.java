@@ -2,6 +2,10 @@ package com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies;
 
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.miso.thegame.R;
@@ -14,12 +18,17 @@ import com.miso.thegame.gameMechanics.movingObjects.player.Player;
  */
 public class Enemy_basic extends EnemyGround implements Comparable<Enemy_basic> {
 
+    private Paint myPaint = new Paint();
+
     public Enemy_basic(Resources res, Point startingPosition) {
         super(startingPosition);
         setSpeed(5);
         setDx(getX());
         setDy(getY());
         setImage(BitmapFactory.decodeResource(res, R.drawable.object));
+
+        this.myPaint.setColor(Color.RED);
+        this.myPaint.setMaskFilter(new BlurMaskFilter(4, BlurMaskFilter.Blur.INNER));
     }
 
     public void setMovementTarget(GameObject gameObject) {
@@ -68,5 +77,15 @@ public class Enemy_basic extends EnemyGround implements Comparable<Enemy_basic> 
 
     public boolean hitBySpell(){
         return true;
+    }
+
+    public void drawObject(Canvas canvas, int x, int y) {
+        super.drawObject(canvas, x, y);
+
+//        canvas.drawCircle(
+//                y + this.getImage().getHeight()/2,
+//                x + this.getImage().getWidth()/2,
+//                this.getImage().getHeight() / 2,
+//                this.myPaint);
     }
 }

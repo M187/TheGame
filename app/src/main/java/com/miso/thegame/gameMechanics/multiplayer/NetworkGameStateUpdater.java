@@ -94,6 +94,9 @@ public class NetworkGameStateUpdater {
                 this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().remove(playerNickname);
                 removePlayerFromRegisteredPlayersList(playerNickname);
                 StaticAnimationManager.addExplosionPlayerDestroyed(this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().get(playerNickname).getPosition());
+                if (this.multiplayerViewInstance.getOtherPlayersManager().getOtherPlayers().size() == 0) {
+                    this.multiplayerViewInstance.victory = false;
+                }
                 break;
 
             //Sync mess

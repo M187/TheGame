@@ -34,6 +34,7 @@ import java.util.ArrayList;
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
     public ConnectionManager connectionManager;
+    public boolean victory = false;
     protected CollisionHandlerMultiplayer collisionHandler;
     private volatile ArrayList<TransmissionMessage> arrivingMessagesList = new ArrayList<>();
     private OtherPlayerManager otherPlayersManager = null;
@@ -114,7 +115,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
         //TODO: check for victory -> are there any other players playing?
 
-        if (getPlayer().playing) {
+        if (getPlayer().playing || !victory) {
             this.connectionManager.gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
             inputHandler.processFrameInput();
             getPlayer().update();
@@ -167,7 +168,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 borders.draw(canvas);
                 getSpellManager().draw(canvas);
                 getOtherPlayersManager().draw(canvas);
-                endgameEvents.draw(canvas);
+                endgameEvents.draw(canvas, this.victory);
             }
             canvas.restoreToCount(savedState);
         }
