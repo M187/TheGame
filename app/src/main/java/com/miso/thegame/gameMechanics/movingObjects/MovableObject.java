@@ -180,7 +180,6 @@ public abstract class MovableObject extends GameObject {
     }
 
     public void drawObject(Canvas canvas, int x, int y){
-        canvas.drawBitmap(this.getImage(),x,y,null);
+        canvas.drawBitmap(this.getImage(), x, y, null);
     }
-
 }

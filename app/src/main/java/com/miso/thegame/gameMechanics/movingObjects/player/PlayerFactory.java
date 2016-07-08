@@ -18,8 +18,8 @@ public class PlayerFactory {
                 return new PlayerSpaceship(resources, startingPosition, mapManager);
             case PlayerSaucer:
                 return new PlayerSaucer(resources, startingPosition, mapManager);
-            case PlayerTank:
-                return new PlayerTank(resources, startingPosition, mapManager);
+            case PlayerTriangle:
+                return new PlayerTriangle(startingPosition, mapManager);
         }
         return new PlayerSpaceship(resources, startingPosition, mapManager);
     }

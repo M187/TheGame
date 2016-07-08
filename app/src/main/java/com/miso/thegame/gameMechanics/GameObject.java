@@ -16,7 +16,6 @@ import java.util.Random;
  */
 public abstract class GameObject {
 
-    private Bitmap image;
     public int x;
     public int y;
     protected ArrayList<Point> objectVertices = new ArrayList<>();
@@ -24,17 +23,17 @@ public abstract class GameObject {
     protected int displayXCoord;
     protected int displayYCoord;
     protected Point gridCoords;
-
     protected CollisionObjectType collisionObjectType = CollisionObjectType.NonCollidable;
+    private Bitmap image;
 
     public abstract ArrayList<Point> getObjectCollisionVertices();
 
-    protected void setCollisionObjectType(CollisionObjectType collisionObjectType){
-        this.collisionObjectType = collisionObjectType;
-    }
-
     public CollisionObjectType getCollisionObjectType(){
         return this.collisionObjectType;
+    }
+
+    protected void setCollisionObjectType(CollisionObjectType collisionObjectType){
+        this.collisionObjectType = collisionObjectType;
     }
 
     /**
@@ -52,21 +51,21 @@ public abstract class GameObject {
         }
     }
 
+    public int getX() {
+        return x;
+    }
+
      //<editor-fold desc="Setting/Getting global coordinates."
     public void setX(int x) {
         this.x = x;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
     public int getY() {
         return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public Point getPosition(){
@@ -80,5 +79,21 @@ public abstract class GameObject {
 
     public void setImage(Bitmap image) {
         this.image = image;
+    }
+
+    public int getHalfWidth(){
+        try {
+            return this.getImage().getWidth() / 2;
+        } catch (Exception e){
+            return 0;
+        }
+    }
+
+    public int getHalfHeight(){
+        try {
+            return this.getImage().getHeight() / 2;
+        } catch (Exception e){
+            return 0;
+        }
     }
 }

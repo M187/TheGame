@@ -5,9 +5,9 @@ package com.miso.thegame.GameData;
  */
 public enum GamePlayerTypeEnum {
 
+    PlayerTriangle("Triangle"),
     PlayerSpaceship("Spaceship"),
-    PlayerSaucer("Saucer"),
-    PlayerTank("Tank");
+    PlayerSaucer("Saucer");
 
     private String playerType;
 
@@ -21,8 +21,8 @@ public enum GamePlayerTypeEnum {
                 return GamePlayerTypeEnum.PlayerSpaceship;
             case "Saucer":
                 return GamePlayerTypeEnum.PlayerSaucer;
-            case "Tank":
-                return GamePlayerTypeEnum.PlayerTank;
+            case "Triangle":
+                return GamePlayerTypeEnum.PlayerTriangle;
         }
         return GamePlayerTypeEnum.PlayerSpaceship;
     }

@@ -26,14 +26,6 @@ public class Quadtree {
     private Rect bounds;
     private Quadtree[] nodes;
 
-    private class PositionIndexer {
-
-        boolean addToTopSector = false;
-        boolean addToBottomSector = false;
-        boolean addToLeftSector = false;
-        boolean addToRightSector = false;
-    }
-
     /**
      * Constructor
      */
@@ -73,7 +65,6 @@ public class Quadtree {
         nodes[3] = new Quadtree(level + 1, new Rect(x + subWidth, y + subHeight, x + subWidth * 2, y + subHeight * 2));
     }
 
-    //<editor-fold desc="Indexing functionality for assignment to child nodes/trees.">
     /**
      * Determine to which child node an object belongs to.
      *
@@ -90,6 +81,8 @@ public class Quadtree {
                 return getMovableObjectIndex(gameObject);
         }
     }
+
+    //<editor-fold desc="Indexing functionality for assignment to child nodes/trees.">
 
     private PositionIndexer getNonMovableObjectIndex(GameObject gameObject) {
 
@@ -111,14 +104,13 @@ public class Quadtree {
         double midpointYaxis = bounds.top + (MapManager.getWorldHeight() / (Math.pow(2, level)));
 
         PositionIndexer position = new PositionIndexer();
-        position.addToLeftSector = ((gameObject.x - gameObject.getImage().getWidth() / 2 <= midpointXaxis) ? true : false);
-        position.addToRightSector = ((gameObject.x + gameObject.getImage().getWidth() / 2 >= midpointXaxis) ? true : false);
-        position.addToTopSector = ((gameObject.y - gameObject.getImage().getHeight() / 2 <= midpointYaxis) ? true : false);
-        position.addToBottomSector = ((gameObject.y + gameObject.getImage().getHeight() / 2 >= midpointYaxis) ? true : false);
+        position.addToLeftSector = ((gameObject.x - gameObject.getHalfWidth() / 2 <= midpointXaxis) ? true : false);
+        position.addToRightSector = ((gameObject.x + gameObject.getHalfWidth() / 2 >= midpointXaxis) ? true : false);
+        position.addToTopSector = ((gameObject.y - gameObject.getHalfHeight() / 2 <= midpointYaxis) ? true : false);
+        position.addToBottomSector = ((gameObject.y + gameObject.getHalfHeight() / 2 >= midpointYaxis) ? true : false);
 
         return position;
     }
-    //</editor-fold>
 
     /**
      * Add gameObject to relevant child node.
@@ -149,6 +141,7 @@ public class Quadtree {
             this.objects.add(gameObject);
         }
     }
+    //</editor-fold>
 
     /**
      * Insert the object into the quadtree. If the node
@@ -200,5 +193,13 @@ public class Quadtree {
         returnObjects.addAll(objects);
 
         return returnObjects;
+    }
+
+    private class PositionIndexer {
+
+        boolean addToTopSector = false;
+        boolean addToBottomSector = false;
+        boolean addToLeftSector = false;
+        boolean addToRightSector = false;
     }
 }

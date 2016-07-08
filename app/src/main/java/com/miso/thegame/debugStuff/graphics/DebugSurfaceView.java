@@ -2,7 +2,11 @@ package com.miso.thegame.debugStuff.graphics;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -15,6 +19,7 @@ import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.BackgroundEffect;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.CircleLightning;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.Enemy_basic;
+import com.miso.thegame.gameMechanics.movingObjects.player.PlayerTriangle;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
 
 import java.util.ArrayList;
@@ -30,7 +35,7 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private Background background;
     private StaticAnimation animation;
 
-    private Point position = new Point(500,300);
+    private Point position = new Point(500, 300);
 
     public DebugSurfaceView(Context context) {
         super(context);
@@ -43,11 +48,11 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         getHolder().addCallback(this);
     }
 
-    private void addCircle(){
+    private void addCircle() {
         this.debugThingsManager.add(new CircleLightning(this.position, 40, 90, 150, 24));
     }
 
-    private void addAnimation(){
+    private void addAnimation() {
         this.animation = new Explosion2(position, getResources());
     }
 
@@ -84,26 +89,57 @@ public class DebugSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas) {
         super.draw(canvas);
-        this.background.drawCustom(canvas, 0,0);
+        this.background.drawCustom(canvas, 0, 0);
+
+        //drawTriangle(canvas);
+
+        new PlayerTriangle(new Point(200, 200), null).drawObject(canvas, 200, 200);
 
         //this will draw circle
-        if (this.debugThingsManager.get(0).update()){
+        if (this.debugThingsManager.get(0).update()) {
             this.debugThingsManager.remove(0);
             addCircle();
         }
         //this.debugThingsManager.get(0).draw(canvas);
 
-        if (this.animation.update()){
+        if (this.animation.update()) {
             addAnimation();
         }
         this.animation.draw(canvas, position);
 
-        new SquareObstacle(getResources(), new Point(400,400)).draw(canvas, 400, 200);
+        new SquareObstacle(getResources(), new Point(400, 400)).draw(canvas, 400, 200);
 
-        new Enemy_basic(getResources(), new Point(600,600)).drawObject(canvas, 600, 600);
+        new Enemy_basic(getResources(), new Point(600, 600)).drawObject(canvas, 600, 600);
     }
+
+    private void drawTriangle(Canvas canvas) {
+
+        Paint p = new Paint();
+        p.setColor(Color.RED);
+        p.setStrokeWidth(5);
+
+        Point drawPoint = new Point(200, 200);
+
+        Paint paint = new Paint();
+        paint.setColor(android.graphics.Color.RED);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setAntiAlias(true);
+        paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.SOLID));
+
+        Path path = new Path();
+        path.setFillType(Path.FillType.EVEN_ODD);
+        path.moveTo((drawPoint.x + 25), drawPoint.y);
+        path.lineTo(drawPoint.x, drawPoint.y + 50);
+        path.lineTo(drawPoint.x + 50, drawPoint.y + 50);
+        path.lineTo((drawPoint.x + 25), drawPoint.y);
+        path.close();
+
+
+        canvas.drawPath(path, paint);
+    }
+
 }
 
 

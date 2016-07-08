@@ -60,10 +60,10 @@ public class DrawManager {
      */
     public boolean isVisible(GameObject gameObject){
         try {
-            if (gameObject.getX() + (gameObject.getImage().getWidth() / 2) - this.anchor.getX() < 0 ||
-                    gameObject.getX() - (gameObject.getImage().getWidth() / 2) - this.anchor.getX() - GameView2.WIDTH > 0 ||
-                    gameObject.getY() + (gameObject.getImage().getHeight() / 2) - this.anchor.getY() < 0 ||
-                    gameObject.getY() - (gameObject.getImage().getHeight() / 2) - this.anchor.getY() - GameView2.HEIGHT > 0) {
+            if (gameObject.getX() + gameObject.getHalfWidth() - this.anchor.getX() < 0 ||
+                    gameObject.getX() - gameObject.getHalfWidth() - this.anchor.getX() - GameView2.WIDTH > 0 ||
+                    gameObject.getY() + gameObject.getHalfHeight() - this.anchor.getY() < 0 ||
+                    gameObject.getY() - gameObject.getHalfHeight() - this.anchor.getY() - GameView2.HEIGHT > 0) {
                 return false;
             } else {
                 return true;
@@ -102,7 +102,7 @@ public class DrawManager {
         float degreesToRotate = (float)gameObject.getHeading();
         canvas.rotate(degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 
-        gameObject.drawObject(canvas, gameObject.getX() - anchor.getX() - gameObject.getImage().getWidth() / 2, gameObject.getY() - anchor.getY() - gameObject.getImage().getHeight() / 2);
+        gameObject.drawObject(canvas, gameObject.getX() - anchor.getX() - gameObject.getHalfWidth(), gameObject.getY() - anchor.getY() - gameObject.getHalfHeight());
 
         canvas.rotate( - degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 
