@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
+import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCampWithTimer;
 
 import java.util.ArrayList;
 
@@ -42,7 +42,7 @@ public class SpaceLevel1 extends GameMap {
         this.addEnemyData(3500,500, EnemyType.asteroidBase);
         this.addEnemyData(500,3500, EnemyType.asteroidBase);
 
-        this.addStaticElement(new BaseCamp(resources, new Point(mapDimensions.x / 2, mapDimensions.y / 2)));
+        this.addStaticElement(new BaseCampWithTimer(resources, new Point(mapDimensions.x / 2, mapDimensions.y / 2)));
     }
 
 }

@@ -37,6 +37,9 @@ public class Anchor {
      *
      */
     public void update(){
+
+        //TODO: stop moving anchor when borders are visible. Will give bigger sight range when player is near borders.
+
         int delta;
         //Is player intersecting with bordering rectangles?
         //left
