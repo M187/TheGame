@@ -69,7 +69,11 @@ public class MapGrid {
         }
 
         // around obstacle, diagonal movement is prohibited! This should deal with it, removing relevant neighbour diagonal tiles for each horizontal, vertical neighbour.
-        if (currentMapTile.xTileCoord != 0 && currentMapTile.xTileCoord != (MapManager.getWorldWidth() / 100) - 1 && currentMapTile.yTileCoord != 0 && currentMapTile.yTileCoord != ( MapManager.getWorldHeight() / 100 ) - 1) {
+        if (currentMapTile.xTileCoord != 0 &&
+                currentMapTile.xTileCoord != (MapManager.getWorldWidth() / MapManager.getMapTileWidth()) - 1 &&
+                currentMapTile.yTileCoord != 0 &&
+                currentMapTile.yTileCoord != ( MapManager.getWorldHeight() / MapManager.getMapTileHeight() ) - 1)
+        {
             // x + 1
             this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x + 1][obstacle.getGridCoordinates().y + relativeMapTilePosition.y].getNeighbourTiles().remove(this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x][obstacle.getGridCoordinates().y + relativeMapTilePosition.y + 1]);
             this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x + 1][obstacle.getGridCoordinates().y + relativeMapTilePosition.y].getNeighbourTiles().remove(this.mapGrid[obstacle.getGridCoordinates().x + relativeMapTilePosition.x][obstacle.getGridCoordinates().y + relativeMapTilePosition.y - 1]);

@@ -97,8 +97,8 @@ public abstract class ButtonPlaceholder {
     public Bitmap getImage(){
         return this.image;
     }
-    public void draw(Canvas canvas){
-        canvas.drawBitmap(getImage(), this.getXDrawCoord(), this.getYDrawCoord(), null);
+    public void draw(Canvas canvas, final Paint paint){
+        canvas.drawBitmap(getImage(), this.getXDrawCoord(), this.getYDrawCoord(), paint);
         if (this.isOnCooldown()){
             this.drawCooldown(canvas);
         }

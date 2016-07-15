@@ -165,7 +165,7 @@ public class GameActivity extends Activity {
         try {
             switch (getIntent().getExtras().getString("Level")) {
                 case "Ground":
-                    return GameMapEnum.Level2;
+                    return GameMapEnum.Level1;
                 case "Space":
                     return GameMapEnum.SpaceLevel1;
                 default:

@@ -38,6 +38,7 @@ public class MapTile {
         initializeNotDiagonalNeighbours(maxXTileCount, maxYTileCount);
     }
 
+    //<editor-fold @desc="'Initialize tile' part">
     /**
      * Creates list of Points with x/y axis values of neighboring positions.
      * Only vertical/horizontal neighbours.
@@ -133,6 +134,7 @@ public class MapTile {
             }
         }
     }
+    //</editor-fold>
 
     /**
      * Set parent map tile.

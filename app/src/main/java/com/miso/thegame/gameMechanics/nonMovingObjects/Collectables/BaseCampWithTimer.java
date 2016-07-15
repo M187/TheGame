@@ -44,7 +44,7 @@ public class BaseCampWithTimer extends Collectible {
         }
     }
 
-    public void drawCooldown(Canvas canvas, Point position){
+    private void drawCooldown(Canvas canvas, Point position){
         String number = Long.toString((this.timeoutFrames / 30));
         canvas.drawText(number, position.x + this.getHalfWidth(),
                 position.y + this.getImage().getHeight() + ((paint.descent() + paint.ascent())), paint);

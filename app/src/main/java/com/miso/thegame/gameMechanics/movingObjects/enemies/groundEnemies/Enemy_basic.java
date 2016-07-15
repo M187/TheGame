@@ -28,6 +28,7 @@ public class Enemy_basic extends EnemyGround implements Comparable<Enemy_basic> 
         setImage(BitmapFactory.decodeResource(res, R.drawable.object));
 
         this.myPaint.setColor(Color.RED);
+        this.myPaint.setAlpha(150);
         this.myPaint.setMaskFilter(new BlurMaskFilter(4, BlurMaskFilter.Blur.INNER));
     }
 
@@ -82,10 +83,10 @@ public class Enemy_basic extends EnemyGround implements Comparable<Enemy_basic> 
     public void drawObject(Canvas canvas, int x, int y) {
         super.drawObject(canvas, x, y);
 
-//        canvas.drawCircle(
-//                y + this.getImage().getHeight()/2,
-//                x + this.getImage().getWidth()/2,
-//                this.getImage().getHeight() / 2,
-//                this.myPaint);
+        canvas.drawCircle(
+                x + this.getImage().getWidth()/2,
+                y + this.getImage().getHeight()/2,
+                this.getImage().getHeight() / 2,
+                this.myPaint);
     }
 }

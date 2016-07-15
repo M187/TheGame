@@ -3,7 +3,7 @@ package com.miso.thegame.gameMechanics.movingObjects.enemies;
 import android.content.res.Resources;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.Enemy_nest;
+import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.EnemyNest;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_alienShip;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_asteroidBase;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.spaceEnemies.Enemy_carrier;
@@ -42,7 +42,7 @@ public class EnemyFactory {
                 return (new Enemy_alienShip(res, new Point(enemyInitialData.x, enemyInitialData.y)));
 
             case nest:
-                return (new Enemy_nest(res, new Point(enemyInitialData.x, enemyInitialData.y)));
+                return (new EnemyNest(res, new Point(enemyInitialData.x, enemyInitialData.y)));
 
         }
         return null;

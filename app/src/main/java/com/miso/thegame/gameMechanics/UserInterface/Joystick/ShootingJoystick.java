@@ -2,8 +2,10 @@ package com.miso.thegame.gameMechanics.UserInterface.Joystick;
 
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
@@ -32,20 +34,22 @@ public class ShootingJoystick extends Joystick {
         this.imageJoystickHead = BitmapFactory.decodeResource(resources, R.drawable.joystickhead);
         this.inputThreshold = layoutImage.getHeight() / 2;
         this.radius = inputThreshold + 50;
+
+        this.paint.setColor(Color.RED);
+        this.paint.setTextSize(2);
+        this.paint.setMaskFilter(new BlurMaskFilter(2, BlurMaskFilter.Blur.NORMAL));
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, final Paint paint) {
         if (_dragging) {
             drawTargetingLine(canvas);
-            super.draw(canvas);
+            super.draw(canvas, paint);
         }
     }
 
     public void drawTargetingLine(Canvas canvas) {
-        paint.setColor(Color.RED);
-        paint.setTextSize(2);
-        canvas.drawLine((float) player.getMiddleXDisplayCoord(), (float) player.getMiddleYDisplayCoord(), (float) player.getMiddleXDisplayCoord() - ((middleX - eventX) * 4), (float) player.getMiddleYDisplayCoord() - ((middleY - eventY) * 4), paint);
+        canvas.drawLine((float) player.getMiddleXDisplayCoord(), (float) player.getMiddleYDisplayCoord(), (float) player.getMiddleXDisplayCoord() - ((middleX - eventX) * 4), (float) player.getMiddleYDisplayCoord() - ((middleY - eventY) * 4), this.paint);
     }
 
     protected void uninitJoystick(){

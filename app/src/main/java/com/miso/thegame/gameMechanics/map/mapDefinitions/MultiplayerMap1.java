@@ -3,17 +3,16 @@ package com.miso.thegame.gameMechanics.map.mapDefinitions;
 import android.content.res.Resources;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCampWithTimer;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.StarCollectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
 
 /**
- * Created by michal.hornak on 28.12.2015.
+ * Created by michal.hornak on 15.07.2016.
  */
-public class Level1 extends GameMap {
+public class MultiplayerMap1 extends GameMap {
 
-    public Level1(Resources res){
+    public MultiplayerMap1(Resources res){
 
         this.mapDimensions = new Point(2000,2000);
 
@@ -25,8 +24,8 @@ public class Level1 extends GameMap {
         addStaticElement(new SquareObstacle(res, new Point(100,1000)));
         addStaticElement(new SquareObstacle(res, new Point(100,1100)));
         addStaticElement(new SquareObstacle(res, new Point(100,1200)));
-        //addStaticElement(new SquareObstacle(res, new Point(100,1300)));
-        //addStaticElement(new SquareObstacle(res, new Point(100,1400)));
+        addStaticElement(new SquareObstacle(res, new Point(100,1300)));
+        addStaticElement(new SquareObstacle(res, new Point(100,1400)));
 
         addStaticElement(new SquareObstacle(res, new Point(200,100)));
         addStaticElement(new SquareObstacle(res, new Point(200,300)));
@@ -78,7 +77,7 @@ public class Level1 extends GameMap {
         addStaticElement(new SquareObstacle(res, new Point(700,1700)));
         addStaticElement(new SquareObstacle(res, new Point(700,1900)));
 
-        //addStaticElement(new SquareObstacle(res, new Point(800,400)));
+        addStaticElement(new SquareObstacle(res, new Point(800,400)));
         addStaticElement(new SquareObstacle(res, new Point(800,1200)));
         addStaticElement(new SquareObstacle(res, new Point(800,1400)));
         addStaticElement(new SquareObstacle(res, new Point(800,1500)));
@@ -107,7 +106,7 @@ public class Level1 extends GameMap {
         addStaticElement(new SquareObstacle(res, new Point(1200,700)));
         addStaticElement(new SquareObstacle(res, new Point(1200,800)));
         addStaticElement(new SquareObstacle(res, new Point(1200,900)));
-        //addStaticElement(new SquareObstacle(res, new Point(1200,1000)));
+        addStaticElement(new SquareObstacle(res, new Point(1200,1000)));
         addStaticElement(new SquareObstacle(res, new Point(1200,1100)));
         addStaticElement(new SquareObstacle(res, new Point(1200,1500)));
         addStaticElement(new SquareObstacle(res, new Point(1200,1600)));
@@ -125,8 +124,8 @@ public class Level1 extends GameMap {
 
         addStaticElement(new SquareObstacle(res, new Point(1400,100)));
         addStaticElement(new SquareObstacle(res, new Point(1400,200)));
-        //addStaticElement(new SquareObstacle(res, new Point(1400,300)));
-        //addStaticElement(new SquareObstacle(res, new Point(1400,400)));
+        addStaticElement(new SquareObstacle(res, new Point(1400,300)));
+        addStaticElement(new SquareObstacle(res, new Point(1400,400)));
         addStaticElement(new SquareObstacle(res, new Point(1400,1300)));
         addStaticElement(new SquareObstacle(res, new Point(1400,1400)));
 
@@ -160,7 +159,7 @@ public class Level1 extends GameMap {
         addStaticElement(new SquareObstacle(res, new Point(1700,1800)));
         addStaticElement(new SquareObstacle(res, new Point(1700,1900)));
 
-        //addStaticElement(new SquareObstacle(res, new Point(1800,400)));
+        addStaticElement(new SquareObstacle(res, new Point(1800,400)));
         addStaticElement(new SquareObstacle(res, new Point(1800,700)));
         addStaticElement(new SquareObstacle(res, new Point(1800,800)));
         addStaticElement(new SquareObstacle(res, new Point(1800,900)));
@@ -170,22 +169,14 @@ public class Level1 extends GameMap {
         addStaticElement(new SquareObstacle(res, new Point(1900,400)));
         addStaticElement(new SquareObstacle(res, new Point(1900,1100)));
         addStaticElement(new SquareObstacle(res, new Point(1900,1200)));
-    //</editor-fold>
+        //</editor-fold>
 
         //Collectibles
         addStaticElement(new BaseCampWithTimer(res, new Point(700,700)));
-        addStaticElement(new BaseCampWithTimer(res, new Point(1700,1700)));
 
         addStaticElement(new StarCollectible(res, new Point(1500, 300)));
         addStaticElement(new StarCollectible(res, new Point(400, 1500)));
         addStaticElement(new StarCollectible(res, new Point(300, 200)));
         addStaticElement(new StarCollectible(res, new Point(1700, 800)));
-
-        //Enemies
-        this.addEnemyData(1500, 300, SingleEnemyInitialData.EnemyType.nest);
-        this.addEnemyData(400, 1500, SingleEnemyInitialData.EnemyType.nest);
-        this.addEnemyData(300, 200, SingleEnemyInitialData.EnemyType.nest);
-        this.addEnemyData(1700, 800, SingleEnemyInitialData.EnemyType.nest);
     }
 }
-

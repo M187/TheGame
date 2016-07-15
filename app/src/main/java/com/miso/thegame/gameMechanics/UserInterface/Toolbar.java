@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
@@ -26,6 +27,7 @@ public class Toolbar {
     private MovementJoystick movementJoystick;
     private ShootingJoystick shootingJoystick;
     private PlayerStatusBar playerStatusBar;
+    private Paint paint = new Paint();
 
     public Toolbar(Resources res, Player player, ButtonsTypeData buttonsTypeData){
 
@@ -43,15 +45,17 @@ public class Toolbar {
         this.movementJoystick = new MovementJoystick(res);
         this.shootingJoystick = new ShootingJoystick(res, primaryShootingButtonPlaceholder);
         this.playerStatusBar = new PlayerStatusBar(player);
+
+        this.paint.setAlpha(150);
     }
 
     public void draw(Canvas canvas){
         for (ButtonPlaceholder buttonPlaceholder : buttonPlaceholders) {
-            buttonPlaceholder.draw(canvas);
+            buttonPlaceholder.draw(canvas, this.paint);
         }
         playerStatusBar.draw(canvas);
-        movementJoystick.draw(canvas);
-        shootingJoystick.draw(canvas);
+        movementJoystick.draw(canvas, paint);
+        shootingJoystick.draw(canvas, paint);
     }
 
     public ArrayList<ButtonPlaceholder> getButtonPlaceholders() {

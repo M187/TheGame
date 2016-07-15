@@ -17,10 +17,10 @@ import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
  */
 public abstract class Joystick {
 
+    protected static final Paint paint = new Paint();
     protected ButtonPlaceholder buttonPlaceholder;
     protected int middleX;
     protected int middleY;
-    protected static final Paint paint = new Paint();
     protected Bitmap layoutImage;
     protected Bitmap imageJoystickHead;
     protected int radius;
@@ -154,9 +154,9 @@ public abstract class Joystick {
     }
     //</editor-fold>
 
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(layoutImage, getMiddleX() - (layoutImage.getWidth() / 2), getMiddleY() - (layoutImage.getHeight() / 2), null);
-        canvas.drawBitmap(imageJoystickHead, getEventX() - (imageJoystickHead.getWidth() / 2), getEventY() - (imageJoystickHead.getHeight() / 2), null);
+    public void draw(Canvas canvas, final Paint paint) {
+        canvas.drawBitmap(layoutImage, getMiddleX() - (layoutImage.getWidth() / 2), getMiddleY() - (layoutImage.getHeight() / 2), paint);
+        canvas.drawBitmap(imageJoystickHead, getEventX() - (imageJoystickHead.getWidth() / 2), getEventY() - (imageJoystickHead.getHeight() / 2), paint);
     }
 
 }

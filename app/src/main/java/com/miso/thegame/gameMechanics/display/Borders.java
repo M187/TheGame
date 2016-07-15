@@ -1,6 +1,7 @@
 package com.miso.thegame.gameMechanics.display;
 
 import android.content.res.Resources;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,16 +15,16 @@ import com.miso.thegame.gameViews.GameView2;
  */
 public class Borders{
 
+    protected static final Paint paint = new Paint();
     private Resources resources;
     private  Anchor anchor;
-    protected static final Paint paint = new Paint();
 
     public Borders(Resources resources, Anchor anchor){
         this.resources = resources;
         this.anchor = anchor;
-        paint.setColor(Color.YELLOW);
-        paint.setStrokeWidth(5);
-        paint.setTextSize(10);
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(20);
+        paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.NORMAL));
     }
 
     public void draw(Canvas canvas){
