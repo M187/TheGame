@@ -1,14 +1,20 @@
 package com.miso.thegame.gameMechanics.display;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
+import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.EnemyNest;
+import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Projectile;
 import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
 import com.miso.thegame.gameViews.GameView2;
+
+import java.util.ArrayList;
 
 /**
  * Created by michal.hornak on 03.11.2015.
@@ -107,26 +113,26 @@ public class DrawManager {
         canvas.rotate( - degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 
 //  Uncomment to drawWithRotation hit vertices
-//        Paint p = new Paint();
-//        p.setColor(Color.RED);
-//        p.setStrokeWidth(5);
-//
-//        if (gameObject instanceof Enemy_carrier){
-//            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
-//
-//            for (int i = 0;i < toDraw.size() - 1;i++){
-//                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
-//            }
-//            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
-//        }
-//
-//        if (gameObject instanceof Projectile){
-//            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
-//
-//            for (int i = 0;i < toDraw.size() - 1;i++){
-//                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
-//            }
-//            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
-//        }
+        Paint p = new Paint();
+        p.setColor(Color.BLUE);
+        p.setStrokeWidth(5);
+
+        if (gameObject instanceof EnemyNest){
+            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
+
+            for (int i = 0;i < toDraw.size() - 1;i++){
+                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
+            }
+            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
+        }
+
+        if (gameObject instanceof Projectile){
+            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
+
+            for (int i = 0;i < toDraw.size() - 1;i++){
+                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
+            }
+            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
+        }
     }
 }

@@ -58,12 +58,11 @@ public class PlayerTriangle extends Player {
         canvas.drawCircle(x+25, y + 40, 5, this.circlePaint);
     }
 
-    //todo: do these for tank!
     protected ArrayList<Point> getNonRotatedVertices() {
         ArrayList<Point> vertices = new ArrayList();
-        vertices.add(new Point(this.x + 25, this.y));
-        vertices.add(new Point(this.x + 50, this.y + 50));
-        vertices.add(new Point(this.x, this.y + 50));
+        vertices.add(new Point(this.x + 25  - getHalfWidth(), this.y - getHalfHeight()));
+        vertices.add(new Point(this.x + 50 - getHalfWidth(), this.y + 50 - getHalfHeight()));
+        vertices.add(new Point(this.x - getHalfWidth(), this.y + 50 - getHalfHeight()));
 
         return vertices;
     }

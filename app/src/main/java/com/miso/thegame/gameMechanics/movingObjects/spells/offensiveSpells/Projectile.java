@@ -89,8 +89,10 @@ public class Projectile extends OffensiveSpell {
 
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 15)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x + 3 , this.y - 15)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x + 3, this.y + 15)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x - 3, this.y + 15)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x - 3, this.y - 15)));
         return this.objectVertices;
     }
 

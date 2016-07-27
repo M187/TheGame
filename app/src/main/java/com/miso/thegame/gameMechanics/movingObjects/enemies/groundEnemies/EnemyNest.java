@@ -80,15 +80,10 @@ public class EnemyNest extends EnemyGround {
     @Override
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 73, getY() - 50)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 25, getY() - 75)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 40, getY() - 25)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 75, getY())));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 60, getY() + 50)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 5, getY() + 72)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 25, getY() + 32)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 25, getY() + 25)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 72, getY())));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() - 28)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 28, getY())));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() + 28)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 28, getY())));
         return this.objectVertices;
     }
 
@@ -117,7 +112,7 @@ public class EnemyNest extends EnemyGround {
                 growing = (growing) ? false : true;
             }
 
-            canvas.drawCircle(position.x + 2 * getHalfWidth(), position.y + 2 * getHalfHeight(), radius, paint);
+            canvas.drawCircle(position.x, position.y, radius, paint);
         }
     }
 }
