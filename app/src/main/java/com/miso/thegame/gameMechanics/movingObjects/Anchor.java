@@ -1,8 +1,8 @@
 package com.miso.thegame.gameMechanics.movingObjects;
 
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 1.11.2015.

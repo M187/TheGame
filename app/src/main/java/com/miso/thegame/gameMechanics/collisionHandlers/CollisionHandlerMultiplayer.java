@@ -5,6 +5,7 @@ import android.graphics.Rect;
 
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessage;
 import com.miso.thegame.gameMechanics.GameObject;
+import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -14,7 +15,6 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
 import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
-import com.miso.thegame.gameViews.GamePanelMultiplayer;
 
 import java.util.ArrayList;
 import java.util.HashSet;

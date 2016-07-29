@@ -5,10 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.DeffensiveSpell;
-import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 import java.util.Iterator;

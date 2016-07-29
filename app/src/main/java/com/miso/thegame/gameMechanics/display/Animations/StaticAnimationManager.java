@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.gameViews.GameView2;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 
 import java.util.ArrayList;
 import java.util.Iterator;

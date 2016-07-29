@@ -8,6 +8,7 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootFre
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Blink;
@@ -17,7 +18,6 @@ import com.miso.thegame.gameMechanics.movingObjects.spells.defensiveSpells.Times
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.FreezingProjectile;
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Projectile;
 import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Shockwave;
-import com.miso.thegame.gameViews.GameView2;
 
 import java.util.List;
 

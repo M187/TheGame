@@ -3,19 +3,19 @@ package com.miso.thegame.gameMechanics;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import com.miso.thegame.gameViews.GameView2;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 
 /**
  * Created by Miso on 8.10.2015.
  */
 public class MainGameThread extends Thread {
 
+    public static Canvas canvas;
     private int FPS = 30;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private GameView2 gamePanel;
     private boolean running;
-    public static Canvas canvas;
     private int logIterator = 0;
 
     public MainGameThread(SurfaceHolder surfaceHolder, GameView2 gamePanel){

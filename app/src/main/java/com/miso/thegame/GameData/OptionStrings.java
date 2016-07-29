@@ -5,8 +5,8 @@ package com.miso.thegame.GameData;
  */
 public class OptionStrings {
 
-    public static final String playerMaxHealth = "playerMaxHealth";
-    public static final String playerMaxAmmo = "playerMaxAmmo";
+    public static final String playerBonusHealth = "playerBonusHealth";
+    public static final String playerBonusAmmo = "playerBonusAmmo";
     public static final String playerMaxSpeed = "playerMaxSpeed";
 
     public static final String multiplayerInstance = "multiplayer";

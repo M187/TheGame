@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
-import com.miso.thegame.gameViews.GameView2;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 
 import java.util.ArrayList;
 import java.util.HashMap;

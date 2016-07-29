@@ -1,4 +1,4 @@
-package com.miso.thegame.gameViews;
+package com.miso.thegame.gameMechanics.gameViews;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;

@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameViews.GameView2;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 
 /**
  * Created by michal.hornak on 30.12.2015.

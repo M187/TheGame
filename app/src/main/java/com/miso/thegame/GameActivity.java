@@ -15,11 +15,11 @@ import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
+import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;
+import com.miso.thegame.gameMechanics.gameViews.GamePanelSingleplayer;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameMechanics.multiplayer.WaiterForAllConnections;
-import com.miso.thegame.gameViews.GamePanelMultiplayer;
-import com.miso.thegame.gameViews.GamePanelSingleplayer;
-import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 
@@ -77,8 +77,8 @@ public class GameActivity extends Activity {
     private void loadPlayerData() {
         SharedPreferences settings = getSharedPreferences("PlayerOptions", 0);
 
-        int maxHealth = settings.getInt(OptionStrings.playerMaxHealth, 0);
-        int maxAmmo = settings.getInt(OptionStrings.playerMaxAmmo, 0);
+        int maxHealth = settings.getInt(OptionStrings.playerBonusHealth, 0);
+        int maxAmmo = settings.getInt(OptionStrings.playerBonusAmmo, 0);
         int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
 
         this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));

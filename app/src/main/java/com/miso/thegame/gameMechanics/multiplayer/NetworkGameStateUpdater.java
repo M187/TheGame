@@ -12,8 +12,8 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootFre
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;
 import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
-import com.miso.thegame.gameViews.GamePanelMultiplayer;
 
 import java.util.ArrayList;
 import java.util.Iterator;

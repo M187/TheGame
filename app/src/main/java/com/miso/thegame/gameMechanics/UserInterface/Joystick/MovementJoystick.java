@@ -6,7 +6,7 @@ import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
 import com.miso.thegame.R;
-import com.miso.thegame.gameViews.GameView2;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 
 /**
  * Created by michal.hornak on 23.11.2015.

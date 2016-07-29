@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameViews.GamePanelMultiplayer;
+import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;
 
 /**
  * Created by michal.hornak on 21.06.2016.

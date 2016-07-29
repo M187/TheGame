@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.GameData.GameMapEnum;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.BlankMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.Level1;
@@ -16,7 +17,6 @@ import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
 import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
-import com.miso.thegame.gameViews.GameView2;
 
 import java.util.ArrayList;
 

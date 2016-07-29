@@ -2,7 +2,7 @@ package com.miso.thegame.gameMechanics;
 
 import android.app.Activity;
 
-import com.miso.thegame.gameViews.GamePanelMultiplayer;
+import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;
 
 /**
  * Created by michal.hornak on 15.06.2016.

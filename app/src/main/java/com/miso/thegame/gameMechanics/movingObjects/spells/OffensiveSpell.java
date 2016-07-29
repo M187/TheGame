@@ -1,9 +1,9 @@
 package com.miso.thegame.gameMechanics.movingObjects.spells;
 
 import com.miso.thegame.gameMechanics.collisionHandlers.SATCollisionCalculator;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameViews.GameView2;
 
 /**
  * Created by Miso on 28.11.2015.
