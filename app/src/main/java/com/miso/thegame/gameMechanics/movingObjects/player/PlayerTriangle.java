@@ -37,7 +37,7 @@ public class PlayerTriangle extends Player {
         this.paint.setAntiAlias(true);
         this.paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.SOLID));
 
-        this.circlePaint.setColor(android.graphics.Color.BLACK);
+        this.circlePaint.setColor(android.graphics.Color.BLUE);
         this.circlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         this.circlePaint.setAntiAlias(true);
         this.circlePaint.setAlpha(100);
