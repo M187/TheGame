@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -97,6 +98,26 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         endgameEvents = new EndgameEvents(getResources());
     }
 
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        boolean retry = true;
+        int counter = 0;
+        while (retry & counter < 1000) {
+            counter++;
+            try {
+                thread.setRunning(false);
+                thread.join();
+                retry = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    }
+
     public StaticAnimationManager getStaticAnimationManager() {
         return staticAnimationManager;
     }
@@ -111,5 +132,15 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
 
     public SpellManager getSpellManager() {
         return spellManager;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
+        if (getPlayer().playing) {
+            return inputHandler.processEvent(event);
+        } else {
+            return inputHandler.processEndgameEvent(event);
+        }
     }
 }

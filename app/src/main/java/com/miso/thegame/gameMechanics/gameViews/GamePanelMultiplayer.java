@@ -1,11 +1,9 @@
 package com.miso.thegame.gameMechanics.gameViews;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
@@ -58,29 +56,9 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     }
 
     @Override
-    public Resources getResources() {
-        return super.getResources();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-    }
-
-    @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         this.connectionManager.localServer.terminate();
-        boolean retry = true;
-        int counter = 0;
-        while (retry & counter < 1000) {
-            counter++;
-            try {
-                thread.setRunning(false);
-                thread.join();
-                retry = false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        super.surfaceDestroyed(holder);
     }
 
     @Override
@@ -92,16 +70,6 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         this.connectionManager.waitForPlayersToReady();
         this.thread.setRunning(true);
         this.thread.start();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
-        if (getPlayer().playing) {
-            return inputHandler.processEvent(event);
-        } else {
-            return inputHandler.processEndgameEvent(event);
-        }
     }
 
     /**

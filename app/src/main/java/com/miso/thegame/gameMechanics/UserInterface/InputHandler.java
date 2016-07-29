@@ -113,16 +113,6 @@ public class InputHandler {
                         }
                     }
                 }
-
-//                else if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP || event.getActionMasked() == MotionEvent.ACTION_UP){
-//                    if (pointerId == movementJoystick.getPointerId()){
-//                        movementJoystick.resetJoystickPosition();
-//                    } else if (pointerId == shootingJoystick.getPointerId()){
-//                        shootingJoystick.resetJoystickPosition();
-//                    }
-//                }
-
-
             } catch (Exception exception) {
                 System.out.println("Unhandled exception during input phase.");
                 exception.printStackTrace();
