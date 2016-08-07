@@ -31,12 +31,12 @@ public class EnemyNest extends EnemyGround {
 
     @Override
     public int getHalfWidth(){
-        return 50;
+        return -25;
     }
 
     @Override
     public int getHalfHeight(){
-        return 50;
+        return -25;
     }
 
     public void update(Player player, EnemiesManager enemiesManager) {
@@ -80,10 +80,10 @@ public class EnemyNest extends EnemyGround {
     @Override
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() - 28)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 28, getY())));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() + 28)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 28, getY())));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY())));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 50, getY())));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 50, getY() + 50)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() + 50)));
         return this.objectVertices;
     }
 

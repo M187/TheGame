@@ -7,6 +7,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
@@ -306,5 +307,9 @@ public abstract class Player extends MovableObject {
 
     public int getMiddleYDisplayCoord() {
         return middleYDisplayCoord;
+    }
+
+    public void collisionWithObject(GameObject gameObject){
+
     }
 }

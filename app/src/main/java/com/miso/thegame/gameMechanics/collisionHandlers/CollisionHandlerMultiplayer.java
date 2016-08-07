@@ -110,7 +110,7 @@ public class CollisionHandlerMultiplayer {
 
     public void possibleCollisionOfPlayerWithEnemyOffensiveSpell(OffensiveSpell offensiveSpell) {
         if (satCollisionCalculator.performSeparateAxisCollisionCheck(player.getObjectCollisionVertices(), offensiveSpell.getObjectCollisionVertices())) {
-            player.removeHealth(8);
+            offensiveSpell.playerHit(player);
             GamePanelMultiplayer.sender.sendMessage(new PlayerHitMessage(GamePanelMultiplayer.myNickname, offensiveSpell.getIdentificator()));
             spellManager.getOffensiveSpellList().remove(offensiveSpell);
         }

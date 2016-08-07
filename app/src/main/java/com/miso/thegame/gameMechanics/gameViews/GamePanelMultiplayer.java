@@ -81,8 +81,6 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
         this.networkGameStateUpdater.processRecievedMessages();
 
-        //TODO: check for victory -> are there any other players playing?
-
         if (getPlayer().playing || !victory) {
             this.connectionManager.gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
             inputHandler.processFrameInput();

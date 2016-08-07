@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class OtherPlayer extends Player {
 
+    public boolean isDestroyed = false;
     private boolean isReadyForNextFrame = false;
 
     public OtherPlayer(Resources resources){
