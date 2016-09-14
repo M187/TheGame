@@ -9,7 +9,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.miso.thegame.GameActivity;
-import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.gameMechanics.MainGameThread;
@@ -22,6 +21,7 @@ import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
@@ -46,7 +46,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     public MapManager mapManager;
     public Anchor anchor;
     public Toolbar toolbar;
-    protected GameMapEnum mapToCreate;
+    protected GameMap mapToCreate;
     protected MainGameThread thread;
     protected Background bg;
     protected Borders borders;
@@ -79,7 +79,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     @Override
     public void surfaceCreated(SurfaceHolder surface){
         //mapManager also initialize Pathfinder class
-        this.mapManager = new MapManager(this.mapToCreate, getResources());
+        this.mapManager = new MapManager(this.mapToCreate);
 
         player = PlayerFactory.createPlayer(getResources(), this.playerStartingPosition, this.mapManager, this.playerType);
         spellManager = new SpellManager(getResources(), getPlayer());

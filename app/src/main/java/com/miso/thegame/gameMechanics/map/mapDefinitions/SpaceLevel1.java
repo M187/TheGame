@@ -45,4 +45,7 @@ public class SpaceLevel1 extends GameMap {
         this.addStaticElement(new BaseCampWithTimer(resources, new Point(mapDimensions.x / 2, mapDimensions.y / 2)));
     }
 
+    public String getBackgroundImageName(){
+        return "backgroundspace";
+    }
 }

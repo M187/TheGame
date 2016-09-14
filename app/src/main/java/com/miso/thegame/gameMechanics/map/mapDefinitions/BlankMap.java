@@ -17,4 +17,8 @@ public class BlankMap extends GameMap {
 
         addStaticElement(new StarCollectible(res, new Point(300, 300)));//, StarCollectible.GameObjectivePosition.North));
     }
+
+    public String getBackgroundImageName(){
+        return "backgroundgrass";
+    }
 }

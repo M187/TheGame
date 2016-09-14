@@ -274,4 +274,8 @@ public class Level2 extends GameMap {
         this.addEnemyData(100, 3800, EnemyType.nest);
         this.addEnemyData(3600, 3600, EnemyType.nest);
     }
+
+    public String getBackgroundImageName(){
+        return "backgroundgrass";
+    }
 }

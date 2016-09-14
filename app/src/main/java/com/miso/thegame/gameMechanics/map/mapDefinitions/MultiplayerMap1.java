@@ -179,4 +179,8 @@ public class MultiplayerMap1 extends GameMap {
         addStaticElement(new StarCollectible(res, new Point(300, 200)));
         addStaticElement(new StarCollectible(res, new Point(1700, 800)));
     }
+
+    public String getBackgroundImageName(){
+        return "backgroundgrass";
+    }
 }

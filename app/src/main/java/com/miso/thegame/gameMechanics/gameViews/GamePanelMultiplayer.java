@@ -18,6 +18,7 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
+import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
 import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
@@ -42,7 +43,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
         super(context, playerType, buttonsTypeData);
         this.playerStartingPosition = playerStartingPosition;
         Log.d(ConstantHolder.TAG, " --> Trying to create game panel for multiplayer.");
-        this.mapToCreate = GameMapEnum.MultiplayerMap1;
+        this.mapToCreate = MapManager.initializeMap(GameMapEnum.MultiplayerMap1, getResources());
 
         this.myNickname = myNickname;
         this.connectionManager = connectionManager;

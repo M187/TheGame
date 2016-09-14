@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="new_game_button">New Game</string>
+
     <string name="app_name">TheGame</string>
 
     <string name="hello_world">Hello world!</string>

@@ -187,5 +187,9 @@ public class Level1 extends GameMap {
         this.addEnemyData(300, 200, SingleEnemyInitialData.EnemyType.nest);
         this.addEnemyData(1700, 800, SingleEnemyInitialData.EnemyType.nest);
     }
+
+    public String getBackgroundImageName(){
+        return "backgroundgrass";
+    }
 }
 

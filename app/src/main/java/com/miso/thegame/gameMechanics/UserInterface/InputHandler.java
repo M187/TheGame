@@ -159,4 +159,13 @@ public class InputHandler {
         ((Activity) gP.getContext()).finish();
         return true;
     }
+
+    /**
+     * On click user should launch new level.
+     * @param event
+     */
+    public boolean processLevelCompleteEvent(MotionEvent event){
+        ((Activity) gP.getContext()).finish();
+        return true;
+    }
 }

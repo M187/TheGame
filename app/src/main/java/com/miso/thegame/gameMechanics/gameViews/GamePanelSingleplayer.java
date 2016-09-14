@@ -2,6 +2,8 @@ package com.miso.thegame.gameMechanics.gameViews;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameData.GameMapEnum;
@@ -9,6 +11,9 @@ import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
+import com.miso.thegame.gameMechanics.levels.LevelHandler;
+import com.miso.thegame.gameMechanics.map.MapManager;
+import com.miso.thegame.gameMechanics.map.generator.MapGenerator;
 
 /**
  * Created by Miso on 8.10.2015.
@@ -16,10 +21,21 @@ import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSinglepl
 public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Callback {
 
     protected CollisionHandlerSingleplayer collisionHandler;
+    protected LevelHandler levelHandler = new LevelHandler();
+    private boolean levelComplete = false;
 
     public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData) {
         super(context, playerType, buttonsTypeData);
-        this.mapToCreate = mapToCreate;
+        this.mapToCreate = MapManager.initializeMap(mapToCreate, getResources());
+        this.context = context;
+        this.thread = new MainGameThread(getHolder(), this);
+        getHolder().addCallback(this);
+    }
+
+    public GamePanelSingleplayer(Context context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, int levelNumber) {
+        super(context, playerType, buttonsTypeData);
+        this.levelHandler = new LevelHandler(levelNumber);
+        this.mapToCreate = MapGenerator.generateMap(getResources(), new Point(2000,2000), this.levelHandler.getLevelNumber());
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
@@ -41,6 +57,11 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      */
     public void update() {
         if (getPlayer().playing) {
+
+            if (levelComplete){
+                levelHandler.increaseLevel();
+            }
+
             inputHandler.processFrameInput();
             {
                 getPlayer().update();
@@ -85,5 +106,17 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
 
     public void postDrawTasks(){
         collisionHandler.performCollisionCheck();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
+        if (levelComplete){
+            return inputHandler.processLevelCompleteEvent(event);
+        } else if (getPlayer().playing) {
+            return inputHandler.processEvent(event);
+        } else {
+            return inputHandler.processEndgameEvent(event);
+        }
     }
 }

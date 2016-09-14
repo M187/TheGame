@@ -26,6 +26,8 @@ public abstract class GameMap {
 
     public static int numberOfObjectivesPresent = 4;
 
+    public abstract String getBackgroundImageName();
+
     /**
      * Add new enemies data.
      * @param x

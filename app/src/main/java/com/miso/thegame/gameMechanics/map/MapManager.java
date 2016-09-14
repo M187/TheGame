@@ -39,9 +39,13 @@ public class MapManager {
     private ArrayList<Collectible> collectibleList = new ArrayList<>();
     private GameMap currentMap;
 
-    public MapManager(GameMapEnum levelName, Resources res) {
+    public MapManager(GameMap gameMap) {
 
-        initializeMap(levelName, res);
+        this.currentMap = gameMap;
+        this.currentMap.loadNonMovable(this);
+        this.worldWidth = this.currentMap.getMapDimensions().x;
+        this.worldHeight = this.currentMap.getMapDimensions().y;
+        this.enemyInitialDatas = gameMap.enemyDatas;
 
         this.mapGrid = new MapGrid();
         new Pathfinder(mapGrid);
@@ -53,6 +57,8 @@ public class MapManager {
             }
         }
     }
+
+
 
     public static int getWorldWidth() {
         return worldWidth;
@@ -78,37 +84,6 @@ public class MapManager {
         return mapTileHalfHeight;
     }
 
-    private void initializeMap(GameMapEnum mapName, Resources res) {
-
-        GameMap gameMap = null;
-        switch (mapName){
-            case BlankMap:
-                gameMap = new BlankMap(res);
-                break;
-            case SpaceLevel1:
-                gameMap = new SpaceLevel1(res);
-                break;
-            case SpaceLevel2:
-                gameMap = new SpaceLevel2(res);
-                break;
-            case Level1:
-                gameMap = new Level1(res);
-                break;
-            case Level2:
-                gameMap = new Level2(res);
-                break;
-            default:
-                gameMap = new BlankMap(res);
-                break;
-        }
-
-        this.currentMap = gameMap;
-        this.currentMap.loadNonMovable(this);
-        this.worldWidth = this.currentMap.getMapDimensions().x;
-        this.worldHeight = this.currentMap.getMapDimensions().y;
-        this.enemyInitialDatas = gameMap.enemyDatas;
-    }
-
     public void draw(Canvas canvas) {
         for (Obstacle obstacle : getObstaclesList()) {
             GameView2.drawManager.drawOnDisplay(obstacle, canvas);
@@ -124,5 +99,23 @@ public class MapManager {
 
     public ArrayList<Collectible> getCollectibleList() {
         return collectibleList;
+    }
+
+
+    public static GameMap initializeMap(GameMapEnum mapName, Resources res) {
+        switch (mapName){
+            case BlankMap:
+                return new BlankMap(res);
+            case SpaceLevel1:
+                return new SpaceLevel1(res);
+            case SpaceLevel2:
+                return new SpaceLevel2(res);
+            case Level1:
+                return new Level1(res);
+            case Level2:
+                return new Level2(res);
+            default:
+                return new BlankMap(res);
+        }
     }
 }
