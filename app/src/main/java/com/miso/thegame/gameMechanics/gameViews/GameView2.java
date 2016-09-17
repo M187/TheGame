@@ -8,8 +8,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
+import com.miso.thegame.MenuActivity;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
@@ -35,8 +35,8 @@ import java.util.Random;
  */
 public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Callback{
 
-    public static final int WIDTH = GameActivity.metrics.widthPixels; // X Axis
-    public static final int HEIGHT = GameActivity.metrics.heightPixels; // Y Axis
+    public static final int WIDTH = MenuActivity.metrics.widthPixels; // X Axis
+    public static final int HEIGHT = MenuActivity.metrics.heightPixels; // Y Axis
     public static final Random randomGenerator = new Random();
     public static DrawManager drawManager;
 
@@ -47,7 +47,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     public Anchor anchor;
     public Toolbar toolbar;
     protected GameMap mapToCreate;
-    protected MainGameThread thread;
+    public MainGameThread thread;
     protected Background bg;
     protected Borders borders;
     protected InputHandler inputHandler;

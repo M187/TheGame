@@ -18,31 +18,28 @@ public class MainGameThread extends Thread {
     private boolean running;
     private int logIterator = 0;
 
-    public MainGameThread(SurfaceHolder surfaceHolder, GameView2 gamePanel){
+    public MainGameThread(SurfaceHolder surfaceHolder, GameView2 gamePanel) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         long startTime;
         long timeMillis;
         long waitTime;
         long totalTime = 0;
         long frameCount = 0;
-        long targetTime = 1000/FPS;
+        long targetTime = 1000 / FPS;
 
-        while(running)
-        {
+        while (running) {
             startTime = System.nanoTime();
             canvas = null;
 
-            try{
+            try {
                 canvas = this.surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder)
-                {
+                synchronized (surfaceHolder) {
                     long startTime2, finishTime, updateFinished, drawFinished;
 
                     //System.out.println("  --  --  --  --  --  -- START --  --  --  --  --  --  ");
@@ -66,36 +63,36 @@ public class MainGameThread extends Thread {
                     //System.out.println("Cycle ends: " + (finishTime - startTime2));
                     //System.out.println("  --  --  --  --  --  --  --  --  --  --  --  --  ");
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 //System.out.println(e);
                 e.printStackTrace();
-            }
-            finally {
-                if(canvas != null)
-                {
-                    try{
+            } finally {
+                if (canvas != null) {
+                    try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
-                    }catch(Exception e){e.printStackTrace();}
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
-            timeMillis = (System.nanoTime() - startTime)/1000000;
+            timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
 
-            try{
+            try {
                 this.sleep(waitTime);
-            }catch(Exception e){}
+            } catch (Exception e) {
+            }
 
             totalTime += System.nanoTime() - startTime;
             frameCount++;
             logIterator++;
-            if(frameCount == FPS)
-            {
-                averageFPS = 1000/((totalTime/frameCount)/1000000);
+            if (frameCount == FPS) {
+                averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
                 frameCount = 0;
                 totalTime = 0;
 
-                if (logIterator == FPS * 10){
+                if (logIterator == FPS * 10) {
                     System.out.println(averageFPS);
                     logIterator = 0;
                 }
@@ -104,8 +101,7 @@ public class MainGameThread extends Thread {
         }
     }
 
-    public void setRunning(boolean b)
-    {
+    public void setRunning(boolean b) {
         running = b;
     }
 }

@@ -1,6 +1,7 @@
 package com.miso.thegame.gameMechanics.UserInterface;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
@@ -8,6 +9,8 @@ import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
+import com.miso.thegame.gameMechanics.levels.LevelHandler;
+import com.miso.thegame.gameMechanics.levels.NewLevelActivity;
 import com.miso.thegame.gameMechanics.movingObjects.player.Player;
 
 /**
@@ -164,7 +167,11 @@ public class InputHandler {
      * On click user should launch new level.
      * @param event
      */
-    public boolean processLevelCompleteEvent(MotionEvent event){
+    public boolean processLevelCompleteEvent(MotionEvent event, LevelHandler levelHandler){
+        Intent intent = new Intent(gP.getContext(), NewLevelActivity.class);
+        intent.putExtra("Level", levelHandler.getLevelNumber());
+        gP.thread.setRunning(false);
+        gP.getContext().startActivity(intent);
         ((Activity) gP.getContext()).finish();
         return true;
     }

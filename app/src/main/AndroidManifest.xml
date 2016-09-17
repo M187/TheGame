@@ -52,6 +52,12 @@
             android:hardwareAccelerated="false"
             android:label="MultiplayerLobby"
             android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".gameMechanics.levels.NewLevelActivity"
+            android:hardwareAccelerated="false"
+            android:label="TheGame"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

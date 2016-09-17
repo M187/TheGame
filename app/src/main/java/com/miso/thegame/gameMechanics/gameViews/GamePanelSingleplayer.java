@@ -35,7 +35,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     public GamePanelSingleplayer(Context context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, int levelNumber) {
         super(context, playerType, buttonsTypeData);
         this.levelHandler = new LevelHandler(levelNumber);
-        this.mapToCreate = MapGenerator.generateMap(getResources(), new Point(2000,2000), this.levelHandler.getLevelNumber());
+        this.mapToCreate = MapGenerator.generateMap(getResources(), new Point(2000, 2000), this.levelHandler.getLevelNumber());
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);
@@ -56,26 +56,29 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      * Take care, order depends!
      */
     public void update() {
-        if (getPlayer().playing) {
 
-            if (levelComplete){
+        if (getPlayer().playing && this.levelComplete == false) {
+
+            if (getEnemiesManager().getEnemyList().isEmpty()){
+                this.levelComplete = true;
                 levelHandler.increaseLevel();
-            }
+            } else {
 
-            inputHandler.processFrameInput();
-            {
-                getPlayer().update();
-                anchor.update();
-                getPlayer().updateMiddleDrawCoords(anchor);
+                inputHandler.processFrameInput();
+                {
+                    getPlayer().update();
+                    anchor.update();
+                    getPlayer().updateMiddleDrawCoords(anchor);
+                }
+                getSpellManager().update();
+                getEnemiesManager().update();
+                getStaticAnimationManager().update();
+                collisionHandler.performCollisionCheck();
             }
-            getSpellManager().update();
-            getEnemiesManager().update();
-            getStaticAnimationManager().update();
-            //collisionHandler.performCollisionCheck();
         } else {
             getEnemiesManager().update();
             getSpellManager().update();
-            //collisionHandler.performCollisionCheck();
+            collisionHandler.performCollisionCheck();
         }
     }
 
@@ -83,7 +86,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     public void draw(Canvas canvas) {
         if (canvas != null) {
             final int savedState = canvas.save();
-            if (getPlayer().playing) {
+            if (getPlayer().playing && this.levelComplete == false) {
                 bg.draw(canvas, anchor);
                 this.mapManager.draw(canvas);
                 borders.draw(canvas);
@@ -92,6 +95,13 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
                 getEnemiesManager().draw(canvas);
                 getStaticAnimationManager().draw(canvas);
                 toolbar.draw(canvas);
+            } else if (getPlayer().playing) {
+                bg.draw(canvas, anchor);
+                this.mapManager.draw(canvas);
+                borders.draw(canvas);
+                getSpellManager().draw(canvas);
+                getEnemiesManager().draw(canvas);
+                endgameEvents.drawLevelCleared(canvas);
             } else {
                 bg.draw(canvas, anchor);
                 this.mapManager.draw(canvas);
@@ -105,14 +115,14 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     }
 
     public void postDrawTasks(){
-        collisionHandler.performCollisionCheck();
+        //collisionHandler.performCollisionCheck();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
         if (levelComplete){
-            return inputHandler.processLevelCompleteEvent(event);
+            return inputHandler.processLevelCompleteEvent(event, this.levelHandler);
         } else if (getPlayer().playing) {
             return inputHandler.processEvent(event);
         } else {

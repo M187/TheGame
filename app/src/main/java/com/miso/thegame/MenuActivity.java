@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.miso.thegame.gameMechanics.levels.NewLevelActivity;
 
 /**
  * Created by Miso on 10.1.2016.
  */
 public class MenuActivity extends Activity {
 
+    public static DisplayMetrics metrics = new DisplayMetrics();
     public static boolean isGameOn = false;
     private Intent gameIntent = null;
     private MediaPlayer mMediaPlayer;
@@ -25,6 +29,7 @@ public class MenuActivity extends Activity {
         mMediaPlayer = MediaPlayer.create(this, R.raw.intro);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(false);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         //mMediaPlayer.start();
     }
 
@@ -35,7 +40,7 @@ public class MenuActivity extends Activity {
 
     public void newGameClickGround(View view) {
         setContentView(R.layout.loading_game);
-        this.gameIntent = new Intent(this, GameActivity.class);
+        this.gameIntent = new Intent(this, NewLevelActivity.class);
         this.gameIntent.putExtra("Level", "Ground");
         this.isGameOn = true;
         startActivity(this.gameIntent);

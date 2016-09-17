@@ -32,4 +32,8 @@ public class EndgameEvents {
             canvas.drawBitmap(this.endgamePopup, xDrawCoord, yDrawCoord, null);
         }
     }
+
+    public void drawLevelCleared(Canvas canvas){
+        canvas.drawBitmap(this.endgamePopupVictory, xDrawCoord, yDrawCoord, null);
+    }
 }
