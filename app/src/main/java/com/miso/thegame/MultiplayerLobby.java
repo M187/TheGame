@@ -231,7 +231,7 @@ public class MultiplayerLobby extends Activity {
             sender.sendMessage(new StartGameMessage());
             saveConnectedPlayers();
             setContentView(R.layout.loading_game);
-            startActivity(new Intent(this, GameActivity.class)
+            startActivity(new Intent(this, GameActivityMultiplayer.class)
                     .putExtra(OptionStrings.myNickname, this.myNickname)
                     .putExtra(OptionStrings.multiplayerInstance, "0"));
             this.uninitLocalServerAndData();

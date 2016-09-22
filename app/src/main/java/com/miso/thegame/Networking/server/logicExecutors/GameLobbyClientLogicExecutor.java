@@ -2,7 +2,7 @@ package com.miso.thegame.Networking.server.logicExecutors;
 
 import android.content.Intent;
 
-import com.miso.thegame.GameActivity;
+import com.miso.thegame.GameActivityMultiplayer;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.client.Client;
@@ -61,7 +61,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                     public void run(){multiplayerLobby.setContentView(R.layout.loading_game);}
                 }).init(this.multiplayerLobby));
                 this.multiplayerLobby.startActivity(
-                        new Intent(this.multiplayerLobby.getApplicationContext(), GameActivity.class)
+                        new Intent(this.multiplayerLobby.getApplicationContext(), GameActivityMultiplayer.class)
                                 .putExtra(OptionStrings.myNickname, this.multiplayerLobby.myNickname)
                                 .putExtra(OptionStrings.multiplayerInstance, ((StartGameMessage) transmissionMessage).getIndexOfPlayer())
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
