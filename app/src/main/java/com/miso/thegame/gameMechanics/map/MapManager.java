@@ -10,6 +10,7 @@ import com.miso.thegame.gameMechanics.map.mapDefinitions.BlankMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.Level1;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.Level2;
+import com.miso.thegame.gameMechanics.map.mapDefinitions.MultiplayerMap1;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel1;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel2;
 import com.miso.thegame.gameMechanics.map.pathfinding.MapGrid;
@@ -96,6 +97,8 @@ public class MapManager {
                 return new Level1(res);
             case Level2:
                 return new Level2(res);
+            case MultiplayerMap1:
+                return new MultiplayerMap1(res);
             default:
                 return new BlankMap(res);
         }

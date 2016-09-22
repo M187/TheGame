@@ -56,7 +56,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
 
     protected Player player;
     protected GamePlayerTypeEnum playerType;
-    protected Point playerStartingPosition = new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2);
+    protected Point playerStartingPosition;
 
     protected EnemiesManager enemiesManager;
     protected SpellManager spellManager;
@@ -81,18 +81,19 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         //mapManager also initialize Pathfinder class
         this.mapManager = new MapManager(this.mapToCreate);
 
+        this.playerStartingPosition = (this.playerStartingPosition == null) ? new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2) : this.playerStartingPosition;
         player = PlayerFactory.createPlayer(getResources(), this.playerStartingPosition, this.mapManager, this.playerType);
-        spellManager = new SpellManager(getResources(), getPlayer());
 
+        spellManager = new SpellManager(getResources(), getPlayer());
         enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());
         getSpellManager().enemiesManager = getEnemiesManager();
 
         toolbar = new Toolbar(getResources(), getPlayer(), this.buttonsTypeData);
+
         anchor = new Anchor(getPlayer(), WIDTH / 3, HEIGHT / 3);
-
         bg = new Background(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(this.mapToCreate.getBackgroundImageName(), "drawable", getContext().getPackageName())), anchor);
-
         borders = new Borders(getResources(), anchor);
+
         drawManager = new DrawManager(anchor);
         inputHandler = new InputHandler(this);
         endgameEvents = new EndgameEvents(getResources());
