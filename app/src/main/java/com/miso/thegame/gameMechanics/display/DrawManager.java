@@ -5,14 +5,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.GameObject;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
-import com.miso.thegame.gameMechanics.movingObjects.Anchor;
-import com.miso.thegame.gameMechanics.movingObjects.MovableObject;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.Enemy;
-import com.miso.thegame.gameMechanics.movingObjects.spells.offensiveSpells.Projectile;
-import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
+import com.miso.thegame.gameMechanics.objects.GameObject;
+import com.miso.thegame.gameMechanics.objects.movingObjects.Anchor;
+import com.miso.thegame.gameMechanics.objects.movingObjects.MovableObject;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.Enemy;
+import com.miso.thegame.gameMechanics.objects.movingObjects.spells.offensiveSpells.Projectile;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.StaticObject;
 
 import java.util.ArrayList;
 

@@ -3,10 +3,10 @@ package com.miso.thegame.gameMechanics.map.mapDefinitions;
 import android.content.res.Resources;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.StarCollectible;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.BaseCamp;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.StarCollectible;
 
-import static com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData.EnemyType;
+import static com.miso.thegame.gameMechanics.objects.movingObjects.enemies.SingleEnemyInitialData.EnemyType;
 
 /**
  * Created by Miso on 20.1.2016.

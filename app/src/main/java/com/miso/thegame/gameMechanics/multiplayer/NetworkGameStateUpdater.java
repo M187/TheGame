@@ -10,10 +10,10 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerHitMessa
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootFreezingProjectile;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerShootProjectile;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;
-import com.miso.thegame.gameMechanics.movingObjects.spells.OffensiveSpell;
+import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
+import com.miso.thegame.gameMechanics.objects.movingObjects.spells.OffensiveSpell;
 
 import java.util.ArrayList;
 import java.util.Iterator;

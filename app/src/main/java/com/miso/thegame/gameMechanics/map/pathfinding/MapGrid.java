@@ -3,7 +3,7 @@ package com.miso.thegame.gameMechanics.map.pathfinding;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Obstacles.Obstacle;
 
 /**
  * Created by michal.hornak on 10.12.2015.

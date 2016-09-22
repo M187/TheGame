@@ -9,7 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.miso.thegame.gameMechanics.levels.NewLevelActivity;
+import com.miso.thegame.gameMechanics.map.levels.NewLevelActivity;
 
 /**
  * Created by Miso on 10.1.2016.

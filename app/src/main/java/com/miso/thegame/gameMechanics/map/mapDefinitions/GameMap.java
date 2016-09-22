@@ -4,12 +4,12 @@ import android.content.res.Resources;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.map.MapManager;
-import com.miso.thegame.gameMechanics.movingObjects.Waypoint;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
-import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
+import com.miso.thegame.gameMechanics.objects.movingObjects.Waypoint;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.SingleEnemyInitialData;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.Collectible;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Obstacles.Obstacle;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Obstacles.SquareObstacle;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.StaticObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,10 @@ import java.util.List;
  */
 public abstract class GameMap {
 
-    private List<StaticObject> listOfStaticElements = new ArrayList<>();
-    protected Point mapDimensions;
-    public ArrayList<SingleEnemyInitialData> enemyDatas = new ArrayList<>();
-
     public static int numberOfObjectivesPresent = 4;
+    public ArrayList<SingleEnemyInitialData> enemyDatas = new ArrayList<>();
+    protected Point mapDimensions;
+    private List<StaticObject> listOfStaticElements = new ArrayList<>();
 
     public abstract String getBackgroundImageName();
 

@@ -2,7 +2,7 @@ package com.miso.thegame.gameMechanics.map.mapDefinitions;
 
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.nonMovingObjects.StaticObject;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.StaticObject;
 
 /**
  * Created by Miso on 8.9.2016.

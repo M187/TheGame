@@ -18,9 +18,9 @@ import com.miso.thegame.gameMechanics.display.Animations.StaticAnimation;
 import com.miso.thegame.gameMechanics.display.Background;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.BackgroundEffect;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.CircleLightning;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.groundEnemies.Enemy_basic;
-import com.miso.thegame.gameMechanics.movingObjects.player.PlayerTriangle;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Enemy_basic;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.PlayerTriangle;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Obstacles.SquareObstacle;
 
 import java.util.ArrayList;
 import java.util.List;

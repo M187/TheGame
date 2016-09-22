@@ -10,7 +10,7 @@ import android.graphics.Paint;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
+import com.miso.thegame.gameMechanics.objects.movingObjects.spells.SpellManager;
 
 /**
  * Created by Miso on 6.11.2015.

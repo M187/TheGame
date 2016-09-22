@@ -10,10 +10,10 @@ import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerSingleplayer;
-import com.miso.thegame.gameMechanics.levels.LevelHandler;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.generator.MapGenerator;
+import com.miso.thegame.gameMechanics.map.levels.LevelHandler;
+import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionHandlerSingleplayer;
 
 /**
  * Created by Miso on 8.10.2015.

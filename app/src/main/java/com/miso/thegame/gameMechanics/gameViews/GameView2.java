@@ -22,11 +22,11 @@ import com.miso.thegame.gameMechanics.display.Borders;
 import com.miso.thegame.gameMechanics.display.DrawManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
-import com.miso.thegame.gameMechanics.movingObjects.Anchor;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
-import com.miso.thegame.gameMechanics.movingObjects.player.PlayerFactory;
-import com.miso.thegame.gameMechanics.movingObjects.spells.SpellManager;
+import com.miso.thegame.gameMechanics.objects.movingObjects.Anchor;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.EnemiesManager;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.PlayerFactory;
+import com.miso.thegame.gameMechanics.objects.movingObjects.spells.SpellManager;
 
 import java.util.Random;
 
@@ -46,8 +46,8 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     public MapManager mapManager;
     public Anchor anchor;
     public Toolbar toolbar;
-    protected GameMap mapToCreate;
     public MainGameThread thread;
+    protected GameMap mapToCreate;
     protected Background bg;
     protected Borders borders;
     protected InputHandler inputHandler;

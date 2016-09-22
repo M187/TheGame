@@ -17,11 +17,11 @@ import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPosition
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
-import com.miso.thegame.gameMechanics.collisionHandlers.CollisionHandlerMultiplayer;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.multiplayer.ConnectionManager;
 import com.miso.thegame.gameMechanics.multiplayer.NetworkGameStateUpdater;
 import com.miso.thegame.gameMechanics.multiplayer.otherPlayer.OtherPlayerManager;
+import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionHandlerMultiplayer;
 
 import java.util.ArrayList;
 

@@ -14,9 +14,9 @@ import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel1;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.SpaceLevel2;
 import com.miso.thegame.gameMechanics.map.pathfinding.MapGrid;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.Collectible;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.Obstacle;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.SingleEnemyInitialData;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.Collectible;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Obstacles.Obstacle;
 
 import java.util.ArrayList;
 
@@ -84,24 +84,6 @@ public class MapManager {
         return mapTileHalfHeight;
     }
 
-    public void draw(Canvas canvas) {
-        for (Obstacle obstacle : getObstaclesList()) {
-            GameView2.drawManager.drawOnDisplay(obstacle, canvas);
-        }
-        for (Collectible collectible : getCollectibleList()) {
-            GameView2.drawManager.drawOnDisplay(collectible, canvas);
-        }
-    }
-
-    public ArrayList<Obstacle> getObstaclesList() {
-        return obstaclesList;
-    }
-
-    public ArrayList<Collectible> getCollectibleList() {
-        return collectibleList;
-    }
-
-
     public static GameMap initializeMap(GameMapEnum mapName, Resources res) {
         switch (mapName){
             case BlankMap:
@@ -117,5 +99,22 @@ public class MapManager {
             default:
                 return new BlankMap(res);
         }
+    }
+
+    public void draw(Canvas canvas) {
+        for (Obstacle obstacle : getObstaclesList()) {
+            GameView2.drawManager.drawOnDisplay(obstacle, canvas);
+        }
+        for (Collectible collectible : getCollectibleList()) {
+            GameView2.drawManager.drawOnDisplay(collectible, canvas);
+        }
+    }
+
+    public ArrayList<Obstacle> getObstaclesList() {
+        return obstaclesList;
+    }
+
+    public ArrayList<Collectible> getCollectibleList() {
+        return collectibleList;
     }
 }

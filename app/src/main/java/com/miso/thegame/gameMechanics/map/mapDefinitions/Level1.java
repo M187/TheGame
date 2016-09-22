@@ -3,10 +3,10 @@ package com.miso.thegame.gameMechanics.map.mapDefinitions;
 import android.content.res.Resources;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCampWithTimer;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.StarCollectible;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Obstacles.SquareObstacle;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.SingleEnemyInitialData;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.BaseCampWithTimer;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.StarCollectible;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Obstacles.SquareObstacle;
 
 /**
  * Created by michal.hornak on 28.12.2015.

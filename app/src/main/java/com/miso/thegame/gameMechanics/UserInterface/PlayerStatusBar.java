@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
 /**
  * Created by Miso on 21.12.2015.

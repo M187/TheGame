@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
 import java.util.ArrayList;
 

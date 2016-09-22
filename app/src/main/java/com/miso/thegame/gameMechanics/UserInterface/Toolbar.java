@@ -13,7 +13,7 @@ import com.miso.thegame.gameMechanics.UserInterface.Buttons.SecondButtonPlacehol
 import com.miso.thegame.gameMechanics.UserInterface.Buttons._PrimaryShootingButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
 import java.util.ArrayList;
 

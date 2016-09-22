@@ -9,9 +9,9 @@ import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
-import com.miso.thegame.gameMechanics.levels.LevelHandler;
-import com.miso.thegame.gameMechanics.levels.NewLevelActivity;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.map.levels.LevelHandler;
+import com.miso.thegame.gameMechanics.map.levels.NewLevelActivity;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
 /**
  * Created by Miso on 3.11.2015.

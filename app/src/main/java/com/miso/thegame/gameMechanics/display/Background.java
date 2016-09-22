@@ -8,7 +8,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
-import com.miso.thegame.gameMechanics.movingObjects.Anchor;
+import com.miso.thegame.gameMechanics.objects.movingObjects.Anchor;
 
 /**
  * Created by Miso on 26.4.2015.

@@ -5,8 +5,8 @@ import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.map.mapDefinitions.GeneratedMap;
-import com.miso.thegame.gameMechanics.movingObjects.enemies.SingleEnemyInitialData;
-import com.miso.thegame.gameMechanics.nonMovingObjects.Collectables.BaseCamp;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.SingleEnemyInitialData;
+import com.miso.thegame.gameMechanics.objects.nonMovingObjects.Collectables.BaseCamp;
 
 import java.util.Random;
 

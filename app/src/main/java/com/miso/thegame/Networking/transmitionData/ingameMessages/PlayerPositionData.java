@@ -3,7 +3,7 @@ package com.miso.thegame.Networking.transmitionData.ingameMessages;
 import android.graphics.Point;
 
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
-import com.miso.thegame.gameMechanics.movingObjects.player.Player;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
 /**
  * Created by michal.hornak on 20.04.2016.
