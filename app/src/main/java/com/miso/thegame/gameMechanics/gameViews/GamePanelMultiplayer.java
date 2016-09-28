@@ -15,6 +15,7 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPla
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerDestroyedMessage;
 import com.miso.thegame.Networking.transmitionData.ingameMessages.PlayerPositionData;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.map.MapManager;
@@ -82,37 +83,35 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
         this.networkGameStateUpdater.processRecievedMessages();
 
-        if (getPlayer().playing || !victory) {
-            this.connectionManager.gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
-            inputHandler.processFrameInput();
-            getPlayer().update();
-            anchor.update();
-            getPlayer().updateMiddleDrawCoords(anchor);
-            getSpellManager().update();
-            getOtherPlayersManager().update();
-            getStaticAnimationManager().update();
-            //collisionHandler.performCollisionCheck();
-
-            sendFrameData();
-
-            //sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
-        } else {
-
-            getOtherPlayersManager().update();
-            getSpellManager().update();
-            //collisionHandler.performCollisionCheck();
-
-            //todo: uninit network components
-            // Server, clients, sender, messageProcessors
+        switch (this.gameState.getGameState()) {
+            case playing:
+                this.connectionManager.gameSynchronizer.waitForClientsToSignalizeReadyForNextFrame();
+                inputHandler.processFrameInput();
+                getPlayer().update();
+                anchor.update();
+                getPlayer().updateMiddleDrawCoords(anchor);
+                getSpellManager().update();
+                getOtherPlayersManager().update();
+                getStaticAnimationManager().update();
+                collisionHandler.performCollisionCheck();
+                sendFrameData();
+                break;
+            case defeated:
+                getOtherPlayersManager().update();
+            case victory:
+                getSpellManager().update();
+                collisionHandler.performCollisionCheck();
+                //todo: uninit network components
+                break;
         }
     }
 
     private void sendFrameData(){
-        if (getPlayer().playing) {
+        if (this.gameState.getGameState() == GameState.GameStates.defeated) {
+            sender.sendMessage(new PlayerDestroyedMessage(this.myNickname));
+        } else {
             sender.sendMessage(new PlayerPositionData(this.player, GameView2.myNickname));
             sender.sendMessage(new ReadyToPlayMessage(this.myNickname));
-        } else {
-            sender.sendMessage(new PlayerDestroyedMessage(this.myNickname));
         }
     }
 
@@ -120,29 +119,51 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
     public void draw(Canvas canvas) {
         if (canvas != null) {
             final int savedState = canvas.save();
-            if (getPlayer().playing) {
-                bg.draw(canvas, anchor);
-                this.mapManager.draw(canvas);
-                borders.draw(canvas);
-                getSpellManager().draw(canvas);
-                drawManager.drawOnDisplay(getPlayer(), canvas);
-                getOtherPlayersManager().draw(canvas);
-                getStaticAnimationManager().draw(canvas);
-                toolbar.draw(canvas);
-            } else {
-                bg.draw(canvas, anchor);
-                this.mapManager.draw(canvas);
-                borders.draw(canvas);
-                getSpellManager().draw(canvas);
-                getOtherPlayersManager().draw(canvas);
-                endgameEvents.draw(canvas, this.victory);
+
+            switch (this.gameState.getGameState()){
+                case playing:
+                    bg.draw(canvas, anchor);
+                    this.mapManager.draw(canvas);
+                    borders.draw(canvas);
+                    getSpellManager().draw(canvas);
+                    drawManager.drawOnDisplay(getPlayer(), canvas);
+                    getOtherPlayersManager().draw(canvas);
+                    getStaticAnimationManager().draw(canvas);
+                    toolbar.draw(canvas);
+                    break;
+                case victory:
+                case defeated:
+                    bg.draw(canvas, anchor);
+                    this.mapManager.draw(canvas);
+                    borders.draw(canvas);
+                    getSpellManager().draw(canvas);
+                    getOtherPlayersManager().draw(canvas);
+                    endgameEvents.draw(canvas, this.gameState.getGameState());
+                    break;
             }
+//            if (getPlayer().playing) {
+//                bg.draw(canvas, anchor);
+//                this.mapManager.draw(canvas);
+//                borders.draw(canvas);
+//                getSpellManager().draw(canvas);
+//                drawManager.drawOnDisplay(getPlayer(), canvas);
+//                getOtherPlayersManager().draw(canvas);
+//                getStaticAnimationManager().draw(canvas);
+//                toolbar.draw(canvas);
+//            } else {
+//                bg.draw(canvas, anchor);
+//                this.mapManager.draw(canvas);
+//                borders.draw(canvas);
+//                getSpellManager().draw(canvas);
+//                getOtherPlayersManager().draw(canvas);
+//                endgameEvents.draw(canvas, this.victory);
+//            }
             canvas.restoreToCount(savedState);
         }
     }
 
     public void postDrawTasks() {
-        collisionHandler.performCollisionCheck();
+        //collisionHandler.performCollisionCheck();
     }
 
     public OtherPlayerManager getOtherPlayersManager() {

@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.MenuActivity;
 import com.miso.thegame.Networking.Sender;
+import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.UserInterface.EndgameEvents;
@@ -47,6 +48,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     public Anchor anchor;
     public Toolbar toolbar;
     public MainGameThread thread;
+    public GameState gameState;
     protected GameMap mapToCreate;
     protected Background bg;
     protected Borders borders;
@@ -83,6 +85,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
 
         this.playerStartingPosition = (this.playerStartingPosition == null) ? new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2) : this.playerStartingPosition;
         player = PlayerFactory.createPlayer(getResources(), this.playerStartingPosition, this.mapManager, this.playerType);
+        this.gameState = player.gameState;
 
         spellManager = new SpellManager(getResources(), getPlayer());
         enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());
@@ -138,10 +141,10 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
-        if (getPlayer().playing) {
+        if (this.gameState.getGameState() == GameState.GameStates.playing) {
             return inputHandler.processEvent(event);
         } else {
-            return inputHandler.processEndgameEvent(event);
+            return (this.gameState.eventTimedOut()) ? inputHandler.processEndgameEvent() : true;
         }
     }
 }

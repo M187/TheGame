@@ -64,7 +64,9 @@ public class InputHandler {
         //interacts with shootingJoystick?
         if (shootingJoystick.eventInJoystickRegion(eventX, eventY)) {
             shootingJoystick.onTouch(event);
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN){ return true;}
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                return true;
+            }
         } else {
             shootingJoystick.resetJoystickPosition();
         }
@@ -86,7 +88,7 @@ public class InputHandler {
 
         while (iterator < 2) {
 
-            if (actionIndex == iterator){
+            if (actionIndex == iterator) {
                 currentPointerAction = event.getActionMasked();
             } else {
                 currentPointerAction = -1;
@@ -123,14 +125,16 @@ public class InputHandler {
             iterator++;
         }
 
-        if (! interactsWithPlayerJoy) {
-            movementJoystick.resetJoystickPosition();}
-        if (! interactsWithFireballJoy) {
-            shootingJoystick.resetJoystickPosition();}
+        if (!interactsWithPlayerJoy) {
+            movementJoystick.resetJoystickPosition();
+        }
+        if (!interactsWithFireballJoy) {
+            shootingJoystick.resetJoystickPosition();
+        }
         return true;
     }
 
-    public void processFrameInput(){
+    public void processFrameInput() {
         this.updatePlayerPosition();
         this.updatePrimaryShootingData();
     }
@@ -149,29 +153,27 @@ public class InputHandler {
         player.setFrameDeltaY(tempDeltaY);
     }
 
-    private void updatePrimaryShootingData(){
+    private void updatePrimaryShootingData() {
         this.gP.getSpellManager().primaryShootingActive = this.shootingJoystick.primaryShootingActive;
         this.gP.getSpellManager().primaryShootingVector = this.shootingJoystick.primaryShootingVector;
     }
 
     /**
-     * On click user should return to menu activity.
-     * @param event
+     * On click user should launch new level.
      */
-    public boolean processEndgameEvent(MotionEvent event){
+    public boolean processLevelCompleteEvent(LevelHandler levelHandler) {
+        Intent intent = new Intent(gP.getContext(), NewLevelActivity.class);
+        intent.putExtra("Level", levelHandler.getLevelNumber());
+        gP.thread.setRunning(false);
+        gP.getContext().startActivity(intent);
         ((Activity) gP.getContext()).finish();
         return true;
     }
 
     /**
-     * On click user should launch new level.
-     * @param event
+     * On click user should return to menu activity.
      */
-    public boolean processLevelCompleteEvent(MotionEvent event, LevelHandler levelHandler){
-        Intent intent = new Intent(gP.getContext(), NewLevelActivity.class);
-        intent.putExtra("Level", levelHandler.getLevelNumber());
-        gP.thread.setRunning(false);
-        gP.getContext().startActivity(intent);
+    public boolean processEndgameEvent() {
         ((Activity) gP.getContext()).finish();
         return true;
     }

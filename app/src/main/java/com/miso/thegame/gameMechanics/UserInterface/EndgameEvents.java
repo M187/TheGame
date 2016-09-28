@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.gameViews.GameView2;
 
 /**
@@ -25,8 +26,8 @@ public class EndgameEvents {
         this.yDrawCoord = (GameView2.HEIGHT / 2) - (endgamePopup.getHeight() / 2);
     }
 
-    public void draw(Canvas canvas, boolean victory){
-        if (victory){
+    public void draw(Canvas canvas, GameState.GameStates gameState){
+        if (gameState == GameState.GameStates.victory){
             canvas.drawBitmap(this.endgamePopupVictory, xDrawCoord, yDrawCoord, null);
         }else {
             canvas.drawBitmap(this.endgamePopup, xDrawCoord, yDrawCoord, null);

@@ -7,6 +7,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.map.pathfinding.Pathfinder;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
  */
 public abstract class Player extends MovableObject {
 
-    public boolean playing = true;
+    public GameState gameState = new GameState();
     public boolean changingTile = false;
     public boolean turningClockwise = false;
     public boolean isTurningCounterclockwise = false;
@@ -69,7 +70,7 @@ public abstract class Player extends MovableObject {
         if (this.currentHealth <= 0) {
             System.out.println("GameActivity over comrade!");
             StaticAnimationManager.addExplosionPlayerDestroyed(this.getPosition());
-            this.playing = false;
+            this.gameState.defeated();
         } else if (isMovementNotDisabled()) {
             setPositionBeforeMoving();
             this.moveObject();

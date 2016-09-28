@@ -22,7 +22,6 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
 
     protected CollisionHandlerSingleplayer collisionHandler;
     protected LevelHandler levelHandler = new LevelHandler();
-    private boolean levelComplete = false;
 
     public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData) {
         super(context, playerType, buttonsTypeData);
@@ -57,76 +56,150 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      */
     public void update() {
 
-        if (getPlayer().playing && this.levelComplete == false) {
-
-            if (getEnemiesManager().getEnemyList().isEmpty()){
-                this.levelComplete = true;
-                levelHandler.increaseLevel();
-            } else {
-
+        switch (this.gameState.getGameState()) {
+            case playing:
                 inputHandler.processFrameInput();
-                {
-                    getPlayer().update();
-                    anchor.update();
-                    getPlayer().updateMiddleDrawCoords(anchor);
-                }
+                getPlayer().update();
+                anchor.update();
+                getPlayer().updateMiddleDrawCoords(anchor);
                 getSpellManager().update();
                 getEnemiesManager().update();
                 getStaticAnimationManager().update();
                 collisionHandler.performCollisionCheck();
-            }
-        } else {
-            getEnemiesManager().update();
-            getSpellManager().update();
-            collisionHandler.performCollisionCheck();
+                if (getEnemiesManager().getEnemyList().isEmpty()){
+                    this.gameState.victory();
+                    levelHandler.increaseLevel();
+                }
+                break;
+            case victory:
+                getSpellManager().update();
+                collisionHandler.performCollisionCheck();
+                break;
+            case defeated:
+                getEnemiesManager().update();
+                getSpellManager().update();
+                collisionHandler.performCollisionCheck();
         }
+
+        //<editor-fold @desc="Old functionality">
+//        if (getPlayer().playing && this.levelComplete == false) {
+//
+//            if (getEnemiesManager().getEnemyList().isEmpty()) {
+//                this.levelComplete = true;
+//                levelHandler.increaseLevel();
+//            } else {
+//
+//                inputHandler.processFrameInput();
+//                {
+//                    getPlayer().update();
+//                    anchor.update();
+//                    getPlayer().updateMiddleDrawCoords(anchor);
+//                }
+//                getSpellManager().update();
+//                getEnemiesManager().update();
+//                getStaticAnimationManager().update();
+//                collisionHandler.performCollisionCheck();
+//            }
+//        } else {
+//            getEnemiesManager().update();
+//            getSpellManager().update();
+//            collisionHandler.performCollisionCheck();
+//        }
+        //<editor-fold>
     }
 
     @Override
     public void draw(Canvas canvas) {
         if (canvas != null) {
             final int savedState = canvas.save();
-            if (getPlayer().playing && this.levelComplete == false) {
-                bg.draw(canvas, anchor);
-                this.mapManager.draw(canvas);
-                borders.draw(canvas);
-                getSpellManager().draw(canvas);
-                drawManager.drawOnDisplay(getPlayer(), canvas);
-                getEnemiesManager().draw(canvas);
-                getStaticAnimationManager().draw(canvas);
-                toolbar.draw(canvas);
-            } else if (getPlayer().playing) {
-                bg.draw(canvas, anchor);
-                this.mapManager.draw(canvas);
-                borders.draw(canvas);
-                getSpellManager().draw(canvas);
-                getEnemiesManager().draw(canvas);
-                endgameEvents.drawLevelCleared(canvas);
-            } else {
-                bg.draw(canvas, anchor);
-                this.mapManager.draw(canvas);
-                borders.draw(canvas);
-                getSpellManager().draw(canvas);
-                getEnemiesManager().draw(canvas);
-                endgameEvents.draw(canvas, false);
+
+            switch (this.gameState.getGameState()){
+                case playing:
+                    bg.draw(canvas, anchor);
+                    this.mapManager.draw(canvas);
+                    borders.draw(canvas);
+                    getSpellManager().draw(canvas);
+                    drawManager.drawOnDisplay(getPlayer(), canvas);
+                    getEnemiesManager().draw(canvas);
+                    getStaticAnimationManager().draw(canvas);
+                    toolbar.draw(canvas);
+                    break;
+                case victory:
+                    bg.draw(canvas, anchor);
+                    this.mapManager.draw(canvas);
+                    borders.draw(canvas);
+                    getSpellManager().draw(canvas);
+                    getEnemiesManager().draw(canvas);
+                    endgameEvents.drawLevelCleared(canvas);
+                    break;
+                case defeated:
+                    bg.draw(canvas, anchor);
+                    this.mapManager.draw(canvas);
+                    borders.draw(canvas);
+                    getSpellManager().draw(canvas);
+                    getEnemiesManager().draw(canvas);
+                    endgameEvents.draw(canvas, this.gameState.getGameState());
+                    break;
             }
+
+            //<editor-fold @desc="Old functionality">
+//            if (getPlayer().playing && this.levelComplete == false) {
+//                bg.draw(canvas, anchor);
+//                this.mapManager.draw(canvas);
+//                borders.draw(canvas);
+//                getSpellManager().draw(canvas);
+//                drawManager.drawOnDisplay(getPlayer(), canvas);
+//                getEnemiesManager().draw(canvas);
+//                getStaticAnimationManager().draw(canvas);
+//                toolbar.draw(canvas);
+//            } else if (getPlayer().playing) {
+//                bg.draw(canvas, anchor);
+//                this.mapManager.draw(canvas);
+//                borders.draw(canvas);
+//                getSpellManager().draw(canvas);
+//                getEnemiesManager().draw(canvas);
+//                endgameEvents.drawLevelCleared(canvas);
+//            } else {
+//                bg.draw(canvas, anchor);
+//                this.mapManager.draw(canvas);
+//                borders.draw(canvas);
+//                getSpellManager().draw(canvas);
+//                getEnemiesManager().draw(canvas);
+//                endgameEvents.draw(canvas, false);
+//            }
+//<editor-fold>
+
             canvas.restoreToCount(savedState);
         }
     }
 
-    public void postDrawTasks(){
+    public void postDrawTasks() {
         //collisionHandler.performCollisionCheck();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //System.out.println(Float.toString(event.getX()) + "  --  " + Float.toString(event.getY()));
-        if (levelComplete){
-            return inputHandler.processLevelCompleteEvent(event, this.levelHandler);
-        } else if (getPlayer().playing) {
-            return inputHandler.processEvent(event);
-        } else {
-            return inputHandler.processEndgameEvent(event);
+
+        switch (this.gameState.getGameState()){
+            case playing:
+                return inputHandler.processEvent(event);
+            case victory:
+                return this.gameState.eventTimedOut() ? inputHandler.processLevelCompleteEvent(this.levelHandler) : true;
+            case defeated:
+                return (this.gameState.eventTimedOut()) ? inputHandler.processEndgameEvent() : true;
+            default:
+                return true;
         }
+
+        //<editor-fold @desc="Old functionality">
+//        if (levelComplete) {
+//            return inputHandler.processLevelCompleteEvent(event, this.levelHandler);
+//        } else if (getPlayer().playing) {
+//            return inputHandler.processEvent(event);
+//        } else {
+//            return inputHandler.processEndgameEvent(event);
+//        }
+        //<editor-fold>
     }
 }
