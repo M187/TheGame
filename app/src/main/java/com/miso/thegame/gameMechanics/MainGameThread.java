@@ -104,4 +104,8 @@ public class MainGameThread extends Thread {
     public void setRunning(boolean b) {
         running = b;
     }
+
+    public void terminate(){
+        this.running = false;
+    }
 }

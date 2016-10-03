@@ -1,9 +1,9 @@
-package com.miso.thegame.gameMechanics.display.backgroundEffects;
+package com.miso.thegame.gameMechanics.timeouts;
 
 /**
  * Created by michal.hornak on 20.06.2016.
  */
-public class BackgroundEffectTimeout {
+public class FrameDependantTimeout {
 
     public int effectDuration;
     private int currentFrameCount = 0;
@@ -12,10 +12,14 @@ public class BackgroundEffectTimeout {
      * Creates object to hold timeout data.
      * @param effectDuration in milliseconds
      */
-    public BackgroundEffectTimeout(int effectDuration){
+    public FrameDependantTimeout(int effectDuration){
         this.effectDuration = effectDuration;
     }
 
+    /**
+     * Returns true if sufficient amount of frames have passed.
+     * @return true if timeout has passed.
+     */
     public boolean update(){
         this.currentFrameCount++;
         if (currentFrameCount < effectDuration){

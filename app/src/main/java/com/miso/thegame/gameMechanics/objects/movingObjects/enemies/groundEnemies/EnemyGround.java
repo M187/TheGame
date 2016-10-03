@@ -53,12 +53,4 @@ public abstract class EnemyGround extends Enemy {
             System.out.print("Null path. Error while removing last tile.");
         }
     }
-
-    public double getDistanceFromPlayer() {
-        return distanceFromPlayer;
-    }
-
-    public void setDistanceFromPlayer(double distanceFromPlayer) {
-        this.distanceFromPlayer = distanceFromPlayer;
-    }
 }

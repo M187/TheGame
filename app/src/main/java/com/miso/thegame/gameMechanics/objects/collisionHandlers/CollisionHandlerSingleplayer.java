@@ -3,6 +3,7 @@ package com.miso.thegame.gameMechanics.objects.collisionHandlers;
 import android.content.res.Resources;
 import android.graphics.Rect;
 
+import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.objects.GameObject;
 import com.miso.thegame.gameMechanics.objects.movingObjects.MovableObject;
@@ -175,6 +176,9 @@ public class CollisionHandlerSingleplayer {
                 }
                 if (enemy.hitBySpell()) {
                     enemiesManager.getEnemyList().remove(enemy);
+                    if (!offensiveSpell.isRemovedOnCollision()){
+                        StaticAnimationManager.addExplosion(enemy.getPosition(),1);
+                    }
                 }
             }
         } catch (NullPointerException e) {

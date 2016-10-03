@@ -98,6 +98,7 @@ public class SATCollisionCalculator {
      */
     public boolean performSeparateAxisCollisionCheck(Point objectVertex, int circleRadius, ArrayList<Point> otherObjectVertices) {
 
+        //todo: this is not working yet! Change of axis is required.
         //Check for other object axes.
         for (int i = 0; i < otherObjectVertices.size() - 1; i++) {
 

@@ -7,6 +7,8 @@ import android.graphics.Point;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.objects.movingObjects.Waypoint;
 import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.EnemiesManager;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Shooter;
+import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Shooting;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 import com.miso.thegame.gameMechanics.objects.movingObjects.spells.SpellCreator;
 
@@ -15,16 +17,18 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 26.1.2016.
  */
-public class Enemy_carrier extends EnemySpace {
+public class Enemy_carrier extends EnemySpace implements Shooting {
 
     private int shootingCd = 0;
     private int imageHalfWidth, imageHalfHeight;
+    private Shooter shooter;
 
     public Enemy_carrier(Resources res, Point startingPosition, ArrayList<Waypoint> scriptedPath) {
         super(startingPosition);
         this.hitPoints = 80;
         this.playerInRange = false;
         int turnThreshold = 5;
+        this.shooter = new Shooter(45, this);
         setSpeed(2);
         setDx(getX());
         setDy(getY());
@@ -43,10 +47,14 @@ public class Enemy_carrier extends EnemySpace {
         this.shootingCd -= 1;
 
         Waypoint currentWaypoint = this.scriptedPath.get(this.currentWaypointIndex);
-        if (this.distanceFromPlayer < 700) {
-            this.playerInRange = true;
-            this.performAction(enemiesManager.spellManager.spellCreator);
-        }
+
+        getShooter().takeShot(enemiesManager.spellManager.spellCreator);
+
+
+//        if (this.distanceFromPlayer < 700) {
+//            this.playerInRange = true;
+//            this.performAction(enemiesManager.spellManager.spellCreator);
+//        }
         this.playerInRange = false;
         if (this.x == currentWaypoint.x && this.y == currentWaypoint.y) {
             this.currentWaypointIndex += 1;
@@ -103,4 +111,13 @@ public class Enemy_carrier extends EnemySpace {
         return this.objectVertices;
     }
 
+    @Override
+    public Shooter getShooter() {
+        return this.shooter;
+    }
+
+    @Override
+    public int getShootingDistanceThreshold() {
+        return 700;
+    }
 }

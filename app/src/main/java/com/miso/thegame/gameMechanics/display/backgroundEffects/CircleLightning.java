@@ -27,7 +27,7 @@ public class CircleLightning extends BackgroundEffect{
      */
     public CircleLightning(Point position, int radiusBegin, int radiusMax, int alpha, int duration ){
 
-        this.myTimeout = new BackgroundEffectTimeout(duration);
+        this.myTimeout = new FrameDependantTimeout(duration);
 
         this.position = position;
         this.currentRadius = radiusBegin;

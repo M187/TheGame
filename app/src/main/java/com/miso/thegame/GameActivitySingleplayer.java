@@ -18,7 +18,7 @@ import com.miso.thegame.gameMechanics.gameViews.GamePanelSingleplayer;
 /**
  * Created by michal.hornak on 21.09.2016.
  */
-public class GameActivityvSingleplayer extends Activity {
+public class GameActivitySingleplayer extends Activity {
 
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;

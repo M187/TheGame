@@ -15,7 +15,7 @@ public class ConstantHolder {
     public static final int freezeCooldown = 5000;
     public static final int freezeDuration = 3000;
     public static final int shockwaveCooldown = 8000;
-    public static final int shockwaveReachFactor = 2;
+    public static final int shockwaveReachFactor = 1;
     public static boolean timestopActive = false;
     public static boolean freezeActive = false;
     public static int maximumPlayerHealth = 50;

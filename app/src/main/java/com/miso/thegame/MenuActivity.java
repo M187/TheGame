@@ -48,7 +48,7 @@ public class MenuActivity extends Activity {
 
     public void newGameClickSpace(View view) {
         setContentView(R.layout.loading_game);
-        this.gameIntent = new Intent(this, GameActivityvSingleplayer.class);
+        this.gameIntent = new Intent(this, GameActivitySingleplayer.class);
         this.gameIntent.putExtra("Level", "Space");
         this.isGameOn = true;
         startActivity(this.gameIntent);
