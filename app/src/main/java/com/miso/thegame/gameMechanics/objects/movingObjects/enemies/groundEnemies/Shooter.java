@@ -26,6 +26,11 @@ public class Shooter {
         timeout = new FrameDependantTimeout(cooldown);
     }
 
+    /**
+     * Try to take shot.
+     * Shot will be taken if timeout is not active and if player is in range.
+     * @param spellCreator that will create spell.
+     */
     public void takeShot(SpellCreator spellCreator){
         if (this.timeout.update() & inRange()){
             this.timeout = new FrameDependantTimeout(cooldown);
@@ -35,6 +40,9 @@ public class Shooter {
         }
     }
 
+    /**
+     * @return is player in range?
+     */
     private boolean inRange(){
         return (this.mountedOn.getDistanceFromPlayer() < this.mountedOn.getShootingDistanceThreshold());
     }

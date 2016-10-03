@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.objects.GameObject;
-import com.miso.thegame.gameMechanics.objects.movingObjects.spells.EffectTimeout;
+import com.miso.thegame.gameMechanics.timeouts.EffectTimeout;
 
 import java.util.ArrayList;
 

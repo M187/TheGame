@@ -107,15 +107,13 @@ public class SpellCreator {
      * Use by multiplayer game state updater.
      * Creates completely custom projectile.
      *
-     * @param x                   starting coord
-     * @param y                   starting coord
-     * @param xVector             ...
-     * @param yVector             ...
+     * @param fromPosition        ...
+     * @param movementVector      ...
      * @param identificator       used to reference this projectile
      * @param collisionObjectType used to calculate collisions.
      */
-    public void fireProjectile(int x, int y, int xVector, int yVector, String identificator, CollisionObjectType collisionObjectType) {
-        offensiveSpells.add(new Projectile(x, y, x - xVector, y - yVector, collisionObjectType, identificator, resources));
+    public void fireProjectile(Point fromPosition, Point movementVector, String identificator, CollisionObjectType collisionObjectType) {
+        offensiveSpells.add(new Projectile(fromPosition, fromPosition.x - movementVector.x, fromPosition.y - movementVector.y, collisionObjectType, identificator, resources));
     }
 
     public void fireFreezingProjectileTowardsPlayer(int x, int y) {
@@ -126,15 +124,13 @@ public class SpellCreator {
      * Use by multiplayer game state updater.
      * Creates completely custom projectile.
      *
-     * @param x                   starting coord
-     * @param y                   starting coord
-     * @param xVector             ...
-     * @param yVector             ...
+     * @param fromPosition        ...
+     * @param movementVector      ...
      * @param identificator       used to reference this projectile
      * @param collisionObjectType used to calculate collisions.
      */
-    public void fireFreezingProjectile(int x, int y, int xVector, int yVector, String identificator, CollisionObjectType collisionObjectType) {
-        offensiveSpells.add(new FreezingProjectile(x, y, x - xVector, y - yVector, collisionObjectType, identificator, resources));
+    public void fireFreezingProjectile(Point fromPosition, Point movementVector, String identificator, CollisionObjectType collisionObjectType) {
+        offensiveSpells.add(new FreezingProjectile(fromPosition, fromPosition.x - movementVector.x, fromPosition.y - movementVector.y, collisionObjectType, identificator, resources));
     }
 
     public void performFreezeSpell() {

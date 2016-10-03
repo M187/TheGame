@@ -10,7 +10,6 @@ import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.EnemiesManag
 import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Shooter;
 import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Shooting;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
-import com.miso.thegame.gameMechanics.objects.movingObjects.spells.SpellCreator;
 
 import java.util.ArrayList;
 
@@ -19,15 +18,12 @@ import java.util.ArrayList;
  */
 public class Enemy_carrier extends EnemySpace implements Shooting {
 
-    private int shootingCd = 0;
     private int imageHalfWidth, imageHalfHeight;
     private Shooter shooter;
 
     public Enemy_carrier(Resources res, Point startingPosition, ArrayList<Waypoint> scriptedPath) {
         super(startingPosition);
         this.hitPoints = 80;
-        this.playerInRange = false;
-        int turnThreshold = 5;
         this.shooter = new Shooter(45, this);
         setSpeed(2);
         setDx(getX());
@@ -44,18 +40,16 @@ public class Enemy_carrier extends EnemySpace implements Shooting {
         this.setPositionBeforeMoving();
 
         this.distanceFromPlayer = (Math.sqrt(Math.pow(player.getX() - this.getX(), 2) + Math.pow(player.getY() - this.getY(), 2)));
-        this.shootingCd -= 1;
 
         Waypoint currentWaypoint = this.scriptedPath.get(this.currentWaypointIndex);
 
         getShooter().takeShot(enemiesManager.spellManager.spellCreator);
 
+        //This is to get rotated position of non center point. ↓↓
+        // Was used as a custom starting point for projectile. ↓↓
+        Point a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y + 120));
 
-//        if (this.distanceFromPlayer < 700) {
-//            this.playerInRange = true;
-//            this.performAction(enemiesManager.spellManager.spellCreator);
-//        }
-        this.playerInRange = false;
+
         if (this.x == currentWaypoint.x && this.y == currentWaypoint.y) {
             this.currentWaypointIndex += 1;
             if (this.currentWaypointIndex == this.scriptedPath.size()) {
@@ -68,17 +62,6 @@ public class Enemy_carrier extends EnemySpace implements Shooting {
 
         moveObject();
         turnCheck();
-    }
-
-    public void performAction(SpellCreator spellCreator) {
-        if (this.shootingCd < 0) {
-            spellCreator.fireProjectileTowardsPlayer(this.getX(), this.getY());
-            Point a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y + 120));
-            spellCreator.fireProjectileTowardsPlayer(a.x, a.y);
-            a = rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 120));
-            spellCreator.fireProjectileTowardsPlayer(a.x, a.y);
-            this.shootingCd = 90;
-        }
     }
 
     /**

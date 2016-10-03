@@ -9,8 +9,8 @@ import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
-import com.miso.thegame.gameMechanics.objects.movingObjects.spells.EffectTimeout;
 import com.miso.thegame.gameMechanics.objects.movingObjects.spells.OffensiveSpell;
+import com.miso.thegame.gameMechanics.timeouts.EffectTimeout;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,6 @@ import java.util.ArrayList;
  */
 public class FreezingProjectile extends OffensiveSpell {
 
-    private Point hitVertex;
     private Resources res;
 
     /**
@@ -45,8 +44,8 @@ public class FreezingProjectile extends OffensiveSpell {
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball));
     }
 
-    public FreezingProjectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
-        this(x, y, destinationX, destinationY, collisionObjectType, res);
+    public FreezingProjectile(Point fromPosition, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
+        this(fromPosition.x, fromPosition.y, destinationX, destinationY, collisionObjectType, res);
         this.identificator = identificator;
     }
 

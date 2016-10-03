@@ -15,7 +15,7 @@ import com.miso.thegame.gameMechanics.objects.GameObject;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.objects.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.objects.movingObjects.MovableObject;
-import com.miso.thegame.gameMechanics.objects.movingObjects.spells.EffectTimeout;
+import com.miso.thegame.gameMechanics.timeouts.EffectTimeout;
 
 import java.util.ArrayList;
 

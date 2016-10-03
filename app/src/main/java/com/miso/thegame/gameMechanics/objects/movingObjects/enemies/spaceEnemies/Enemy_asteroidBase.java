@@ -22,7 +22,6 @@ public class Enemy_asteroidBase extends EnemySpace {
         super(startingPosition);
         this.res = res;
         this.hitPoints = 80;
-        this.playerInRange = false;
         int turnThreshold = 5;
         setSpeed(2);
         setDx(getX());
@@ -34,10 +33,8 @@ public class Enemy_asteroidBase extends EnemySpace {
         this.distanceFromPlayer = (Math.sqrt(Math.pow(player.getX() - this.getX(), 2) + Math.pow(player.getY() - this.getY(), 2)));
         this.shootingCd -= 1;
         if (this.distanceFromPlayer < 1500) {
-            this.playerInRange = true;
             this.performAction(player, enemiesManager);
         }
-        this.playerInRange = false;
     }
 
     public void performAction(Player player, EnemiesManager enemiesManager) {

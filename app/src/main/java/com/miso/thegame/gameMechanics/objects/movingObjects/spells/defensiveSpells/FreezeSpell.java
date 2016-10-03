@@ -1,7 +1,7 @@
 package com.miso.thegame.gameMechanics.objects.movingObjects.spells.defensiveSpells;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
-import com.miso.thegame.gameMechanics.objects.movingObjects.spells.EffectTimeout;
+import com.miso.thegame.gameMechanics.timeouts.EffectTimeout;
 
 /**
  * Created by michal.hornak on 20.06.2016.

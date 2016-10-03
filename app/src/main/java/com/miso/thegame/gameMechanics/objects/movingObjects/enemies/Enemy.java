@@ -13,7 +13,6 @@ import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 public abstract class Enemy extends MovableObject {
 
     protected double distanceFromPlayer;
-    protected boolean playerInRange;
     protected int hitPoints;
     protected int turnThreshold = 5;
     protected int lastHeading = 0;

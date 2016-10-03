@@ -44,8 +44,8 @@ public class Projectile extends OffensiveSpell {
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
 
-    public Projectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
-        this(x, y, destinationX, destinationY, collisionObjectType, res);
+    public Projectile(Point fromPosition, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
+        this(fromPosition.x, fromPosition.y, destinationX, destinationY, collisionObjectType, res);
         this.identificator = identificator;
     }
 

@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.objects.movingObjects.spells;
+package com.miso.thegame.gameMechanics.timeouts;
 
 /**
  * Created by michal.hornak on 20.06.2016.

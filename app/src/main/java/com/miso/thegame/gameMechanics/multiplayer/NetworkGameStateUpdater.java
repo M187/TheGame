@@ -52,10 +52,8 @@ public class NetworkGameStateUpdater {
             case "20":
                 this.multiplayerViewInstance.getSpellManager().spellCreator
                         .fireProjectile(
-                                ((PlayerShootProjectile) transmissionMessage).getFromPosition().x,
-                                ((PlayerShootProjectile) transmissionMessage).getFromPosition().y,
-                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().x,
-                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta().y,
+                                ((PlayerShootProjectile) transmissionMessage).getFromPosition(),
+                                ((PlayerShootProjectile) transmissionMessage).getMovementDelta(),
                                 ((PlayerShootProjectile) transmissionMessage).getIdentificator(),
                                 CollisionObjectType.SpellEnemy
                         );
@@ -65,10 +63,8 @@ public class NetworkGameStateUpdater {
             case "21":
                 this.multiplayerViewInstance.getSpellManager().spellCreator
                         .fireFreezingProjectile(
-                                ((PlayerShootFreezingProjectile) transmissionMessage).getFromPosition().x,
-                                ((PlayerShootFreezingProjectile) transmissionMessage).getFromPosition().y,
-                                ((PlayerShootFreezingProjectile) transmissionMessage).getMovementDelta().x,
-                                ((PlayerShootFreezingProjectile) transmissionMessage).getMovementDelta().y,
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getFromPosition(),
+                                ((PlayerShootFreezingProjectile) transmissionMessage).getMovementDelta(),
                                 ((PlayerShootFreezingProjectile) transmissionMessage).getIdentificator(),
                                 CollisionObjectType.SpellEnemy
                         );
