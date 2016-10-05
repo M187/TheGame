@@ -19,25 +19,20 @@ import java.util.ArrayList;
  */
 public class FreezingProjectile extends OffensiveSpell {
 
-    private Resources res;
-
     /**
      * Creates fireball object.
      *
-     * @param x                   starting coord of an fireball, usually players one.
-     * @param y                   starting coord of an fireball, usually players one.
+     * @param fromPosition                  starting coord of an fireball, usually players one.
      * @param destinationX                  movement vector on relevant axis.
      * @param destinationY                  movement vector on relevant axis.
      * @param collisionObjectType collision type of an projectile for collision checks.
      * @param res                 resource to obtain picture from.
      */
-    public FreezingProjectile(int x, int y, int destinationX, int destinationY, CollisionObjectType collisionObjectType, Resources res) {
+    public FreezingProjectile(Point fromPosition, int destinationX, int destinationY, CollisionObjectType collisionObjectType, Resources res) {
         super();
         this.collisionObjectType = collisionObjectType;
         removeOnCollision = true;
-        this.res = res;
-        setX(x);
-        setY(y);
+        this.setPosition(fromPosition);
         setDx(destinationX);
         setDy(destinationY);
         setSpeed(30);
@@ -45,7 +40,7 @@ public class FreezingProjectile extends OffensiveSpell {
     }
 
     public FreezingProjectile(Point fromPosition, int destinationX, int destinationY, CollisionObjectType collisionObjectType, String identificator, Resources res) {
-        this(fromPosition.x, fromPosition.y, destinationX, destinationY, collisionObjectType, res);
+        this(fromPosition, destinationX, destinationY, collisionObjectType, res);
         this.identificator = identificator;
     }
 

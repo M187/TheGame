@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Miso on 30.1.2016.
+ *
+ * Deprecated. Use other one.
  */
 public class Enemy_nest extends EnemyGround {
 

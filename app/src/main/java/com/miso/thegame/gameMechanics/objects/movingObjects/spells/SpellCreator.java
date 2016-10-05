@@ -64,7 +64,7 @@ public class SpellCreator {
                                     new Point(deltaX, deltaY)));
                 }
             } else {
-                FreezingProjectile newProjectile = new FreezingProjectile(this.player.getX(), this.player.getY(), this.player.getX() - deltaX, this.player.getY() - deltaY, CollisionObjectType.SpellPlayer, this.resources);
+                FreezingProjectile newProjectile = new FreezingProjectile(this.player.getPosition(), this.player.getX() - deltaX, this.player.getY() - deltaY, CollisionObjectType.SpellPlayer, this.resources);
                 this.offensiveSpells.add(newProjectile);
                 player.primaryAmunition -= 1;
 
