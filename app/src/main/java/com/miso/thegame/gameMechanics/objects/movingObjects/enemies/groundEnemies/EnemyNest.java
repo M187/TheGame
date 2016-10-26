@@ -15,10 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 30.1.2016.
  */
-public class EnemyNest extends EnemyGround {
+public class EnemyNest extends EnemyGround implements Shooting {
 
     private int shootingCd = 0;
     private Resources res;
+    private Shooter shooter;
 
     private MyApperance myApperance = new MyApperance();
 
@@ -26,6 +27,7 @@ public class EnemyNest extends EnemyGround {
         super(starttingPosition);
         this.res = res;
         this.hitPoints = 80;
+        this.shooter = new Shooter(60, this);
     }
 
     @Override
@@ -88,6 +90,16 @@ public class EnemyNest extends EnemyGround {
     public void drawObject(Canvas canvas, int x, int y){
 
         myApperance.draw(canvas, new Point(x,y));
+    }
+
+    @Override
+    public Shooter getShooter() {
+        return this.shooter;
+    }
+
+    @Override
+    public int getShootingDistanceThreshold() {
+        return 500;
     }
 
     private class MyApperance{

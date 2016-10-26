@@ -72,40 +72,16 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
                 }
                 break;
             case victory:
+                this.getSpellManager().primaryShootingActive = false;
                 getSpellManager().update();
                 collisionHandler.performCollisionCheck();
                 break;
             case defeated:
+                this.getSpellManager().primaryShootingActive = false;
                 getEnemiesManager().update();
                 getSpellManager().update();
                 collisionHandler.performCollisionCheck();
         }
-
-        //<editor-fold @desc="Old functionality">
-//        if (getPlayer().playing && this.levelComplete == false) {
-//
-//            if (getEnemiesManager().getEnemyList().isEmpty()) {
-//                this.levelComplete = true;
-//                levelHandler.increaseLevel();
-//            } else {
-//
-//                inputHandler.processFrameInput();
-//                {
-//                    getPlayer().update();
-//                    anchor.update();
-//                    getPlayer().updateMiddleDrawCoords(anchor);
-//                }
-//                getSpellManager().update();
-//                getEnemiesManager().update();
-//                getStaticAnimationManager().update();
-//                collisionHandler.performCollisionCheck();
-//            }
-//        } else {
-//            getEnemiesManager().update();
-//            getSpellManager().update();
-//            collisionHandler.performCollisionCheck();
-//        }
-        //<editor-fold>
     }
 
     @Override
@@ -141,34 +117,6 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
                     endgameEvents.draw(canvas, this.gameState.getGameState());
                     break;
             }
-
-            //<editor-fold @desc="Old functionality">
-//            if (getPlayer().playing && this.levelComplete == false) {
-//                bg.draw(canvas, anchor);
-//                this.mapManager.draw(canvas);
-//                borders.draw(canvas);
-//                getSpellManager().draw(canvas);
-//                drawManager.drawOnDisplay(getPlayer(), canvas);
-//                getEnemiesManager().draw(canvas);
-//                getStaticAnimationManager().draw(canvas);
-//                toolbar.draw(canvas);
-//            } else if (getPlayer().playing) {
-//                bg.draw(canvas, anchor);
-//                this.mapManager.draw(canvas);
-//                borders.draw(canvas);
-//                getSpellManager().draw(canvas);
-//                getEnemiesManager().draw(canvas);
-//                endgameEvents.drawLevelCleared(canvas);
-//            } else {
-//                bg.draw(canvas, anchor);
-//                this.mapManager.draw(canvas);
-//                borders.draw(canvas);
-//                getSpellManager().draw(canvas);
-//                getEnemiesManager().draw(canvas);
-//                endgameEvents.draw(canvas, false);
-//            }
-//<editor-fold>
-
             canvas.restoreToCount(savedState);
         }
     }
@@ -191,15 +139,5 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
             default:
                 return true;
         }
-
-        //<editor-fold @desc="Old functionality">
-//        if (levelComplete) {
-//            return inputHandler.processLevelCompleteEvent(event, this.levelHandler);
-//        } else if (getPlayer().playing) {
-//            return inputHandler.processEvent(event);
-//        } else {
-//            return inputHandler.processEndgameEvent(event);
-//        }
-        //<editor-fold>
     }
 }

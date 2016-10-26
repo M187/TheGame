@@ -17,7 +17,6 @@ import java.util.List;
  */
 public abstract class EnemyGround extends Enemy {
 
-    protected double distanceFromPlayer;
     protected List<MapTile> pathTowardsTarget = new LinkedList<>();
     protected GameObject movementTarget = this;
     protected MapTile currentDstinationTile;

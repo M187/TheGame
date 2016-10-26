@@ -156,7 +156,7 @@ public class CollisionHandlerSingleplayer {
                     break;
                 case Enemy:
                     if (gameObject instanceof Enemy_alienShip | enemy instanceof Enemy_alienShip | enemy instanceof Enemy_basic | gameObject instanceof Enemy_basic) {
-                        return;
+                        break;
                     }
                     possibleCollisionOfEnemyWithEnemy(enemy, (Enemy) gameObject);
                     break;

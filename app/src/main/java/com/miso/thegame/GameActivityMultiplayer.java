@@ -27,7 +27,6 @@ import java.util.ArrayList;
  */
 public class GameActivityMultiplayer extends Activity {
 
-    public static volatile boolean areAllPlayersConnected = false;
     public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();

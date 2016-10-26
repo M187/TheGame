@@ -34,7 +34,6 @@ import java.util.ArrayList;
 public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Callback {
 
     public ConnectionManager connectionManager;
-    public boolean victory = false;
     protected CollisionHandlerMultiplayer collisionHandler;
     private volatile ArrayList<TransmissionMessage> arrivingMessagesList = new ArrayList<>();
     private OtherPlayerManager otherPlayersManager = null;
@@ -97,8 +96,10 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                 sendFrameData();
                 break;
             case defeated:
+                this.getSpellManager().primaryShootingActive = false;
                 getOtherPlayersManager().update();
             case victory:
+                this.getSpellManager().primaryShootingActive = false;
                 getSpellManager().update();
                 collisionHandler.performCollisionCheck();
                 //todo: uninit network components
@@ -141,23 +142,6 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
                     endgameEvents.draw(canvas, this.gameState.getGameState());
                     break;
             }
-//            if (getPlayer().playing) {
-//                bg.draw(canvas, anchor);
-//                this.mapManager.draw(canvas);
-//                borders.draw(canvas);
-//                getSpellManager().draw(canvas);
-//                drawManager.drawOnDisplay(getPlayer(), canvas);
-//                getOtherPlayersManager().draw(canvas);
-//                getStaticAnimationManager().draw(canvas);
-//                toolbar.draw(canvas);
-//            } else {
-//                bg.draw(canvas, anchor);
-//                this.mapManager.draw(canvas);
-//                borders.draw(canvas);
-//                getSpellManager().draw(canvas);
-//                getOtherPlayersManager().draw(canvas);
-//                endgameEvents.draw(canvas, this.victory);
-//            }
             canvas.restoreToCount(savedState);
         }
     }
