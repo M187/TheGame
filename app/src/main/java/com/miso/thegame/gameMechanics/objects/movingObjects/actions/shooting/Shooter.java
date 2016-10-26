@@ -1,4 +1,4 @@
-package com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies;
+package com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting;
 
 
 import com.miso.thegame.gameMechanics.display.backgroundEffects.FrameDependantTimeout;

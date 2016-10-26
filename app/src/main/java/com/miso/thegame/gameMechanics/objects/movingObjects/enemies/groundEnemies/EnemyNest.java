@@ -7,6 +7,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting.Shooter;
+import com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting.Shooting;
+import com.miso.thegame.gameMechanics.objects.movingObjects.actions.spawning.Spawner;
+import com.miso.thegame.gameMechanics.objects.movingObjects.actions.spawning.Spawning;
 import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
@@ -15,11 +19,12 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 30.1.2016.
  */
-public class EnemyNest extends EnemyGround implements Shooting {
+public class EnemyNest extends EnemyGround implements Shooting, Spawning {
 
     private int shootingCd = 0;
     private Resources res;
     private Shooter shooter;
+    private Spawner spawner;
 
     private MyApperance myApperance = new MyApperance();
 
@@ -28,6 +33,7 @@ public class EnemyNest extends EnemyGround implements Shooting {
         this.res = res;
         this.hitPoints = 80;
         this.shooter = new Shooter(60, this);
+        this.spawner = new Spawner(150, this);
     }
 
     @Override
@@ -42,17 +48,8 @@ public class EnemyNest extends EnemyGround implements Shooting {
 
     public void update(Player player, EnemiesManager enemiesManager) {
         this.distanceFromPlayer = (Math.sqrt(Math.pow(player.getX() - this.getX(), 2) + Math.pow(player.getY() - this.getY(), 2)));
-        this.shootingCd -= 1;
-        if (this.distanceFromPlayer < 1500) {
-            this.performAction(player, enemiesManager);
-        }
-    }
-
-    public void performAction(Player player, EnemiesManager enemiesManager) {
-        if (this.shootingCd < 0) {
-            enemiesManager.enemiesToBeAddedInThiFrame.add(new Enemy_basic(this.res, new Point(this.x, this.y)));
-            this.shootingCd = 150;
-        }
+        getSpawner().spawn(enemiesManager, this.res);
+        getShooter().takeShot(enemiesManager.spellManager.spellCreator);
     }
 
     /**
@@ -69,7 +66,6 @@ public class EnemyNest extends EnemyGround implements Shooting {
     @Override
     public boolean hitBySpell() {
         this.hitPoints -= 5;
-
         if (this.hitPoints < 0) {
             return true;
         }
@@ -100,6 +96,16 @@ public class EnemyNest extends EnemyGround implements Shooting {
     @Override
     public int getShootingDistanceThreshold() {
         return 500;
+    }
+
+    @Override
+    public Spawner getSpawner() {
+        return this.spawner;
+    }
+
+    @Override
+    public int getSpawningDistanceThreshold() {
+        return 1500;
     }
 
     private class MyApperance{

@@ -6,9 +6,9 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.objects.movingObjects.Waypoint;
+import com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting.Shooter;
+import com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting.Shooting;
 import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.EnemiesManager;
-import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Shooter;
-import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.groundEnemies.Shooting;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
 
 import java.util.ArrayList;
