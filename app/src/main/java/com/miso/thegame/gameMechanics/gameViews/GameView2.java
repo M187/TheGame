@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -146,5 +148,10 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         } else {
             return (this.gameState.eventTimedOut()) ? inputHandler.processEndgameEvent() : true;
         }
+    }
+
+
+    public static float dipToPixels(float dipValue) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, MenuActivity.metrics);
     }
 }

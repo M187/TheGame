@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.miso.thegame.MenuActivity;
 import com.miso.thegame.R;
 
 /**
@@ -13,9 +14,10 @@ public class Explosion extends StaticAnimation {
 
     public Explosion(int x, int y, Resources res){
         Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.explosion);
-        int height = 64;
-        int width = 64;
+
         int numFrames = 16;
+        int height = spritesheet.getWidth() / numFrames;
+        int width = spritesheet.getWidth() / numFrames;
 
         this.x = x-height/2;
         this.y = y-width/2;

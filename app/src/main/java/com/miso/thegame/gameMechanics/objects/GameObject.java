@@ -20,8 +20,6 @@ public abstract class GameObject {
     public int y;
     protected ArrayList<Point> objectVertices = new ArrayList<>();
     protected Random randomGenerator = GameView2.randomGenerator;
-    protected int displayXCoord;
-    protected int displayYCoord;
     protected Point gridCoords;
     protected CollisionObjectType collisionObjectType = CollisionObjectType.NonCollidable;
     private Bitmap image;
@@ -77,10 +75,6 @@ public abstract class GameObject {
         return new Point(this.x,this.y);
     }
 
-    public void setPosition(Point position){
-        this.x = position.x;
-        this.y = position.y;
-    }
     //</editor-fold>
 
     public Bitmap getImage() {

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
+import com.miso.thegame.MenuActivity;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.CircleLightning;
 
@@ -19,9 +20,10 @@ public class Explosion2 extends StaticAnimation {
 
     public Explosion2(Point position, Resources res){
         Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.explosion2);
-        int height = 96;
-        int width = 96;
+
         int numFrames = 12;
+        int height =(spritesheet.getWidth() / numFrames);
+        int width = (spritesheet.getWidth() / numFrames);
 
         this.x = position.x-height/2;
         this.y = position.y-width/2;

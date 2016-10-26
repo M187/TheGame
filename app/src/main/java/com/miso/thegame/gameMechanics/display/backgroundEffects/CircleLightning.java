@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
+
 /**
  * Created by Miso on 25.6.2016.
  */
@@ -59,6 +61,6 @@ public class CircleLightning extends BackgroundEffect{
         }
         int halfRadius = this.currentRadius / 2;
 
-        canvas.drawCircle(position.x, position.y, this.currentRadius, this.myPaint);
+        canvas.drawCircle(position.x, position.y, GameView2.dipToPixels(this.currentRadius), this.myPaint);
     }
 }
