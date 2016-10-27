@@ -113,26 +113,26 @@ public class DrawManager {
         canvas.rotate( - degreesToRotate, gameObject.getX() - anchor.getX(), gameObject.getY() - anchor.getY());
 
   //Uncomment to drawWithRotation hit vertices
-        Paint p = new Paint();
-        p.setColor(Color.BLUE);
-        p.setStrokeWidth(5);
-
-        if (gameObject instanceof Enemy){
-            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
-
-            for (int i = 0;i < toDraw.size() - 1;i++){
-                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
-            }
-            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
-        }
-
-        if (gameObject instanceof Projectile){
-            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
-
-            for (int i = 0;i < toDraw.size() - 1;i++){
-                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
-            }
-            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
-        }
+//        Paint p = new Paint();
+//        p.setColor(Color.BLUE);
+//        p.setStrokeWidth(5);
+//
+//        if (gameObject instanceof Enemy){
+//            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
+//
+//            for (int i = 0;i < toDraw.size() - 1;i++){
+//                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
+//            }
+//            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
+//        }
+//
+//        if (gameObject instanceof Projectile){
+//            ArrayList<Point> toDraw = gameObject.getObjectCollisionVertices();
+//
+//            for (int i = 0;i < toDraw.size() - 1;i++){
+//                canvas.drawLine(toDraw.get(i).x - anchor.getX(),toDraw.get(i).y - anchor.getY(),toDraw.get(i+1).x - anchor.getX(),toDraw.get(i+1).y - anchor.getY(), p);
+//            }
+//            canvas.drawLine(toDraw.get(0).x - anchor.getX(),toDraw.get(0).y - anchor.getY(),toDraw.get(toDraw.size() - 1).x - anchor.getX(),toDraw.get(toDraw.size() - 1).y - anchor.getY(), p);
+//        }
     }
 }

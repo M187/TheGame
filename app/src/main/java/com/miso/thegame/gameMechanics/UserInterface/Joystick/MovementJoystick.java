@@ -14,14 +14,14 @@ import com.miso.thegame.gameMechanics.gameViews.GameView2;
 public class MovementJoystick extends Joystick {
 
     public MovementJoystick(Resources resources) {
-        this.middleX = GameView2.WIDTH - 170;
-        this.middleY = GameView2.HEIGHT - 170;
+        this.middleX = GameView2.WIDTH - (int)GameView2.scaleSize(100);
+        this.middleY = GameView2.HEIGHT - (int)GameView2.scaleSize(100);
         this.eventX = this.getMiddleX();
         this.eventY = this.getMiddleY();
         this.layoutImage = BitmapFactory.decodeResource(resources, R.drawable.gamepadopaque);
         this.imageJoystickHead = BitmapFactory.decodeResource(resources, R.drawable.joystickhead);
         this.inputThreshold = layoutImage.getHeight() / 2;
-        this.radius = inputThreshold + 300;
+        this.radius = inputThreshold + (int)GameView2.scaleSize(80);
     }
 
     @Override

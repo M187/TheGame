@@ -18,7 +18,7 @@ import com.miso.thegame.gameMechanics.objects.movingObjects.spells.SpellManager;
 public abstract class ButtonPlaceholder {
 
     protected static final Paint paint = new Paint();
-    public int xDrawCoord = 50;
+    public int xDrawCoord = (int)GameView2.scaleSize(40);
     public int yDrawCoord = GameView2.HEIGHT;
     public int iteratorToDrawXAxis;
     public int iteratorToDrawYAxis;
@@ -89,10 +89,10 @@ public abstract class ButtonPlaceholder {
         return this.yDrawCoord;
     }
     protected void setXDrawCoord(){
-        this.xDrawCoord = this.xDrawCoord + ((this.image.getWidth() +50) * iteratorToDrawXAxis);
+        this.xDrawCoord = this.xDrawCoord + ((this.image.getWidth() + (int)GameView2.scaleSize(40)) * iteratorToDrawXAxis);
     }
     protected void setYDrawCoord(){
-        this.yDrawCoord = this.yDrawCoord - ((this.image.getHeight() + 75) * ( iteratorToDrawYAxis +1 ));
+        this.yDrawCoord = this.yDrawCoord - ((this.image.getHeight() + (int)GameView2.scaleSize(55)) * ( iteratorToDrawYAxis +1 ));
     }
     public Bitmap getImage(){
         return this.image;
@@ -106,7 +106,7 @@ public abstract class ButtonPlaceholder {
     public void drawCooldown(Canvas canvas){
         paint.setColor(Color.MAGENTA);
         paint.setTextAlign(Paint.Align.CENTER);
-        int scaling = 60;
+        int scaling = (int)GameView2.scaleSize(30);
         paint.setTextSize(scaling);
         String number = Long.toString(this.cooldownTimeLeftInSeconds() + 1);
         canvas.drawText(number, getXDrawCoord() + image.getWidth() / 2,

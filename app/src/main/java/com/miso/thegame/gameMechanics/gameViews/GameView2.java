@@ -151,7 +151,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     }
 
 
-    public static float dipToPixels(float dipValue) {
+    public static float scaleSize(float dipValue) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, MenuActivity.metrics);
     }
 }

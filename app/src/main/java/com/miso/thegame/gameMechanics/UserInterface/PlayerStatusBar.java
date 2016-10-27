@@ -19,15 +19,14 @@ public class PlayerStatusBar {
 
     public PlayerStatusBar(Player player){
         this.player = player;
-        //todo - this needs to be generic ↓↓
-        this.xDrawCoord = GameView2.WIDTH / 2 - 350;
-        this.yDrawCoord = GameView2.HEIGHT - 140;
+        this.xDrawCoord = GameView2.WIDTH / 2 - (int)GameView2.scaleSize(175);
+        this.yDrawCoord = GameView2.HEIGHT - (int)GameView2.scaleSize(70);
 
-        paint.setColor(Color.YELLOW);
-        int scaling = 20;
+        paint.setColor(Color.BLACK);
+        int scaling = (int)GameView2.scaleSize(10);
         paint.setTextSize(scaling);
-        paint.setAlpha(150);
-        paint.setStrokeWidth(10);
+        //paint.setAlpha(200);
+        paint.setStrokeWidth(20);
 
         paint2.setColor(Color.WHITE);
         paint2.setAlpha(80);
@@ -39,10 +38,28 @@ public class PlayerStatusBar {
     }
 
     public void drawText(Canvas canvas) {
-        canvas.drawRect(this.xDrawCoord + 60, this.yDrawCoord + 30, this.xDrawCoord + 610, this.yDrawCoord + 110, paint2);
-
-        canvas.drawText("Health: " + player.maxHealth + " / " + player.currentHealth, this.xDrawCoord + 70, this.yDrawCoord + 60, paint);
-        canvas.drawRect(this.xDrawCoord + 270, this.yDrawCoord + 40, this.xDrawCoord + 250 + (350 * ((float) player.currentHealth / player.maxHealth)), this.yDrawCoord + 70, paint);
-        canvas.drawText("Ammo left: " + player.primaryAmunition + " / " + player.primaryAmunitionMaxValue, this.xDrawCoord + 70, this.yDrawCoord + 100, paint);
+        //init these value into memory to save performance.
+        canvas.drawRect(
+                this.xDrawCoord + (int)GameView2.scaleSize(40),
+                this.yDrawCoord + (int)GameView2.scaleSize(10),
+                this.xDrawCoord + (int)GameView2.scaleSize(300),
+                this.yDrawCoord + (int)GameView2.scaleSize(60),
+                paint2);
+        canvas.drawText(
+                "Health: " + player.maxHealth + " / " + player.currentHealth,
+                this.xDrawCoord + (int)GameView2.scaleSize(45),
+                this.yDrawCoord + (int)GameView2.scaleSize(25),
+                paint);
+        canvas.drawRect(
+                this.xDrawCoord + (int)GameView2.scaleSize(120),
+                this.yDrawCoord + (int)GameView2.scaleSize(15),
+                this.xDrawCoord + (int)GameView2.scaleSize(120 + (170 * ((float) player.currentHealth / player.maxHealth))),
+                this.yDrawCoord + (int)GameView2.scaleSize(25),
+                paint);
+        canvas.drawText(
+                "Ammo left: " + player.primaryAmunition + " / " + player.primaryAmunitionMaxValue,
+                this.xDrawCoord + (int)GameView2.scaleSize(45),
+                this.yDrawCoord + (int)GameView2.scaleSize(45),
+                paint);
     }
 }

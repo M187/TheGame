@@ -61,6 +61,6 @@ public class CircleLightning extends BackgroundEffect{
         }
         int halfRadius = this.currentRadius / 2;
 
-        canvas.drawCircle(position.x, position.y, GameView2.dipToPixels(this.currentRadius), this.myPaint);
+        canvas.drawCircle(position.x, position.y, GameView2.scaleSize(this.currentRadius), this.myPaint);
     }
 }
