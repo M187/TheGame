@@ -14,9 +14,10 @@ public class CollectibleRotatingStar extends StaticAnimation {
 
     public CollectibleRotatingStar(Point position , Resources res){
         Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.gameobjective_spritee);
-        int height = 35;
-        int width = 40;
+
         int numFrames = 7;
+        int height = spritesheet.getWidth() / numFrames;
+        int width = spritesheet.getWidth() / numFrames;
 
         this.x = position.x;
         this.y = position.y;

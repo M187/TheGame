@@ -34,7 +34,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     public GamePanelSingleplayer(Context context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, int levelNumber) {
         super(context, playerType, buttonsTypeData);
         this.levelHandler = new LevelHandler(levelNumber);
-        this.mapToCreate = MapGenerator.generateMap(getResources(), new Point(2000, 2000), this.levelHandler.getLevelNumber());
+        this.mapToCreate = MapGenerator.generateMap(getResources(), new Point((int)GameView2.scaleSize(1000), (int)GameView2.scaleSize(1000)), this.levelHandler.getLevelNumber());
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
         getHolder().addCallback(this);

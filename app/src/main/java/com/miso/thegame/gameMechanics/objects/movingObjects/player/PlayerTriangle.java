@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 
@@ -47,33 +48,33 @@ public class PlayerTriangle extends Player {
 
         Path path = new Path();
         path.setFillType(Path.FillType.EVEN_ODD);
-        path.moveTo(x + 25, y);
-        path.lineTo(x, y + 50);
-        path.lineTo(x + 50, y + 50);
-        path.lineTo(x + 25, y);
+        path.moveTo(x + (int) GameView2.scaleSize(12), y);
+        path.lineTo(x, y + (int)GameView2.scaleSize(25));
+        path.lineTo(x + (int)GameView2.scaleSize(25), y + (int)GameView2.scaleSize(25));
+        path.lineTo(x + (int)GameView2.scaleSize(12), y);
         path.close();
 
         canvas.drawPath(path, this.paint);
-        canvas.drawCircle(x + 25, y + 20, 5, this.circlePaint);
-        canvas.drawCircle(x+25, y + 40, 5, this.circlePaint);
+        canvas.drawCircle(x + (int)GameView2.scaleSize(12), y + (int)GameView2.scaleSize(10), (int)GameView2.scaleSize(2), this.circlePaint);
+        canvas.drawCircle(x + (int)GameView2.scaleSize(12), y + (int)GameView2.scaleSize(20), (int)GameView2.scaleSize(3), this.circlePaint);
     }
 
     protected ArrayList<Point> getNonRotatedVertices() {
         ArrayList<Point> vertices = new ArrayList();
-        vertices.add(new Point(this.x + 25  - getHalfWidth(), this.y - getHalfHeight()));
-        vertices.add(new Point(this.x + 50 - getHalfWidth(), this.y + 50 - getHalfHeight()));
-        vertices.add(new Point(this.x - getHalfWidth(), this.y + 50 - getHalfHeight()));
+        vertices.add(new Point(this.x + (int)GameView2.scaleSize(12)  - getHalfWidth(), this.y - getHalfHeight()));
+        vertices.add(new Point(this.x + (int)GameView2.scaleSize(25) - getHalfWidth(), this.y + (int)GameView2.scaleSize(25) - getHalfHeight()));
+        vertices.add(new Point(this.x - getHalfWidth(), this.y + (int)GameView2.scaleSize(25) - getHalfHeight()));
 
         return vertices;
     }
 
     @Override
     public int getHalfWidth(){
-        return 25;
+        return (int)GameView2.scaleSize(12);
     }
     @Override
     public int getHalfHeight(){
-        return 25;
+        return (int)GameView2.scaleSize(12);
     }
 
 }

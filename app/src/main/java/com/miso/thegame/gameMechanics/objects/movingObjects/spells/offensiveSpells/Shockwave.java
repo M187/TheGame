@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.miso.thegame.R;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.SATCollisionCalculator;
 import com.miso.thegame.gameMechanics.objects.movingObjects.MovableObject;
@@ -57,7 +58,7 @@ public class Shockwave extends OffensiveSpell {
 //                        (int) (((frameSinceCreation / 20) * 70 + (movingObject.getImage().getWidth() / 2)) * reachFactor),
 //                        movingObject.getObjectCollisionVertices());
 
-        if (((Enemy) movingObject).getDistanceFromPlayer() <= (((frameSinceCreation / 20) * 70 + (movingObject.getHalfWidth())) * reachFactor)) {
+        if (((Enemy) movingObject).getDistanceFromPlayer() <= (((frameSinceCreation / 20) * GameView2.scaleSize(37) + (movingObject.getHalfWidth())) * reachFactor)) {
             return true;
         } else {
             return false;

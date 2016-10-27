@@ -6,6 +6,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
@@ -40,7 +41,7 @@ public class Projectile extends OffensiveSpell {
         setY(y);
         setDx(destinationX);
         setDy(destinationY);
-        setSpeed(30);
+        setSpeed( (int) GameView2.scaleSize(15) );
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball2));
     }
 
@@ -89,10 +90,10 @@ public class Projectile extends OffensiveSpell {
 
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x + 3 , this.y - 15)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x + 3, this.y + 15)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x - 3, this.y + 15)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x - 3, this.y - 15)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x + (int)GameView2.scaleSize(2) , this.y - (int)GameView2.scaleSize(8))));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x + (int)GameView2.scaleSize(2), this.y + (int)GameView2.scaleSize(8))));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x - (int)GameView2.scaleSize(2), this.y + (int)GameView2.scaleSize(8))));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x - (int)GameView2.scaleSize(2), this.y - (int)GameView2.scaleSize(8))));
         return this.objectVertices;
     }
 

@@ -6,6 +6,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.display.Animations.StaticAnimationManager;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
@@ -35,7 +36,7 @@ public class FreezingProjectile extends OffensiveSpell {
         this.setPosition(fromPosition);
         setDx(destinationX);
         setDy(destinationY);
-        setSpeed(30);
+        setSpeed((int)GameView2.scaleSize(20));
         setImage(BitmapFactory.decodeResource(res, R.drawable.smallfireball));
     }
 
@@ -84,7 +85,7 @@ public class FreezingProjectile extends OffensiveSpell {
 
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y - 15)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y - (int) GameView2.scaleSize(8))));
         this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(this.x, this.y)));
         return this.objectVertices;
     }

@@ -14,9 +14,10 @@ public class FlyingSaucer extends StaticAnimation{
 
     public FlyingSaucer(Point position , Resources res){
         Bitmap spritesheet = BitmapFactory.decodeResource(res, R.drawable.player_saucer);
-        int height = 70;
-        int width = 70;
+
         int numFrames = 8;
+        int height = spritesheet.getWidth() / numFrames;
+        int width = spritesheet.getWidth() / numFrames;
 
         this.x = position.x;
         this.y = position.y;

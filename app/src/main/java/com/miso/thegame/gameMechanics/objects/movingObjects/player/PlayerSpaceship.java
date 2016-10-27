@@ -8,6 +8,7 @@ import android.graphics.Point;
 
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.map.MapManager;
 import com.miso.thegame.gameMechanics.objects.collisionHandlers.CollisionObjectType;
 
@@ -47,10 +48,10 @@ public class PlayerSpaceship extends Player {
 
     protected ArrayList<Point> getNonRotatedVertices() {
         ArrayList<Point> vertices = new ArrayList();
-        vertices.add(new Point(this.x, this.y - 50));
-        vertices.add(new Point(this.x - 25, this.y + 37));
-        vertices.add(new Point(this.x, this.y + 50));
-        vertices.add(new Point(this.x + 25, this.y + 37));
+        vertices.add(new Point(this.x, this.y - (int)GameView2.scaleSize(25)));
+        vertices.add(new Point(this.x - (int)GameView2.scaleSize(12), this.y + (int)GameView2.scaleSize(19)));
+        vertices.add(new Point(this.x, this.y + (int)GameView2.scaleSize(25)));
+        vertices.add(new Point(this.x + (int)GameView2.scaleSize(12), this.y + (int)GameView2.scaleSize(19)));
 
         return vertices;
     }
@@ -68,14 +69,14 @@ public class PlayerSpaceship extends Player {
 
         public void drawObject(Player player, Canvas canvas, int x, int y) {
             if (player.turningClockwise) {
-                canvas.drawBitmap(this.image, x + 8, y + 85, null);
+                canvas.drawBitmap(this.image, x + GameView2.scaleSize(4), y + GameView2.scaleSize(42), null);
                 player.turningClockwise = false;
             } else if (player.isTurningCounterclockwise) {
-                canvas.drawBitmap(this.image, x + 32, y + 85, null);
+                canvas.drawBitmap(this.image, x + GameView2.scaleSize(16), y + GameView2.scaleSize(42), null);
                 player.isTurningCounterclockwise = false;
             } else {
-                canvas.drawBitmap(this.image, x + 8, y + 85, null);
-                canvas.drawBitmap(this.image, x + 32, y + 85, null);
+                canvas.drawBitmap(this.image, x + GameView2.scaleSize(4), y + GameView2.scaleSize(42), null);
+                canvas.drawBitmap(this.image, x + GameView2.scaleSize(16), y + GameView2.scaleSize(42), null);
             }
         }
     }
