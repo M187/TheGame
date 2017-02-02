@@ -26,8 +26,8 @@ import java.util.ArrayList;
  */
 public class MapManager {
 
-    private static final int mapTileWidth = 100;
-    private static final int mapTileHeight = 100;
+    private static final int mapTileWidth = (int)GameView2.scaleSize(100);
+    private static final int mapTileHeight = (int)GameView2.scaleSize(100);
     private static final int mapTileHalfWidth = mapTileWidth / 2;
     private static final int mapTileHalfHeight = mapTileHeight / 2;
 

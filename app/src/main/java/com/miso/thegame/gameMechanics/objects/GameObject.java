@@ -24,6 +24,9 @@ public abstract class GameObject {
     protected CollisionObjectType collisionObjectType = CollisionObjectType.NonCollidable;
     private Bitmap image;
 
+    protected int halfWidth;
+    protected int halfHeight;
+
     public abstract ArrayList<Point> getObjectCollisionVertices();
 
     public CollisionObjectType getCollisionObjectType(){

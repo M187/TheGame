@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import com.miso.thegame.gameMechanics.gameViews.GameView2;
 import com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting.Shooter;
 import com.miso.thegame.gameMechanics.objects.movingObjects.actions.shooting.Shooting;
 import com.miso.thegame.gameMechanics.objects.movingObjects.actions.spawning.Spawner;
@@ -21,10 +22,10 @@ import java.util.ArrayList;
  */
 public class EnemyNest extends EnemyGround implements Shooting, Spawning {
 
-    private int shootingCd = 0;
     private Resources res;
     private Shooter shooter;
     private Spawner spawner;
+    protected int maxRadius;
 
     private MyApperance myApperance = new MyApperance();
 
@@ -34,16 +35,20 @@ public class EnemyNest extends EnemyGround implements Shooting, Spawning {
         this.hitPoints = 80;
         this.shooter = new Shooter(60, this);
         this.spawner = new Spawner(150, this);
+
+        this.maxRadius = (int)GameView2.scaleSize(26);
+        this.halfWidth = this.maxRadius / 2;
+        this.halfHeight = this.maxRadius / 2;
     }
 
     @Override
     public int getHalfWidth(){
-        return -25;
+        return this.halfWidth;
     }
 
     @Override
     public int getHalfHeight(){
-        return -25;
+        return this.halfHeight;
     }
 
     public void update(Player player, EnemiesManager enemiesManager) {
@@ -110,7 +115,7 @@ public class EnemyNest extends EnemyGround implements Shooting, Spawning {
 
     private class MyApperance{
 
-        int radius = 20;
+        int radius = (int)GameView2.scaleSize(26);
         private Paint paint = new Paint();
         private boolean growing = true;
 
@@ -123,11 +128,11 @@ public class EnemyNest extends EnemyGround implements Shooting, Spawning {
         void draw(Canvas canvas, Point position){
 
             radius = (growing == true) ? radius + 1 : radius - 1;
-            if (radius > 40 || radius < 20) {
+            if (radius > maxRadius || radius < maxRadius/2) {
                 growing = (growing) ? false : true;
             }
 
-            canvas.drawCircle(position.x, position.y, radius, paint);
+            canvas.drawCircle(position.x, position.y,  radius, paint);
         }
     }
 }

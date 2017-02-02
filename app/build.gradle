@@ -4,6 +4,12 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+    repositories {
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+    }
+
     defaultConfig {
         applicationId "com.miso.thegame"
         minSdkVersion 14
