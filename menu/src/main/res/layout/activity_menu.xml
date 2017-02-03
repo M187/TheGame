@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menubackground"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:weightSum="1">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:alpha="0.8"
+        android:orientation="vertical">
+
+        <TableRow android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="1"
+                android:text="The GAME"
+                android:textColor="@color/button_material_light"
+                android:textSize="35dp" />
+        </TableRow>
+
+        <Button
+            android:id="@+id/button_new_game_ground"
+            style="@style/my_dark_style_buttons"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="newGameClickGround"
+            android:text="New GAME ground" />
+
+        <Button
+            android:id="@+id/button_new_multiplayer_game"
+            style="@style/my_dark_style_buttons"
+            android:layout_height="wrap_content"
+            android:onClick="newMultiplayerGame"
+            android:text="Multiplayer Game" />
+
+        <Button
+            android:id="@+id/button_new_game_space"
+            style="@style/my_dark_style_buttons"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="newGameClickSpace"
+            android:text="New GAME space" />
+
+        <Button
+            android:id="@+id/button_player_options"
+            style="@style/my_dark_style_buttons"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="playerOptionClick"
+            android:text="Player options" />
+
+    </TableLayout>
+
+
+</LinearLayout>
