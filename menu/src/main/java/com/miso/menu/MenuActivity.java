@@ -1,34 +1,19 @@
 package com.miso.menu;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.miso.thegame.GameActivitySingleplayer;
 import com.miso.thegame.MultiplayerLobby;
-import com.miso.thegame.PlayerOptions;
 import com.miso.thegame.gameMechanics.map.levels.NewLevelActivity;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class MenuActivity extends AppCompatActivity {
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    public static DisplayMetrics metrics = new DisplayMetrics();
-    public static boolean isGameOn = false;
+
+public class MenuActivity extends Activity {
+
     private Intent gameIntent = null;
     private MediaPlayer mMediaPlayer;
 
@@ -40,7 +25,6 @@ public class MenuActivity extends AppCompatActivity {
         mMediaPlayer = MediaPlayer.create(this, R.raw.intro);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(false);
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         //mMediaPlayer.start();
     }
 
@@ -53,15 +37,6 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.loading_game);
         this.gameIntent = new Intent(this, NewLevelActivity.class);
         this.gameIntent.putExtra("Level", "Ground");
-        this.isGameOn = true;
-        startActivity(this.gameIntent);
-    }
-
-    public void newGameClickSpace(View view) {
-        setContentView(R.layout.loading_game);
-        this.gameIntent = new Intent(this, GameActivitySingleplayer.class);
-        this.gameIntent.putExtra("Level", "Space");
-        this.isGameOn = true;
         startActivity(this.gameIntent);
     }
 
@@ -69,14 +44,6 @@ public class MenuActivity extends AppCompatActivity {
         this.gameIntent = new Intent(this, MultiplayerLobby.class);
         this.gameIntent.putExtra("Level", "Default");
         startActivity(this.gameIntent);
-    }
-
-    public void resumeGameClick(View view){
-        try {
-            startActivity(this.gameIntent);
-        } catch (NullPointerException e){
-            System.out.println("Too bad - no game launched yet.");
-        }
     }
 
     public void onDestroy(){

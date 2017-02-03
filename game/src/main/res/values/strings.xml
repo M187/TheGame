@@ -27,4 +27,7 @@
         <item>Tank</item>
     </string-array>
 
+
+    <string name="level_number">LevelNumber</string>
+
 </resources>

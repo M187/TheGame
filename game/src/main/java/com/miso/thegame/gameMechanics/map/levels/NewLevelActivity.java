@@ -10,8 +10,8 @@ import android.view.WindowManager;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
-import com.miso.thegame.MenuActivity;
 import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.gameViews.GamePanelSingleplayer;
@@ -23,66 +23,69 @@ import java.util.ArrayList;
  */
 public class NewLevelActivity extends Activity {
 
-        public static DisplayMetrics metrics = new DisplayMetrics();
-        public boolean gameOver = false;
-        public ArrayList<Client> registeredPlayers = new ArrayList<>();
-        public GamePlayerTypeEnum playerType;
-        private ButtonsTypeData buttonsTypeData = new ButtonsTypeData();
+    public static DisplayMetrics metrics = new DisplayMetrics();
+    public static boolean isGameOn = false;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
+    public boolean gameOver = false;
+    public ArrayList<Client> registeredPlayers = new ArrayList<>();
+    public GamePlayerTypeEnum playerType;
+    private ButtonsTypeData buttonsTypeData = new ButtonsTypeData();
 
-            Log.d(ConstantHolder.TAG, " --> Entered main game Activity.");
-            loadPlayerData();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-            super.onCreate(savedInstanceState);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Log.d(ConstantHolder.TAG, " --> Entered main game Activity.");
+        loadPlayerData();
 
-            createGameView();
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-            if (gameOver) {
-                this.finish();
-            }
+        createGameView();
+
+        if (gameOver) {
+            this.finish();
         }
+    }
 
-        @Override
-        protected void onPause(){
-            super.onPause();
-            MenuActivity.isGameOn = false;
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NewLevelActivity.isGameOn = false;
+    }
 
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
-        /**
-         * Loads player data and saves them into constantHolder class.
-         * Later on to be used by game to affect gameObjects.
-         */
-        private void loadPlayerData() {
-            SharedPreferences settings = getSharedPreferences("PlayerOptions", 0);
+    /**
+     * Loads player data and saves them into constantHolder class.
+     * Later on to be used by game to affect gameObjects.
+     */
+    private void loadPlayerData() {
+        SharedPreferences settings = getSharedPreferences("PlayerOptions", 0);
 
-            int maxHealth = settings.getInt(OptionStrings.playerBonusHealth, 0);
-            int maxAmmo = settings.getInt(OptionStrings.playerBonusAmmo, 0);
-            int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
+        int maxHealth = settings.getInt(OptionStrings.playerBonusHealth, 0);
+        int maxAmmo = settings.getInt(OptionStrings.playerBonusAmmo, 0);
+        int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
 
-            this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
-            this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
-            this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
+        this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
+        this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
+        this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
 
-            ConstantHolder.loadSettingsData(maxHealth, maxAmmo, maxSpeed);
-        }
+        ConstantHolder.loadSettingsData(maxHealth, maxAmmo, maxSpeed);
+    }
 
-        /**
-         * Creates game view.
-         */
-        private void createGameView() {
-                setContentView(new GamePanelSingleplayer(
-                        this,
-                        this.playerType,
-                        this.buttonsTypeData,
-                        getIntent().getIntExtra("Level", 1)));
-        }
+    /**
+     * Creates game view.
+     */
+    private void createGameView() {
+
+        setContentView(new GamePanelSingleplayer(
+                this,
+                this.playerType,
+                this.buttonsTypeData,
+                getIntent().getIntExtra(getString(R.string.level_number), 1)));
+    }
 }

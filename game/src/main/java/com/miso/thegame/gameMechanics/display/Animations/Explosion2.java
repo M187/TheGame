@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import com.miso.thegame.MenuActivity;
 import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.display.backgroundEffects.CircleLightning;
 
