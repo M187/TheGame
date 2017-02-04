@@ -16,6 +16,9 @@ import com.miso.thegame.GameData.OptionStrings;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by michal.hornak on 14.01.2016.
  */
@@ -25,10 +28,13 @@ public class PlayerOptions extends Activity {
     private SeekBarImpl ammoSeekBar;
     private SeekBarImpl speedSeekBar;
 
+    @BindView(R.id.first_button_type_spinner)
     private Spinner firstButtonTypeSpinner;
     private String firstButtonType;
+    @BindView(R.id.second_button_type_spinner)
     private Spinner secondButtonTypeSpinner;
     private String secondButtonType;
+    @BindView(R.id.player_type_spinner)
     private Spinner playerTypeSpinner;
     private String playerType;
     
@@ -38,6 +44,7 @@ public class PlayerOptions extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player_options_layout);
+        ButterKnife.bind(this);
         this.initialize();
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -49,8 +56,6 @@ public class PlayerOptions extends Activity {
 
     //<editor-fold desc="Spinner stuff">
     private void initializeFirstButtonSpinner(){
-        this.firstButtonTypeSpinner = (Spinner) findViewById(R.id.first_button_type_spinner);
-
         List<String> firstButtonTypeList = new ArrayList<>();
         for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()){
             firstButtonTypeList.add(buttonTypeString.getButtonTypeString());
@@ -67,8 +72,6 @@ public class PlayerOptions extends Activity {
     }
 
     private void initializeSecondButtonSpinner(){
-        this.secondButtonTypeSpinner = (Spinner) findViewById(R.id.second_button_type_spinner);
-
         List<String> secondButtonTypeList = new ArrayList<>();
         for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()){
             secondButtonTypeList.add(buttonTypeString.getButtonTypeString());
@@ -85,8 +88,6 @@ public class PlayerOptions extends Activity {
     }
     
     private void initializePlayerSpinner() {
-        this.playerTypeSpinner = (Spinner) findViewById(R.id.player_type_spinner);
-
         List<String> playerTypeList = new ArrayList<>();
         for (GamePlayerTypeEnum playerTypeString : GamePlayerTypeEnum.values()){
             playerTypeList.add(playerTypeString.getTypeString());
