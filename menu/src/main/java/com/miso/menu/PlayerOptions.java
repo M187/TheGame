@@ -29,13 +29,13 @@ public class PlayerOptions extends Activity {
     private SeekBarImpl speedSeekBar;
 
     @BindView(R.id.first_button_type_spinner)
-    private Spinner firstButtonTypeSpinner;
+    Spinner firstButtonTypeSpinner;
     private String firstButtonType;
     @BindView(R.id.second_button_type_spinner)
-    private Spinner secondButtonTypeSpinner;
+    Spinner secondButtonTypeSpinner;
     private String secondButtonType;
     @BindView(R.id.player_type_spinner)
-    private Spinner playerTypeSpinner;
+    Spinner playerTypeSpinner;
     private String playerType;
     
     private SharedPreferences settings;
