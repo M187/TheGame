@@ -32,7 +32,7 @@
                     android:layout_weight="1"
                     android:text="Health"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/multiplyer_loby_text_color"
+                    android:textColor="@color/menu_text_color"
                     android:textStyle="bold" />
 
                 <SeekBar
@@ -55,7 +55,7 @@
                     android:layout_weight="1"
                     android:text="Ammo"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/multiplyer_loby_text_color"
+                    android:textColor="@color/menu_text_color"
                     android:textStyle="bold" />
 
                 <SeekBar
@@ -78,7 +78,7 @@
                     android:layout_weight="1"
                     android:text="Speed"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/multiplyer_loby_text_color"
+                    android:textColor="@color/menu_text_color"
                     android:textStyle="bold" />
 
                 <SeekBar

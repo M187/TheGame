@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menubackground"
     android:orientation="vertical"
-    android:paddingTop="20dp"
+    android:paddingTop="10dp"
     android:weightSum="1">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:alpha="0.8"
-        android:orientation="vertical">
 
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:alpha="0.8"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:background="@color/background_tint"
+            android:padding="5dp"
             android:orientation="vertical">
 
-            <TableRow android:gravity="center_horizontal">
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="1"
-                    android:text="The GAME"
-                    android:textColor="@color/button_material_light"
-                    android:textSize="35dp" />
-            </TableRow>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="The GAME"
+                android:textColor="@color/menu_text_color"
+                android:textSize="35dp" />
 
             <Button
                 android:id="@+id/button_new_game_ground"
@@ -63,5 +56,4 @@
                 android:text="exit aGame" />
 
         </TableLayout>
-    </ScrollView>
-</LinearLayout>
+</ScrollView>
