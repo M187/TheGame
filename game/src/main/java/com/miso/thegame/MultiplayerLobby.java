@@ -131,9 +131,8 @@ public class MultiplayerLobby extends Activity {
         } else {
             try {
                 initHostServer();
-                this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
 
-                this.uiStateHandler.hostClickUiChanges();
+                this.myNickname = this.uiStateHandler.hostClickUiChanges();
 
                 this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
             } catch (UnableToBindPortException e) {
@@ -169,8 +168,6 @@ public class MultiplayerLobby extends Activity {
                     this.clientConnectionToServer.sendMessage(joinReq);
                     this.uiStateHandler.joinClickUiEvents();
                     this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
-                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join successful!");
-                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                 } else {
                     ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join unsuccessful!");
                     ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
@@ -204,7 +201,7 @@ public class MultiplayerLobby extends Activity {
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Joined || this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
 
-            this.uiStateHandler.abdandonClickUiEvents();
+            this.uiStateHandler.abandonClickUiEvents();
 
             if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
                 ((Button) findViewById(R.id.button_ready)).setText("READY");
