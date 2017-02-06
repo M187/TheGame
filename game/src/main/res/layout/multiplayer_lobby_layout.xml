@@ -40,7 +40,7 @@
                     android:textColor="@color/menu_text_color" />
 
                 <TextView
-                    android:id="@+id/textinfo_hosting_game"
+                    android:id="@+id/textinfo_game_state_events"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Not hosting any game!"
@@ -163,6 +163,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/joined_players_row"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
@@ -172,6 +173,7 @@
                 android:id="@+id/players_connected"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white_tint"
                 android:layout_gravity="left"
                 android:orientation="vertical">
 
@@ -181,8 +183,8 @@
 
                     <TextView
                         android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:alpha="1"
                         android:text="Players already connected:"
                         android:textAppearance="?android:attr/textAppearanceMedium"

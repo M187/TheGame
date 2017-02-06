@@ -56,6 +56,7 @@ public class MultiplayerLobby extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.multiplayer_lobby_layout);
         playerListUpdater = new PlayerListUpdater(this, registeredPlayers);
         this.uiStateHandler = new MultiplayerLobbyStateHandler(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -83,7 +84,6 @@ public class MultiplayerLobby extends Activity {
     protected void onResume() {
         super.onResume();
 
-        setContentView(R.layout.multiplayer_lobby_layout);
         this.uiStateHandler.unHostClickUiChanges();
         this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
 
@@ -132,11 +132,12 @@ public class MultiplayerLobby extends Activity {
             try {
                 initHostServer();
 
-                this.myNickname = this.uiStateHandler.hostClickUiChanges();
+                this.myNickname = ((EditText) this.findViewById(R.id.player_nickname)).getText().toString();
+                this.uiStateHandler.hostClickUiChanges();
 
                 this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
             } catch (UnableToBindPortException e) {
-                //TODO: Inform player that server was unable to bind port.
+                //TODO: Inform player that server was unable to butterknifeBind port.
                 Log.d(ConstantHolder.TAG, "Port for server is already in use!");
             }
         }
@@ -169,8 +170,8 @@ public class MultiplayerLobby extends Activity {
                     this.uiStateHandler.joinClickUiEvents();
                     this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
                 } else {
-                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Join unsuccessful!");
-                    ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    ((TextView) findViewById(R.id.textinfo_game_state_events)).setText("Join unsuccessful!");
+                    ((TextView) findViewById(R.id.textinfo_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
 
                     uninitLocalServerAndData();
                     this.clientConnectionToServer = null;
@@ -275,8 +276,8 @@ public class MultiplayerLobby extends Activity {
         }
 
         if (!this.server.serverBindsPort) {
-            ((TextView) findViewById(R.id.textinfo_hosting_game)).setText("Unable to bind port to server.!");
-            ((TextView) findViewById(R.id.textinfo_hosting_game)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            ((TextView) findViewById(R.id.textinfo_game_state_events)).setText("Unable to butterknifeBind port to server.!");
+            ((TextView) findViewById(R.id.textinfo_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             throw new UnableToBindPortException();
         }
     }

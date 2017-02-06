@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 21
@@ -28,8 +27,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
 
 //    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     testCompile 'junit:junit:4.12'
     testCompile('org.robolectric:robolectric:3.0-rc2') {

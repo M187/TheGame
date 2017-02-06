@@ -1,5 +1,7 @@
 package com.miso.thegame.Networking;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,10 +9,6 @@ import android.widget.TextView;
 
 import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.R;
-import com.miso.thegame.R2;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by michal.hornak on 10.05.2016.
@@ -19,25 +17,27 @@ public class MultiplayerLobbyStateHandler {
 
     private MultiplayerLobby multiplayerLobby;
 
-    @BindView(R2.id.button_join)
     Button mJoinButton;
-    @BindView(R2.id.button_ready)
     Button mReadyButton;
-    @BindView(R2.id.button_abandon)
     Button mAbandonButton;
-    @BindView(R2.id.button_host)
     Button mHostButton;
-    @BindView(R2.id.button_start)
     Button mStartButton;
-    @BindView(R2.id.player_nickname)
     EditText mPlayerNickname;
-    @BindView(R2.id.textinfo_game_state_events)
     TextView mTextInfo;
-
 
     public MultiplayerLobbyStateHandler(MultiplayerLobby multiplayerLobby){
         this.multiplayerLobby = multiplayerLobby;
-        ButterKnife.bind(multiplayerLobby);
+        bindViews();
+    }
+
+    private void bindViews(){
+        this.mJoinButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_join));
+        this.mReadyButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_ready));
+        this.mAbandonButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_abandon));
+        this.mHostButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_host));
+        this.mStartButton = ((Button)this.multiplayerLobby.findViewById(R.id.button_start));
+        this.mPlayerNickname = ((EditText)this.multiplayerLobby.findViewById(R.id.player_nickname));
+        this.mTextInfo = ((TextView)this.multiplayerLobby.findViewById(R.id.textinfo_game_state_events));
     }
 
     public void joinClickUiEvents(){
@@ -59,16 +59,22 @@ public class MultiplayerLobbyStateHandler {
         this.mPlayerNickname.setEnabled(true);
     }
 
-    public String hostClickUiChanges(){
+    public void hostClickUiChanges(){
         this.mTextInfo.setText("Hosting Game!");
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_red_dark));
         this.mHostButton.setText("UN-HOST");
         this.mJoinButton.setEnabled(false);
         this.mStartButton.setEnabled(true);
         this.mPlayerNickname.setEnabled(false);
-        (this.multiplayerLobby.findViewById(R.id.join_game_row)).setVisibility(View.INVISIBLE);
-
-        return this.mPlayerNickname.getText().toString();
+        this.multiplayerLobby.findViewById(R.id.join_game_row)
+                .animate()
+                .translationX(-this.multiplayerLobby.findViewById(R.id.join_game_row).getWidth())
+                .setListener(new AnimatorListenerAdapter() {
+                    public void onAnimationEnd(Animator animation) {
+                        multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.GONE);
+                        multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
+                    }
+                });
     }
 
     public void unHostClickUiChanges(){
@@ -78,7 +84,18 @@ public class MultiplayerLobbyStateHandler {
         this.mJoinButton.setEnabled(true);
         this.mStartButton.setEnabled(false);
         this.mPlayerNickname.setEnabled(true);
-        (this.multiplayerLobby.findViewById(R.id.join_game_row)).setVisibility(View.VISIBLE);
+        this.multiplayerLobby.findViewById(R.id.joined_players_row)
+                .animate()
+                .translationY(this.multiplayerLobby.findViewById(R.id.join_game_row).getHeight())
+                .setListener(new AnimatorListenerAdapter() {
+                    public void onAnimationEnd(Animator animation) {
+                        multiplayerLobby.findViewById(R.id.join_game_row).setTranslationX(0);
+                        multiplayerLobby.findViewById(R.id.joined_players_row).setTranslationY(0);
+
+                        multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.VISIBLE);
+                        multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
+                    }
+                });
     }
 
     public void readyClickUiChanges(){
