@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".GameActivityMultiplayer"
+            android:name=".Networking.GameActivityMultiplayer"
             android:hardwareAccelerated="false"
             android:label="TheGame"
             android:launchMode="singleTop"
@@ -33,7 +33,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".MultiplayerLobby"
+            android:name="com.miso.menu.MultiplayerLobby"
             android:hardwareAccelerated="false"
             android:label="MultiplayerLobby"
             android:screenOrientation="landscape"/>

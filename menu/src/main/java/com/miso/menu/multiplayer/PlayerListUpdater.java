@@ -1,10 +1,10 @@
-package com.miso.thegame.Networking;
+package com.miso.menu.multiplayer;
 
+import android.app.Activity;
 import android.widget.TextView;
 
-import com.miso.thegame.MultiplayerLobby;
 import com.miso.thegame.Networking.client.Client;
-import com.miso.thegame.R;
+import com.miso.menu.R;
 
 import java.util.ArrayList;
 
@@ -14,12 +14,12 @@ import java.util.ArrayList;
 public class PlayerListUpdater extends Thread {
 
     private volatile ArrayList<Client> registeredPlayers;
-    private MultiplayerLobby multiplayerLobby;
+    private Activity multiplayerLobby;
     private volatile boolean running;
     private volatile boolean synchronousWait;
     private volatile String entry;
 
-    public PlayerListUpdater(MultiplayerLobby multiplayerLobby, ArrayList<Client> registeredPlayers) {
+    public PlayerListUpdater(Activity multiplayerLobby, ArrayList<Client> registeredPlayers) {
         this.multiplayerLobby = multiplayerLobby;
         this.registeredPlayers = registeredPlayers;
     }

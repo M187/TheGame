@@ -1,4 +1,4 @@
-package com.miso.thegame;
+package com.miso.thegame.Networking;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -13,6 +13,7 @@ import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.ConstantHolder;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.gameViews.GamePanelMultiplayer;

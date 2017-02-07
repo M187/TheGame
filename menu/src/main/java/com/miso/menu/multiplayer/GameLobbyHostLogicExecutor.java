@@ -1,9 +1,10 @@
-package com.miso.thegame.Networking.server.logicExecutors;
+package com.miso.menu.multiplayer;
 
-import com.miso.thegame.MultiplayerLobby;
+import com.miso.thegame.Networking.NetworkConnectionConstants;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
+import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
@@ -72,11 +73,11 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
         Client newClient = (
                 new Client(
                         joinGameLobbyMessage.getComputerName(),
-                        MultiplayerLobby.DEFAULT_COM_PORT,
+                        NetworkConnectionConstants.DEFAULT_COM_PORT,
                         joinGameLobbyMessage.getNickname()));
         newClient.start();
 
-        newClient.sendMessage(new OtherPlayerDataMessage(MultiplayerLobby.myNickname, Server.myAddress.getHostName()));
+        newClient.sendMessage(new OtherPlayerDataMessage(NetworkConnectionConstants.getPlayerNickname(), Server.myAddress.getHostName()));
 
         for (Client client : this.registeredPlayers) {
             client.sendMessage(
@@ -99,7 +100,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
         this.registeredPlayers.remove(
                 new Client(
                         leaveGameLobbyMessage.getComputerName(),
-                        MultiplayerLobby.DEFAULT_COM_PORT,
+                        NetworkConnectionConstants.DEFAULT_COM_PORT,
                         leaveGameLobbyMessage.getNickname()));
     }
 }

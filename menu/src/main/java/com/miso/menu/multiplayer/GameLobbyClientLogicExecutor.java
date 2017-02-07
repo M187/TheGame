@@ -1,16 +1,19 @@
-package com.miso.thegame.Networking.server.logicExecutors;
+package com.miso.menu.multiplayer;
 
+import android.app.Activity;
 import android.content.Intent;
 
-import com.miso.thegame.GameActivityMultiplayer;
+import com.miso.menu.MultiplayerLobby;
+import com.miso.thegame.Networking.GameActivityMultiplayer;
 import com.miso.thegame.GameData.OptionStrings;
-import com.miso.thegame.MultiplayerLobby;
+import com.miso.thegame.Networking.NetworkConnectionConstants;
 import com.miso.thegame.Networking.client.Client;
+import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
-import com.miso.thegame.R;
+import com.miso.menu.R;
 
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                 this.registeredPlayers.add(
                         new Client(
                                 ((OtherPlayerDataMessage) transmissionMessage).getComputerName(),
-                                MultiplayerLobby.DEFAULT_COM_PORT,
+                                NetworkConnectionConstants.DEFAULT_COM_PORT,
                                 ((OtherPlayerDataMessage) transmissionMessage).getNickname()));
                 break;
 
@@ -52,8 +55,8 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
             case "04":
                 this.multiplayerLobby.saveConnectedPlayers();
                 this.multiplayerLobby.runOnUiThread((new Runnable() {
-                    private MultiplayerLobby multiplayerLobby;
-                    public Runnable init(MultiplayerLobby multiplayerLobby){
+                    private Activity multiplayerLobby;
+                    public Runnable init(Activity multiplayerLobby){
                         this.multiplayerLobby = multiplayerLobby;
                         return this;
                     }
@@ -62,7 +65,7 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                 }).init(this.multiplayerLobby));
                 this.multiplayerLobby.startActivity(
                         new Intent(this.multiplayerLobby.getApplicationContext(), GameActivityMultiplayer.class)
-                                .putExtra(OptionStrings.myNickname, this.multiplayerLobby.myNickname)
+                                .putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
                                 .putExtra(OptionStrings.multiplayerInstance, ((StartGameMessage) transmissionMessage).getIndexOfPlayer())
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 throw new StartGameException();

@@ -1,4 +1,4 @@
-package com.miso.thegame;
+package com.miso.menu;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,14 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.miso.menu.multiplayer.MultiplayerLobbyStateHandler;
+import com.miso.thegame.Networking.GameActivityMultiplayer;
 import com.miso.thegame.GameData.OptionStrings;
-import com.miso.thegame.Networking.MultiplayerLobbyStateHandler;
-import com.miso.thegame.Networking.PlayerListUpdater;
+import com.miso.thegame.Networking.NetworkConnectionConstants;
+import com.miso.menu.multiplayer.PlayerListUpdater;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
-import com.miso.thegame.Networking.server.logicExecutors.GameLobbyClientLogicExecutor;
-import com.miso.thegame.Networking.server.logicExecutors.GameLobbyHostLogicExecutor;
+import com.miso.menu.multiplayer.GameLobbyClientLogicExecutor;
+import com.miso.menu.multiplayer.GameLobbyHostLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.DisbandGameMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
@@ -43,8 +45,6 @@ import java.util.ArrayList;
  */
 public class MultiplayerLobby extends Activity {
 
-    public static final int DEFAULT_COM_PORT = 12371;
-    public static volatile String myNickname = null;
     public MultiplayerLobbyStateHandler.LobbyState lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
     public volatile Server server;
     private Sender sender;
@@ -122,7 +122,7 @@ public class MultiplayerLobby extends Activity {
 
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Hosting) {
 
-            this.myNickname = "";
+            NetworkConnectionConstants.setPlayerNickname("");
             this.uiStateHandler.unHostClickUiChanges();
 
             sender.sendMessage(new DisbandGameMessage());
@@ -132,7 +132,7 @@ public class MultiplayerLobby extends Activity {
             try {
                 initHostServer();
 
-                this.myNickname = ((EditText) this.findViewById(R.id.player_nickname)).getText().toString();
+                NetworkConnectionConstants.setPlayerNickname(((EditText) this.findViewById(R.id.player_nickname)).getText().toString());
                 this.uiStateHandler.hostClickUiChanges();
 
                 this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
@@ -150,13 +150,13 @@ public class MultiplayerLobby extends Activity {
             try {
                 initClientServer();
 
-                this.myNickname = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
-                TransmissionMessage joinReq = new JoinGameLobbyMessage(this.myNickname);
+                NetworkConnectionConstants.setPlayerNickname(((EditText) findViewById(R.id.player_nickname)).getText().toString());
+                TransmissionMessage joinReq = new JoinGameLobbyMessage(NetworkConnectionConstants.getPlayerNickname());
 
                 Client newC = (new Client(
                         ((EditText) findViewById(R.id.ip)).getText().toString(),
                         Integer.parseInt(((EditText) findViewById(R.id.port)).getText().toString()),
-                        this.myNickname));
+                        NetworkConnectionConstants.getPlayerNickname()));
                 startMyClient(newC);
                 //Wait for connection.
                 while (newC.isRunning() && !(newC.isConnectionEstablished())) {
@@ -187,13 +187,13 @@ public class MultiplayerLobby extends Activity {
 
             this.uiStateHandler.readyClickUiChanges();
 
-            this.clientConnectionToServer.sendMessage(new ReadyToPlayMessage(this.myNickname));
+            this.clientConnectionToServer.sendMessage(new ReadyToPlayMessage(NetworkConnectionConstants.getPlayerNickname()));
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame;
 
         } else if (lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
 
             this.uiStateHandler.unReadyClickChanges();
-            this.clientConnectionToServer.sendMessage(new UnReadyToPlayMessage(this.myNickname));
+            this.clientConnectionToServer.sendMessage(new UnReadyToPlayMessage(NetworkConnectionConstants.getPlayerNickname()));
             this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
         }
     }
@@ -207,7 +207,7 @@ public class MultiplayerLobby extends Activity {
             if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
                 ((Button) findViewById(R.id.button_ready)).setText("READY");
 
-                LeaveGameLobbyMessage leaveGameLobbyMessage = new LeaveGameLobbyMessage(this.myNickname);
+                LeaveGameLobbyMessage leaveGameLobbyMessage = new LeaveGameLobbyMessage(NetworkConnectionConstants.getPlayerNickname());
                 this.clientConnectionToServer.sendMessage(leaveGameLobbyMessage);
             }
             uninitLocalServerAndData();
@@ -230,7 +230,7 @@ public class MultiplayerLobby extends Activity {
             saveConnectedPlayers();
             setContentView(R.layout.loading_game);
             startActivity(new Intent(this, GameActivityMultiplayer.class)
-                    .putExtra(OptionStrings.myNickname, this.myNickname)
+                    .putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
                     .putExtra(OptionStrings.multiplayerInstance, "0"));
             this.uninitLocalServerAndData();
         } else {
