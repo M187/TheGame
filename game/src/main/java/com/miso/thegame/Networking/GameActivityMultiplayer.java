@@ -1,13 +1,12 @@
 package com.miso.thegame.Networking;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
@@ -27,9 +26,8 @@ import java.util.ArrayList;
 /**
  * Created by michal.hornak on 21.09.2016.
  */
-public class GameActivityMultiplayer extends Activity {
+public class GameActivityMultiplayer extends GameActivity {
 
-    public static DisplayMetrics metrics = new DisplayMetrics();
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
     public ArrayList<Client> playersThatEnteredGame = new ArrayList<>();
@@ -49,7 +47,6 @@ public class GameActivityMultiplayer extends Activity {
 
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         createGameView(mapToCreate);
 

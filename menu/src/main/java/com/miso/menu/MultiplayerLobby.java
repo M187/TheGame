@@ -137,7 +137,7 @@ public class MultiplayerLobby extends Activity {
 
                 this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Hosting;
             } catch (UnableToBindPortException e) {
-                //TODO: Inform player that server was unable to butterknifeBind port.
+                //TODO: Inform player that server was unable to Bind port.
                 Log.d(ConstantHolder.TAG, "Port for server is already in use!");
             }
         }

@@ -1,12 +1,11 @@
 package com.miso.thegame.gameMechanics.map.levels;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
@@ -21,9 +20,8 @@ import java.util.ArrayList;
 /**
  * Created by Miso on 14.9.2016.
  */
-public class NewLevelActivity extends Activity {
+public class NewLevelActivity extends GameActivity {
 
-    public static DisplayMetrics metrics = new DisplayMetrics();
     public static boolean isGameOn = false;
 
     public boolean gameOver = false;
@@ -39,7 +37,6 @@ public class NewLevelActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         createGameView();
 

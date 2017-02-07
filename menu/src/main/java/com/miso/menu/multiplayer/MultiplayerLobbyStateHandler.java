@@ -63,33 +63,17 @@ public class MultiplayerLobbyStateHandler {
         this.mTextInfo.setText("Hosting Game!");
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_red_dark));
         this.mHostButton.setText("UN-HOST");
+        this.mHostButton.setEnabled(false);
         this.mJoinButton.setEnabled(false);
-        this.mStartButton.setEnabled(true);
         this.mPlayerNickname.setEnabled(false);
-        this.multiplayerLobby.findViewById(R.id.join_game_row)
-                .animate()
-                .translationX(-this.multiplayerLobby.findViewById(R.id.join_game_row).getWidth())
-                .setListener(new AnimatorListenerAdapter() {
-                    public void onAnimationEnd(Animator animation) {
-                        multiplayerLobby.findViewById(R.id.joined_players_row)
-                                .animate()
-                                .translationY(-multiplayerLobby.findViewById(R.id.join_game_row).getHeight())
-                                .setListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        multiplayerLobby.findViewById(R.id.joined_players_row).setTranslationY(0);
-                                        multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.GONE);
-                                        multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
-                                    }
-                                });
-                    }
-                });
+        hostAnimation();
     }
 
     public void unHostClickUiChanges() {
         this.mTextInfo.setText("Not hosting any game!");
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_green_dark));
         this.mHostButton.setText("HOST");
+        this.mHostButton.setEnabled(false);
         this.mJoinButton.setEnabled(true);
         this.mStartButton.setEnabled(false);
         this.mPlayerNickname.setEnabled(true);
@@ -127,6 +111,30 @@ public class MultiplayerLobbyStateHandler {
                                 .setListener(new AnimatorListenerAdapter() {
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
+                                        mHostButton.setEnabled(true);
+                                        multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
+                                    }
+                                });
+                    }
+                });
+    }
+
+    private void hostAnimation(){
+        this.multiplayerLobby.findViewById(R.id.join_game_row)
+                .animate()
+                .translationX(-this.multiplayerLobby.findViewById(R.id.join_game_row).getWidth())
+                .setListener(new AnimatorListenerAdapter() {
+                    public void onAnimationEnd(Animator animation) {
+                        multiplayerLobby.findViewById(R.id.joined_players_row)
+                                .animate()
+                                .translationY(-multiplayerLobby.findViewById(R.id.join_game_row).getHeight())
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        mStartButton.setEnabled(true);
+                                        mHostButton.setEnabled(true);
+                                        multiplayerLobby.findViewById(R.id.joined_players_row).setTranslationY(0);
+                                        multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.GONE);
                                         multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
                                     }
                                 });
