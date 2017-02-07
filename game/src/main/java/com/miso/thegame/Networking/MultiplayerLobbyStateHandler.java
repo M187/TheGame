@@ -84,18 +84,8 @@ public class MultiplayerLobbyStateHandler {
         this.mJoinButton.setEnabled(true);
         this.mStartButton.setEnabled(false);
         this.mPlayerNickname.setEnabled(true);
-        this.multiplayerLobby.findViewById(R.id.joined_players_row)
-                .animate()
-                .translationY(this.multiplayerLobby.findViewById(R.id.join_game_row).getHeight())
-                .setListener(new AnimatorListenerAdapter() {
-                    public void onAnimationEnd(Animator animation) {
-                        multiplayerLobby.findViewById(R.id.join_game_row).setTranslationX(0);
-                        multiplayerLobby.findViewById(R.id.joined_players_row).setTranslationY(0);
 
-                        multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.VISIBLE);
-                        multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
-                    }
-                });
+        unHostAnimation();
     }
 
     public void readyClickUiChanges(){
@@ -111,5 +101,21 @@ public class MultiplayerLobbyStateHandler {
         Joined,
         JoinedAndReadyForGame,
         Hosting
+    }
+
+    private void unHostAnimation(){
+        this.multiplayerLobby.findViewById(R.id.joined_players_row)
+                .animate()
+                .translationY(this.multiplayerLobby.findViewById(R.id.join_game_row).getHeight())
+                .setListener(new AnimatorListenerAdapter() {
+                    public void onAnimationEnd(Animator animation) {
+
+                        multiplayerLobby.findViewById(R.id.joined_players_row).setTranslationY(0);
+                        multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.VISIBLE);
+                        multiplayerLobby.findViewById(R.id.join_game_row)
+                                .animate()
+                                .translationX(0);
+                    }
+                });
     }
 }
