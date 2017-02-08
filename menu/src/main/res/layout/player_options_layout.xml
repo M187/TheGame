@@ -1,121 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menubackground"
     android:orientation="vertical"
     android:weightSum="1">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@color/background_tint"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <TableLayout
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
+            android:background="@color/background_tint">
 
-            android:orientation="vertical">
-
-            <TableRow
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_margin="10dp"
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Health"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/menu_text_color"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical">
 
-                <SeekBar
-                    android:id="@+id/health_seekBar"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Health"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/health_seekBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:max="5" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:max="5" />
-            </TableRow>
+                    android:gravity="center_vertical">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ammo"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    <SeekBar
+                        android:id="@+id/ammo_seekBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:max="5" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ammo"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/menu_text_color"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical">
 
-                <SeekBar
-                    android:id="@+id/ammo_seekBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:max="5" />
-            </TableRow>
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Speed"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                    <SeekBar
+                        android:id="@+id/speed_seekBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:max="5" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Speed"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/menu_text_color"
-                    android:textStyle="bold" />
+                <TableRow
+                    android:id="@+id/ability_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <SeekBar
-                    android:id="@+id/speed_seekBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:max="5" />
-            </TableRow>
+                    <Spinner
+                        android:id="@+id/first_button_type_spinner"
+                        style="@style/my_dark_style_buttons"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
-            <TableRow
-                android:id="@+id/ability_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <Spinner
+                        android:id="@+id/second_button_type_spinner"
+                        style="@style/my_dark_style_buttons"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </TableRow>
 
                 <Spinner
-                    android:id="@+id/first_button_type_spinner"
+                    android:id="@+id/player_type_spinner"
                     style="@style/my_dark_style_buttons"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content" />
 
-                <Spinner
-                    android:id="@+id/second_button_type_spinner"
-                    style="@style/my_dark_style_buttons"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </TableRow>
-
-            <Spinner
-                android:id="@+id/player_type_spinner"
-                style="@style/my_dark_style_buttons"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-        </TableLayout>
-    </RelativeLayout>
+            </TableLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

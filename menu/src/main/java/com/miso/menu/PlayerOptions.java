@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
@@ -39,6 +41,7 @@ public class PlayerOptions extends Activity {
     private String playerType;
     
     private SharedPreferences settings;
+    private AdView mAdView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,10 @@ public class PlayerOptions extends Activity {
         initializeFirstButtonSpinner();
         initializeSecondButtonSpinner();
         initializePlayerSpinner();
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     //<editor-fold desc="Spinner stuff">
