@@ -70,7 +70,7 @@ public class MultiplayerLobbyStateHandler {
     public void hostClickUiChanges() {
         this.mTextInfo.setText(R.string.host_message);
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_red_dark));
-        this.mMainButton1.setText(R.string.unhost_message);
+        this.mMainButton1.setText(R.string.unhost);
         this.mMainButton1.setEnabled(false);
         this.mJoinButton.setEnabled(false);
         this.mPlayerNickname.setEnabled(false);

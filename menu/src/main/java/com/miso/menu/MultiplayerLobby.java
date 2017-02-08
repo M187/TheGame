@@ -85,6 +85,7 @@ public class MultiplayerLobby extends Activity {
         super.onResume();
 
         this.uiStateHandler.unHostClickUiChanges();
+        ((TextView)findViewById(R.id.textinfo_game_state_events)).setText(R.string.welcome_message);
         this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
 
         System.out.println(" --> Calling onResume for Multiplayer lobby.");
