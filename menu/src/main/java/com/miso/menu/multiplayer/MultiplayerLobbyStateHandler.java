@@ -17,11 +17,18 @@ public class MultiplayerLobbyStateHandler {
 
     private MultiplayerLobby multiplayerLobby;
 
-    Button mJoinButton;
-    Button mMainButton1;
-    Button mMainButton2;
-    EditText mPlayerNickname;
-    TextView mTextInfo;
+    private Button mJoinButton;
+    private Button mMainButton1;
+    private Button mMainButton2;
+    private EditText mPlayerNickname;
+    private TextView mTextInfo;
+
+    public enum LobbyState {
+        Default,
+        Joined,
+        JoinedAndReadyForGame,
+        Hosting
+    }
 
     public MultiplayerLobbyStateHandler(MultiplayerLobby multiplayerLobby) {
         this.multiplayerLobby = multiplayerLobby;
@@ -41,7 +48,7 @@ public class MultiplayerLobbyStateHandler {
         this.mMainButton1.setEnabled(false);
         this.mPlayerNickname.setEnabled(false);
 
-        this.mTextInfo.setText("Join successful!");
+        this.mTextInfo.setText(R.string.join_message);
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_green_dark));
 
         bindJoinEventsToMainButtons();
@@ -49,8 +56,11 @@ public class MultiplayerLobbyStateHandler {
     }
 
     public void abandonClickUiEvents() {
+        this.mTextInfo.setText(R.string.abandon_message);
+        this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_green_dark));
         this.mJoinButton.setEnabled(true);
-        this.mMainButton1.setEnabled(true);
+        this.mMainButton1.setEnabled(false);
+        this.mMainButton2.setEnabled(false);
         this.mPlayerNickname.setEnabled(true);
 
         unbindJoinEventsToMainButtons();
@@ -58,9 +68,9 @@ public class MultiplayerLobbyStateHandler {
     }
 
     public void hostClickUiChanges() {
-        this.mTextInfo.setText("Hosting Game!");
+        this.mTextInfo.setText(R.string.host_message);
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_red_dark));
-        this.mMainButton1.setText("UN-HOST");
+        this.mMainButton1.setText(R.string.unhost_message);
         this.mMainButton1.setEnabled(false);
         this.mJoinButton.setEnabled(false);
         this.mPlayerNickname.setEnabled(false);
@@ -69,9 +79,9 @@ public class MultiplayerLobbyStateHandler {
     }
 
     public void unHostClickUiChanges() {
-        this.mTextInfo.setText("Not hosting any game!");
+        this.mTextInfo.setText(R.string.unhost_message);
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_green_dark));
-        this.mMainButton1.setText("HOST");
+        this.mMainButton1.setText(R.string.host);
         this.mMainButton1.setEnabled(false);
         this.mJoinButton.setEnabled(true);
         this.mMainButton2.setEnabled(false);
@@ -81,18 +91,11 @@ public class MultiplayerLobbyStateHandler {
     }
 
     public void readyClickUiChanges() {
-        this.mMainButton2.setText("UN-READY");
+        this.mMainButton2.setText(R.string.unready);
     }
 
     public void unReadyClickChanges() {
-        this.mMainButton2.setText("READY");
-    }
-
-    public enum LobbyState {
-        Default,
-        Joined,
-        JoinedAndReadyForGame,
-        Hosting
+        this.mMainButton2.setText(R.string.ready);
     }
 
     private void showJoinRowAnimation() {
@@ -142,7 +145,7 @@ public class MultiplayerLobbyStateHandler {
     }
 
     private void bindJoinEventsToMainButtons(){
-        this.mMainButton1.setText("ABANDON");
+        this.mMainButton1.setText(R.string.abandon);
         this.mMainButton1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -150,7 +153,7 @@ public class MultiplayerLobbyStateHandler {
             }
         });
 
-        this.mMainButton2.setText("READY");
+        this.mMainButton2.setText(R.string.ready);
         this.mMainButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +163,7 @@ public class MultiplayerLobbyStateHandler {
     }
 
     private void unbindJoinEventsToMainButtons(){
-        this.mMainButton1.setText("HOST");
+        this.mMainButton1.setText(R.string.host);
         this.mMainButton1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -168,7 +171,7 @@ public class MultiplayerLobbyStateHandler {
             }
         });
 
-        this.mMainButton2.setText("START");
+        this.mMainButton2.setText(R.string.start);
         this.mMainButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

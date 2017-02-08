@@ -169,7 +169,7 @@ public class MultiplayerLobby extends Activity {
                     this.uiStateHandler.joinClickUiEvents();
                     this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
                 } else {
-                    ((TextView) findViewById(R.id.textinfo_game_state_events)).setText("Join unsuccessful!");
+                    ((TextView) findViewById(R.id.textinfo_game_state_events)).setText(R.string.join_message_fail);
                     ((TextView) findViewById(R.id.textinfo_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
 
                     uninitLocalServerAndData();
@@ -204,8 +204,6 @@ public class MultiplayerLobby extends Activity {
             this.uiStateHandler.abandonClickUiEvents();
 
             if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.JoinedAndReadyForGame) {
-                ((Button) findViewById(R.id.button_ready)).setText("READY");
-
                 LeaveGameLobbyMessage leaveGameLobbyMessage = new LeaveGameLobbyMessage(NetworkConnectionConstants.getPlayerNickname());
                 this.clientConnectionToServer.sendMessage(leaveGameLobbyMessage);
             }
@@ -275,7 +273,7 @@ public class MultiplayerLobby extends Activity {
         }
 
         if (!this.server.serverBindsPort) {
-            ((TextView) findViewById(R.id.textinfo_game_state_events)).setText("Unable to butterknifeBind port to server.!");
+            ((TextView) findViewById(R.id.textinfo_game_state_events)).setText(R.string.port_not_available);
             ((TextView) findViewById(R.id.textinfo_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             throw new UnableToBindPortException();
         }

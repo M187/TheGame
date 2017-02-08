@@ -8,4 +8,21 @@
     <string name="level_number">LevelNumber</string>
 
 
+    <!-- Multiplayer lobby-->
+    <string name="join">JOIN</string>
+    <string name="abandon">ABANDON</string>
+    <string name="ready">READY</string>
+    <string name="unready">UN-READY</string>
+    <string name="host">HOST</string>
+    <string name="unhost">UN-HOST</string>
+    <string name="start">START</string>
+
+    <string name="welcome_message">Join or Host game!</string>
+    <string name="join_message">Join successful!</string>
+    <string name="join_message_fail">Join unsuccessful!</string>
+    <string name="abandon_message">Game abandoned. Please Join or Create!</string>
+    <string name="host_message">Hosting game!</string>
+    <string name="unhost_message">Game disbanded!</string>
+    <string name="port_not_available">Unable to bind port!</string>
+
 </resources>

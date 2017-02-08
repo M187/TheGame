@@ -43,7 +43,7 @@
                     android:id="@+id/textinfo_game_state_events"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Not hosting any game!"
+                    android:text="@string/welcome_message"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/holo_green_dark" />
             </LinearLayout>
@@ -60,7 +60,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:onClick="hostClick"
-                    android:text="HOST" />
+                    android:text="@string/host" />
 
                 <Button
                     android:id="@+id/button_main_2"
@@ -69,7 +69,7 @@
                     android:layout_weight="1"
                     android:enabled="false"
                     android:onClick="startGame"
-                    android:text="START" />
+                    android:text="@string/start" />
             </LinearLayout>
         </TableRow>
 
@@ -140,9 +140,9 @@
                 <Button
                     android:id="@+id/button_join"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:onClick="joinClick"
-                    android:text="JOIN" />
+                    android:text="@string/join" />
             </LinearLayout>
         </TableRow>
 
