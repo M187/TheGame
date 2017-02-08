@@ -231,6 +231,7 @@ public class MultiplayerLobby extends Activity {
                     .putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
                     .putExtra(OptionStrings.multiplayerInstance, "0"));
             this.uninitLocalServerAndData();
+            this.finish();
         } else {
             (findViewById(R.id.button_main_2)).setEnabled(false);
         }

@@ -38,7 +38,7 @@ public class MenuActivity extends Activity {
     }
 
     public void onResume(){
-        super.onResume();
+        this.setContentView(R.layout.activity_menu);
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
