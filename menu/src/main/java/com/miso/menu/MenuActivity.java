@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.miso.thegame.gameMechanics.map.levels.NewLevelActivity;
 
 
@@ -16,20 +18,31 @@ public class MenuActivity extends Activity {
     private Intent gameIntent = null;
     private MediaPlayer mMediaPlayer;
 
+    private AdView mAdView;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        this.setContentView(R.layout.activity_menu);
 
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer = MediaPlayer.create(this, R.raw.intro);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(false);
         //mMediaPlayer.start();
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public void onResume(){
         super.onResume();
-        setContentView(R.layout.activity_menu);
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
     }
 
     public void newGameClickGround(View view) {
@@ -45,7 +58,18 @@ public class MenuActivity extends Activity {
         startActivity(this.gameIntent);
     }
 
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
     public void onDestroy(){
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
         mMediaPlayer.stop();
         super.onDestroy();
     }
