@@ -55,7 +55,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button_host"
+                    android:id="@+id/button_main_1"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
@@ -63,7 +63,7 @@
                     android:text="HOST" />
 
                 <Button
-                    android:id="@+id/button_start"
+                    android:id="@+id/button_main_2"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
@@ -143,22 +143,6 @@
                     android:layout_height="wrap_content"
                     android:onClick="joinClick"
                     android:text="JOIN" />
-
-                <Button
-                    android:id="@+id/button_ready"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:onClick="readyClick"
-                    android:text="READY" />
-
-                <Button
-                    android:id="@+id/button_abandon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:onClick="abandonClick"
-                    android:text="ABANDON" />
             </LinearLayout>
         </TableRow>
 

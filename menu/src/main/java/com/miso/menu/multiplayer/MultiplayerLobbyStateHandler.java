@@ -18,10 +18,8 @@ public class MultiplayerLobbyStateHandler {
     private MultiplayerLobby multiplayerLobby;
 
     Button mJoinButton;
-    Button mReadyButton;
-    Button mAbandonButton;
-    Button mHostButton;
-    Button mStartButton;
+    Button mMainButton1;
+    Button mMainButton2;
     EditText mPlayerNickname;
     TextView mTextInfo;
 
@@ -32,61 +30,62 @@ public class MultiplayerLobbyStateHandler {
 
     private void bindViews() {
         this.mJoinButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_join));
-        this.mReadyButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_ready));
-        this.mAbandonButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_abandon));
-        this.mHostButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_host));
-        this.mStartButton = ((Button) this.multiplayerLobby.findViewById(R.id.button_start));
+        this.mMainButton1 = ((Button) this.multiplayerLobby.findViewById(R.id.button_main_1));
+        this.mMainButton2 = ((Button) this.multiplayerLobby.findViewById(R.id.button_main_2));
         this.mPlayerNickname = ((EditText) this.multiplayerLobby.findViewById(R.id.player_nickname));
         this.mTextInfo = ((TextView) this.multiplayerLobby.findViewById(R.id.textinfo_game_state_events));
     }
 
     public void joinClickUiEvents() {
         this.mJoinButton.setEnabled(false);
-        this.mReadyButton.setEnabled(true);
-        this.mAbandonButton.setEnabled(true);
-        this.mHostButton.setEnabled(false);
+        this.mMainButton1.setEnabled(false);
         this.mPlayerNickname.setEnabled(false);
 
         this.mTextInfo.setText("Join successful!");
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_green_dark));
+
+        bindJoinEventsToMainButtons();
+        hideJoinRowAnimation();
     }
 
     public void abandonClickUiEvents() {
         this.mJoinButton.setEnabled(true);
-        this.mReadyButton.setEnabled(false);
-        this.mAbandonButton.setEnabled(false);
-        this.mHostButton.setEnabled(true);
+        this.mMainButton1.setEnabled(true);
         this.mPlayerNickname.setEnabled(true);
+
+        unbindJoinEventsToMainButtons();
+        showJoinRowAnimation();
     }
 
     public void hostClickUiChanges() {
         this.mTextInfo.setText("Hosting Game!");
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_red_dark));
-        this.mHostButton.setText("UN-HOST");
-        this.mHostButton.setEnabled(false);
+        this.mMainButton1.setText("UN-HOST");
+        this.mMainButton1.setEnabled(false);
         this.mJoinButton.setEnabled(false);
         this.mPlayerNickname.setEnabled(false);
-        hostAnimation();
+
+        hideJoinRowAnimation();
     }
 
     public void unHostClickUiChanges() {
         this.mTextInfo.setText("Not hosting any game!");
         this.mTextInfo.setTextColor(this.multiplayerLobby.getResources().getColor(android.R.color.holo_green_dark));
-        this.mHostButton.setText("HOST");
-        this.mHostButton.setEnabled(false);
+        this.mMainButton1.setText("HOST");
+        this.mMainButton1.setEnabled(false);
         this.mJoinButton.setEnabled(true);
-        this.mStartButton.setEnabled(false);
+        this.mMainButton2.setEnabled(false);
         this.mPlayerNickname.setEnabled(true);
 
-        unHostAnimation();
+        showJoinRowAnimation();
     }
 
     public void readyClickUiChanges() {
-        this.mReadyButton.setText("UN-READY");
+        this.mMainButton2.setText("UN-READY");
     }
 
     public void unReadyClickChanges() {
-        this.mReadyButton.setText("READY");
+        this.mMainButton2.setText("READY");
     }
 
     public enum LobbyState {
@@ -96,7 +95,7 @@ public class MultiplayerLobbyStateHandler {
         Hosting
     }
 
-    private void unHostAnimation() {
+    private void showJoinRowAnimation() {
         this.multiplayerLobby.findViewById(R.id.joined_players_row)
                 .animate()
                 .translationY(this.multiplayerLobby.findViewById(R.id.join_game_row).getHeight())
@@ -111,7 +110,7 @@ public class MultiplayerLobbyStateHandler {
                                 .setListener(new AnimatorListenerAdapter() {
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
-                                        mHostButton.setEnabled(true);
+                                        mMainButton1.setEnabled(true);
                                         multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
                                     }
                                 });
@@ -119,7 +118,7 @@ public class MultiplayerLobbyStateHandler {
                 });
     }
 
-    private void hostAnimation(){
+    private void hideJoinRowAnimation(){
         this.multiplayerLobby.findViewById(R.id.join_game_row)
                 .animate()
                 .translationX(-this.multiplayerLobby.findViewById(R.id.join_game_row).getWidth())
@@ -131,8 +130,8 @@ public class MultiplayerLobbyStateHandler {
                                 .setListener(new AnimatorListenerAdapter() {
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
-                                        mStartButton.setEnabled(true);
-                                        mHostButton.setEnabled(true);
+                                        mMainButton2.setEnabled(true);
+                                        mMainButton1.setEnabled(true);
                                         multiplayerLobby.findViewById(R.id.joined_players_row).setTranslationY(0);
                                         multiplayerLobby.findViewById(R.id.join_game_row).setVisibility(View.GONE);
                                         multiplayerLobby.findViewById(R.id.multiplayer_lobby_layout).invalidate();
@@ -140,5 +139,41 @@ public class MultiplayerLobbyStateHandler {
                                 });
                     }
                 });
+    }
+
+    private void bindJoinEventsToMainButtons(){
+        this.mMainButton1.setText("ABANDON");
+        this.mMainButton1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                multiplayerLobby.abandonClick(v);
+            }
+        });
+
+        this.mMainButton2.setText("READY");
+        this.mMainButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                multiplayerLobby.readyClick(v);
+            }
+        });
+    }
+
+    private void unbindJoinEventsToMainButtons(){
+        this.mMainButton1.setText("HOST");
+        this.mMainButton1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                multiplayerLobby.hostClick(v);
+            }
+        });
+
+        this.mMainButton2.setText("START");
+        this.mMainButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                multiplayerLobby.startGame(v);
+            }
+        });
     }
 }

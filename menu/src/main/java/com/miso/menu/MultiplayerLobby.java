@@ -144,7 +144,6 @@ public class MultiplayerLobby extends Activity {
     }
 
     public void joinClick(View view) {
-
         System.out.println(" --> Clicked on Joined button.");
         if (this.lobbyState == MultiplayerLobbyStateHandler.LobbyState.Default) {
             try {
@@ -234,7 +233,7 @@ public class MultiplayerLobby extends Activity {
                     .putExtra(OptionStrings.multiplayerInstance, "0"));
             this.uninitLocalServerAndData();
         } else {
-            (findViewById(R.id.button_start)).setEnabled(false);
+            (findViewById(R.id.button_main_2)).setEnabled(false);
         }
     }
 
