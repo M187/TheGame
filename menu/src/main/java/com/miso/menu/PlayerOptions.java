@@ -175,8 +175,8 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
         data.moveToFirst();
 
-        playerKillsTextView.setText("Your kill-count: " + data.getString(0));
         playerKillsTextView.setVisibility(View.VISIBLE);
+        playerKillsTextView.setText("Your kill-count: " + data.getString(0));
     }
 
     private class SeekBarImpl {

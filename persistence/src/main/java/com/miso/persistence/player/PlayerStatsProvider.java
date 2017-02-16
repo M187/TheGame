@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 public class PlayerStatsProvider extends ContentProvider {
 
     // helper constants for UriMatcher
+    private static final int PLAYER_WHOLE_TABLE = 0;
     private static final int PLAYER_SKILLPOINTS = 1;
     private static final int PLAYER_UNLOCKED_SKILLS = 2;
     private static final int PLAYER_KILLS = 3;
@@ -26,14 +27,17 @@ public class PlayerStatsProvider extends ContentProvider {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
-                "skillpoints",
+                "PlayerStatistics/skillpoints",
                 PLAYER_SKILLPOINTS);
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
-                "unlocked_skills",
+                "PlayerStatistics/unlocked_skills",
                 PLAYER_UNLOCKED_SKILLS);
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
-                "kills",
+                "PlayerStatistics/kills",
                 PLAYER_KILLS);
+        URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
+                "PlayerStatistics",
+                PLAYER_WHOLE_TABLE);
     }
 
     private PlayerStatsDbHelper mHelper;
@@ -60,10 +64,14 @@ public class PlayerStatsProvider extends ContentProvider {
                 builder.setTables(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME);
                 projection = new String[]{PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS};
                 break;
+            case PLAYER_WHOLE_TABLE:
+                builder.setTables(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME);
+                break;
             case PLAYER_UNLOCKED_SKILLS:
             default:
                 return null;
         }
+
         Cursor cursor = builder.query(
                 db,
                 projection,

@@ -133,10 +133,13 @@
 
                 <TextView
                     android:id="@+id/player_kills_text_view"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menu_text_color"
+                    android:textStyle="bold"/>
 
             </TableLayout>
         </RelativeLayout>

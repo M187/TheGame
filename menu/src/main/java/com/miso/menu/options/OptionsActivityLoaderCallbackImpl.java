@@ -26,11 +26,11 @@ public abstract class OptionsActivityLoaderCallbackImpl extends Activity impleme
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = new CursorLoader(
                 this,
-                PlayerStatsContract.BASE_CONTENT_URI,
+                PlayerStatsContract.PlayerStatisticssEntry.CONTENT_URI,
                 settingsProjection,
-                "*",
                 null,
-                "ASC");
+                null,
+                null);
         return loader;
     }
 
