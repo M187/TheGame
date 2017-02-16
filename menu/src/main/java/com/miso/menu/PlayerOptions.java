@@ -1,16 +1,20 @@
 package com.miso.menu;
 
-import android.app.Activity;
+import android.content.Loader;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.miso.menu.options.OptionsActivityLoaderCallbackImpl;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
@@ -24,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by michal.hornak on 14.01.2016.
  */
-public class PlayerOptions extends Activity {
+public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
     private SeekBarImpl healthSeekBar;
     private SeekBarImpl ammoSeekBar;
@@ -38,10 +42,13 @@ public class PlayerOptions extends Activity {
     private String secondButtonType;
     @BindView(R.id.player_type_spinner)
     Spinner playerTypeSpinner;
+    @BindView(R.id.player_kills_text_view)
+    TextView playerKillsTextView;
     private String playerType;
-    
+
     private SharedPreferences settings;
     private AdView mAdView;
+    private final int PLAYER_STATS_LIST_ID = 1111;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,12 +66,14 @@ public class PlayerOptions extends Activity {
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, this);
     }
 
     //<editor-fold desc="Spinner stuff">
-    private void initializeFirstButtonSpinner(){
+    private void initializeFirstButtonSpinner() {
         List<String> firstButtonTypeList = new ArrayList<>();
-        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()){
+        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()) {
             firstButtonTypeList.add(buttonTypeString.getButtonTypeString());
         }
 
@@ -75,12 +84,12 @@ public class PlayerOptions extends Activity {
         if (!this.firstButtonType.equals(null) | this.firstButtonType.equals("")) {
             int spinnerPosition = adapter.getPosition(this.firstButtonType);
             this.firstButtonTypeSpinner.setSelection(spinnerPosition);
-        }        
+        }
     }
 
-    private void initializeSecondButtonSpinner(){
+    private void initializeSecondButtonSpinner() {
         List<String> secondButtonTypeList = new ArrayList<>();
-        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()){
+        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()) {
             secondButtonTypeList.add(buttonTypeString.getButtonTypeString());
         }
 
@@ -93,10 +102,10 @@ public class PlayerOptions extends Activity {
             this.secondButtonTypeSpinner.setSelection(spinnerPosition);
         }
     }
-    
+
     private void initializePlayerSpinner() {
         List<String> playerTypeList = new ArrayList<>();
-        for (GamePlayerTypeEnum playerTypeString : GamePlayerTypeEnum.values()){
+        for (GamePlayerTypeEnum playerTypeString : GamePlayerTypeEnum.values()) {
             playerTypeList.add(playerTypeString.getTypeString());
         }
 
@@ -112,7 +121,7 @@ public class PlayerOptions extends Activity {
     //</editor-fold>
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
         saveSettings();
     }
@@ -129,7 +138,7 @@ public class PlayerOptions extends Activity {
         }
     }
 
-    private void initialize(){
+    private void initialize() {
         this.settings = getPreferences(0);
 
         this.healthSeekBar = new SeekBarImpl((SeekBar) findViewById(R.id.health_seekBar), 5);
@@ -146,7 +155,7 @@ public class PlayerOptions extends Activity {
         this.playerType = settings.getString(OptionStrings.playerType, "");
     }
 
-    private void saveSettings(){
+    private void saveSettings() {
         SharedPreferences settings = getPreferences(0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(OptionStrings.playerBonusHealth, this.healthSeekBar.getCurrentValue());
@@ -161,11 +170,20 @@ public class PlayerOptions extends Activity {
         editor.commit();
     }
 
-    private class SeekBarImpl{
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        data.moveToFirst();
+
+        playerKillsTextView.setText("Your kill-count: " + data.getString(0));
+        playerKillsTextView.setVisibility(View.VISIBLE);
+    }
+
+    private class SeekBarImpl {
 
         SeekBar thisSeekBar;
 
-        SeekBarImpl(SeekBar seekBar, int maxValue){
+        SeekBarImpl(SeekBar seekBar, int maxValue) {
             this.thisSeekBar = seekBar;
             this.thisSeekBar.setMax(maxValue);
 
@@ -185,11 +203,11 @@ public class PlayerOptions extends Activity {
             });
         }
 
-        public int getCurrentValue(){
+        public int getCurrentValue() {
             return this.thisSeekBar.getProgress();
         }
 
-        public void setCurrentValue(int progress){
+        public void setCurrentValue(int progress) {
             this.thisSeekBar.setProgress(progress);
         }
     }

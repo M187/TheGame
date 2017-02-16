@@ -2,6 +2,9 @@ package com.miso.menu.multiplayer;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +12,10 @@ import android.widget.TextView;
 
 import com.miso.menu.MultiplayerLobby;
 import com.miso.menu.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by michal.hornak on 10.05.2016.
@@ -22,6 +29,7 @@ public class MultiplayerLobbyStateHandler {
     private Button mMainButton2;
     private EditText mPlayerNickname;
     private TextView mTextInfo;
+    private RecyclerView mColorRecyclerView;
 
     public enum LobbyState {
         Default,
@@ -41,6 +49,8 @@ public class MultiplayerLobbyStateHandler {
         this.mMainButton2 = ((Button) this.multiplayerLobby.findViewById(R.id.button_main_2));
         this.mPlayerNickname = ((EditText) this.multiplayerLobby.findViewById(R.id.player_nickname));
         this.mTextInfo = ((TextView) this.multiplayerLobby.findViewById(R.id.textinfo_game_state_events));
+        this.mColorRecyclerView = (RecyclerView)multiplayerLobby.findViewById(R.id.color_list);
+        intializeColors();
     }
 
     public void joinClickUiEvents() {
@@ -178,5 +188,28 @@ public class MultiplayerLobbyStateHandler {
                 multiplayerLobby.startGame(v);
             }
         });
+    }
+
+    public void intializeColors(){
+
+        List<Integer> rowListItem = getAllItemList();
+        GridLayoutManager lLayout = new GridLayoutManager(multiplayerLobby, 4);
+
+        mColorRecyclerView.setHasFixedSize(true);
+        mColorRecyclerView.setLayoutManager(lLayout);
+
+        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(multiplayerLobby, rowListItem);
+        mColorRecyclerView.setAdapter(rcAdapter);
+    }
+
+    private List<Integer> getAllItemList(){
+        List<Integer> colorList = new ArrayList<>();
+        colorList.add(Color.BLACK);
+        colorList.add(Color.RED);
+        colorList.add(Color.YELLOW);
+        colorList.add(Color.GREEN);
+        colorList.add(Color.CYAN);
+        colorList.add(Color.MAGENTA);
+        return colorList;
     }
 }
