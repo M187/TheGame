@@ -27,14 +27,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public RecyclerViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.color_picker_item, null);
-        RecyclerViewHolders rcv = new RecyclerViewHolders(layoutView);
-        return rcv;
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.color_picker_item, parent, false);
+        return new RecyclerViewHolders(layoutView);
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolders holder, int position) {
-
+        int color = itemList.get(position);
+        holder.setColor(color);
     }
 
     @Override

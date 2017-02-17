@@ -4,7 +4,7 @@
     android:id="@+id/multiplayer_lobby_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/menubackground"
+    android:background="@drawable/menu_background"
     android:orientation="vertical">
 
 
@@ -32,7 +32,7 @@
                     android:id="@+id/player_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|top"
+                    android:layout_gravity="start|top"
                     android:layout_marginBottom="15dp"
                     android:ems="10"
                     android:inputType="textPersonName"
@@ -40,7 +40,7 @@
                     android:textColor="@color/menu_text_color" />
 
                 <TextView
-                    android:id="@+id/textinfo_game_state_events"
+                    android:id="@+id/text_info_game_state_events"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/welcome_message"
@@ -105,6 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
+                        android:hint="IP address of a server"
                         android:text="192.168.1.100"
                         android:textColor="@color/menu_text_color" />
                     <!--    android:text="192.168.1.104 10.0.2.2" />-->
@@ -113,8 +114,6 @@
                         android:id="@+id/textView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/linearLayout2"
-                        android:layout_centerHorizontal="true"
                         android:layout_weight="2"
                         android:text=":"
                         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -125,6 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:hint="port of a hosting server"
                         android:text="12371"
                         android:textColor="@color/menu_text_color" />
                 </LinearLayout>
@@ -151,13 +151,13 @@
                 android:id="@+id/players_connected"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_weight="2"
                 android:background="@color/white_tint">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
@@ -180,12 +180,34 @@
                 </LinearLayout>
             </ScrollView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/color_list"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:gravity="end"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Pick your color"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menu_text_color"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/color_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
         </TableRow>
 
     </TableLayout>

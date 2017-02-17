@@ -21,6 +21,10 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
         colorImage = (ImageView)itemView.findViewById(R.id.color_item);
     }
 
+    public void setColor(int color){
+        this.colorImage.setBackgroundColor(color);
+    }
+
     @Override
     public void onClick(View view) {
         Toast.makeText(view.getContext(), "Clicked Country Position = " + getPosition(), Toast.LENGTH_SHORT).show();

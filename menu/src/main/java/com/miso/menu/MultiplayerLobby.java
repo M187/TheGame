@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -85,7 +84,7 @@ public class MultiplayerLobby extends Activity {
         super.onResume();
 
         this.uiStateHandler.unHostClickUiChanges();
-        ((TextView)findViewById(R.id.textinfo_game_state_events)).setText(R.string.welcome_message);
+        ((TextView)findViewById(R.id.text_info_game_state_events)).setText(R.string.welcome_message);
         this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
 
         System.out.println(" --> Calling onResume for Multiplayer lobby.");
@@ -170,8 +169,8 @@ public class MultiplayerLobby extends Activity {
                     this.uiStateHandler.joinClickUiEvents();
                     this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Joined;
                 } else {
-                    ((TextView) findViewById(R.id.textinfo_game_state_events)).setText(R.string.join_message_fail);
-                    ((TextView) findViewById(R.id.textinfo_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    ((TextView) findViewById(R.id.text_info_game_state_events)).setText(R.string.join_message_fail);
+                    ((TextView) findViewById(R.id.text_info_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
 
                     uninitLocalServerAndData();
                     this.clientConnectionToServer = null;
@@ -275,8 +274,8 @@ public class MultiplayerLobby extends Activity {
         }
 
         if (!this.server.serverBindsPort) {
-            ((TextView) findViewById(R.id.textinfo_game_state_events)).setText(R.string.port_not_available);
-            ((TextView) findViewById(R.id.textinfo_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            ((TextView) findViewById(R.id.text_info_game_state_events)).setText(R.string.port_not_available);
+            ((TextView) findViewById(R.id.text_info_game_state_events)).setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             throw new UnableToBindPortException();
         }
     }

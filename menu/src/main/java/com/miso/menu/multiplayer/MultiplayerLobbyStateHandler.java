@@ -3,7 +3,9 @@ package com.miso.menu.multiplayer;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -48,8 +50,8 @@ public class MultiplayerLobbyStateHandler {
         this.mMainButton1 = ((Button) this.multiplayerLobby.findViewById(R.id.button_main_1));
         this.mMainButton2 = ((Button) this.multiplayerLobby.findViewById(R.id.button_main_2));
         this.mPlayerNickname = ((EditText) this.multiplayerLobby.findViewById(R.id.player_nickname));
-        this.mTextInfo = ((TextView) this.multiplayerLobby.findViewById(R.id.textinfo_game_state_events));
-        this.mColorRecyclerView = (RecyclerView)multiplayerLobby.findViewById(R.id.color_list);
+        this.mTextInfo = ((TextView) this.multiplayerLobby.findViewById(R.id.text_info_game_state_events));
+        this.mColorRecyclerView = (RecyclerView) multiplayerLobby.findViewById(R.id.color_list);
         intializeColors();
     }
 
@@ -131,7 +133,7 @@ public class MultiplayerLobbyStateHandler {
                 });
     }
 
-    private void hideJoinRowAnimation(){
+    private void hideJoinRowAnimation() {
         this.multiplayerLobby.findViewById(R.id.join_game_row)
                 .animate()
                 .translationX(-this.multiplayerLobby.findViewById(R.id.join_game_row).getWidth())
@@ -154,9 +156,9 @@ public class MultiplayerLobbyStateHandler {
                 });
     }
 
-    private void bindJoinEventsToMainButtons(){
+    private void bindJoinEventsToMainButtons() {
         this.mMainButton1.setText(R.string.abandon);
-        this.mMainButton1.setOnClickListener(new View.OnClickListener(){
+        this.mMainButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 multiplayerLobby.abandonClick(v);
@@ -172,9 +174,9 @@ public class MultiplayerLobbyStateHandler {
         });
     }
 
-    private void unbindJoinEventsToMainButtons(){
+    private void unbindJoinEventsToMainButtons() {
         this.mMainButton1.setText(R.string.host);
-        this.mMainButton1.setOnClickListener(new View.OnClickListener(){
+        this.mMainButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 multiplayerLobby.hostClick(v);
@@ -190,26 +192,75 @@ public class MultiplayerLobbyStateHandler {
         });
     }
 
-    public void intializeColors(){
+    public void intializeColors() {
 
         List<Integer> rowListItem = getAllItemList();
-        GridLayoutManager lLayout = new GridLayoutManager(multiplayerLobby, 4);
+        GridLayoutManager manager = new GridLayoutManager(multiplayerLobby, 2);
 
-        mColorRecyclerView.setHasFixedSize(true);
-        mColorRecyclerView.setLayoutManager(lLayout);
-
+        mColorRecyclerView.setLayoutManager(manager);
         RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(multiplayerLobby, rowListItem);
+
+        int spacingInPixels = multiplayerLobby.getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
+        mColorRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, true, 0));
+
         mColorRecyclerView.setAdapter(rcAdapter);
     }
 
-    private List<Integer> getAllItemList(){
+    private List<Integer> getAllItemList() {
         List<Integer> colorList = new ArrayList<>();
-        colorList.add(Color.BLACK);
+        colorList.add(Color.GRAY);
         colorList.add(Color.RED);
         colorList.add(Color.YELLOW);
         colorList.add(Color.GREEN);
         colorList.add(Color.CYAN);
         colorList.add(Color.MAGENTA);
+        colorList.add(Color.BLUE);
+        colorList.add(Color.WHITE);
         return colorList;
+    }
+
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+        private int headerNum;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge, int headerNum) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+            this.headerNum = headerNum;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view) - headerNum; // item position
+
+            if (position >= 0) {
+                int column = position % spanCount; // item column
+
+                if (includeEdge) {
+                    outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                    outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                    if (position < spanCount) { // top edge
+                        outRect.top = spacing;
+                    }
+                    outRect.bottom = spacing; // item bottom
+                } else {
+                    outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                    outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                    if (position >= spanCount) {
+                        outRect.top = spacing; // item top
+                    }
+                }
+            } else {
+                outRect.left = 0;
+                outRect.right = 0;
+                outRect.top = 0;
+                outRect.bottom = 0;
+            }
+        }
     }
 }
