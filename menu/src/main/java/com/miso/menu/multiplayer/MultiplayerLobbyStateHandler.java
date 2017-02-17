@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miso.menu.MultiplayerLobby;
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * Created by michal.hornak on 10.05.2016.
  */
-public class MultiplayerLobbyStateHandler {
+public class MultiplayerLobbyStateHandler implements RecyclerViewAdapter.MyClickListener{
 
     private MultiplayerLobby multiplayerLobby;
 
@@ -32,6 +33,12 @@ public class MultiplayerLobbyStateHandler {
     private EditText mPlayerNickname;
     private TextView mTextInfo;
     private RecyclerView mColorRecyclerView;
+    private ImageView mColorPreview;
+
+    @Override
+    public void onItemClick(int position, View view) {
+        this.mColorPreview.setBackgroundColor(PlayerColors.getAllColors().get(position));
+    }
 
     public enum LobbyState {
         Default,
@@ -52,6 +59,7 @@ public class MultiplayerLobbyStateHandler {
         this.mPlayerNickname = ((EditText) this.multiplayerLobby.findViewById(R.id.player_nickname));
         this.mTextInfo = ((TextView) this.multiplayerLobby.findViewById(R.id.text_info_game_state_events));
         this.mColorRecyclerView = (RecyclerView) multiplayerLobby.findViewById(R.id.color_list);
+        this.mColorPreview = (ImageView) multiplayerLobby.findViewById(R.id.chosen_color_preview);
         intializeColors();
     }
 
@@ -194,29 +202,16 @@ public class MultiplayerLobbyStateHandler {
 
     public void intializeColors() {
 
-        List<Integer> rowListItem = getAllItemList();
+        List<Integer> rowListItem = PlayerColors.getAllColors();
         GridLayoutManager manager = new GridLayoutManager(multiplayerLobby, 2);
 
         mColorRecyclerView.setLayoutManager(manager);
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(multiplayerLobby, rowListItem);
+        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(multiplayerLobby, rowListItem, this);
 
         int spacingInPixels = multiplayerLobby.getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
         mColorRecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, true, 0));
 
         mColorRecyclerView.setAdapter(rcAdapter);
-    }
-
-    private List<Integer> getAllItemList() {
-        List<Integer> colorList = new ArrayList<>();
-        colorList.add(Color.GRAY);
-        colorList.add(Color.RED);
-        colorList.add(Color.YELLOW);
-        colorList.add(Color.GREEN);
-        colorList.add(Color.CYAN);
-        colorList.add(Color.MAGENTA);
-        colorList.add(Color.BLUE);
-        colorList.add(Color.WHITE);
-        return colorList;
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

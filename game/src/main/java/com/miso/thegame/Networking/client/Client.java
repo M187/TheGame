@@ -33,6 +33,8 @@ public class Client extends Thread {
     private volatile boolean isConnectionEstablished = false;
     private boolean isGameClient = false;
 
+    public int mColor;
+
     public Client(String nickname) {
         this.nickname = nickname;
     }
