@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_weight="1"
@@ -49,14 +49,14 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/button_main_1"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:onClick="hostClick"
@@ -64,7 +64,7 @@
 
                 <Button
                     android:id="@+id/button_main_2"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:enabled="false"
@@ -128,23 +128,16 @@
                         android:text="12371"
                         android:textColor="@color/menu_text_color" />
                 </LinearLayout>
-
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/button_join"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:onClick="joinClick"
+                android:text="@string/join" />
 
-                <Button
-                    android:id="@+id/button_join"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:onClick="joinClick"
-                    android:text="@string/join" />
-            </LinearLayout>
         </TableRow>
 
         <TableRow
@@ -152,18 +145,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <ScrollView
                 android:id="@+id/players_connected"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:background="@color/white_tint"
-                android:orientation="vertical">
+                android:layout_weight="2"
+                android:background="@color/white_tint">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
@@ -171,7 +164,6 @@
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:alpha="1"
                         android:text="Players already connected:"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
@@ -190,10 +182,13 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/color_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
         </TableRow>
 
     </TableLayout>
+
+
 </LinearLayout>
