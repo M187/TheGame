@@ -10,6 +10,7 @@ import com.miso.thegame.Networking.NetworkConnectionConstants;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.AssignColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
@@ -28,6 +29,7 @@ import java.util.List;
 public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
     private volatile List<Client> registeredPlayers;
+    // watch out for multithreading!!
     private volatile MultiplayerLobby multiplayerLobby;
 
     public GameLobbyClientLogicExecutor(List<Client> registeredPlayers, MultiplayerLobby multiplayerLobby) {
@@ -81,10 +83,16 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                 throw new DisbandGameException();
 
             // Other player leaving game.
-            case "07":
+            case "06":
                 this.registeredPlayers.remove(
                         new Client(((LeaveGameLobbyMessage) transmissionMessage).getNickname()));
                 break;
+
+            //-------- Colors --------
+
+            //Assigning color
+            case "011":
+                this.multiplayerLobby.getPlayerColors().setMyColor(((AssignColor) transmissionMessage).getColor());
         }
     }
 }
