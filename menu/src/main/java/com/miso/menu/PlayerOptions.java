@@ -1,5 +1,7 @@
 package com.miso.menu;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -8,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -177,6 +180,13 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
         playerKillsTextView.setVisibility(View.VISIBLE);
         playerKillsTextView.setText("Your kill-count: " + data.getString(0));
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.game_widget_layout);
+        remoteViews.setTextViewText(R.id.widget_player_kills, "Your kill-count: " + data.getString(0));
+
+        appWidgetManager.updateAppWidget(appWidgetManager.getAppWidgetIds(new ComponentName(this, TheGameWidgetProvider.class)), remoteViews);
     }
 
     private class SeekBarImpl {

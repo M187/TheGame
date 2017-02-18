@@ -32,11 +32,6 @@
             android:label="TheGame"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"/>
-        <activity
-            android:name="com.miso.menu.MultiplayerLobby"
-            android:hardwareAccelerated="false"
-            android:label="MultiplayerLobby"
-            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
