@@ -3,6 +3,7 @@ package com.miso.menu;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.miso.menu.multiplayer.MultiplayerLobbyStateHandler;
+import com.miso.menu.multiplayer.PlayerColors;
 import com.miso.thegame.Networking.GameActivityMultiplayer;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.NetworkConnectionConstants;
@@ -51,6 +53,20 @@ public class MultiplayerLobby extends Activity {
     private Client clientConnectionToServer;
     private MultiplayerLobbyStateHandler uiStateHandler;
     private PlayerListUpdater playerListUpdater;
+    private PlayerColors mPlayerColors = new PlayerColors();
+
+
+    public PlayerColors getPlayerColors() {
+        return mPlayerColors;
+    }
+
+    public Sender getSender() {
+        return sender;
+    }
+
+    public ArrayList<Client> getRegisteredPlayers() {
+        return registeredPlayers;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +112,7 @@ public class MultiplayerLobby extends Activity {
         this.createAndPortToLocalServer();
         this.registeredPlayers.clear();
         this.sender = new Sender(this.registeredPlayers);
-        this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this.registeredPlayers, this.sender));
+        this.server.setMessageLogicExecutor(new GameLobbyHostLogicExecutor(this));
         this.startServerListener();
     }
 

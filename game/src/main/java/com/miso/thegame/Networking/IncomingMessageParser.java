@@ -1,6 +1,7 @@
 package com.miso.thegame.Networking;
 
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.AssignColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.DisbandGameMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
@@ -23,6 +24,8 @@ public class IncomingMessageParser {
     public TransmissionMessage unmarshalIncomingMessage(String recievedMessage, InetAddress clientAddress){
 
         switch ((recievedMessage.split("\\|"))[0]){
+            case "011":
+                return new AssignColor(Integer.parseInt(recievedMessage.split("\\|")[1]));
             case "01":
                 return new JoinGameLobbyMessage(recievedMessage.split("\\|")[1], clientAddress.toString().substring(1));
             case "02":

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ColorViewHolder> {
 
-    private List<Integer> itemList;
+    private List<PlayerColors.MyColor> itemList;
     private Context context;
 
     private static MyClickListener mClickListener;
@@ -26,7 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         void onItemClick(int position, View view);
     }
 
-    public RecyclerViewAdapter(Context context, List<Integer> itemList, MyClickListener mClickListener) {
+    public RecyclerViewAdapter(Context context, List<PlayerColors.MyColor> itemList, MyClickListener mClickListener) {
         this.itemList = itemList;
         this.mClickListener = mClickListener;
         this.context = context;
@@ -41,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ColorViewHolder holder, int position) {
-        int color = itemList.get(position);
+        int color = itemList.get(position).colorCode;
         holder.setColor(color);
     }
 

@@ -1,11 +1,13 @@
 package com.miso.menu.multiplayer;
 
+import com.miso.menu.MultiplayerLobby;
 import com.miso.thegame.Networking.NetworkConnectionConstants;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
 import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.AssignColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
@@ -24,11 +26,11 @@ import java.util.ArrayList;
 public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
 
     private volatile ArrayList<Client> registeredPlayers;
-    private Sender sender;
+    private MultiplayerLobby mMultiplayerLobby;
 
-    public GameLobbyHostLogicExecutor(ArrayList<Client> registeredPlayers, Sender sender) {
-        this.sender = sender;
-        this.registeredPlayers = registeredPlayers;
+    public GameLobbyHostLogicExecutor(MultiplayerLobby multiplayerLobby) {
+        this.mMultiplayerLobby = multiplayerLobby;
+        this.registeredPlayers = multiplayerLobby.getRegisteredPlayers();
         this.isServerLogicProcessor = true;
     }
 
@@ -77,7 +79,10 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                         joinGameLobbyMessage.getNickname()));
         newClient.start();
 
+        newClient.sendMessage(new AssignColor(mMultiplayerLobby.getPlayerColors().getNextAvailableColor()));
         newClient.sendMessage(new OtherPlayerDataMessage(NetworkConnectionConstants.getPlayerNickname(), Server.myAddress.getHostName()));
+
+
 
         for (Client client : this.registeredPlayers) {
             client.sendMessage(
@@ -96,7 +101,7 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
      * @param leaveGameLobbyMessage created by a relevant player and forwarded by host.
      */
     public void otherPlayerLeaveMessageProcessing(LeaveGameLobbyMessage leaveGameLobbyMessage){
-        sender.sendMessage(leaveGameLobbyMessage);
+        mMultiplayerLobby.getSender().sendMessage(leaveGameLobbyMessage);
         this.registeredPlayers.remove(
                 new Client(
                         leaveGameLobbyMessage.getComputerName(),

@@ -11,21 +11,87 @@ import java.util.List;
 
 public class PlayerColors {
 
-    private static List<Integer> colorList;
+    public int getMyColor() {
+        return myColor;
+    }
 
-    public static List<Integer> getAllColors(){
-        if (colorList == null) {
-            colorList = new ArrayList<>();
-            colorList.add(Color.GRAY);
-            colorList.add(Color.RED);
-            colorList.add(Color.YELLOW);
-            colorList.add(Color.GREEN);
-            colorList.add(Color.CYAN);
-            colorList.add(Color.MAGENTA);
-            colorList.add(Color.BLUE);
-            colorList.add(Color.WHITE);
-        }
+    public void setMyColor(int myColor) {
+        this.myColor = myColor;
+    }
+
+    private volatile int myColor;
+
+    private List<MyColor> colorList;
+
+    {
+        colorList = new ArrayList<>();
+        colorList.add(new MyColor(Color.GRAY));
+        colorList.add(new MyColor(Color.RED));
+        colorList.add(new MyColor(Color.YELLOW));
+        colorList.add(new MyColor(Color.GREEN));
+        colorList.add(new MyColor(Color.CYAN));
+        colorList.add(new MyColor(Color.MAGENTA));
+        colorList.add(new MyColor(Color.BLUE));
+        colorList.add(new MyColor(Color.WHITE));
+    }
+
+
+    public List<MyColor> getAllColors() {
         return colorList;
     }
 
+    public int getNextAvailableColor(){
+        for (MyColor color : colorList){
+            if (color.available) return color.colorCode;
+        }
+        return 0;
+    }
+
+    public class MyColor {
+
+        public int colorCode;
+        public boolean available = true;
+
+        public MyColor(int colorCode) {
+            this.colorCode = colorCode;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+
+            if (object instanceof MyColor) {
+                if (((MyColor) object).colorCode == this.colorCode) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public void hostEvent(MyColor chosenColor) {
+        chosenColor.available = false;
+    }
+
+    public void unHostEvent() {
+        for (MyColor myColor : colorList) {
+            myColor.available = true;
+        }
+    }
+
+    public void changeColor(MyColor oldColor, MyColor newColor) {
+        oldColor.available = true;
+        newColor.available = false;
+    }
+
+    public boolean isColorAvailable(MyColor color){
+        return color.available;
+    }
+
+    public void makeColorUnavailable(MyColor color){
+        color.available = false;
+    }
+
+    public void makeColorAvailable(MyColor color){
+        color.available = true;
+    }
 }

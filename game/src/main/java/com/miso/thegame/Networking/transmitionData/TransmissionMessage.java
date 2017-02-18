@@ -9,10 +9,11 @@ package com.miso.thegame.Networking.transmitionData;
  *      02 other player join data <br>
  *      03 ready to play <br>
  *      04 start game <br>
+ *      011 assign color <br>
  *      --- <br>
  *      05 UnReady to play <br>
  *      06 leave game <br>
- *      07 other player leave game <br>
+ *      07 other player leave game <br> - NOT NEEDED!
  *      08 disband game <br>
  *      --- --- ---<br>
  *      In-game: <br>

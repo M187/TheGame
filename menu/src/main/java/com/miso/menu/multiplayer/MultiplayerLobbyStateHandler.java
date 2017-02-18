@@ -2,10 +2,8 @@ package com.miso.menu.multiplayer;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.miso.menu.MultiplayerLobby;
 import com.miso.menu.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +34,7 @@ public class MultiplayerLobbyStateHandler implements RecyclerViewAdapter.MyClick
 
     @Override
     public void onItemClick(int position, View view) {
-        this.mColorPreview.setBackgroundColor(PlayerColors.getAllColors().get(position));
+        this.mColorPreview.setBackgroundColor(multiplayerLobby.getPlayerColors().getAllColors().get(position).colorCode);
     }
 
     public enum LobbyState {
@@ -202,7 +199,7 @@ public class MultiplayerLobbyStateHandler implements RecyclerViewAdapter.MyClick
 
     public void intializeColors() {
 
-        List<Integer> rowListItem = PlayerColors.getAllColors();
+        List<PlayerColors.MyColor> rowListItem = multiplayerLobby.getPlayerColors().getAllColors();
         GridLayoutManager manager = new GridLayoutManager(multiplayerLobby, 2);
 
         mColorRecyclerView.setLayoutManager(manager);
