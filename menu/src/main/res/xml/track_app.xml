@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ga_trackingId">UA-92274021-1</string>
+    <string name="ga_autoActivityTracking">true</string>
+
+    <screenName name="com.miso.menu.MultiplayerLobby">Multiplayer Lobby</screenName>
+
+</resources>
