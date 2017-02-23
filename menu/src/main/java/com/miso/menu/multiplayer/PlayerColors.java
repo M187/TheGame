@@ -11,16 +11,6 @@ import java.util.List;
 
 public class PlayerColors {
 
-    public int getMyColor() {
-        return myColor;
-    }
-
-    public void setMyColor(int myColor) {
-        this.myColor = myColor;
-    }
-
-    private volatile int myColor;
-
     private List<MyColor> colorList;
 
     {

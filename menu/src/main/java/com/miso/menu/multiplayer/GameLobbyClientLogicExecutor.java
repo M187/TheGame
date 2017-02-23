@@ -13,6 +13,7 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.AssignColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.PlayerChangeColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 import com.miso.menu.R;
 
@@ -39,21 +40,23 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
     }
 
     @Override
-    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException, DisbandGameException{
+    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException, DisbandGameException {
 
         System.out.println(transmissionMessage.getPacket());
         switch (transmissionMessage.getTransmissionType()) {
 
             // Other player joining game
             case "02":
+                this.multiplayerLobby.getPlayerColors().makeColorUnavailable(new PlayerColors.MyColor(((OtherPlayerDataMessage) transmissionMessage).getColor()));
                 this.registeredPlayers.add(
                         new Client(
                                 ((OtherPlayerDataMessage) transmissionMessage).getComputerName(),
                                 NetworkConnectionConstants.DEFAULT_COM_PORT,
-                                ((OtherPlayerDataMessage) transmissionMessage).getNickname()));
+                                ((OtherPlayerDataMessage) transmissionMessage).getNickname(),
+                                ((OtherPlayerDataMessage) transmissionMessage).getColor()));
                 break;
 
-            //Start game signal
+            // Start game signal
             case "04":
 
                 Intent mIntent = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivityMultiplayer.class);
@@ -61,9 +64,11 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
                 this.multiplayerLobby.saveConnectedPlayers(mIntent);
 
                 this.multiplayerLobby.runOnUiThread(new Runnable() {
-                    
+
                     @Override
-                    public void run(){multiplayerLobby.setContentView(R.layout.loading_game);}
+                    public void run() {
+                        multiplayerLobby.setContentView(R.layout.loading_game);
+                    }
                 });
 
                 mIntent.putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
@@ -85,15 +90,34 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             // Other player leaving game.
             case "06":
-                this.registeredPlayers.remove(
-                        new Client(((LeaveGameLobbyMessage) transmissionMessage).getNickname()));
+                Client temp = new Client(((LeaveGameLobbyMessage) transmissionMessage).getNickname());
+
+                this.multiplayerLobby.getPlayerColors().makeColorAvailable(
+                        new PlayerColors.MyColor(
+                                this.registeredPlayers.get(
+                                        this.registeredPlayers.indexOf(temp)
+                                ).mColor));
+                this.registeredPlayers.remove(temp);
                 break;
 
             //-------- Colors --------
 
-            //Assigning color
+            // Assigning color
             case "011":
-                this.multiplayerLobby.getPlayerColors().setMyColor(((AssignColor) transmissionMessage).getColor());
+                this.multiplayerLobby.getUiStateHandler().setMyColor(((AssignColor) transmissionMessage).getColor());
+                break;
+
+            // Other player change color
+            case "012":
+                Client temp2 = this.registeredPlayers.get(
+                        this.registeredPlayers.indexOf(
+                                new Client(((PlayerChangeColor) transmissionMessage).getNickname())
+                        )
+                );
+                // old color is available again. New one is not. Make color change to relevant player.
+                this.multiplayerLobby.getPlayerColors().makeColorAvailable(new PlayerColors.MyColor(temp2.mColor));
+                this.multiplayerLobby.getPlayerColors().makeColorUnavailable(new PlayerColors.MyColor(((PlayerChangeColor) transmissionMessage).getColor()));
+                temp2.mColor = ((PlayerChangeColor) transmissionMessage).getColor();
         }
     }
 }

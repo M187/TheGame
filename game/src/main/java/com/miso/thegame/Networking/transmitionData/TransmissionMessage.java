@@ -10,6 +10,7 @@ package com.miso.thegame.Networking.transmitionData;
  *      03 ready to play <br>
  *      04 start game <br>
  *      011 assign color <br>
+ *      012 player change color <br>
  *      --- <br>
  *      05 UnReady to play <br>
  *      06 leave game <br>

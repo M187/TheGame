@@ -2,7 +2,6 @@ package com.miso.menu.multiplayer;
 
 import com.miso.menu.MultiplayerLobby;
 import com.miso.thegame.Networking.NetworkConnectionConstants;
-import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.Networking.server.Server;
 import com.miso.thegame.Networking.server.logicExecutors.MessageLogicExecutor;
@@ -11,6 +10,7 @@ import com.miso.thegame.Networking.transmitionData.beforeGameMessages.AssignColo
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.OtherPlayerDataMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.PlayerChangeColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 
 import java.util.ArrayList;
@@ -26,10 +26,10 @@ import java.util.ArrayList;
 public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
 
     private volatile ArrayList<Client> registeredPlayers;
-    private MultiplayerLobby mMultiplayerLobby;
+    private MultiplayerLobby multiplayerLobby;
 
     public GameLobbyHostLogicExecutor(MultiplayerLobby multiplayerLobby) {
-        this.mMultiplayerLobby = multiplayerLobby;
+        this.multiplayerLobby = multiplayerLobby;
         this.registeredPlayers = multiplayerLobby.getRegisteredPlayers();
         this.isServerLogicProcessor = true;
     }
@@ -62,6 +62,20 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                 // Tell other players about leaving player.
                 this.otherPlayerLeaveMessageProcessing((LeaveGameLobbyMessage) transmissionMessage);
                 break;
+
+            //Other player change color
+            case "012":
+                Client temp = this.registeredPlayers.get(
+                        this.registeredPlayers.indexOf(
+                                new Client(((PlayerChangeColor) transmissionMessage).getNickname())
+                        )
+                );
+                // old color is available again. New one is not. Make color change to relevant player.
+                this.multiplayerLobby.getPlayerColors().makeColorAvailable(new PlayerColors.MyColor(temp.mColor));
+                this.multiplayerLobby.getPlayerColors().makeColorUnavailable(new PlayerColors.MyColor(((PlayerChangeColor) transmissionMessage).getColor()));
+                temp.mColor = ((PlayerChangeColor) transmissionMessage).getColor();
+
+                this.multiplayerLobby.getSender().sendMessage(transmissionMessage);
         }
     }
 
@@ -73,28 +87,33 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
      */
     public void joinMessageProcessing(JoinGameLobbyMessage joinGameLobbyMessage) {
         // Create new client based on incoming data.
+
+        // get the next available color
+        int assignedColor = multiplayerLobby.getPlayerColors().getNextAvailableColor();
+        // create representation of a new Client and start thread. Thread will try to connect to client listener.
         Client newClient = (
                 new Client(
                         joinGameLobbyMessage.getComputerName(),
                         NetworkConnectionConstants.DEFAULT_COM_PORT,
-                        joinGameLobbyMessage.getNickname()));
+                        joinGameLobbyMessage.getNickname(),
+                        assignedColor));
         newClient.start();
-
         // Assign color to joining player.
-        newClient.sendMessage(new AssignColor(mMultiplayerLobby.getPlayerColors().getNextAvailableColor()));
-        //Make color unavailable
-        mMultiplayerLobby.getPlayerColors().makeColorUnavailable(new PlayerColors.MyColor(mMultiplayerLobby.getPlayerColors().getNextAvailableColor()));
-
-        newClient.sendMessage(new OtherPlayerDataMessage(NetworkConnectionConstants.getPlayerNickname(), Server.myAddress.getHostName()));
-
-
+        newClient.sendMessage(new AssignColor(assignedColor));
+        // Make color unavailable
+        multiplayerLobby.getPlayerColors().makeColorUnavailable(new PlayerColors.MyColor(assignedColor));
+        // inform client about my data
+        newClient.sendMessage(new OtherPlayerDataMessage(NetworkConnectionConstants.getPlayerNickname(), Server.myAddress.getHostName(), multiplayerLobby.myCurrentColor));
+        // inform client about other players data
         for (Client client : this.registeredPlayers) {
             client.sendMessage(
                     new OtherPlayerDataMessage(
                             joinGameLobbyMessage.getNickname(),
-                            joinGameLobbyMessage.getComputerName()));
+                            joinGameLobbyMessage.getComputerName(),
+                            assignedColor));
             newClient.sendMessage(new OtherPlayerDataMessage(client.getPlayerClientPojo()));
         }
+        // finally add new client to registered players
         this.registeredPlayers.add(newClient);
     }
 
@@ -107,21 +126,16 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
     public void otherPlayerLeaveMessageProcessing(LeaveGameLobbyMessage leaveGameLobbyMessage) {
 
         // Set color of an leaving player as unoccupied
-        this.mMultiplayerLobby.getPlayerColors().makeColorAvailable(new PlayerColors.MyColor(
+        this.multiplayerLobby.getPlayerColors().makeColorAvailable(new PlayerColors.MyColor(
                 this.registeredPlayers.get(
                         this.registeredPlayers.indexOf(
-                                new Client(leaveGameLobbyMessage.getComputerName(), NetworkConnectionConstants.DEFAULT_COM_PORT, leaveGameLobbyMessage.getNickname()))
+                                new Client(leaveGameLobbyMessage.getNickname()))
                 ).mColor));
 
-
         this.registeredPlayers.remove(
-                new Client(
-                        leaveGameLobbyMessage.getComputerName(),
-                        NetworkConnectionConstants.DEFAULT_COM_PORT,
-                        leaveGameLobbyMessage.getNickname()));
+                new Client(leaveGameLobbyMessage.getNickname()));
 
-        //Sending occurs after removal of an player...
-        mMultiplayerLobby.getSender().sendMessage(leaveGameLobbyMessage);
-        //todo inform players about new available color?
+        // Sending occurs after removal of an player...
+        multiplayerLobby.getSender().sendMessage(leaveGameLobbyMessage);
     }
 }

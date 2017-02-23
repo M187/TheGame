@@ -39,10 +39,11 @@ public class Client extends Thread {
         this.nickname = nickname;
     }
 
-    public Client(String hostName, int portNumber, String nickname) {
+    public Client(String hostName, int portNumber, String nickname, int color) {
         this.nickname = nickname;
         this.hostName = hostName;
         this.portNumber = portNumber;
+        this.mColor = color;
     }
 
     public Client(String hostName, int portNumber, String nickname, int colorCode, boolean isGameClient) {
@@ -114,7 +115,7 @@ public class Client extends Thread {
     }
 
     public PlayerClientPOJO getPlayerClientPojo() {
-        return new PlayerClientPOJO(this.hostName, this.nickname);
+        return new PlayerClientPOJO(this.hostName, this.nickname, this.mColor);
     }
 
     public String getStringForExtras() {

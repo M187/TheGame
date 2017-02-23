@@ -34,7 +34,12 @@ public class MultiplayerLobbyStateHandler implements RecyclerViewAdapter.MyClick
 
     @Override
     public void onItemClick(int position, View view) {
-        this.mColorPreview.setBackgroundColor(multiplayerLobby.getPlayerColors().getAllColors().get(position).colorCode);
+        if (multiplayerLobby.lobbyState == LobbyState.Joined || multiplayerLobby.lobbyState == LobbyState.Hosting) {
+            setMyColor(multiplayerLobby.getPlayerColors().getAllColors().get(position).colorCode);
+        }
+        if (multiplayerLobby.lobbyState == LobbyState.Default){
+            this.mColorPreview.setBackgroundColor(multiplayerLobby.getPlayerColors().getAllColors().get(position).colorCode);
+        }
     }
 
     public enum LobbyState {
@@ -47,6 +52,12 @@ public class MultiplayerLobbyStateHandler implements RecyclerViewAdapter.MyClick
     public MultiplayerLobbyStateHandler(MultiplayerLobby multiplayerLobby) {
         this.multiplayerLobby = multiplayerLobby;
         bindViews();
+    }
+
+    public void setMyColor(int newColor){
+        this.mColorPreview.setBackgroundColor(newColor);
+        multiplayerLobby.informOfColorChange(newColor);
+        multiplayerLobby.myCurrentColor = newColor;
     }
 
     private void bindViews() {

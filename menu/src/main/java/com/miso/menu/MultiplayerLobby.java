@@ -2,7 +2,6 @@ package com.miso.menu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.miso.thegame.Networking.transmitionData.TransmissionMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.DisbandGameMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.JoinGameLobbyMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.LeaveGameLobbyMessage;
+import com.miso.thegame.Networking.transmitionData.beforeGameMessages.PlayerChangeColor;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.ReadyToPlayMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.StartGameMessage;
 import com.miso.thegame.Networking.transmitionData.beforeGameMessages.UnReadyToPlayMessage;
@@ -53,7 +53,11 @@ public class MultiplayerLobby extends Activity {
     private MultiplayerLobbyStateHandler uiStateHandler;
     private PlayerListUpdater playerListUpdater;
     private PlayerColors mPlayerColors = new PlayerColors();
+    public int myCurrentColor = 0;
 
+    public MultiplayerLobbyStateHandler getUiStateHandler() {
+        return uiStateHandler;
+    }
 
     public PlayerColors getPlayerColors() {
         return mPlayerColors;
@@ -170,7 +174,8 @@ public class MultiplayerLobby extends Activity {
                 Client newC = (new Client(
                         ((EditText) findViewById(R.id.ip)).getText().toString(),
                         Integer.parseInt(((EditText) findViewById(R.id.port)).getText().toString()),
-                        NetworkConnectionConstants.getPlayerNickname()));
+                        NetworkConnectionConstants.getPlayerNickname(),
+                        0));
                 startMyClient(newC);
                 //Wait for connection.
                 while (newC.isRunning() && !(newC.isConnectionEstablished())) {
@@ -295,5 +300,16 @@ public class MultiplayerLobby extends Activity {
     }
 
     private class UnableToBindPortException extends Throwable {
+    }
+
+    public void informOfColorChange(int newColor){
+        switch (this.lobbyState) {
+            case Joined:
+                this.clientConnectionToServer.sendMessage(new PlayerChangeColor(newColor, NetworkConnectionConstants.getPlayerNickname()));
+                break;
+            case Hosting:
+                this.sender.sendMessage(new PlayerChangeColor(newColor, NetworkConnectionConstants.getPlayerNickname()));
+                break;
+        }
     }
 }

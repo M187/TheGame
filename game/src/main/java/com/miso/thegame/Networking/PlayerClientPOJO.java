@@ -8,9 +8,16 @@ public class PlayerClientPOJO {
     private String hostName;
     private String id;
 
-    public PlayerClientPOJO(String hostName, String id) {
+    public int getColor() {
+        return color;
+    }
+
+    private int color;
+
+    public PlayerClientPOJO(String hostName, String id, int color) {
         this.hostName = hostName;
         this.id = id;
+        this.color = color;
     }
 
     public String getHostName() {
