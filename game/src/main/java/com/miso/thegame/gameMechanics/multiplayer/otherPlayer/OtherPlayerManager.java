@@ -17,9 +17,9 @@ public class OtherPlayerManager {
 
     private HashMap<String,OtherPlayer> otherPlayers = new HashMap<>();
 
-    public OtherPlayerManager(ArrayList<Client> registeredPlayers, Resources resources){
+    public OtherPlayerManager(ArrayList<Client> registeredPlayers){
         for (Client client : registeredPlayers){
-            this.otherPlayers.put(client.getNickname(), new OtherPlayer(resources));
+            this.otherPlayers.put(client.getNickname(), new OtherPlayer(client.mColor));
         }
     }
 

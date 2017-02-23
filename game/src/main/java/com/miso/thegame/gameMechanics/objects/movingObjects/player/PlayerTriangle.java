@@ -21,6 +21,13 @@ public class PlayerTriangle extends Player {
     private Paint paint = new Paint();
     private Paint circlePaint = new Paint();
 
+    // constructor used in multiplayer Player objects
+    protected PlayerTriangle(Point startingPosition, int color){
+        this(startingPosition, null);
+        this.circlePaint.setColor(color);
+
+    }
+
     public PlayerTriangle(Point startingPosition, MapManager mapManager) {
         setX(startingPosition.x);
         setY(startingPosition.y);

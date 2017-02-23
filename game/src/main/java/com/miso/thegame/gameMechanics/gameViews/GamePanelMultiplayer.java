@@ -47,7 +47,7 @@ public class GamePanelMultiplayer extends GameView2 implements SurfaceHolder.Cal
 
         this.myNickname = myNickname;
         this.connectionManager = connectionManager;
-        this.otherPlayersManager = new OtherPlayerManager(this.connectionManager.registeredPlayers, getResources());
+        this.otherPlayersManager = new OtherPlayerManager(this.connectionManager.registeredPlayers);
         this.connectionManager.localServer.setMessageLogicExecutor(new GamePlayLogicExecutor(this.arrivingMessagesList, this.connectionManager.registeredPlayers));
         this.sender = new Sender(this.connectionManager.registeredPlayers);
 
