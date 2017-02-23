@@ -34,11 +34,12 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
         this.isServerLogicProcessor = true;
     }
 
-    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException, DisbandGameException{
+    public void processIncomingMessage(TransmissionMessage transmissionMessage) throws StartGameException, DisbandGameException {
 
         switch (transmissionMessage.getTransmissionType()) {
             // Player joining game.
             case "01":
+                // Tell other players about joining player.
                 this.joinMessageProcessing((JoinGameLobbyMessage) transmissionMessage);
                 break;
 
@@ -79,9 +80,12 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
                         joinGameLobbyMessage.getNickname()));
         newClient.start();
 
+        // Assign color to joining player.
         newClient.sendMessage(new AssignColor(mMultiplayerLobby.getPlayerColors().getNextAvailableColor()));
-        newClient.sendMessage(new OtherPlayerDataMessage(NetworkConnectionConstants.getPlayerNickname(), Server.myAddress.getHostName()));
+        //Make color unavailable
+        mMultiplayerLobby.getPlayerColors().makeColorUnavailable(new PlayerColors.MyColor(mMultiplayerLobby.getPlayerColors().getNextAvailableColor()));
 
+        newClient.sendMessage(new OtherPlayerDataMessage(NetworkConnectionConstants.getPlayerNickname(), Server.myAddress.getHostName()));
 
 
         for (Client client : this.registeredPlayers) {
@@ -100,12 +104,24 @@ public class GameLobbyHostLogicExecutor extends MessageLogicExecutor {
      *
      * @param leaveGameLobbyMessage created by a relevant player and forwarded by host.
      */
-    public void otherPlayerLeaveMessageProcessing(LeaveGameLobbyMessage leaveGameLobbyMessage){
-        mMultiplayerLobby.getSender().sendMessage(leaveGameLobbyMessage);
+    public void otherPlayerLeaveMessageProcessing(LeaveGameLobbyMessage leaveGameLobbyMessage) {
+
+        // Set color of an leaving player as unoccupied
+        this.mMultiplayerLobby.getPlayerColors().makeColorAvailable(new PlayerColors.MyColor(
+                this.registeredPlayers.get(
+                        this.registeredPlayers.indexOf(
+                                new Client(leaveGameLobbyMessage.getComputerName(), NetworkConnectionConstants.DEFAULT_COM_PORT, leaveGameLobbyMessage.getNickname()))
+                ).mColor));
+
+
         this.registeredPlayers.remove(
                 new Client(
                         leaveGameLobbyMessage.getComputerName(),
                         NetworkConnectionConstants.DEFAULT_COM_PORT,
                         leaveGameLobbyMessage.getNickname()));
+
+        //Sending occurs after removal of an player...
+        mMultiplayerLobby.getSender().sendMessage(leaveGameLobbyMessage);
+        //todo inform players about new available color?
     }
 }

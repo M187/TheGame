@@ -47,7 +47,7 @@ public class PlayerColors {
         return 0;
     }
 
-    public class MyColor {
+    public static class MyColor {
 
         public int colorCode;
         public boolean available = true;

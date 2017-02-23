@@ -45,10 +45,11 @@ public class Client extends Thread {
         this.portNumber = portNumber;
     }
 
-    public Client(String hostName, int portNumber, String nickname, boolean isGameClient) {
+    public Client(String hostName, int portNumber, String nickname, int colorCode, boolean isGameClient) {
         this.nickname = nickname;
         this.hostName = hostName;
         this.portNumber = portNumber;
+        this.mColor = colorCode;
         this.isGameClient = isGameClient;
     }
 
