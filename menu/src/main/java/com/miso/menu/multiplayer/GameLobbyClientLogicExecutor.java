@@ -55,21 +55,22 @@ public class GameLobbyClientLogicExecutor extends MessageLogicExecutor {
 
             //Start game signal
             case "04":
-                this.multiplayerLobby.saveConnectedPlayers();
-                this.multiplayerLobby.runOnUiThread((new Runnable() {
-                    private Activity multiplayerLobby;
-                    public Runnable init(Activity multiplayerLobby){
-                        this.multiplayerLobby = multiplayerLobby;
-                        return this;
-                    }
+
+                Intent mIntent = new Intent(this.multiplayerLobby.getApplicationContext(), GameActivityMultiplayer.class);
+
+                this.multiplayerLobby.saveConnectedPlayers(mIntent);
+
+                this.multiplayerLobby.runOnUiThread(new Runnable() {
+                    
                     @Override
                     public void run(){multiplayerLobby.setContentView(R.layout.loading_game);}
-                }).init(this.multiplayerLobby));
-                this.multiplayerLobby.startActivity(
-                        new Intent(this.multiplayerLobby.getApplicationContext(), GameActivityMultiplayer.class)
-                                .putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
-                                .putExtra(OptionStrings.multiplayerInstance, ((StartGameMessage) transmissionMessage).getIndexOfPlayer())
-                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                });
+
+                mIntent.putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
+                        .putExtra(OptionStrings.multiplayerInstance, ((StartGameMessage) transmissionMessage).getIndexOfPlayer())
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                this.multiplayerLobby.startActivity(mIntent);
                 throw new StartGameException();
 
             // Disbanding game
