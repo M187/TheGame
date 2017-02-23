@@ -118,7 +118,7 @@ public class Client extends Thread {
     }
 
     public String getStringForExtras() {
-        return (this.nickname + "|" + this.hostName + ":" + this.portNumber);
+        return (this.nickname + "|" + this.hostName + ":" + this.portNumber + "|" + this.mColor);
     }
 
     /**

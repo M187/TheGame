@@ -95,9 +95,8 @@ public class GameActivityMultiplayer extends GameActivity {
     private void loadConnectedPlayersNetworkData() {
         boolean hasMoreData = true;
         int i = 0;
-        SharedPreferences settings = getSharedPreferences("MultiplayerLobby", 0);
         while (hasMoreData) {
-            String playerNetworkData = settings.getString("Player" + i + "networkData", "0");
+            String playerNetworkData = getIntent().getStringExtra("Player" + i + "networkData");
             i += 1;
             if (playerNetworkData.contains("free slot")) {
                 hasMoreData = false;
@@ -107,6 +106,7 @@ public class GameActivityMultiplayer extends GameActivity {
                                 playerNetworkData.split("\\|")[1].split(":")[0],
                                 connectionManager.PORT,
                                 playerNetworkData.split("\\|")[0],
+                                Integer.parseInt(playerNetworkData.split("\\|")[2]),
                                 true
                         ));
             }

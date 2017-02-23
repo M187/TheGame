@@ -99,7 +99,7 @@ public class MultiplayerLobby extends Activity {
         super.onResume();
 
         this.uiStateHandler.unHostClickUiChanges();
-        ((TextView)findViewById(R.id.text_info_game_state_events)).setText(R.string.welcome_message);
+        ((TextView) findViewById(R.id.text_info_game_state_events)).setText(R.string.welcome_message);
         this.lobbyState = MultiplayerLobbyStateHandler.LobbyState.Default;
 
         System.out.println(" --> Calling onResume for Multiplayer lobby.");
@@ -239,11 +239,13 @@ public class MultiplayerLobby extends Activity {
                 }
             }
             sender.sendMessage(new StartGameMessage());
-            saveConnectedPlayers();
-            setContentView(R.layout.loading_game);
-            startActivity(new Intent(this, GameActivityMultiplayer.class)
+            Intent startingIntent = new Intent(this, GameActivityMultiplayer.class)
                     .putExtra(OptionStrings.myNickname, NetworkConnectionConstants.getPlayerNickname())
-                    .putExtra(OptionStrings.multiplayerInstance, "0"));
+                    .putExtra(OptionStrings.multiplayerInstance, "0");
+            saveConnectedPlayers(startingIntent);
+            setContentView(R.layout.loading_game);
+            startActivity(startingIntent);
+
             this.uninitLocalServerAndData();
             this.finish();
         } else {
@@ -251,26 +253,23 @@ public class MultiplayerLobby extends Activity {
         }
     }
 
-    public void saveConnectedPlayers() {
-
-        SharedPreferences.Editor editor = getPreferences(0).edit();
+    public void saveConnectedPlayers(Intent intent) {
 
         for (int i = 0; i < 8; i++) {
             try {
                 // Debug part - inject artificial address.
 //                if (i == 0) {
-//                    editor.putString("Player" + i + "networkData", "test|10.0.2.2:12371");
+//                    intent.putExtra("Player" + i + "networkData", "test|10.0.2.2:12371");
 //                } else
                 if (registeredPlayers.get(i) != null) {
-                    editor.putString("Player" + i + "networkData", this.registeredPlayers.get(i).getStringForExtras());
+                    intent.putExtra("Player" + i + "networkData", this.registeredPlayers.get(i).getStringForExtras());
                 } else {
-                    editor.putString("Player" + i + "networkData", "free slot");
+                    intent.putExtra("Player" + i + "networkData", "free slot");
                 }
             } catch (IndexOutOfBoundsException e) {
-                editor.putString("Player" + i + "networkData", "free slot");
+                intent.putExtra("Player" + i + "networkData", "free slot");
             }
         }
-        editor.commit();
     }
 
     private void startMyClient(Client client) {
