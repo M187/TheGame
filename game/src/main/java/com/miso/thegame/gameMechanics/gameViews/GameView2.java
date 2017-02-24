@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.gameMechanics.GameState;
@@ -157,6 +158,6 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
 
 
     public static float scaleSize(float dipValue) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, NewLevelActivity.metrics);
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, GameActivity.metrics);
     }
 }

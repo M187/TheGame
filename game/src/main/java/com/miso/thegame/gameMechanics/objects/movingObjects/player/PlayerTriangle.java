@@ -32,7 +32,7 @@ public class PlayerTriangle extends Player {
         setX(startingPosition.x);
         setY(startingPosition.y);
         this.collisionObjectType = CollisionObjectType.Player;
-        setSpeed(ConstantHolder.maximumPlayerSpeed);
+        setSpeed(ConstantHolder.getMaximumSpeed());
         score = 0;
         dx = (getX());
         dy = (getY());

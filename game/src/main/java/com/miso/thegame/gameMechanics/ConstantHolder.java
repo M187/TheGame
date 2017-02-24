@@ -23,13 +23,17 @@ public class ConstantHolder {
     public static int maximumPlayerHealth = 50;
     public static int primaryAmunitionMaxValue = 120;
 
-    public static int maximumPlayerSpeed = (int) GameView2.scaleSize(4);
+    public static int maximumPlayerSpeedOptions = (int) GameView2.scaleSize(4);
     public static int enemiesCount = 0;
     //</editor-fold>
 
     public static void loadSettingsData(int playerHealthLevel, int playerAmmoLevel, int playerSpeedLevel){
         maximumPlayerHealth += 10 * playerHealthLevel;
         primaryAmunitionMaxValue += 20 * playerAmmoLevel;
-        maximumPlayerSpeed += (int) GameView2.scaleSize(playerSpeedLevel);
+        maximumPlayerSpeedOptions = playerSpeedLevel;
+    }
+
+    public static int getMaximumSpeed(){
+        return (int) GameView2.scaleSize(4) + (int) GameView2.scaleSize(maximumPlayerSpeedOptions);
     }
 }
