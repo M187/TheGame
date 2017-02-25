@@ -108,6 +108,21 @@ public class PlayerStatsProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        int count;
+
+        switch (URI_MATCHER.match(uri)){
+            case PLAYER_KILLS:
+                count = db.update(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME,
+                        values,
+                        null,
+                        null);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI " + uri );
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return count;
     }
 }

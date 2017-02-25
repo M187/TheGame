@@ -175,18 +175,9 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         data.moveToFirst();
-
         playerKillsTextView.setVisibility(View.VISIBLE);
         playerKillsTextView.setText("Your kill-count: " + data.getString(0));
-
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-
-        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.game_widget_layout);
-        remoteViews.setTextViewText(R.id.widget_player_kills, "Your kill-count: " + data.getString(0));
-
-        appWidgetManager.updateAppWidget(appWidgetManager.getAppWidgetIds(new ComponentName(this, TheGameWidgetProvider.class)), remoteViews);
     }
 
     private class SeekBarImpl {

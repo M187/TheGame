@@ -1,10 +1,12 @@
 package com.miso.thegame.gameMechanics.map.levels;
 
+import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.miso.persistence.player.PlayerStatsContract;
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
@@ -84,5 +86,16 @@ public class NewLevelActivity extends GameActivity {
                 this.playerType,
                 this.buttonsTypeData,
                 getIntent().getIntExtra(getString(R.string.level_number), 1)));
+    }
+
+    /**
+     * Updates database after game session
+     */
+    public void updatePlayerStatsKillCount(int killCount){
+        ContentValues values = new ContentValues();
+        killCount = killCount + Integer.parseInt(db_kill_count);
+        db_kill_count = String.valueOf(killCount);
+        values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, killCount);
+        getContentResolver().update(PlayerStatsContract.BASE_CONTENT_URI, values, null, null);
     }
 }

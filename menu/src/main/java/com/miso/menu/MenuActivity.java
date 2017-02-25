@@ -1,24 +1,33 @@
 package com.miso.menu;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RemoteViews;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.miso.menu.options.OptionsActivityLoaderCallbackImpl;
 import com.miso.thegame.gameMechanics.map.levels.NewLevelActivity;
 
 
-public class MenuActivity extends Activity {
+public class MenuActivity extends OptionsActivityLoaderCallbackImpl {
+
+    public static String KILL_COUNT = "0";
 
     private Intent gameIntent = null;
     private MediaPlayer mMediaPlayer;
 
     private AdView mAdView;
+    private final int PLAYER_STATS_LIST_ID = 1110;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +46,8 @@ public class MenuActivity extends Activity {
         mAdView.loadAd(adRequest);
 
         ((TheGameApplication)getApplication()).startTracking();
+
+        getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, this);
     }
 
     public void onResume(){
@@ -84,5 +95,17 @@ public class MenuActivity extends Activity {
     public void quitClick(View viev){
         this.finish();
         System.exit(0);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        data.moveToFirst();
+        KILL_COUNT = data.getString(0);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.game_widget_layout);
+        remoteViews.setTextViewText(R.id.widget_player_kills, "Your kill-count: " + data.getString(0));
+
+        appWidgetManager.updateAppWidget(appWidgetManager.getAppWidgetIds(new ComponentName(this, TheGameWidgetProvider.class)), remoteViews);
     }
 }
