@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.gameMechanics.MainGameThread;
@@ -30,7 +31,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      * @param playerType
      * @param buttonsTypeData
      */
-    public GamePanelSingleplayer(Context context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData) {
+    public GamePanelSingleplayer(GameActivity context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData) {
         super(context, playerType, buttonsTypeData);
         this.mapToCreate = MapManager.initializeMap(mapToCreate, getResources());
         this.context = context;
@@ -46,7 +47,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      * @param buttonsTypeData
      * @param levelNumber
      */
-    public GamePanelSingleplayer(Context context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, int levelNumber) {
+    public GamePanelSingleplayer(GameActivity context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, int levelNumber) {
         super(context, playerType, buttonsTypeData);
         this.levelHandler = new LevelHandler(levelNumber);
         this.mapToCreate = MapGenerator.generateMap(getResources(), new Point((int)GameView2.scaleSize(1000), (int)GameView2.scaleSize(1000)), this.levelHandler.getLevelNumber());

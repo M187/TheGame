@@ -2,6 +2,7 @@ package com.miso.thegame;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -58,5 +59,16 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    /**
+     * Updates database after game session
+     */
+    public void updatePlayerStatsKillCount(int killCount){
+        ContentValues values = new ContentValues();
+        killCount = killCount + Integer.parseInt(db_kill_count);
+        db_kill_count = String.valueOf(killCount);
+        values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, killCount);
+        getContentResolver().update(PlayerStatsContract.BASE_CONTENT_URI, values, null, null);
     }
 }

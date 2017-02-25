@@ -66,6 +66,9 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     protected SpellManager spellManager;
     protected StaticAnimationManager staticAnimationManager = new StaticAnimationManager();
     protected ButtonsTypeData buttonsTypeData;
+    protected GameActivity parentActivity;
+
+    public int enemies_killed_this_game = 0;
 
     //Move initialization of these props into menu module, into main activity?
     {
@@ -73,8 +76,9 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         HEIGHT = NewLevelActivity.metrics.heightPixels;
     }
 
-    public GameView2(Context context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData){
+    public GameView2(GameActivity context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData){
         super(context);
+        parentActivity = context;
         StaticAnimationManager.resources = this.getResources();
         this.playerType = playerType;
         this.buttonsTypeData = buttonsTypeData;
@@ -96,7 +100,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         this.gameState = player.gameState;
 
         spellManager = new SpellManager(getResources(), getPlayer());
-        enemiesManager = new EnemiesManager(getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());
+        enemiesManager = new EnemiesManager(this, getPlayer(), getSpellManager(), this.mapManager.enemyInitialDatas, getResources());
         getSpellManager().enemiesManager = getEnemiesManager();
 
         toolbar = new Toolbar(getResources(), getPlayer(), this.buttonsTypeData);
@@ -112,6 +116,9 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+
+        parentActivity.updatePlayerStatsKillCount(enemies_killed_this_game);
+
         boolean retry = true;
         int counter = 0;
         while (retry & counter < 1000) {

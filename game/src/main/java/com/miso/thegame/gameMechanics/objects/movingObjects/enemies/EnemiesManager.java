@@ -22,10 +22,19 @@ public class EnemiesManager {
     public SpellManager spellManager;
     Player player;
     Resources res;
+    GameView2 gameView;
     //TODO try to do it as a set / linkedList
-    private List<Enemy> enemyList = new ArrayList<>();
+    private List<Enemy> enemyList = new ArrayList<Enemy>(){
 
-    public EnemiesManager(Player player, SpellManager spellManager, List<SingleEnemyInitialData> enemyInitialDatas, Resources res) {
+        @Override
+        public boolean remove(Object o){
+            if (super.remove(o)) gameView.enemies_killed_this_game +=1;
+            return true;
+        }
+    };
+
+    public EnemiesManager(GameView2 gameView2, Player player, SpellManager spellManager, List<SingleEnemyInitialData> enemyInitialDatas, Resources res) {
+        this.gameView = gameView2;
         this.player = player;
         this.spellManager = spellManager;
         this.res = res;
