@@ -1,12 +1,10 @@
 package com.miso.thegame.gameMechanics.map.levels;
 
-import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
-import com.miso.persistence.player.PlayerStatsContract;
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;

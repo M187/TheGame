@@ -20,6 +20,7 @@ public class PlayerStatsProvider extends ContentProvider {
     private static final int PLAYER_SKILLPOINTS = 1;
     private static final int PLAYER_UNLOCKED_SKILLS = 2;
     private static final int PLAYER_KILLS = 3;
+    private static final int PLAYER_LEVEL_POINTS = 4;
     private static final UriMatcher URI_MATCHER;
 
     // prepare the uri matcher
@@ -38,6 +39,9 @@ public class PlayerStatsProvider extends ContentProvider {
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
                 "PlayerStatistics",
                 PLAYER_WHOLE_TABLE);
+        URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
+                "PlayerStatistics/level",
+                PLAYER_LEVEL_POINTS);
     }
 
     private PlayerStatsDbHelper mHelper;
@@ -66,6 +70,10 @@ public class PlayerStatsProvider extends ContentProvider {
                 break;
             case PLAYER_WHOLE_TABLE:
                 builder.setTables(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME);
+                break;
+            case PLAYER_LEVEL_POINTS:
+                builder.setTables(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME);
+                projection = new String[]{PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_POINTS};
                 break;
             case PLAYER_UNLOCKED_SKILLS:
             default:
@@ -114,6 +122,12 @@ public class PlayerStatsProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)){
             case PLAYER_KILLS:
+                count = db.update(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME,
+                        values,
+                        null,
+                        null);
+                break;
+            case PLAYER_LEVEL_POINTS:
                 count = db.update(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME,
                         values,
                         null,

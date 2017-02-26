@@ -9,6 +9,7 @@ import android.view.SurfaceHolder;
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GameMapEnum;
 import com.miso.thegame.GameData.GamePlayerTypeEnum;
+import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
 import com.miso.thegame.gameMechanics.map.MapManager;
@@ -155,5 +156,11 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
             default:
                 return true;
         }
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder){
+        if (this.gameState.getGameState() == GameState.GameStates.victory) parentActivity.updatePlayerStatsLevelPoints((int)Math.pow(this.levelHandler.getLevelNumber(),2));
+        super.surfaceDestroyed(holder);
     }
 }

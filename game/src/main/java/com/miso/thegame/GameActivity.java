@@ -23,7 +23,9 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
     public static DisplayMetrics metrics = new DisplayMetrics();
     public int PLAYER_STATS_LIST_ID = 1112;
 
+    private volatile boolean dataLoaded = false;
     protected String db_kill_count = "0";
+    protected String db_level_points = "0";
 
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -53,8 +55,10 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data){
+        this.dataLoaded = true;
         data.moveToFirst();
         db_kill_count =  data.getString(0);
+        db_level_points = data.getString(2);
     }
 
     @Override
@@ -66,10 +70,23 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
      * Updates database after game session
      */
     public void updatePlayerStatsKillCount(int killCount){
+        if (!dataLoaded) return;
         ContentValues values = new ContentValues();
         killCount = killCount + Integer.parseInt(db_kill_count);
         db_kill_count = String.valueOf(killCount);
         values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, killCount);
         getContentResolver().update(Uri.withAppendedPath(PlayerStatsContract.BASE_CONTENT_URI, "PlayerStatistics/kills"), values, null, null);
+    }
+
+    /**
+     * Add level points after map finishes.
+     */
+    public void updatePlayerStatsLevelPoints(int levelPoints){
+        if (!dataLoaded) return;
+        ContentValues values = new ContentValues();
+        levelPoints = levelPoints + Integer.parseInt(db_kill_count);
+        db_level_points = String.valueOf(levelPoints);
+        values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, levelPoints);
+        getContentResolver().update(Uri.withAppendedPath(PlayerStatsContract.BASE_CONTENT_URI, "PlayerStatistics/level"), values, null, null);
     }
 }
