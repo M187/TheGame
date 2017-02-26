@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
@@ -69,6 +70,6 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
         killCount = killCount + Integer.parseInt(db_kill_count);
         db_kill_count = String.valueOf(killCount);
         values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, killCount);
-        getContentResolver().update(PlayerStatsContract.BASE_CONTENT_URI, values, null, null);
+        getContentResolver().update(Uri.withAppendedPath(PlayerStatsContract.BASE_CONTENT_URI, "PlayerStatistics/kills"), values, null, null);
     }
 }
