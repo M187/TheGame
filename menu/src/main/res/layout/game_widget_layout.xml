@@ -24,7 +24,18 @@
             android:id="@+id/widget_player_kills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Default text" />
+            android:text="Default text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/menu_text_color"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/widget_player_level_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/menu_text_color"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

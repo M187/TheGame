@@ -1,6 +1,5 @@
 package com.miso.menu;
 
-import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -105,6 +104,7 @@ public class MenuActivity extends OptionsActivityLoaderCallbackImpl {
 
         RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.game_widget_layout);
         remoteViews.setTextViewText(R.id.widget_player_kills, "Your kill-count: " + data.getString(0));
+        remoteViews.setTextViewText(R.id.widget_player_level_points, "Your level-points: " + data.getString(2));
 
         appWidgetManager.updateAppWidget(appWidgetManager.getAppWidgetIds(new ComponentName(this, TheGameWidgetProvider.class)), remoteViews);
     }
