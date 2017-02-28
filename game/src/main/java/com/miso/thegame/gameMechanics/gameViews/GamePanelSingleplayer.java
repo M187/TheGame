@@ -161,6 +161,7 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
         if (this.gameState.getGameState() == GameState.GameStates.victory) parentActivity.updatePlayerStatsLevelPoints((int)Math.pow(this.levelHandler.getLevelNumber(),2));
+        parentActivity.updatePlayerStatsKillCount(enemies_killed_this_game);
         super.surfaceDestroyed(holder);
     }
 }

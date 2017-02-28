@@ -84,9 +84,9 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
     public void updatePlayerStatsLevelPoints(int levelPoints){
         if (!dataLoaded) return;
         ContentValues values = new ContentValues();
-        levelPoints = levelPoints + Integer.parseInt(db_kill_count);
+        levelPoints = levelPoints + Integer.parseInt(db_level_points);
         db_level_points = String.valueOf(levelPoints);
-        values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, levelPoints);
+        values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_POINTS, levelPoints);
         getContentResolver().update(Uri.withAppendedPath(PlayerStatsContract.BASE_CONTENT_URI, "PlayerStatistics/level"), values, null, null);
     }
 }

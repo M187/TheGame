@@ -15,7 +15,7 @@ public class MainGameThread extends Thread {
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private GameView2 gamePanel;
-    private boolean running;
+    private volatile boolean running;
     private int logIterator = 0;
 
     public MainGameThread(SurfaceHolder surfaceHolder, GameView2 gamePanel) {

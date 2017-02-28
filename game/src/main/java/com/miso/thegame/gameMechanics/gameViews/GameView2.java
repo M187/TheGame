@@ -117,9 +117,6 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
-        parentActivity.updatePlayerStatsKillCount(enemies_killed_this_game);
-        if (this.gameState.getGameState() == GameState.GameStates.victory) parentActivity.updatePlayerStatsLevelPoints(1);
-
         boolean retry = true;
         int counter = 0;
         while (retry & counter < 1000) {
