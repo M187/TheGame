@@ -161,13 +161,13 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
         mPlayerLevelCalculator.initialize(this.settings);
 
         this.healthSeekBar = new MySeekBar(this, (SeekBar) findViewById(R.id.health_seekBar), 5, MySeekBar.SEEK_BAR_TYPE.health);
-        this.healthSeekBar.setCurrentValue(settings.getInt(OptionStrings.playerBonusHealth, 0));
+        this.healthSeekBar.init(settings.getInt(OptionStrings.playerBonusHealth, 0));
 
         this.ammoSeekBar = new MySeekBar(this, (SeekBar) findViewById(R.id.ammo_seekBar), 5, MySeekBar.SEEK_BAR_TYPE.ammo);
-        this.ammoSeekBar.setCurrentValue(settings.getInt(OptionStrings.playerBonusAmmo, 0));
+        this.ammoSeekBar.init(settings.getInt(OptionStrings.playerBonusAmmo, 0));
 
         this.speedSeekBar = new MySeekBar(this, (SeekBar) findViewById(R.id.speed_seekBar), 5, MySeekBar.SEEK_BAR_TYPE.speed);
-        this.speedSeekBar.setCurrentValue(settings.getInt(OptionStrings.playerMaxSpeed, 0));
+        this.speedSeekBar.init(settings.getInt(OptionStrings.playerMaxSpeed, 0));
 
         this.firstButtonType = settings.getString(OptionStrings.firstButtonType, "");
         this.secondButtonType = settings.getString(OptionStrings.secondButtonType, "");

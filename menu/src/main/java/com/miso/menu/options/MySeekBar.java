@@ -45,6 +45,23 @@ public class MySeekBar {
         return lastProgress;
     }
 
+    public void init(int progress) {
+        lastProgress = progress;
+        this.thisSeekBar.setProgress(progress);
+        switch (this.mType) {
+            case health:
+                mPlayerOptions.refreshDueToHealth(progress);
+                break;
+            case ammo:
+                mPlayerOptions.refreshDueToAmmo(progress);
+                break;
+            case speed:
+                mPlayerOptions.refreshDueToSpeed(progress);
+                break;
+            default:
+        }
+    }
+
     public void setCurrentValue(int progress) {
         if (lastProgress < progress) {
             if (mPlayerOptions.mPlayerLevelCalculator.getAvailableStatPoints() - mPlayerOptions.mPlayerLevelCalculator.getDistributedStatPoints() > 0) {
