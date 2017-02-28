@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -105,6 +104,41 @@
                 </TableRow>
 
                 <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:text="Skill points - spent: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/player_skill_points_spent"
+                        android:text="N/A"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold"
+                        android:paddingRight="3dp"/>
+
+                    <TextView
+                        android:text="remaining: "
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/player_skill_points_remaining"
+                        android:text="N/A"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/menu_text_color"
+                        android:textStyle="bold"
+                        android:paddingRight="5dp"/>
+
+                </TableRow>
+
+                <TableRow
                     android:id="@+id/ability_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -133,6 +167,16 @@
 
                 <TextView
                     android:id="@+id/player_kills_text_view"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/menu_text_color"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/player_level_points_text_view"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
