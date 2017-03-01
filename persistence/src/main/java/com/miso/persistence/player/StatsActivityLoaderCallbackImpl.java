@@ -26,7 +26,7 @@ public abstract class StatsActivityLoaderCallbackImpl extends Activity implement
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = new CursorLoader(
                 this,
-                PlayerStatsContract.PlayerStatisticssEntry.CONTENT_URI,
+                PlayerStatsContract.PlayerStatisticssEntry.CONTENT_URI.buildUpon().appendPath("statistics").build(),
                 settingsProjection,
                 null,
                 null,

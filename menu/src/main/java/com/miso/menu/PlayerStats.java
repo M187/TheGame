@@ -1,6 +1,7 @@
 package com.miso.menu;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.miso.abilities.AbilitiesShop;
 import com.miso.menu.options.MySeekBar;
 import com.miso.persistence.player.StatsActivityLoaderCallbackImpl;
 import com.miso.menu.options.PlayerLevelCalculator;
@@ -37,6 +39,7 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
     private MySeekBar speedSeekBar;
     private String firstButtonType;
     private String secondButtonType;
+    private int killCount = 0;
 
     @BindView(R.id.first_button_type_spinner)
     Spinner firstButtonTypeSpinner;
@@ -169,6 +172,7 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         data.moveToFirst();
+        this.killCount = Integer.parseInt(data.getString(0));
         this.playerKillsTextView.setVisibility(View.VISIBLE);
         this.playerKillsTextView.setText("Your kill-count: " + data.getString(0));
         this.playerLevelPointsTextView.setVisibility(View.VISIBLE);
@@ -206,6 +210,12 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
     public void setNewStatsData(){
         this.playerSkillPointsRemainingTextView.setText(String.valueOf(mPlayerLevelCalculator.getAvailableStatPoints() - mPlayerLevelCalculator.getDistributedStatPoints()));
         this.playerSkillPointsSpentTextView.setText(String.valueOf(mPlayerLevelCalculator.getDistributedStatPoints()));
+    }
+
+    public void startAbilityUnlocker(View view){
+        Intent temp = new Intent(this, AbilitiesShop.class);
+        temp.putExtra("kills", killCount);
+        startActivity(temp);
     }
 }
 

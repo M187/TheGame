@@ -17,8 +17,6 @@ public class PlayerStatsProvider extends ContentProvider {
 
     // helper constants for UriMatcher
     private static final int PLAYER_WHOLE_TABLE = 0;
-    private static final int PLAYER_SKILLPOINTS = 1;
-    private static final int PLAYER_UNLOCKED_SKILLS = 2;
     private static final int PLAYER_KILLS = 3;
     private static final int PLAYER_LEVEL_POINTS = 4;
 
@@ -31,16 +29,10 @@ public class PlayerStatsProvider extends ContentProvider {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
-                "PlayerStatistics/skillpoints",
-                PLAYER_SKILLPOINTS);
-        URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
-                "PlayerStatistics/unlocked_skills",
-                PLAYER_UNLOCKED_SKILLS);
-        URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
                 "PlayerStatistics/kills",
                 PLAYER_KILLS);
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
-                "PlayerStatistics",
+                "PlayerStatistics/statistics",
                 PLAYER_WHOLE_TABLE);
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
                 "PlayerStatistics/level",
@@ -66,10 +58,6 @@ public class PlayerStatsProvider extends ContentProvider {
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
 
         switch (URI_MATCHER.match(uri)) {
-            case PLAYER_SKILLPOINTS:
-                builder.setTables(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME);
-                projection = new String[]{PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_POINTS};
-                break;
             case PLAYER_KILLS:
                 builder.setTables(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME);
                 projection = new String[]{PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS};
@@ -103,8 +91,6 @@ public class PlayerStatsProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (URI_MATCHER.match(uri)) {
-            case PLAYER_SKILLPOINTS:
-            case PLAYER_UNLOCKED_SKILLS:
             case PLAYER_KILLS:
             default:
                 return null;

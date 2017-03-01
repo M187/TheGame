@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 import com.miso.persistence.player.PlayerStatsContract;
+import com.miso.persistence.player.StatsActivityLoaderCallbackImpl;
 
 /**
  * Created by michal.hornak on 2/7/2017.
@@ -18,7 +19,7 @@ import com.miso.persistence.player.PlayerStatsContract;
  * "Game activities are then split into multiplayer/singleplayer Activity, extending this class"
  */
 
-public abstract class GameActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor>{
+public abstract class GameActivity extends StatsActivityLoaderCallbackImpl implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static DisplayMetrics metrics = new DisplayMetrics();
     public int PLAYER_STATS_LIST_ID = 1112;
@@ -42,18 +43,6 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
 
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader loader = new CursorLoader(
-                this,
-                PlayerStatsContract.PlayerStatisticssEntry.CONTENT_URI,
-                settingsProjection,
-                null,
-                null,
-                null);
-        return loader;
-    }
-
-    @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data){
         this.dataLoaded = true;
         data.moveToFirst();
@@ -61,10 +50,6 @@ public abstract class GameActivity extends Activity implements LoaderManager.Loa
         db_level_points = data.getString(2);
     }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
     /**
      * Updates database after game session

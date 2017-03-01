@@ -24,7 +24,7 @@ public abstract class AbilityActivityLoaderCallbackImpl extends Activity impleme
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = new CursorLoader(
                 this,
-                PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI,
+                PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI.buildUpon().appendPath("abilities").build(),
                 settingsProjection,
                 null,
                 null,

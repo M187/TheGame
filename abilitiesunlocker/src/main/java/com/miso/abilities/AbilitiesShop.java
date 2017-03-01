@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class AbilitiesShop extends AbilityActivityLoaderCallbackImpl {
         mRecyclerView.setAdapter(adapter);
         LinearLayoutManager lM = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(lM);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         this.dialog.hide();
     }

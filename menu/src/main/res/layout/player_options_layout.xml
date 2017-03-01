@@ -157,6 +157,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
+                    <Button
+                        android:id="@+id/button_abilities_unlocker"
+                        android:layout_height="match_parent"
+                        android:text="Unlock"
+                        android:onClick="startAbilityUnlocker"
+                        android:layout_width="50dp"/>
+
                 </TableRow>
 
                 <TextView

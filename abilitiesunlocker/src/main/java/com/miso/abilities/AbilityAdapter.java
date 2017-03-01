@@ -19,6 +19,7 @@ public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
 
     AbilityAdapter(Activity parentActivity, Cursor mCursor){
         this.parentActivity = parentActivity;
+        this.mCursor = mCursor;
     }
 
     @Override
