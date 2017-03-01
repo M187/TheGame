@@ -14,6 +14,7 @@ import com.miso.abilities.abilitiesunlocker.R;
 public class AbilityViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView mImageView;
+    public TextView mName;
     public TextView mDescription;
     public TextView mPrice;
 
@@ -21,6 +22,7 @@ public class AbilityViewHolder extends RecyclerView.ViewHolder {
     public AbilityViewHolder(View itemView) {
         super(itemView);
         this.mImageView = (ImageView) itemView.findViewById(R.id.ability_image);
+        this.mName = (TextView) itemView.findViewById(R.id.ability_name);
         this.mDescription = (TextView) itemView.findViewById(R.id.ability_description);
         this.mPrice = (TextView) itemView.findViewById(R.id.ability_kill_price);
     }

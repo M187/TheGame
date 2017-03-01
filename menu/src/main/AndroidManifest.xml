@@ -32,7 +32,7 @@
         </activity>
 
         <activity
-            android:name="com.miso.menu.PlayerOptions"
+            android:name="com.miso.menu.PlayerStats"
             android:hardwareAccelerated="false"
             android:label="PlayerOptions"
             android:screenOrientation="landscape" />

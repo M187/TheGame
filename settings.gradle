@@ -1,1 +1,1 @@
-include ':game', ':menu', ':persistence'
+include ':game', ':menu', ':persistence', ':abilitiesunlocker'

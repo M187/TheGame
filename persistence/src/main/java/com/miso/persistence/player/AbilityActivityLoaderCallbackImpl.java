@@ -7,26 +7,24 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import com.miso.persistence.player.PlayerStatsContract;
-
 /**
- * Created by michal.hornak on 2/16/2017.
+ * Created by michal.hornak on 3/1/2017.
  */
 
-public abstract class OptionsActivityLoaderCallbackImpl extends Activity implements LoaderManager.LoaderCallbacks<Cursor>{
+public abstract class AbilityActivityLoaderCallbackImpl extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String[] settingsProjection = {
-            PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS,
-            PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_COMPLETED,
-            PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_POINTS
+            PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_NAME,
+            PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_DESCRIPTION,
+            PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_PRICE,
+            PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_UNLOCKED
     };
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = new CursorLoader(
                 this,
-                PlayerStatsContract.PlayerStatisticssEntry.CONTENT_URI,
+                PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI,
                 settingsProjection,
                 null,
                 null,

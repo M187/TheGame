@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miso.menu.options.MySeekBar;
-import com.miso.menu.options.OptionsActivityLoaderCallbackImpl;
+import com.miso.persistence.player.StatsActivityLoaderCallbackImpl;
 import com.miso.menu.options.PlayerLevelCalculator;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * Created by michal.hornak on 14.01.2016.
  */
-public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
+public class PlayerStats extends StatsActivityLoaderCallbackImpl {
 
     private MySeekBar healthSeekBar;
     private MySeekBar ammoSeekBar;
@@ -71,8 +71,8 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
         getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, this);
 
-        this.dialog=new ProgressDialog(PlayerOptions.this);
-        dialog.setMessage("message");
+        this.dialog=new ProgressDialog(PlayerStats.this);
+        dialog.setMessage("Waiting to fetch data");
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
         dialog.show();

@@ -2,7 +2,7 @@ package com.miso.menu.options;
 
 import android.widget.SeekBar;
 
-import com.miso.menu.PlayerOptions;
+import com.miso.menu.PlayerStats;
 
 /**
  * Created by michal.hornak on 2/28/2017.
@@ -16,10 +16,10 @@ public class MySeekBar {
 
     private SeekBar thisSeekBar;
     private SEEK_BAR_TYPE mType;
-    private PlayerOptions mPlayerOptions;
+    private PlayerStats mPlayerOptions;
     private int lastProgress = 0;
 
-    public MySeekBar(PlayerOptions context, SeekBar seekBar, int maxValue, SEEK_BAR_TYPE type) {
+    public MySeekBar(PlayerStats context, SeekBar seekBar, int maxValue, SEEK_BAR_TYPE type) {
         this.mPlayerOptions = context;
         this.mType = type;
         this.thisSeekBar = seekBar;

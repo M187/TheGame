@@ -12,7 +12,7 @@ import com.miso.abilities.abilitiesunlocker.R;
  * Created by michal.hornak on 3/1/2017.
  */
 
-public class AbilityAdapter extends RecyclerView.Adapter {
+public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
 
     private Activity parentActivity;
     private Cursor mCursor;
@@ -22,7 +22,7 @@ public class AbilityAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AbilityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = this.parentActivity.getLayoutInflater().inflate(R.layout.ability_list_item, parent, false);
         final AbilityViewHolder temp = new AbilityViewHolder(view);
         //todo add onClick listener
@@ -30,8 +30,11 @@ public class AbilityAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(AbilityViewHolder holder, int position) {
+        mCursor.moveToPosition(position);
+        holder.mName.setText(mCursor.getString(0));
+        holder.mDescription.setText(mCursor.getString(1));
+        holder.mPrice.setText(String.valueOf(mCursor.getInt(2)));
     }
 
     @Override

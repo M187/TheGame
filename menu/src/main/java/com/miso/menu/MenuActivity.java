@@ -14,11 +14,11 @@ import android.widget.RemoteViews;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.miso.menu.options.OptionsActivityLoaderCallbackImpl;
+import com.miso.persistence.player.StatsActivityLoaderCallbackImpl;
 import com.miso.thegame.gameMechanics.map.levels.NewLevelActivity;
 
 
-public class MenuActivity extends OptionsActivityLoaderCallbackImpl {
+public class MenuActivity extends StatsActivityLoaderCallbackImpl {
 
     public static String KILL_COUNT = "0";
 
@@ -87,7 +87,7 @@ public class MenuActivity extends OptionsActivityLoaderCallbackImpl {
     }
 
     public void playerOptionClick(View view){
-        Intent intent = new Intent(this, PlayerOptions.class);
+        Intent intent = new Intent(this, PlayerStats.class);
         startActivity(intent);
     }
 

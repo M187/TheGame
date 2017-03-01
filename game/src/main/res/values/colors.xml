@@ -7,8 +7,8 @@
     <color name="white_tint">#22FFFFFF</color>
 
 
-
-
+    <!-- Color for game objectives -->
+    <color name="black_object">#000000</color>
 
 
 
