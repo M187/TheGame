@@ -24,4 +24,15 @@ public class PlayerStatsContract {
         public static final String COLUMN_PLAYER_LEVELS_COMPLETED = "levels_completed";
         public static final String COLUMN_PLAYER_LEVELS_POINTS = "level_points";
     }
+
+    public static final class PlayerAbilitiesEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLAYER_SETTINGS).build();
+        public static final String TABLE_NAME = "player_abilities";
+
+        public static final String COLUMN_ABILITY_NAME = "name";
+        public static final String COLUMN_ABILITY_DESCRIPTION = "description";
+        public static final String COLUMN_ABILITY_PRICE = "price";
+        public static final String COLUMN_ABILITY_UNLOCKED = "unlocked";
+    }
 }
