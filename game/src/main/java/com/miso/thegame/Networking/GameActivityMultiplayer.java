@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.ButtonTypeEnum;
 import com.miso.thegame.GameData.GameMapEnum;
-import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.R;
@@ -31,7 +30,6 @@ public class GameActivityMultiplayer extends GameActivity {
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
     public ArrayList<Client> playersThatEnteredGame = new ArrayList<>();
-    public GamePlayerTypeEnum playerType;
     private ButtonsTypeData buttonsTypeData = new ButtonsTypeData();
     private ConnectionManager connectionManager;
     private WaiterForAllConnections waiterForAllConnections;
@@ -83,7 +81,6 @@ public class GameActivityMultiplayer extends GameActivity {
 
         this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
         this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
-        this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
 
         ConstantHolder.loadSettingsData(maxHealth, maxAmmo, maxSpeed);
     }
@@ -134,7 +131,6 @@ public class GameActivityMultiplayer extends GameActivity {
                 this,
                 mapToCreate,
                 this.getIntent().getExtras().getString(OptionStrings.myNickname, "--"),
-                this.playerType,
                 new Point(300 + 300 * playerIndex, 500), //TODO: <- do this better / validate somehow (Map dependant?)
                 this.buttonsTypeData,
                 connectionManager);

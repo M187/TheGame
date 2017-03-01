@@ -1,6 +1,5 @@
 package com.miso.thegame.gameMechanics.gameViews;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.MotionEvent;
@@ -8,7 +7,6 @@ import android.view.SurfaceHolder;
 
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.GameMapEnum;
-import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.MainGameThread;
 import com.miso.thegame.gameMechanics.UserInterface.ButtonsTypeData;
@@ -29,11 +27,10 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      * Creates GamePanel for level 1.
      * @param context
      * @param mapToCreate
-     * @param playerType
      * @param buttonsTypeData
      */
-    public GamePanelSingleplayer(GameActivity context, GameMapEnum mapToCreate, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData) {
-        super(context, playerType, buttonsTypeData);
+    public GamePanelSingleplayer(GameActivity context, GameMapEnum mapToCreate, ButtonsTypeData buttonsTypeData) {
+        super(context, buttonsTypeData);
         this.mapToCreate = MapManager.initializeMap(mapToCreate, getResources());
         this.context = context;
         this.thread = new MainGameThread(getHolder(), this);
@@ -44,12 +41,11 @@ public class GamePanelSingleplayer extends GameView2 implements SurfaceHolder.Ca
      * Used when not first level is invoked. Should load player level.
      *
      * @param context
-     * @param playerType
      * @param buttonsTypeData
      * @param levelNumber
      */
-    public GamePanelSingleplayer(GameActivity context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData, int levelNumber) {
-        super(context, playerType, buttonsTypeData);
+    public GamePanelSingleplayer(GameActivity context, ButtonsTypeData buttonsTypeData, int levelNumber) {
+        super(context, buttonsTypeData);
         this.levelHandler = new LevelHandler(levelNumber);
         this.mapToCreate = MapGenerator.generateMap(getResources(), new Point((int)GameView2.scaleSize(1000), (int)GameView2.scaleSize(1000)), this.levelHandler.getLevelNumber());
         this.context = context;

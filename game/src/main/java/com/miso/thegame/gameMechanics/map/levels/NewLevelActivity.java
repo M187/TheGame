@@ -7,7 +7,6 @@ import android.view.WindowManager;
 
 import com.miso.thegame.GameActivity;
 import com.miso.thegame.GameData.ButtonTypeEnum;
-import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 import com.miso.thegame.Networking.client.Client;
 import com.miso.thegame.R;
@@ -23,10 +22,8 @@ import java.util.ArrayList;
 public class NewLevelActivity extends GameActivity {
 
     public static boolean isGameOn = false;
-
     public boolean gameOver = false;
     public ArrayList<Client> registeredPlayers = new ArrayList<>();
-    public GamePlayerTypeEnum playerType;
     private ButtonsTypeData buttonsTypeData = new ButtonsTypeData();
 
     @Override
@@ -69,7 +66,6 @@ public class NewLevelActivity extends GameActivity {
 
         this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
         this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
-        this.playerType = GamePlayerTypeEnum.getPlayerTypeFromTypeString(settings.getString(OptionStrings.playerType, "Saucer"));
 
         ConstantHolder.loadSettingsData(maxHealth, maxAmmo, maxSpeed);
     }
@@ -81,7 +77,6 @@ public class NewLevelActivity extends GameActivity {
 
         setContentView(new GamePanelSingleplayer(
                 this,
-                this.playerType,
                 this.buttonsTypeData,
                 getIntent().getIntExtra(getString(R.string.level_number), 1)));
     }

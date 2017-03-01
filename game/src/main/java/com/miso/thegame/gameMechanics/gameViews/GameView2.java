@@ -10,7 +10,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.miso.thegame.GameActivity;
-import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.Networking.Sender;
 import com.miso.thegame.gameMechanics.GameState;
 import com.miso.thegame.gameMechanics.MainGameThread;
@@ -28,7 +27,7 @@ import com.miso.thegame.gameMechanics.map.mapDefinitions.GameMap;
 import com.miso.thegame.gameMechanics.objects.movingObjects.Anchor;
 import com.miso.thegame.gameMechanics.objects.movingObjects.enemies.EnemiesManager;
 import com.miso.thegame.gameMechanics.objects.movingObjects.player.Player;
-import com.miso.thegame.gameMechanics.objects.movingObjects.player.PlayerFactory;
+import com.miso.thegame.gameMechanics.objects.movingObjects.player.PlayerTriangle;
 import com.miso.thegame.gameMechanics.objects.movingObjects.spells.SpellManager;
 
 import java.util.Random;
@@ -59,7 +58,6 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
     protected Context context;
 
     protected Player player;
-    protected GamePlayerTypeEnum playerType;
     protected Point playerStartingPosition;
 
     protected EnemiesManager enemiesManager;
@@ -76,11 +74,10 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         HEIGHT = NewLevelActivity.metrics.heightPixels;
     }
 
-    public GameView2(GameActivity context, GamePlayerTypeEnum playerType, ButtonsTypeData buttonsTypeData){
+    public GameView2(GameActivity context, ButtonsTypeData buttonsTypeData){
         super(context);
         parentActivity = context;
         StaticAnimationManager.resources = this.getResources();
-        this.playerType = playerType;
         this.buttonsTypeData = buttonsTypeData;
     }
 
@@ -96,7 +93,7 @@ public abstract class GameView2 extends SurfaceView implements SurfaceHolder.Cal
         this.mapManager = new MapManager(this.mapToCreate);
 
         this.playerStartingPosition = (this.playerStartingPosition == null) ? new Point(MapManager.getWorldWidth() / 2, MapManager.getWorldHeight() / 2) : this.playerStartingPosition;
-        player = PlayerFactory.createPlayer(getResources(), this.playerStartingPosition, this.mapManager, this.playerType);
+        player = new PlayerTriangle(this.playerStartingPosition, mapManager);
         this.gameState = player.gameState;
 
         spellManager = new SpellManager(getResources(), getPlayer());

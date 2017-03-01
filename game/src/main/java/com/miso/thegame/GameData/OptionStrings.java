@@ -14,6 +14,4 @@ public class OptionStrings {
 
     public static final String firstButtonType = "firstButtonType";
     public static final String secondButtonType = "secondButtonType";
-
-    public static final String playerType = "playerType";
 }

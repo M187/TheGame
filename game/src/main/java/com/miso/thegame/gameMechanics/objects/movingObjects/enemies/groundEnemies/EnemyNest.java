@@ -89,7 +89,6 @@ public class EnemyNest extends EnemyGround implements Shooting, Spawning {
 
     @Override
     public void drawObject(Canvas canvas, int x, int y){
-
         myApperance.draw(canvas, new Point(x,y));
     }
 
@@ -132,7 +131,7 @@ public class EnemyNest extends EnemyGround implements Shooting, Spawning {
                 growing = (growing) ? false : true;
             }
 
-            canvas.drawCircle(position.x, position.y,  radius, paint);
+            canvas.drawCircle(position.x + radius/2, position.y + radius/2,  radius, paint);
         }
     }
 }

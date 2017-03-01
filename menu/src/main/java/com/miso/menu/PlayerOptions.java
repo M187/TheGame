@@ -19,7 +19,6 @@ import com.miso.menu.options.MySeekBar;
 import com.miso.menu.options.OptionsActivityLoaderCallbackImpl;
 import com.miso.menu.options.PlayerLevelCalculator;
 import com.miso.thegame.GameData.ButtonTypeEnum;
-import com.miso.thegame.GameData.GamePlayerTypeEnum;
 import com.miso.thegame.GameData.OptionStrings;
 
 import java.util.ArrayList;
@@ -36,13 +35,13 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
     private MySeekBar healthSeekBar;
     private MySeekBar ammoSeekBar;
     private MySeekBar speedSeekBar;
+    private String firstButtonType;
+    private String secondButtonType;
 
     @BindView(R.id.first_button_type_spinner)
     Spinner firstButtonTypeSpinner;
-    private String firstButtonType;
     @BindView(R.id.second_button_type_spinner)
     Spinner secondButtonTypeSpinner;
-    private String secondButtonType;
     @BindView(R.id.player_kills_text_view)
     TextView playerKillsTextView;
     @BindView(R.id.player_level_points_text_view)
@@ -52,7 +51,6 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
     @BindView(R.id.player_skill_points_remaining)
     TextView playerSkillPointsRemainingTextView;
 
-    private String playerType;
     private SharedPreferences settings;
     private AdView mAdView;
     private final int PLAYER_STATS_LIST_ID = 1111;
@@ -153,7 +151,6 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
         this.firstButtonType = settings.getString(OptionStrings.firstButtonType, "");
         this.secondButtonType = settings.getString(OptionStrings.secondButtonType, "");
-        this.playerType = settings.getString(OptionStrings.playerType, "");
     }
 
     private void saveSettings() {
