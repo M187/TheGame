@@ -43,8 +43,6 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
     @BindView(R.id.second_button_type_spinner)
     Spinner secondButtonTypeSpinner;
     private String secondButtonType;
-    @BindView(R.id.player_type_spinner)
-    Spinner playerTypeSpinner;
     @BindView(R.id.player_kills_text_view)
     TextView playerKillsTextView;
     @BindView(R.id.player_level_points_text_view)
@@ -119,22 +117,6 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
             this.secondButtonTypeSpinner.setSelection(spinnerPosition);
         }
     }
-
-    private void initializePlayerSpinner() {
-        List<String> playerTypeList = new ArrayList<>();
-        for (GamePlayerTypeEnum playerTypeString : GamePlayerTypeEnum.values()) {
-            playerTypeList.add(playerTypeString.getTypeString());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playerTypeList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.playerTypeSpinner.setAdapter(adapter);
-
-        if (!this.playerType.equals(null) | this.playerType.equals("")) {
-            int spinnerPosition = adapter.getPosition(this.playerType);
-            this.playerTypeSpinner.setSelection(spinnerPosition);
-        }
-    }
     //</editor-fold>
 
     @Override
@@ -183,8 +165,6 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
 
         editor.putString(OptionStrings.firstButtonType, String.valueOf(this.firstButtonTypeSpinner.getSelectedItem()));
         editor.putString(OptionStrings.secondButtonType, String.valueOf(this.secondButtonTypeSpinner.getSelectedItem()));
-        editor.putString(OptionStrings.playerType, String.valueOf(this.playerTypeSpinner.getSelectedItem()));
-
         // Commit the edits!
         editor.commit();
     }
@@ -205,7 +185,6 @@ public class PlayerOptions extends OptionsActivityLoaderCallbackImpl {
                 initializeSeekbars();
                 initializeFirstButtonSpinner();
                 initializeSecondButtonSpinner();
-                initializePlayerSpinner();
             }
         });
 
