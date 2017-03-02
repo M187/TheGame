@@ -25,7 +25,7 @@ public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
     @Override
     public AbilityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = this.parentActivity.getLayoutInflater().inflate(R.layout.ability_list_item, parent, false);
-        final AbilityViewHolder temp = new AbilityViewHolder(view);
+        final AbilityViewHolder temp = new AbilityViewHolder(view, parentActivity);
         //todo add onClick listener
         return temp;
     }
@@ -33,7 +33,7 @@ public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
     @Override
     public void onBindViewHolder(AbilityViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.mName.setText(mCursor.getString(0));
+        holder.mName.setText(mCursor.getString(0).toUpperCase().replace("_"," "));
         holder.mDescription.setText(mCursor.getString(1));
         holder.mPrice.setText(String.valueOf(mCursor.getInt(2)));
     }

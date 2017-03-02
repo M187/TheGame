@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.miso.abilities.abilitiesunlocker.R;
 import com.miso.persistence.player.AbilityActivityLoaderCallbackImpl;
@@ -23,7 +22,6 @@ public class AbilitiesShop extends AbilityActivityLoaderCallbackImpl {
     // kills are used as an in-game currency.
     private int killCount;
     private final int PLAYER_STATS_LIST_ID = 1120;
-    private TextView mKillCountTextView;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -32,9 +30,8 @@ public class AbilitiesShop extends AbilityActivityLoaderCallbackImpl {
 
         setContentView(R.layout.player_abilities);
         this.mRecyclerView = (RecyclerView) findViewById(R.id.abilities_recycler_view);
-        this.mKillCountTextView = (TextView) findViewById(R.id.player_kill_points);
         this.killCount = getIntent().getExtras().getInt("kills", 0);
-        mKillCountTextView.setText("Kill points: " + String.valueOf(killCount));
+        setTitle("Buy ability - your kill points: " + killCount);
 
         getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, this);
 
@@ -61,7 +58,7 @@ public class AbilitiesShop extends AbilityActivityLoaderCallbackImpl {
         mRecyclerView.setLayoutManager(lM);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        this.dialog.hide();
+        this.dialog.dismiss();
     }
 
 
