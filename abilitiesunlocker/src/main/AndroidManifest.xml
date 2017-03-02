@@ -7,8 +7,8 @@
         <activity
             android:name="com.miso.abilities.AbilitiesShop"
             android:hardwareAccelerated="false"
-            android:label="AbilitiesShop"
-            android:theme="@android:style/Theme.Dialog"
+            android:label="Abilities Shop"
+            android:theme="@style/Theme.AppCompat.Dialog"
             android:screenOrientation="landscape" />
 
     </application>

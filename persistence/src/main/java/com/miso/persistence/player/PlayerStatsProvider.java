@@ -21,7 +21,7 @@ public class PlayerStatsProvider extends ContentProvider {
     private static final int PLAYER_LEVEL_POINTS = 4;
 
     private static final int PLAYER_ABILITIES = 5;
-
+    private static final int BUY_ABILITY = 6;
     private static final UriMatcher URI_MATCHER;
 
     // prepare the uri matcher
@@ -34,6 +34,9 @@ public class PlayerStatsProvider extends ContentProvider {
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
                 "PlayerStatistics/statistics",
                 PLAYER_WHOLE_TABLE);
+        URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
+                "PlayerStatistics/buy_ability",
+                BUY_ABILITY);
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
                 "PlayerStatistics/level",
                 PLAYER_LEVEL_POINTS);
@@ -114,7 +117,7 @@ public class PlayerStatsProvider extends ContentProvider {
         SQLiteDatabase db = mHelper.getReadableDatabase();
         int count;
 
-        switch (URI_MATCHER.match(uri)){
+        switch (URI_MATCHER.match(uri)) {
             case PLAYER_KILLS:
                 count = db.update(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME,
                         values,
@@ -127,8 +130,25 @@ public class PlayerStatsProvider extends ContentProvider {
                         null,
                         null);
                 break;
+            case BUY_ABILITY:
+
+                ContentValues cv1 = new ContentValues();
+                ContentValues cv2 = new ContentValues();
+
+                cv1.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, values.getAsString(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS));
+                cv2.put(PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_UNLOCKED, true);
+
+                count = db.update(PlayerStatsContract.PlayerStatisticssEntry.TABLE_NAME,
+                        cv1,
+                        null,
+                        null);
+                count += db.update(PlayerStatsContract.PlayerAbilitiesEntry.TABLE_NAME,
+                        cv2,
+                        PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_NAME + "=?",
+                        new String[]{values.getAsString(PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_NAME)});
+                break;
             default:
-                throw new IllegalArgumentException("Unknown URI " + uri );
+                throw new IllegalArgumentException("Unknown URI " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return count;

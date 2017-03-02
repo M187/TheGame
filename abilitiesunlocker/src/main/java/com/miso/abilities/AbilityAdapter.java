@@ -14,10 +14,10 @@ import com.miso.abilities.abilitiesunlocker.R;
 
 public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
 
-    private Activity parentActivity;
+    private AbilitiesShop parentActivity;
     private Cursor mCursor;
 
-    AbilityAdapter(Activity parentActivity, Cursor mCursor){
+    AbilityAdapter(AbilitiesShop parentActivity, Cursor mCursor){
         this.parentActivity = parentActivity;
         this.mCursor = mCursor;
     }
@@ -26,13 +26,14 @@ public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
     public AbilityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = this.parentActivity.getLayoutInflater().inflate(R.layout.ability_list_item, parent, false);
         final AbilityViewHolder temp = new AbilityViewHolder(view, parentActivity);
-        //todo add onClick listener
         return temp;
     }
 
     @Override
     public void onBindViewHolder(AbilityViewHolder holder, int position) {
         mCursor.moveToPosition(position);
+        holder.killPointsPrice = mCursor.getInt(2);
+        holder.abilityName = mCursor.getString(0);
         holder.mName.setText(mCursor.getString(0).toUpperCase().replace("_"," "));
         holder.mDescription.setText(mCursor.getString(1));
         holder.mPrice.setText(String.valueOf(mCursor.getInt(2)));

@@ -21,10 +21,12 @@ public class AbilityViewHolder extends RecyclerView.ViewHolder implements View.O
     public TextView mName;
     public TextView mDescription;
     public TextView mPrice;
+    public int killPointsPrice = 0;
+    public String abilityName = "";
 
-    private Activity parentActivity;
+    private AbilitiesShop parentActivity;
 
-    public AbilityViewHolder(View itemView, Activity parentActivity) {
+    public AbilityViewHolder(View itemView, AbilitiesShop parentActivity) {
         super(itemView);
         this.parentActivity = parentActivity;
         this.mImageView = (ImageView) itemView.findViewById(R.id.ability_image);
@@ -36,22 +38,6 @@ public class AbilityViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-        builder.setTitle(R.string.app_name);
-        builder.setMessage("Do you want to stop ?");
-        //builder.setIcon(R.drawable.ic_launcher);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                // todo: buy ability here
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+        parentActivity.attemptToBuy(this);
     }
 }
