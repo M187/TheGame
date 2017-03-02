@@ -8,6 +8,8 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -101,7 +103,12 @@ public class AbilitiesShop extends AppCompatActivity implements LoaderManager.Lo
 
     public void attemptToBuy(final AbilityViewHolder ability){
 
-        if (killCount >= ability.killPointsPrice) {
+        if (ability.killPointsPrice < 0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Already bought!");
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if (killCount >= ability.killPointsPrice) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.app_name);
             builder.setMessage("BUY ABILITY?");
@@ -120,9 +127,27 @@ public class AbilitiesShop extends AppCompatActivity implements LoaderManager.Lo
             alert.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Not enough kill points!");
+            builder.setMessage("Not enough kill points to buy " + ability.abilityName.toUpperCase().replace("_"," ") + " !");
             AlertDialog alert = builder.create();
             alert.show();
+        }
+    }
+
+    public Bitmap resolveImage(String abilityName){
+
+        switch (abilityName){
+            case "shockwave":
+                return BitmapFactory.decodeResource(getResources(), R.drawable.buttonshockwave2);
+            case "timestop":
+                return BitmapFactory.decodeResource(getResources(), R.drawable.timestop);
+            case "freezing_projectiles":
+                return BitmapFactory.decodeResource(getResources(), R.drawable.freeze);
+            case "mock_ability":
+                return BitmapFactory.decodeResource(getResources(), R.drawable.mock);
+            case "mock_ability2":
+                return BitmapFactory.decodeResource(getResources(), R.drawable.mock);
+            default:
+                return null;
         }
     }
 }

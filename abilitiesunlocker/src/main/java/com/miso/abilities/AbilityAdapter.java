@@ -1,7 +1,7 @@
 package com.miso.abilities;
 
-import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +32,22 @@ public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
     @Override
     public void onBindViewHolder(AbilityViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.killPointsPrice = mCursor.getInt(2);
+        holder.mImageView.setImageBitmap(parentActivity.resolveImage(mCursor.getString(0)));
         holder.abilityName = mCursor.getString(0);
         holder.mName.setText(mCursor.getString(0).toUpperCase().replace("_"," "));
         holder.mDescription.setText(mCursor.getString(1));
-        holder.mPrice.setText(String.valueOf(mCursor.getInt(2)));
+
+        if (mCursor.getInt(3) == 0) {
+            holder.itemView.setBackgroundColor(Color.RED);
+            holder.itemView.getBackground().setAlpha(20);
+            holder.killPointsPrice = mCursor.getInt(2);
+            holder.mPrice.setText(String.valueOf(mCursor.getInt(2)));
+        } else {
+            holder.itemView.setBackgroundColor(Color.GREEN);
+            holder.itemView.getBackground().setAlpha(20);
+            holder.killPointsPrice = -1;
+            holder.mPrice.setText(String.valueOf("BOUGHT"));
+        }
     }
 
     @Override
