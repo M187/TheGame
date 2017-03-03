@@ -1,6 +1,9 @@
 package com.miso.menu;
 
+import android.app.Activity;
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -18,6 +21,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miso.abilities.AbilitiesShop;
 import com.miso.menu.options.MySeekBar;
+import com.miso.persistence.player.PlayerStatsContract;
 import com.miso.persistence.player.StatsActivityLoaderCallbackImpl;
 import com.miso.menu.options.PlayerLevelCalculator;
 import com.miso.thegame.GameData.ButtonTypeEnum;
@@ -32,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * Created by michal.hornak on 14.01.2016.
  */
-public class PlayerStats extends StatsActivityLoaderCallbackImpl {
+public class PlayerStats extends Activity {
 
     private MySeekBar healthSeekBar;
     private MySeekBar ammoSeekBar;
@@ -40,6 +44,7 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
     private String firstButtonType;
     private String secondButtonType;
     private int killCount = 0;
+    private List<String> availableAbilities;
 
     @BindView(R.id.first_button_type_spinner)
     Spinner firstButtonTypeSpinner;
@@ -56,8 +61,11 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
 
     private SharedPreferences settings;
     private AdView mAdView;
-    private final int PLAYER_STATS_LIST_ID = 1111;
+    private final int PLAYER_STATS_LIST_ID = 1;
+    private final int PLAYER_STATS_ABILITY_ID = 2;
     private ProgressDialog dialog;
+    private boolean isStatsDataReady = false;
+    private boolean isAbilityDataReady = false;
 
     public PlayerLevelCalculator mPlayerLevelCalculator = new PlayerLevelCalculator();
 
@@ -72,7 +80,8 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, this);
+        getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, new PlayerStatsLoader());
+        getLoaderManager().initLoader(PLAYER_STATS_ABILITY_ID, null, new PlayerAbilityLoader());
 
         this.dialog=new ProgressDialog(PlayerStats.this);
         dialog.setMessage("Waiting to fetch data");
@@ -84,6 +93,7 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
     @Override
     public void onResume(){
         super.onResume();
+        getLoaderManager().initLoader(PLAYER_STATS_ABILITY_ID, null, new PlayerAbilityLoader());
     }
 
     //<editor-fold desc="Spinner stuff">
@@ -126,18 +136,7 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
         saveSettings();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case 1:
-                return true;
-            case 2:
-                return true;
-            default:
-                return false;
-        }
-    }
-
+    //<editor-fold desc="Stats stuff">
     private void initializeSeekbars() {
         this.settings = getPreferences(0);
 
@@ -169,29 +168,6 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
         editor.commit();
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        data.moveToFirst();
-        this.killCount = Integer.parseInt(data.getString(0));
-        this.playerKillsTextView.setVisibility(View.VISIBLE);
-        this.playerKillsTextView.setText("Your kill-count: " + data.getString(0));
-        this.playerLevelPointsTextView.setVisibility(View.VISIBLE);
-        this.playerLevelPointsTextView.setText("Your level-points: " + data.getString(2));
-
-        this.mPlayerLevelCalculator.setPlayerStatPoints(Integer.parseInt(data.getString(2)));
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initializeSeekbars();
-                initializeFirstButtonSpinner();
-                initializeSecondButtonSpinner();
-            }
-        });
-
-        this.dialog.hide();
-    }
-
     public void refreshDueToHealth(int value){
         mPlayerLevelCalculator.healthLevel = value;
         setNewStatsData();
@@ -211,11 +187,105 @@ public class PlayerStats extends StatsActivityLoaderCallbackImpl {
         this.playerSkillPointsRemainingTextView.setText(String.valueOf(mPlayerLevelCalculator.getAvailableStatPoints() - mPlayerLevelCalculator.getDistributedStatPoints()));
         this.playerSkillPointsSpentTextView.setText(String.valueOf(mPlayerLevelCalculator.getDistributedStatPoints()));
     }
+    //</editor-fold>
 
     public void startAbilityUnlocker(View view){
         Intent temp = new Intent(this, AbilitiesShop.class);
         temp.putExtra("kills", killCount);
         startActivity(temp);
+    }
+
+    public void hideDialog(){
+        if (isStatsDataReady && isAbilityDataReady) dialog.hide();
+    }
+
+    private class PlayerStatsLoader implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        private final String[] settingsProjection = {
+                PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS,
+                PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_COMPLETED,
+                PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_LEVELS_POINTS
+        };
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            isStatsDataReady = false;
+            CursorLoader loader = new CursorLoader(
+                    getBaseContext(),
+                    PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI.buildUpon().appendPath("statistics").build(),
+                    settingsProjection,
+                    null,
+                    null,
+                    null);
+            return loader;
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data){
+            data.moveToFirst();
+            killCount = Integer.parseInt(data.getString(0));
+            playerKillsTextView.setVisibility(View.VISIBLE);
+            playerKillsTextView.setText("Your kill-count: " + data.getString(0));
+            playerLevelPointsTextView.setVisibility(View.VISIBLE);
+            playerLevelPointsTextView.setText("Your level-points: " + data.getString(2));
+
+            mPlayerLevelCalculator.setPlayerStatPoints(Integer.parseInt(data.getString(2)));
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    initializeSeekbars();
+                    initializeFirstButtonSpinner();
+                    initializeSecondButtonSpinner();
+                }
+            });
+
+            isStatsDataReady = true;
+            hideDialog();
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+        }
+    }
+
+    private class PlayerAbilityLoader implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        private final String[] settingsProjection = {
+                PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_NAME,
+                PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_DESCRIPTION,
+                PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_PRICE,
+                PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_UNLOCKED
+        };
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            isAbilityDataReady = false;
+            CursorLoader loader = new CursorLoader(
+                    getBaseContext(),
+                    PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI.buildUpon().appendPath("abilities/unlocked").build(),
+                    settingsProjection,
+                    null,
+                    null,
+                    null);
+            return loader;
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data){
+
+            availableAbilities = new ArrayList<>();
+
+            while(data.moveToNext()){
+                availableAbilities.add(data.getString(0));
+            }
+            isAbilityDataReady = true;
+            hideDialog();
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+        }
     }
 }
 

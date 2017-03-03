@@ -22,6 +22,7 @@ public class PlayerStatsProvider extends ContentProvider {
 
     private static final int PLAYER_ABILITIES = 5;
     private static final int BUY_ABILITY = 6;
+    private static final int UNLOCKED_ABILITIES = 7;
     private static final UriMatcher URI_MATCHER;
 
     // prepare the uri matcher
@@ -43,6 +44,9 @@ public class PlayerStatsProvider extends ContentProvider {
         URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
                 "PlayerStatistics/abilities",
                 PLAYER_ABILITIES);
+        URI_MATCHER.addURI(PlayerStatsContract.CONTENT_AUTHORITY,
+                "PlayerStatistics/abilities/unlocked",
+                UNLOCKED_ABILITIES);
     }
 
     private PlayerStatsDbHelper mHelper;
@@ -74,6 +78,11 @@ public class PlayerStatsProvider extends ContentProvider {
                 break;
             case PLAYER_ABILITIES:
                 builder.setTables(PlayerStatsContract.PlayerAbilitiesEntry.TABLE_NAME);
+                break;
+            case UNLOCKED_ABILITIES:
+                builder.setTables(PlayerStatsContract.PlayerAbilitiesEntry.TABLE_NAME);
+                selection = PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_UNLOCKED + "=?";
+                selectionArgs = new String[]{"true"};
                 break;
             default:
                 return null;
@@ -131,7 +140,6 @@ public class PlayerStatsProvider extends ContentProvider {
                         null);
                 break;
             case BUY_ABILITY:
-
                 ContentValues cv1 = new ContentValues();
                 ContentValues cv2 = new ContentValues();
 
