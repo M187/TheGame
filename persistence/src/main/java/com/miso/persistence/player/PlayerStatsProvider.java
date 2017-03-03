@@ -82,7 +82,7 @@ public class PlayerStatsProvider extends ContentProvider {
             case UNLOCKED_ABILITIES:
                 builder.setTables(PlayerStatsContract.PlayerAbilitiesEntry.TABLE_NAME);
                 selection = PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_UNLOCKED + "=?";
-                selectionArgs = new String[]{"true"};
+                selectionArgs = new String[]{"1"};
                 break;
             default:
                 return null;
