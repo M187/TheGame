@@ -31,7 +31,7 @@ public enum ButtonTypeEnum {
             case "Freezing Projectiles":
                 return ButtonTypeEnum.FreezingProjectiles;
         }
-        return ButtonTypeEnum.Shockwave;
+        return null;
     }
 
     public String getButtonTypeString() {

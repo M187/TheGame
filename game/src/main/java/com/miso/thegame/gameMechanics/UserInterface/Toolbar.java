@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class Toolbar {
 
-    private Bitmap image;
     private ArrayList<ButtonPlaceholder> buttonPlaceholders = new ArrayList<>();
     private MovementJoystick movementJoystick;
     private ShootingJoystick shootingJoystick;
@@ -31,16 +30,17 @@ public class Toolbar {
 
     public Toolbar(Resources res, Player player, ButtonsTypeData buttonsTypeData){
 
-        this.image = BitmapFactory.decodeResource(res, R.drawable.buttonfireball);
-
         ButtonPlaceholder primaryShootingButtonPlaceholder = new _PrimaryShootingButtonPlaceholder(res);
-
-        ButtonPlaceholder firstButtonPlaceholder = new FirstButtonPlaceholder(res, buttonsTypeData.firstButtonType);
-        ButtonPlaceholder secondButtonPlaceholder = new SecondButtonPlaceholder(res, buttonsTypeData.secondButtonType);
+        try {
+            ButtonPlaceholder firstButtonPlaceholder = new FirstButtonPlaceholder(res, buttonsTypeData.firstButtonType);
+            getButtonPlaceholders().add(firstButtonPlaceholder);
+        }catch (NullPointerException e){}
+        try {
+            ButtonPlaceholder secondButtonPlaceholder = new SecondButtonPlaceholder(res, buttonsTypeData.secondButtonType);
+            getButtonPlaceholders().add(secondButtonPlaceholder);
+        }catch (NullPointerException e){}
 
         getButtonPlaceholders().add(primaryShootingButtonPlaceholder);
-        getButtonPlaceholders().add(firstButtonPlaceholder);
-        getButtonPlaceholders().add(secondButtonPlaceholder);
 
         this.movementJoystick = new MovementJoystick(res);
         this.shootingJoystick = new ShootingJoystick(res, primaryShootingButtonPlaceholder);
