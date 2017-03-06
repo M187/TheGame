@@ -79,8 +79,8 @@ public class GameActivityMultiplayer extends GameActivity {
         int maxAmmo = settings.getInt(OptionStrings.playerBonusAmmo, 0);
         int maxSpeed = settings.getInt(OptionStrings.playerMaxSpeed, 0);
 
-        this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, "Shockwave"));
-        this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, "Timestop"));
+        this.buttonsTypeData.firstButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.firstButtonType, ""));
+        this.buttonsTypeData.secondButtonType = ButtonTypeEnum.getButtonTypeFromButtonTypeString(settings.getString(OptionStrings.secondButtonType, ""));
 
         ConstantHolder.loadSettingsData(maxHealth, maxAmmo, maxSpeed);
     }

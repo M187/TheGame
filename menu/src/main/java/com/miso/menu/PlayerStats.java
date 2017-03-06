@@ -79,11 +79,12 @@ public class PlayerStats extends Activity {
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        this.settings = getPreferences(0);
 
         getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, new PlayerStatsLoader());
         getLoaderManager().initLoader(PLAYER_STATS_ABILITY_ID, null, new PlayerAbilityLoader());
 
-        this.dialog=new ProgressDialog(PlayerStats.this);
+        this.dialog = new ProgressDialog(PlayerStats.this);
         dialog.setMessage("Waiting to fetch data");
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
@@ -91,19 +92,16 @@ public class PlayerStats extends Activity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         getLoaderManager().initLoader(PLAYER_STATS_ABILITY_ID, null, new PlayerAbilityLoader());
     }
 
     //<editor-fold desc="Spinner stuff">
-    private void initializeFirstButtonSpinner() {
-        List<String> firstButtonTypeList = new ArrayList<>();
-        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()) {
-            firstButtonTypeList.add(buttonTypeString.getButtonTypeString());
-        }
+    private void initializeFirstButtonSpinner(List<String> abilities) {
+        this.firstButtonType = settings.getString(OptionStrings.firstButtonType, "");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, firstButtonTypeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, abilities);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.firstButtonTypeSpinner.setAdapter(adapter);
 
@@ -113,13 +111,10 @@ public class PlayerStats extends Activity {
         }
     }
 
-    private void initializeSecondButtonSpinner() {
-        List<String> secondButtonTypeList = new ArrayList<>();
-        for (ButtonTypeEnum buttonTypeString : ButtonTypeEnum.values()) {
-            secondButtonTypeList.add(buttonTypeString.getButtonTypeString());
-        }
+    private void initializeSecondButtonSpinner(List<String> abilities) {
+        this.secondButtonType = settings.getString(OptionStrings.secondButtonType, "");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, secondButtonTypeList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, abilities);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.secondButtonTypeSpinner.setAdapter(adapter);
 
@@ -138,8 +133,6 @@ public class PlayerStats extends Activity {
 
     //<editor-fold desc="Stats stuff">
     private void initializeSeekbars() {
-        this.settings = getPreferences(0);
-
         mPlayerLevelCalculator.initialize(this.settings);
 
         this.healthSeekBar = new MySeekBar(this, (SeekBar) findViewById(R.id.health_seekBar), 5, MySeekBar.SEEK_BAR_TYPE.health);
@@ -150,9 +143,6 @@ public class PlayerStats extends Activity {
 
         this.speedSeekBar = new MySeekBar(this, (SeekBar) findViewById(R.id.speed_seekBar), 5, MySeekBar.SEEK_BAR_TYPE.speed);
         this.speedSeekBar.init(settings.getInt(OptionStrings.playerMaxSpeed, 0));
-
-        this.firstButtonType = settings.getString(OptionStrings.firstButtonType, "");
-        this.secondButtonType = settings.getString(OptionStrings.secondButtonType, "");
     }
 
     private void saveSettings() {
@@ -168,38 +158,38 @@ public class PlayerStats extends Activity {
         editor.commit();
     }
 
-    public void refreshDueToHealth(int value){
+    public void refreshDueToHealth(int value) {
         mPlayerLevelCalculator.healthLevel = value;
         setNewStatsData();
     }
 
-    public void refreshDueToAmmo(int value){
+    public void refreshDueToAmmo(int value) {
         mPlayerLevelCalculator.ammoLevel = value;
         setNewStatsData();
     }
 
-    public void refreshDueToSpeed(int value){
+    public void refreshDueToSpeed(int value) {
         mPlayerLevelCalculator.speedLevel = value;
         setNewStatsData();
     }
 
-    public void setNewStatsData(){
+    public void setNewStatsData() {
         this.playerSkillPointsRemainingTextView.setText(String.valueOf(mPlayerLevelCalculator.getAvailableStatPoints() - mPlayerLevelCalculator.getDistributedStatPoints()));
         this.playerSkillPointsSpentTextView.setText(String.valueOf(mPlayerLevelCalculator.getDistributedStatPoints()));
     }
     //</editor-fold>
 
-    public void startAbilityUnlocker(View view){
+    public void startAbilityUnlocker(View view) {
         Intent temp = new Intent(this, AbilitiesShop.class);
         temp.putExtra("kills", killCount);
         startActivity(temp);
     }
 
-    public void hideDialog(){
+    public void hideDialog() {
         if (isStatsDataReady && isAbilityDataReady) dialog.hide();
     }
 
-    private class PlayerStatsLoader implements LoaderManager.LoaderCallbacks<Cursor>{
+    private class PlayerStatsLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
         private final String[] settingsProjection = {
                 PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS,
@@ -221,13 +211,13 @@ public class PlayerStats extends Activity {
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data){
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             data.moveToFirst();
             killCount = Integer.parseInt(data.getString(0));
             playerKillsTextView.setVisibility(View.VISIBLE);
-            playerKillsTextView.setText("Your kill-count: " + data.getString(0));
+            playerKillsTextView.setText("Your kill count: " + data.getString(0));
             playerLevelPointsTextView.setVisibility(View.VISIBLE);
-            playerLevelPointsTextView.setText("Your level-points: " + data.getString(2));
+            playerLevelPointsTextView.setText("Your level points: " + data.getString(2));
 
             mPlayerLevelCalculator.setPlayerStatPoints(Integer.parseInt(data.getString(2)));
 
@@ -235,8 +225,6 @@ public class PlayerStats extends Activity {
                 @Override
                 public void run() {
                     initializeSeekbars();
-                    initializeFirstButtonSpinner();
-                    initializeSecondButtonSpinner();
                 }
             });
 
@@ -249,7 +237,7 @@ public class PlayerStats extends Activity {
         }
     }
 
-    private class PlayerAbilityLoader implements LoaderManager.LoaderCallbacks<Cursor>{
+    private class PlayerAbilityLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
         private final String[] settingsProjection = {
                 PlayerStatsContract.PlayerAbilitiesEntry.COLUMN_ABILITY_NAME,
@@ -263,7 +251,10 @@ public class PlayerStats extends Activity {
             isAbilityDataReady = false;
             CursorLoader loader = new CursorLoader(
                     getBaseContext(),
-                    PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI.buildUpon().appendPath("abilities/unlocked").build(),
+                    PlayerStatsContract.PlayerAbilitiesEntry.CONTENT_URI.buildUpon()
+                            .appendPath("abilities")
+                            .appendPath("unlocked")
+                            .build(),
                     settingsProjection,
                     null,
                     null,
@@ -272,13 +263,23 @@ public class PlayerStats extends Activity {
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data){
-
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             availableAbilities = new ArrayList<>();
 
-            while(data.moveToNext()){
-                availableAbilities.add(data.getString(0));
+            if (data.getCount() > 0)
+                while (data.moveToNext()) {
+                    availableAbilities.add(data.getString(0));
+                }
+            else {
+                availableAbilities.add("No ability available!");
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    initializeFirstButtonSpinner(availableAbilities);
+                    initializeSecondButtonSpinner(availableAbilities);
+                }
+            });
             isAbilityDataReady = true;
             hideDialog();
         }
