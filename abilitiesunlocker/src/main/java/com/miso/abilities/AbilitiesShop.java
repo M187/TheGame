@@ -123,11 +123,27 @@ public class AbilitiesShop extends AppCompatActivity implements LoaderManager.Lo
                     dialog.dismiss();
                 }
             });
+            builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //todo launch android pay
+                }
+            });
             AlertDialog alert = builder.create();
             alert.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Not enough kill points to buy " + ability.abilityName.toUpperCase().replace("_"," ") + " !");
+            builder.setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    //todo launch android pay
+                }
+            });
+            builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
             AlertDialog alert = builder.create();
             alert.show();
         }
