@@ -13,24 +13,31 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.miso.abilities.abilitiesunlocker.R;
+import com.miso.inapbilling.AppCompatActivityWithInAppBilling;
+import com.miso.inapbilling.util.IabResult;
+import com.miso.inapbilling.util.Purchase;
 import com.miso.persistence.player.PlayerStatsContract;
 
 /**
  * Created by michal.hornak on 3/1/2017.
  */
 
-public class AbilitiesShop extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private ProgressDialog dialog;
     // kills are used as an in-game currency.
     private int killCount;
     private final int PLAYER_STATS_LIST_ID = 1120;
     private RecyclerView mRecyclerView;
+
+    @Override
+    public void onConsumeFinished(Purchase purchase, IabResult result) {
+        buyAbility(0, abilityToBeBought);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -126,7 +133,7 @@ public class AbilitiesShop extends AppCompatActivity implements LoaderManager.Lo
             builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //todo launch android pay
+                    abilityBuyClick(ability.abilityName);
                 }
             });
             AlertDialog alert = builder.create();
@@ -136,7 +143,7 @@ public class AbilitiesShop extends AppCompatActivity implements LoaderManager.Lo
             builder.setMessage("Not enough kill points to buy " + ability.abilityName.toUpperCase().replace("_"," ") + " !");
             builder.setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    //todo launch android pay
+                    abilityBuyClick(ability.abilityName);
                 }
             });
             builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {

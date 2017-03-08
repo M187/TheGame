@@ -32,6 +32,8 @@ public abstract class AppCompatActivityWithInAppBilling extends AppCompatActivit
     IabHelper mHelper;
     IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = this;
 
+    protected String abilityToBeBought;
+
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
             if (result.isFailure()) {
@@ -80,9 +82,11 @@ public abstract class AppCompatActivityWithInAppBilling extends AppCompatActivit
         });
     }
 
+    // todo define SKU for my app products
     static final String ITEM_SKU = "android.test.purchased";
 
-    public void buyClick() {
+    public void abilityBuyClick(String abilityName) {
+        this.abilityToBeBought = abilityName;
         mHelper.launchPurchaseFlow(this, ITEM_SKU, 10001,
                 mPurchaseFinishedListener, "mypurchasetoken");
     }
