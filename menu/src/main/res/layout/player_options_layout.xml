@@ -54,6 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
+                        android:nextFocusForward="@+id/ammo_seekBar"
                         android:max="5" />
                 </TableRow>
 
@@ -77,6 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
+                        android:nextFocusForward="@+id/speed_seekBar"
                         android:max="5" />
                 </TableRow>
 
@@ -100,6 +102,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
+                        android:nextFocusForward="@+id/first_button_type_spinner"
                         android:max="5" />
                 </TableRow>
 
@@ -148,6 +151,7 @@
                         style="@style/my_dark_style_buttons"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:nextFocusForward="@+id/second_button_type_spinner"
                         android:layout_weight="1" />
 
                     <Spinner
@@ -155,6 +159,7 @@
                         style="@style/my_dark_style_buttons"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:nextFocusForward="@+id/button_abilities_unlocker"
                         android:layout_weight="1" />
 
                     <Button
@@ -162,6 +167,7 @@
                         android:layout_height="match_parent"
                         android:text="Unlock"
                         android:onClick="startAbilityUnlocker"
+                        android:nextFocusForward="@+id/health_seekBar"
                         android:layout_width="50dp"/>
 
                 </TableRow>

@@ -42,7 +42,8 @@
                         android:ems="10"
                         android:inputType="textPersonName"
                         android:text="nickname"
-                        android:textColor="@color/menu_text_color" />
+                        android:textColor="@color/menu_text_color"
+                        android:nextFocusForward="@+id/button_main_1"/>
 
                     <ImageView
                         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -74,7 +75,8 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:onClick="hostClick"
-                    android:text="@string/host" />
+                    android:text="@string/host"
+                    android:nextFocusForward="@+id/button_main_2"/>
 
                 <Button
                     android:id="@+id/button_main_2"
@@ -83,7 +85,8 @@
                     android:layout_weight="1"
                     android:enabled="false"
                     android:onClick="startGame"
-                    android:text="@string/start" />
+                    android:text="@string/start"
+                    android:nextFocusForward="@+id/ip"/>
             </LinearLayout>
         </TableRow>
 
@@ -121,6 +124,7 @@
                         android:layout_weight="2"
                         android:hint="IP address of a server"
                         android:text="192.168.1.100"
+                        android:nextFocusForward="@+id/port"
                         android:textColor="@color/menu_text_color" />
                     <!--    android:text="192.168.1.104 10.0.2.2" />-->
 
@@ -140,6 +144,7 @@
                         android:layout_weight="1"
                         android:hint="port of a hosting server"
                         android:text="12371"
+                        android:nextFocusForward="@+id/button_join"
                         android:textColor="@color/menu_text_color" />
                 </LinearLayout>
             </LinearLayout>
@@ -150,6 +155,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:onClick="joinClick"
+                android:nextFocusForward="@+id/player_nickname"
                 android:text="@string/join" />
 
         </TableRow>

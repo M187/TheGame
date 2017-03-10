@@ -36,7 +36,8 @@
                 android:gravity="center_horizontal"
                 android:text="The GAME"
                 android:textColor="@color/menu_text_color"
-                android:textSize="35dp" />
+                android:textSize="35dp"
+                android:nextFocusForward="@+id/button_new_game_ground"/>
 
             <Button
                 android:id="@+id/button_new_game_ground"
@@ -44,14 +45,16 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:onClick="newGameClickGround"
-                android:text="New GAME ground" />
+                android:text="New GAME ground"
+                android:nextFocusForward="@+id/button_new_multiplayer_game"/>
 
             <Button
                 android:id="@+id/button_new_multiplayer_game"
                 style="@style/my_dark_style_buttons"
                 android:layout_height="wrap_content"
                 android:onClick="newMultiplayerGame"
-                android:text="Multiplayer Game" />
+                android:text="Multiplayer Game"
+                android:nextFocusForward="@+id/button_player_options"/>
 
             <Button
                 android:id="@+id/button_player_options"
@@ -59,14 +62,17 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:onClick="playerOptionClick"
-                android:text="Player options" />
+                android:text="Player options"
+                android:nextFocusForward="@+id/button_quit"/>
 
             <Button
+                android:id="@+id/button_quit"
                 style="@style/my_dark_style_buttons"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:onClick="quitClick"
-                android:text="exit aGame" />
+                android:text="exit aGame"
+                android:nextFocusForward="@+id/textView"/>
 
         </TableLayout>
     </LinearLayout>
