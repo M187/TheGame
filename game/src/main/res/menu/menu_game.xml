@@ -2,12 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:parentActivity=".Game">
 
-    <item android:id="@+id/action_resume" android:title="Resume"
+    <item android:id="@+id/action_resume" android:title="@string/action_resume"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="110" app:showAsAction="never" />
-    <item android:id="@+id/action_back_to_menu" android:title="Back to menu"
+    <item android:id="@+id/action_back_to_menu" android:title="@string/action_back_to_menu"
         android:orderInCategory="110" app:showAsAction="never" />
-    <item android:id="@+id/action_quit" android:title="Quit"
+    <item android:id="@+id/action_quit" android:title="@string/action_quit"
         android:orderInCategory="110" app:showAsAction="never" />
 </menu>

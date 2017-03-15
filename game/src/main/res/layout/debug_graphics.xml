@@ -10,5 +10,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:onClick="doIt"
-        android:text="Launch debug"/>
+        android:text="@string/action_debug"/>
 </RelativeLayout>

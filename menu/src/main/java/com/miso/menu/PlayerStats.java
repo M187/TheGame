@@ -215,9 +215,9 @@ public class PlayerStats extends Activity {
             data.moveToFirst();
             killCount = Integer.parseInt(data.getString(0));
             playerKillsTextView.setVisibility(View.VISIBLE);
-            playerKillsTextView.setText("Your kill count: " + data.getString(0));
+            playerKillsTextView.setText(getResources().getString(R.string.options_kill_count) + data.getString(0));
             playerLevelPointsTextView.setVisibility(View.VISIBLE);
-            playerLevelPointsTextView.setText("Your level points: " + data.getString(2));
+            playerLevelPointsTextView.setText(getResources().getString(R.string.options_level_points) + data.getString(2));
 
             mPlayerLevelCalculator.setPlayerStatPoints(Integer.parseInt(data.getString(2)));
 

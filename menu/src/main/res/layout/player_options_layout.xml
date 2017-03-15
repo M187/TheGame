@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Health"
+                        android:text="@string/options_health"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold" />
@@ -68,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Ammo"
+                        android:text="@string/options_ammo"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold" />
@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Speed"
+                        android:text="@string/options_speed"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold" />
@@ -112,28 +112,29 @@
                     android:gravity="center">
 
                     <TextView
-                        android:text="Skill points - spent: "
+                        android:text="@string/options_player_skill_points_spent"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/player_skill_points_spent"
-                        android:text="N/A"
+                        android:text="@string/not_available"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold"
+                        android:paddingLeft="3dp"
                         android:paddingRight="3dp"/>
 
                     <TextView
-                        android:text="remaining: "
+                        android:text="@string/options_player_skill_points_remaining"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/player_skill_points_remaining"
-                        android:text="N/A"
+                        android:text="@string/not_available"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/menu_text_color"
                         android:textStyle="bold"
@@ -165,7 +166,7 @@
                     <Button
                         android:id="@+id/button_abilities_unlocker"
                         android:layout_height="match_parent"
-                        android:text="Unlock"
+                        android:text="@string/options_player_unlock_ability"
                         android:onClick="startAbilityUnlocker"
                         android:nextFocusForward="@+id/health_seekBar"
                         android:layout_width="50dp"/>

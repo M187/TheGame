@@ -1,6 +1,31 @@
 <resources>
     <string name="app_name">aGame</string>
 
+    <string name="app_menu_title">The GAME</string>
+    <string name="new_game_ground_button">New GAME ground</string>
+    <string name="new_game_multiplayer_button">Multiplayer Game</string>
+    <string name="player_options_button">Player options</string>
+    <string name="exit_button">exit aGame</string>
+
+    <string name="multiplayer_launch_button">Launch game!</string>
+    <string name="multiplayer_nickname">nickname</string>
+    <string name="multiplayer_ip_port">IP address : Port</string>
+    <string name="multiplayer_hint_ip_address">IP address of a server</string>
+    <string name="multiplayer_default_ip_address">192.168.1.100</string>
+    <string name="multiplayer_hint_hosting_server_port">port of a hosting server</string>
+    <string name="multiplayer_hosting_server_port">12371</string>
+    <string name="multiplayer_players_connected">Players already connected:</string>
+    <string name="multiplayer_pick_your_color">Pick your color</string>
+
+    <string name="options_health">Health</string>
+    <string name="options_ammo">Ammo</string>
+    <string name="options_speed">Speed</string>
+    <string name="options_player_skill_points_spent">Skill points - spent: </string>
+    <string name="options_player_skill_points_remaining">remaining: </string>
+    <string name="options_player_unlock_ability">Unlock</string>
+    <string name="options_kill_count">Your kill count: </string>
+    <string name="options_level_points">Your level points: </string>
+
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
@@ -25,5 +50,9 @@
     <string name="host_message">Hosting game!</string>
     <string name="unhost_message">Game disbanded!</string>
     <string name="port_not_available">Unable to bind port!</string>
+
+    <string name="default_text">Default text</string>
+    <string name="semicolon">:</string>
+    <string name="not_available">N/A</string>
 
 </resources>
