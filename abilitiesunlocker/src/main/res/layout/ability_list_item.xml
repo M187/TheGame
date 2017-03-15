@@ -11,7 +11,8 @@
         android:id="@+id/ability_image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start" />
+        android:layout_gravity="start"
+        android:contentDescription="ability image"/>
 
     <TextView
         android:id="@+id/ability_kill_price"

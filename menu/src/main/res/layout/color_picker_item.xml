@@ -4,6 +4,7 @@
     android:id="@+id/color_item"
     android:background="@color/colorAccent"
     android:layout_width="50dp"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:contentDescription="player_color">
 
 </ImageView>
