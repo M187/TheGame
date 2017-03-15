@@ -112,25 +112,25 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
 
         if (ability.killPointsPrice < 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Already bought!");
+            builder.setMessage(getResources().getString(R.string.already_bought_message));
             AlertDialog alert = builder.create();
             alert.show();
         } else if (killCount >= ability.killPointsPrice) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.app_name);
-            builder.setMessage("BUY ABILITY?");
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setMessage(getResources().getString(R.string.buy_ability_string));
+            builder.setPositiveButton(getResources().getString(R.string.positive_answer), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                     buyAbility(ability.killPointsPrice, ability.abilityName);
                 }
             });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.negative_answer), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                 }
             });
-            builder.setNeutralButton("Purchase", new DialogInterface.OnClickListener() {
+            builder.setNeutralButton(getResources().getString(R.string.purchase_string), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     abilityBuyClick(ability.abilityName);
@@ -140,13 +140,13 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
             alert.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Not enough kill points to buy " + ability.abilityName.toUpperCase().replace("_"," ") + " !");
-            builder.setPositiveButton("Purchase", new DialogInterface.OnClickListener() {
+            builder.setMessage(getResources().getString(R.string.not_enough_kill_points_message) + ability.abilityName.toUpperCase().replace("_"," ") + " !");
+            builder.setPositiveButton(getResources().getString(R.string.purchase_string), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     abilityBuyClick(ability.abilityName);
                 }
             });
-            builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.dismiss_string), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                 }

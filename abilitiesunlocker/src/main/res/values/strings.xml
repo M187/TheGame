@@ -2,5 +2,17 @@
     <string name="app_name">AbilitiesUnlocker</string>
 
     <string name="publicKeyForInAppBilling">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgw70LgQDFyLps4Kgj6zArBxlhBVHOpNsH2EKor28MlQgbVj92YHdjSuYbAXE+jSduLmt8ZwqJIqJD3snQ4wHndJCLKsmCZlLeZjgefqoT5DtJyLi08lTmInDefzQ8weVScBf2SQr71PMOYROS6gxKZ97J6Y+GT4B33qTXr6ROiCW5DksnNhJyxQfKzVIvMj6Jem0VjzsA6qSubCRic1EsSLcYRUQj2Qp+V7L7SE8g0IhyYpm7sKH7jpPHYt8BIsOwvmt0jMT2UcMVmbki2CWgead3askT7cWYT8ZTSwmgTPrgWNIVIQlKljl7Qm4I9CC2fPZa78rsKoZou9A2/+ecwIDAQAB</string>
+    
+    <string name="already_bought_message">Already bought!</string>
+    <string name="buy_ability_string">BUY ABILITY?</string>
+    
+    <string name="not_enough_kill_points_message">Not enough kill points to buy </string>
+    
+    <string name="positive_answer">Yes</string>
+    <string name="negative_answer">No</string>
+    <string name="dismiss_string">Dismiss</string>
+    <string name="bought_string">BOUGHT</string>
+    
+    <string name="purchase_string">Purchase</string>
 
 </resources>

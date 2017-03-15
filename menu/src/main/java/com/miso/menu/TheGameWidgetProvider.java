@@ -21,7 +21,7 @@ public class TheGameWidgetProvider extends AppWidgetProvider {
         for (int widgetId: appWidgetManager.getAppWidgetIds(thisWidget)){
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.game_widget_layout);
 
-            remoteViews.setTextViewText(R.id.widget_player_kills, "waiting for data");
+            remoteViews.setTextViewText(R.id.widget_player_kills, context.getString(R.string.widget_waiting_for_data));
 
             Intent configIntent = new Intent(context, MenuActivity.class);
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);

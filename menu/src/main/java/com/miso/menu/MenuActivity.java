@@ -103,8 +103,8 @@ public class MenuActivity extends StatsActivityLoaderCallbackImpl {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
         RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.game_widget_layout);
-        remoteViews.setTextViewText(R.id.widget_player_kills, "Your kill-count: " + data.getString(0));
-        remoteViews.setTextViewText(R.id.widget_player_level_points, "Your level-points: " + data.getString(2));
+        remoteViews.setTextViewText(R.id.widget_player_kills, getResources().getString(R.string.options_kill_count) + data.getString(0));
+        remoteViews.setTextViewText(R.id.widget_player_level_points, getResources().getString(R.string.options_level_points) + data.getString(2));
 
         appWidgetManager.updateAppWidget(appWidgetManager.getAppWidgetIds(new ComponentName(this, TheGameWidgetProvider.class)), remoteViews);
     }

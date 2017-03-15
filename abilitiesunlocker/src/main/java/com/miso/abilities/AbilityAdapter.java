@@ -46,7 +46,7 @@ public class AbilityAdapter extends RecyclerView.Adapter<AbilityViewHolder> {
             holder.itemView.setBackgroundColor(Color.GREEN);
             holder.itemView.getBackground().setAlpha(20);
             holder.killPointsPrice = -1;
-            holder.mPrice.setText(String.valueOf("BOUGHT"));
+            holder.mPrice.setText(parentActivity.getResources().getString(R.string.bought_string));
         }
     }
 
