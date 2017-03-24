@@ -20,8 +20,9 @@ public class FindMyIp extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         try {
             java.util.Scanner s = new java.util.Scanner(new java.net.URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
-            System.out.println("My current IP address is " + s.next());
-            return s.next();
+            String myIp = s.next();
+            System.out.println("My current IP address is " + myIp);
+            return myIp;
         } catch (Exception e) {
             e.printStackTrace();
             return "failed";
