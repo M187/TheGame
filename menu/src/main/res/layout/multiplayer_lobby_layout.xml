@@ -156,8 +156,18 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:onClick="joinClick"
-                android:nextFocusForward="@+id/player_nickname"
+                android:nextFocusForward="@+id/button_ip"
                 android:text="@string/join" />
+
+            <Button
+                android:id="@+id/button_ip"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="getMyIp"
+                android:nextFocusForward="@+id/player_nickname"
+                android:text="@string/myIp"
+                android:layout_gravity="right"/>
 
         </TableRow>
 

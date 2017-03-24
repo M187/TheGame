@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.miso.menu.multiplayer.FindMyIp;
 import com.miso.menu.multiplayer.MultiplayerLobbyStateHandler;
 import com.miso.menu.multiplayer.PlayerColors;
 import com.miso.thegame.Networking.GameActivityMultiplayer;
@@ -311,5 +312,9 @@ public class MultiplayerLobby extends Activity {
                 this.sender.sendMessage(new PlayerChangeColor(newColor, NetworkConnectionConstants.getPlayerNickname()));
                 break;
         }
+    }
+
+    public void getMyIp(View view){
+        new FindMyIp(this).execute();
     }
 }

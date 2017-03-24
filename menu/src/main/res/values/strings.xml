@@ -39,6 +39,7 @@
 
     <!-- Multiplayer lobby-->
     <string name="join">JOIN</string>
+    <string name="myIp">myIP</string>
     <string name="abandon">ABANDON</string>
     <string name="ready">READY</string>
     <string name="unready">UN-READY</string>
