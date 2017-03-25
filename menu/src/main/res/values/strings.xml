@@ -58,5 +58,6 @@
     <string name="default_text">Default text</string>
     <string name="semicolon">:</string>
     <string name="not_available">N/A</string>
+    <string name="player_chosen_color">player\'s chosen color</string>
 
 </resources>
