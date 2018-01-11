@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
+import com.miso.thegame.R;
 import com.miso.thegame.gameMechanics.UserInterface.Buttons.ButtonPlaceholder;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.MovementJoystick;
 import com.miso.thegame.gameMechanics.UserInterface.Joystick.ShootingJoystick;
@@ -163,7 +164,7 @@ public class InputHandler {
      */
     public boolean processLevelCompleteEvent(LevelHandler levelHandler) {
         Intent intent = new Intent(gP.getContext(), NewLevelActivity.class);
-        intent.putExtra("Level", levelHandler.getLevelNumber());
+        intent.putExtra(gP.getContext().getString(R.string.level_number), levelHandler.getLevelNumber());
         gP.thread.setRunning(false);
         gP.getContext().startActivity(intent);
         ((Activity) gP.getContext()).finish();
