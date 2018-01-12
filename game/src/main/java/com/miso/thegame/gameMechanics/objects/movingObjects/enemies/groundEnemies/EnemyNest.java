@@ -80,10 +80,10 @@ public class EnemyNest extends EnemyGround implements Shooting, Spawning {
     @Override
     public ArrayList<Point> getObjectCollisionVertices() {
         this.objectVertices.clear();
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY())));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 50, getY())));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 50, getY() + 50)));
-        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX(), getY() + 50)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() -25, getY() -25)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 25, getY() - 25)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() + 25, getY() + 25)));
+        this.objectVertices.add(rotateVertexAroundCurrentPosition(new Point(getX() - 25, getY() + 25)));
         return this.objectVertices;
     }
 
