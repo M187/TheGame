@@ -58,7 +58,7 @@ public class NewLevelActivity extends GameActivity {
      * Later on to be used by game to affect gameObjects.
      */
     private void loadPlayerData() {
-        SharedPreferences settings = getSharedPreferences("PlayerOptions", 0);
+        SharedPreferences settings = getSharedPreferences("PlayerStats", 0);
 
         int maxHealth = settings.getInt(OptionStrings.playerBonusHealth, 0);
         int maxAmmo = settings.getInt(OptionStrings.playerBonusAmmo, 0);

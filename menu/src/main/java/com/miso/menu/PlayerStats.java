@@ -35,6 +35,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by michal.hornak on 14.01.2016.
+ *
+ * In case of renaming file, you need to change NewLevelActivity, line 61
  */
 public class PlayerStats extends Activity {
 

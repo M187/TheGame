@@ -26,7 +26,7 @@ import com.miso.persistence.player.PlayerStatsContract;
  * Created by michal.hornak on 3/1/2017.
  */
 
-public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements LoaderManager.LoaderCallbacks<Cursor>{
+public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ProgressDialog dialog;
     // kills are used as an in-game currency.
@@ -40,7 +40,7 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.player_abilities);
@@ -51,7 +51,7 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
 
         getLoaderManager().initLoader(PLAYER_STATS_LIST_ID, null, this);
 
-        this.dialog=new ProgressDialog(AbilitiesShop.this);
+        this.dialog = new ProgressDialog(AbilitiesShop.this);
         dialog.setMessage("Waiting to fetch data.");
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
@@ -59,7 +59,7 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
     }
@@ -99,7 +99,7 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    public void buyAbility(int price, String abilityName){
+    public void buyAbility(int price, String abilityName) {
         ContentValues values = new ContentValues();
         killCount = killCount - price;
         values.put(PlayerStatsContract.PlayerStatisticssEntry.COLUMN_PLAYER_KILLS, killCount);
@@ -108,9 +108,9 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
         getContentResolver().update(Uri.withAppendedPath(PlayerStatsContract.BASE_CONTENT_URI, "PlayerStatistics/buy_ability"), values, null, null);
     }
 
-    public void attemptToBuy(final AbilityViewHolder ability){
+    public void attemptToBuy(final AbilityViewHolder ability) {
 
-        if (ability.killPointsPrice < 0){
+        if (ability.killPointsPrice < 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(getResources().getString(R.string.already_bought_message));
             AlertDialog alert = builder.create();
@@ -140,7 +140,7 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
             alert.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getResources().getString(R.string.not_enough_kill_points_message) + ability.abilityName.toUpperCase().replace("_"," ") + " !");
+            builder.setMessage(getResources().getString(R.string.not_enough_kill_points_message) + ability.abilityName.toUpperCase().replace("_", " ") + " !");
             builder.setPositiveButton(getResources().getString(R.string.purchase_string), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     abilityBuyClick(ability.abilityName);
@@ -156,9 +156,9 @@ public class AbilitiesShop extends AppCompatActivityWithInAppBilling implements 
         }
     }
 
-    public Bitmap resolveImage(String abilityName){
+    public Bitmap resolveImage(String abilityName) {
 
-        switch (abilityName){
+        switch (abilityName) {
             case "shockwave":
                 return BitmapFactory.decodeResource(getResources(), R.drawable.buttonshockwave2);
             case "timestop":

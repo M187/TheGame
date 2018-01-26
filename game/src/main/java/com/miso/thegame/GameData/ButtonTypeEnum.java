@@ -8,7 +8,7 @@ import com.miso.thegame.gameMechanics.ConstantHolder;
  */
 public enum ButtonTypeEnum {
 
-    Shockwave("Shockvawe", R.drawable.buttonshockwave2, ConstantHolder.shockwaveCooldown),
+    Shockwave("Shockwave", R.drawable.buttonshockwave2, ConstantHolder.shockwaveCooldown),
     TimeStop("Timestop",R.drawable.timestop, ConstantHolder.timestopCooldown),
     FreezingProjectiles("Freezing Projectiles",R.drawable.freeze, ConstantHolder.freezeCooldown);
 
@@ -23,12 +23,12 @@ public enum ButtonTypeEnum {
     }
 
     public static ButtonTypeEnum getButtonTypeFromButtonTypeString(String playerType){
-        switch (playerType){
-            case "Shockvawe":
+        switch (playerType.toLowerCase()){
+            case "shockwave":
                 return ButtonTypeEnum.Shockwave;
-            case "Timestop":
+            case "timestop":
                 return ButtonTypeEnum.TimeStop;
-            case "Freezing Projectiles":
+            case "freezing projectiles":
                 return ButtonTypeEnum.FreezingProjectiles;
         }
         return null;
