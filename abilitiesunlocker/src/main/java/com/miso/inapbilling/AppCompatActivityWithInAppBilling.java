@@ -87,8 +87,9 @@ public abstract class AppCompatActivityWithInAppBilling extends AppCompatActivit
 
     public void abilityBuyClick(String abilityName) {
         this.abilityToBeBought = abilityName;
-        mHelper.launchPurchaseFlow(this, ITEM_SKU, 10001,
-                mPurchaseFinishedListener, "mypurchasetoken");
+
+        //disabled purchase functionality
+        //mHelper.launchPurchaseFlow(this, ITEM_SKU, 10001, mPurchaseFinishedListener, "mypurchasetoken");
     }
 
     @Override

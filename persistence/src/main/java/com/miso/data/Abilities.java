@@ -27,7 +27,7 @@ public class Abilities {
             abilityList = new ArrayList<>();
             abilityList.add(new Ability("shockwave", "Powerfull shockwave that kills surounding enemies", 100));
             abilityList.add(new Ability("timestop", "Stops time for all enemies", 500));
-            abilityList.add(new Ability("freezing_projectiles", "Enemy hit will be frozen in place", 500));
+            abilityList.add(new Ability("freezing projectiles", "Enemy hit will be frozen in place", 500));
             abilityList.add(new Ability("mock_ability", "Mock description", 100));
             abilityList.add(new Ability("mock_ability2", "Mock description", 100));
             return abilityList;
